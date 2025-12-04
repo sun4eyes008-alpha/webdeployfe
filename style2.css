@@ -72,7 +72,7 @@ body.sidebar-collapsed {
 }
 
 .logo {
-  height: 33px; /* Adjusted logo size */
+  height: 23px; /* Adjusted logo size */
   cursor: pointer;
   transition: transform 0.2s ease;
 }
@@ -105,7 +105,7 @@ body.sidebar-collapsed {
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
-  font-size: 24px; /* Đặt lại cỡ chữ header về 24px */
+  font-size: 18px; /* Đặt lại cỡ chữ header về 20px */
   transition: background-color var(--transition-speed);
 }
 
