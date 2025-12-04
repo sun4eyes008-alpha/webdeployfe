@@ -1,104 +1,138 @@
 graph TD
-    %% Node Styles
-    classDef mainCategory fill:#005f73,stroke:#333,stroke-width:2px,color:white,rx:10,ry:10;
+    %% --- ĐỊNH NGHĨA STYLE ---
+    classDef startNode fill:#ae2012,stroke:#333,stroke-width:2px,color:white,rx:10,ry:10;
+    classDef mainCategory fill:#005f73,stroke:#333,stroke-width:2px,color:white,rx:5,ry:5;
     classDef subCategory fill:#94d2bd,stroke:#333,stroke-width:1px,rx:5,ry:5;
     classDef pdfOutput fill:#e9c46a,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5,rx:5,ry:5;
-    classDef startNode fill:#ae2012,stroke:#333,stroke-width:2px,color:white,rx:15,ry:15;
-    %% Style mới cho luồng XMTT để dễ phân biệt
-    classDef xmttStyle fill:#f72585,stroke:#333,stroke-width:2px,color:white,rx:5,ry:5;
-    classDef xmttResult fill:#f72585,stroke:#333,stroke-width:1px,stroke-dasharray: 5 5,color:white,rx:5,ry:5;
-
+    classDef logicNode fill:#0a9396,stroke:#333,stroke-width:1px,color:white,shape:rhombus;
+    classDef endSlide fill:#9b2226,stroke:#333,stroke-width:2px,color:white,rx:5,ry:5;
+    
+    %% --- STYLE CHO BẢNG XMTT ---
+    classDef xmttTable fill:#fff,stroke:#333,stroke-width:1px,rx:0,ry:0,color:#333;
+    classDef xmttTarget fill:#f72585,stroke:#333,stroke-width:2px,color:white,rx:5,ry:5;
 
     START(BẮT ĐẦU: CHỌN SỐ MENU):::startNode
 
-    %% --- PHẦN CHÍNH CỦA FLOWCHART CŨ ---
+    %% === CẤP 1: DANH MỤC CHÍNH ===
+    START --> N1(1. THÔNG TIN CHUNG):::mainCategory
+    START --> N2(2. THÔNG TIN SẢN PHẨM):::mainCategory
+    START --> N3(3. ĐĂNG KÝ VAY):::mainCategory
+    START --> N4(4. GIẢI NGÂN):::mainCategory
+    START --> N5(5. KÊNH THANH TOÁN):::mainCategory
+    START --> N6(6. THANH TOÁN + CIC):::mainCategory
 
-    %% KẾT NỐI CẤP 1 (CÁC SỐ)
-    START --> N1(1 THÔNG TIN CHUNG):::mainCategory
-    START --> N2(2 THÔNG TIN SẢN PHẨM):::mainCategory
-    START --> N3(3 ĐĂNG KÝ VAY):::mainCategory
-    START --> N4(4 GIẢI NGÂN):::mainCategory
-    START --> N5(5 KÊNH THANH TOÁN):::mainCategory
+    %% ==========================================================
+    %% === KHU VỰC CÁC NHÁNH CŨ (1-5) -> VỀ XMTT 1 ===
+    %% ==========================================================
+    
+    %% Nhánh 1
+    N1 --> N1_1[Thông tin công ty]:::subCategory --> P1_1(PDF Thông tin công ty):::pdfOutput
+    N1 --> N1_2[Hợp tác kinh doanh]:::subCategory --> P1_2(PDF Hợp tác kinh doanh):::pdfOutput
+    N1 --> N1_3[Xóa Dữ Liệu Cá Nhân]:::subCategory --> P1_3(PDF Xóa Dữ Liệu Cá Nhân):::pdfOutput
+    N1 --> N1_4[Mở Chặn Cuộc Gọi]:::subCategory --> P1_4(PDF Mở Chặn Cuộc Gọi):::pdfOutput
+    N1 --> N1_5[Ngừng Mời Vay/QC]:::subCategory --> P1_5(PDF Ngừng Mời Vay/QC):::pdfOutput
+    N1 --> N1_6[Khuyến Mãi]:::subCategory --> P1_6(PDF Khuyến Mãi):::pdfOutput
 
-    %% NHÁNH 1
-    N1 --> N1_1[Thông tin công ty]:::subCategory
-    N1_1 --> P1_1(PDF Thông tin công ty):::pdfOutput
-    N1 --> N1_2[Hợp tác kinh doanh]:::subCategory
-    N1_2 --> P1_2(PDF Hợp tác kinh doanh):::pdfOutput
-    N1 --> N1_3[Xóa Dữ Liệu Cá Nhân]:::subCategory
-    N1_3 --> P1_3(PDF Xóa Dữ Liệu Cá Nhân):::pdfOutput
-    N1 --> N1_4[Mở Chặn Cuộc Gọi]:::subCategory
-    N1_4 --> P1_4(PDF Mở Chặn Cuộc Gọi):::pdfOutput
-    N1 --> N1_5["Ngừng Mời Vay/ Quảng Cáo"]:::subCategory
-    N1_5 --> P1_5("PDF Ngừng Mời Vay/ Quảng Cáo"):::pdfOutput
-    N1 --> N1_6[Khuyến Mãi]:::subCategory
-    N1_6 --> P1_6(PDF Khuyến Mãi):::pdfOutput
+    %% Nhánh 2
+    N2 --> N2_1[Vay Mua Xe Máy]:::subCategory --> P2_1(PDF Vay Mua Xe Máy):::pdfOutput
+    N2 --> N2_2[Vay Mua Điện Máy]:::subCategory --> P2_2(PDF Vay Mua Điện Máy):::pdfOutput
+    N2 --> N2_3[Vay Tiền Mặt]:::subCategory --> P2_3(PDF Vay Tiền Mặt):::pdfOutput
 
-    %% NHÁNH 2
-    N2 --> N2_1[Sản Phẩm Vay Mua Xe Máy]:::subCategory
-    N2_1 --> P2_1(PDF Sản Phẩm Vay Mua Xe Máy):::pdfOutput
-    N2 --> N2_2[Sản Phẩm Vay Mua Điện Máy]:::subCategory
-    N2_2 --> P2_2(PDF Sản Phẩm Vay Mua Điện Máy):::pdfOutput
-    N2 --> N2_3[Sản Phẩm Vay Tiền Mặt]:::subCategory
-    N2_3 --> P2_3(PDF Sản Phẩm Vay Tiền Mặt):::pdfOutput
+    %% Nhánh 3
+    N3 --> N3_1[Vay Mua Xe Máy]:::subCategory --> P3_1(PDF Vay Mua Xe Máy):::pdfOutput
+    N3 --> N3_2[Vay Mua Điện Máy]:::subCategory --> P3_2(PDF Vay Mua Điện Máy):::pdfOutput
+    N3 --> N3_3[Vay Tiền Mặt]:::subCategory --> P3_3(PDF Vay Tiền Mặt):::pdfOutput
 
-    %% NHÁNH 3
-    N3 --> N3_1[Sản Phẩm Vay Mua Xe Máy]:::subCategory
-    N3_1 --> P3_1(PDF Sản Phẩm Vay Mua Xe Máy):::pdfOutput
-    N3 --> N3_2[Sản Phẩm Vay Mua Điện Máy]:::subCategory
-    N3_2 --> P3_2(PDF Sản Phẩm Vay Mua Điện Máy):::pdfOutput
-    N3 --> N3_3[Sản Phẩm Vay Tiền Mặt]:::subCategory
-    N3_3 --> P3_3(PDF Sản Phẩm Vay Tiền Mặt):::pdfOutput
+    %% Nhánh 4
+    N4 --> N4_1[Giải Ngân Tiền Mặt]:::subCategory --> P4_1(PDF Giải Ngân Tiền Mặt):::pdfOutput
 
-    %% NHÁNH 4
-    N4 --> N4_1[Giải Ngân Tiền Mặt]:::subCategory
-    N4_1 --> P4_1(PDF Giải Ngân Tiền Mặt):::pdfOutput
+    %% Nhánh 5
+    N5 --> N5_1[TT TRỰC TUYẾN]:::subCategory --> P5_1(PDF TT TRỰC TUYẾN):::pdfOutput
+    N5 --> N5_2[TT TIỀN MẶT]:::subCategory --> P5_2(PDF TT TIỀN MẶT):::pdfOutput
+    N5 --> N5_3[TT QUA ATM/CDM]:::subCategory --> P5_3(PDF TT QUA ATM/CDM):::pdfOutput
+    N5 --> N5_4[TRÍCH NỢ TỰ ĐỘNG]:::subCategory --> P5_4(PDF TRÍCH NỢ TỰ ĐỘNG):::pdfOutput
 
-    %% NHÁNH 5
-    N5 --> N5_1[THANH TOÁN TRỰC TUYẾN]:::subCategory
-    N5_1 --> P5_1(PDF THANH TOÁN TRỰC TUYẾN):::pdfOutput
-    N5 --> N5_2[THANH TOÁN TIỀN MẶT]:::subCategory
-    N5_2 --> P5_2(PDF THANH TOÁN TIỀN MẶT):::pdfOutput
-    N5 --> N5_3[THANH TOÁN QUA ATM/CDM]:::subCategory
-    N5_3 --> P5_3(PDF THANH TOÁN QUA ATM/CDM):::pdfOutput
-    N5 --> N5_4[TRÍCH NỢ TỰ ĐỘNG]:::subCategory
-    N5_4 --> P5_4(PDF TRÍCH NỢ TỰ ĐỘNG):::pdfOutput
+    %% ==========================================================
+    %% === KHU VỰC NHÁNH 6 (MỚI) ===
+    %% ==========================================================
 
-    %% --- PHẦN BỔ SUNG LUỒNG XMTT ---
-    %% Sử dụng subgraph để gom nhóm và làm rõ luồng này
-    subgraph XMTT_SECTION ["LUỒNG KIỂM TRA XMTT (ÁP DỤNG CHO TẤT CẢ)"]
+    %% Điều kiện 2: Các chủ đề
+    N6 --> N6_Topic{Chọn Chủ Đề}:::logicNode
+    N6_Topic --> T1[Lịch Trả Nợ]:::subCategory
+    N6_Topic --> T2[Lịch Sử TT]:::subCategory
+    N6_Topic --> T3[Thanh Lý HĐ]:::subCategory
+    N6_Topic --> T4[Thỏa Thuận KV]:::subCategory
+    N6_Topic --> T5[Tình Trạng HĐ]:::subCategory
+    N6_Topic --> T6[Đóng HĐ]:::subCategory
+    N6_Topic --> T7[CIC]:::subCategory
+
+    %% Gom tất cả chủ đề vào bước kiểm tra Loại Hợp Đồng (Điều kiện 3)
+    T1 & T2 & T3 & T4 & T5 & T6 & T7 --> CheckHD{Loại Hợp Đồng?}:::logicNode
+
+    %% Điều kiện 3: Xử lý từng loại HĐ
+    
+    %% --- Nhóm HĐ Đơn giản ---
+    CheckHD -- Cash 24 --> C3_C24(HD Cash 24.pdf):::pdfOutput
+    CheckHD -- Kim An --> C3_KA(HĐ Kim An.pdf):::pdfOutput
+
+    %% --- Nhóm HĐ Bán Nợ ---
+    CheckHD -- Bán Nợ Một Phần --> C3_BN1(HĐ Bán Nợ Một Phần.pdf):::pdfOutput
+    CheckHD -- Bán Nợ Galaxy --> C3_BN2(HĐ Bán Nợ Galaxy.pdf):::pdfOutput
+    CheckHD -- Bán Nợ Fc Sold_Azura --> C3_BN3(HĐ Bán Nợ Fc Sold_Azura.pdf):::pdfOutput
+    CheckHD -- Bán Nợ Welcome Vina --> C3_BN4(HĐ Bán Nợ Welcome Vina.pdf):::pdfOutput
+
+    %% --- Nhóm HĐ FEC (Điều kiện 4: Kênh) ---
+    CheckHD -- HĐ FEC --> CheckChannel{Kênh Liên Hệ?}:::logicNode
+
+    %% Điều kiện 4 & 5: Xử lý Kênh FEC
+    
+    %% 1. Kênh Email
+    CheckChannel -- Email --> P_Email[Xem Slide 12+13]:::endSlide
+
+    %% 2. Kênh Chat
+    CheckChannel -- Chat --> CheckChat{Trạng thái Chat}:::logicNode
+    CheckChat -- Post Login --> P_Chat_Login(PDF Chat Post Login):::pdfOutput
+    CheckChat -- Trường hợp khác --> P_Chat_Other[Xem Slide 10+11]:::endSlide
+
+    %% 3. Kênh IB
+    CheckChannel -- IB --> CheckIB{Kiểm tra SĐT}:::logicNode
+    CheckIB -- Đúng SĐT --> P_IB_Correct(PDF IB Đúng SĐT):::pdfOutput
+    CheckIB -- Sai SĐT --> P_IB_Wrong(PDF IB Sai SĐT):::pdfOutput
+
+    %% ==========================================================
+    %% === BẢNG XMTT VÀ KẾT NỐI ===
+    %% ==========================================================
+
+    subgraph XMTT_TABLE [BẢNG QUY ĐỊNH XMTT]
         direction TB
-        %% Node trung gian để gom tất cả các kết nối lại cho gọn
-        X_COLLECT{{"BẤT KỲ ĐƠN VỊ CON NÀO Ở TRÊN"}}:::xmttStyle
-        %% Node kết quả cuối cùng
-        PX("KẾT QUẢ: không cần XMTT"):::xmttResult
-        
-        X_COLLECT ==> PX
+        X1(1. Không cần XMTT):::xmttTarget
+        X2(2. CMND/CCCD):::xmttTarget
+        X3(3. CCCD/CMND/SHD):::xmttTable
+        X4(4. Đúng SĐT + CMND/CCCD + 1A):::xmttTarget
+        X5(5. Đúng SĐT + CMND + Sai 1A):::xmttTable
+        X6(6. Đúng SĐT + CMND + 1A + 1B):::xmttTable
+        X7(7. Đúng SĐT update + CMND + 2A + 1B):::xmttTable
+        X8(8. Sai SĐT):::xmttTable
+        X9(9. Sai SĐT + CMND + 1A):::xmttTable
     end
 
-    %% Tạo kết nối từ TẤT CẢ các ô con (subCategory) xuống ô trung gian XMTT
-    %% Sử dụng đường nét đứt màu hồng để làm nổi bật luồng này
-    N1_1 -.-> X_COLLECT
-    N1_2 -.-> X_COLLECT
-    N1_3 -.-> X_COLLECT
-    N1_4 -.-> X_COLLECT
-    N1_5 -.-> X_COLLECT
-    N1_6 -.-> X_COLLECT
+    %% --- KẾT NỐI TỪ CÁC NHÁNH VÀO BẢNG XMTT ---
 
-    N2_1 -.-> X_COLLECT
-    N2_2 -.-> X_COLLECT
-    N2_3 -.-> X_COLLECT
+    %% Tất cả PDF từ Nhánh 1-5 --> XMTT 1
+    P1_1 & P1_2 & P1_3 & P1_4 & P1_5 & P1_6 -.-> X1
+    P2_1 & P2_2 & P2_3 -.-> X1
+    P3_1 & P3_2 & P3_3 -.-> X1
+    P4_1 -.-> X1
+    P5_1 & P5_2 & P5_3 & P5_4 -.-> X1
 
-    N3_1 -.-> X_COLLECT
-    N3_2 -.-> X_COLLECT
-    N3_3 -.-> X_COLLECT
+    %% Kết nối từ Nhánh 6
+    C3_C24 -.-> X1
+    C3_KA -.-> X2
+    
+    %% Nhóm Bán Nợ --> XMTT 4
+    C3_BN1 & C3_BN2 & C3_BN3 & C3_BN4 -.-> X4
 
-    N4_1 -.-> X_COLLECT
-
-    N5_1 -.-> X_COLLECT
-    N5_2 -.-> X_COLLECT
-    N5_3 -.-> X_COLLECT
-    N5_4 -.-> X_COLLECT
-
-    %% Style cho các đường kết nối XMTT (màu hồng, nét đứt) để dễ nhìn
-    linkStyle 38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56 stroke:#f72585,stroke-width:2px,stroke-dasharray: 5 5;
+    %% Nhóm FEC (IB/Chat Post Login) --> XMTT 4
+    P_Chat_Login -.-> X4
+    P_IB_Correct -.-> X4
+    P_IB_Wrong -.-> X4

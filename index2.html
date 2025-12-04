@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web Điều Kiện</title>
+    <title>Tra cứu điều kiện</title>
     <link rel="stylesheet" href="style2.css" />
   </head>
   <body>
@@ -49,24 +49,7 @@
         <h5>Điều Kiện</h5>
       </div>
       <div class="sidebar-content">
-        <div class="filter-group">
-          <label class="filter-label">Chọn điều kiện cấp 1:</label>
-          <select id="filter-level1" class="filter-select">
-            <option value="">-- Chọn --</option>
-            <option value="1">1 THÔNG TIN CHUNG</option>
-            <option value="2">2 THÔNG TIN SẢN PHẨM</option>
-            <option value="3">3 ĐĂNG KÝ VAY</option>
-            <option value="4">4 GIẢI NGÂN</option>
-            <option value="5">5 KÊNH THANH TOÁN</option>
-          </select>
-        </div>
-
-        <div class="filter-group" id="level2-group" style="display: none">
-          <label class="filter-label">Chọn điều kiện cấp 2:</label>
-          <select id="filter-level2" class="filter-select">
-            <option value="">-- Chọn --</option>
-          </select>
-        </div>
+        <div id="dynamic-filters-container"></div>
       </div>
     </nav>
 
@@ -107,7 +90,7 @@
       <p id="toast-message"></p>
       <button class="toast-close" id="toast-close">✕</button>
     </div>
-
+    <script src="flowchart-data.js"></script>
     <script src="script2.js"></script>
   </body>
 </html>
