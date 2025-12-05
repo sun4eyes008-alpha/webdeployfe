@@ -1,127 +1,99 @@
-# Hướng dẫn tùy chỉnh hệ thống
+# Hướng dẫn Cập nhật và Quản lý Nội dung
 
-## Tùy chỉnh thông báo (Alert/Toast)
+Tài liệu này hướng dẫn cách bạn có thể dễ dàng thêm, sửa đổi hoặc xóa các điều kiện và file PDF hiển thị trên trang web.
 
-### 1. Cách làm thông báo tự động tắt sau một khoảng thời gian
+---
 
-Để thông báo tự động biến mất sau một khoảng thời gian (ví dụ 5 giây), bạn cần chỉnh sửa file `script2.js`.
+## 1. Cấu trúc Dữ liệu Cốt lõi
 
-1.  Mở file `script2.js`.
-2.  Tìm đến hàm `showNotification`.
-3.  Thêm dòng `setTimeout` vào cuối hàm như sau:
+Tất cả nội dung của các ô điều kiện được quản lý trong tệp `flowchart-data.js`. Dữ liệu trong tệp này được tổ chức dưới dạng một "cây" đối tượng JavaScript lồng nhau.
 
-    ```javascript
-    function showNotification(message) {
-      // ... (code tạo toast đã có sẵn)
-
-      // Thêm đoạn code này vào
-      setTimeout(() => {
-        toast.classList.remove("show");
-        setTimeout(() => {
-          if (toast.parentNode) {
-            toast.parentNode.removeChild(toast);
-          }
-        }, 400);
-      }, 5000); // 5000 mili giây = 5 giây
-    }
-    ```
-
-### 2. Cách hiển thị một hoặc nhiều thông báo
-
-Để một điều kiện có thể hiển thị thông báo, bạn cần thêm thuộc tính `"alert"` vào điều kiện đó trong file `flowchart-data.js`.
-
-- **Để hiển thị một thông báo:** Gán cho `"alert"` một chuỗi (string) chứa nội dung.
-
-  ```javascript
-  "Tên điều kiện": {
-      "pdf": "file.pdf",
-      "note": "...",
-      "xmtt": XMTT_1,
-      "alert": "Đây là một thông báo duy nhất."
-  },
-  ```
-
-- **Để hiển thị nhiều thông báo (xếp chồng):** Gán cho `"alert"` một mảng (array) chứa các chuỗi. Mỗi chuỗi sẽ là một thông báo riêng biệt.
-  `javascript
-"Tên điều kiện": {
-    "pdf": "file.pdf",
-    "note": "...",
-    "xmtt": XMTT_1,
-    "alert": [
-        "Thông báo thứ nhất.",
-        "Thông báo thứ hai.",
-        "Và một thông báo nữa."
-    ]
-},
-`
-  Hệ thống sẽ tự động đọc và hiển thị tương ứng.
-
-## Làm đẹp code: Xuống dòng trong chuỗi HTML (dùng template literals)
-
-Để làm cho các chuỗi HTML trong `note`, `xmtt`, `alert` dễ đọc hơn bằng cách xuống dòng trong code, bạn có thể sử dụng **template literals** (chuỗi ký tự mẫu) bằng cách bao bọc nội dung bằng dấu huyền (\` \`).
+- **Nhánh (Branch):** Là một đối tượng chứa các đối tượng con. Tên của đối tượng (key) chính là nội dung hiển thị trong ô điều kiện (combobox).
+- **Lá (Leaf):** Là điểm cuối cùng của một nhánh. Đây là một đối tượng **bắt buộc** phải chứa 3 thuộc tính sau:
+  - `pdf`: Tên file PDF sẽ được hiển thị (ví dụ: `"Thông tin công ty.pdf"`).
+  - `note`: Nội dung sẽ hiển thị trong ô **LƯU Ý**.
+  - `xmtt`: Nội dung sẽ hiển thị trong ô **XMTT**. Bạn có thể dùng các biến `XMTT_` đã được định nghĩa sẵn ở đầu tệp.
+- **Cảnh báo (Alert):** (Tùy chọn) Thêm thuộc tính `alert` nếu bạn muốn một thông báo dạng popup hiện lên khi người dùng chọn đến mục này.
 
 **Ví dụ:**
 
-**Trước khi sửa (khó đọc):**
-
 ```javascript
-"note": "Đây là lưu ý dành riêng cho thanh toán trực tuyến. Ví dụ: Hãy kiểm tra kỹ thông tin người nhận. <span style='color:red;'>Rất quan trọng!</span>"
+const flowchartData = {
+    "1. THÔNG TIN CHUNG": { // <--- Đây là một "nhánh"
+
+        "1.1. Thông tin công ty": { // <--- Đây là một "lá"
+            "pdf": "Thông tin công ty.pdf",
+            "note": "Các thông tin cơ bản về công ty.",
+            "xmtt": XMTT_1,
+            "alert": "Đây là một thông báo popup!" // Thuộc tính tùy chọn
+        },
+
+        "1.2. Hợp tác kinh doanh": { // <--- Một "lá" khác
+            "pdf": "Hợp tác kinh doanh.pdf",
+            "note": "Thông tin dành cho đối tác muốn hợp tác kinh doanh.",
+            "xmtt": XMTT_1
+        }
+    },
+    // ... các nhánh khác
+};
 ```
 
-**Sau khi sửa (dùng dấu huyền và xuống dòng - dễ đọc hơn):**
+---
 
-```javascript
-"note": `
-    Đây là lưu ý dành riêng cho thanh toán trực tuyến.
-    Ví dụ: Hãy kiểm tra kỹ thông tin người nhận.
-    <span style='color:red;'>Rất quan trọng!</span>
-    Bạn có thể thêm nhiều dòng HTML hơn ở đây.
-    `,
-```
+## 2. Cách Thêm một Mục Mới
 
-**Lưu ý:** Bất kỳ khoảng trắng (space, tab) nào bạn thêm vào khi xuống dòng bên trong dấu huyền đều sẽ trở thành một phần của chuỗi.
+Giả sử bạn muốn thêm một điều kiện mới là `"Khiếu nại Dịch vụ"` trong mục `"1. THÔNG TIN CHUNG"`.
 
-## Xử lý vấn đề cuộn trang (Scroll) khi Iframe quá dài
+1.  **Chuẩn bị file PDF:**
+    *   Tạo file PDF của bạn, ví dụ: `Khieu-nai-Dich-vu.pdf`.
+    *   Đặt file này vào đúng thư mục con trong `pdfile`. Vì mục cha là `"1. THÔNG TIN CHUNG"`, bạn cần đặt file vào `pdfile/THONG_TIN_CHUNG/`.
 
-### Vấn đề
+2.  **Mở tệp `flowchart-data.js`**.
 
-Khi bạn đặt chiều cao (`height`) của `iframe` (khung chứa PDF) lớn hơn 100% (ví dụ: `120%`), nhưng toàn bộ trang web không xuất hiện thanh cuộn dọc để xem phần nội dung bị khuất.
+3.  **Tìm đến đúng "nhánh":**
+    *   Tìm đến đối tượng `"1. THÔNG TIN CHUNG"`.
 
-### Nguyên nhân
+4.  **Thêm "lá" mới:**
+    *   Bên trong đối tượng `"1. THÔNG TIN CHUNG"`, thêm một cặp key-value mới. Key là tên bạn muốn hiển thị trong ô điều kiện.
 
-Trong file `style2.css`, có một quy tắc đang tắt tính năng cuộn của toàn bộ cửa sổ trình duyệt:
+    ```javascript
+    "1. THÔNG TIN CHUNG": {
+        "1.1. Thông tin công ty": {
+            // ...
+        },
+        "1.2. Hợp tác kinh doanh": {
+            // ...
+        },
+        // ... các mục khác
 
-```css
-html,
-body {
-  overflow: hidden; /* Dòng này ngăn cản trang web cuộn */
-}
-```
+        // Thêm mục mới của bạn ở đây
+        "1.7. Khiếu nại Dịch vụ": {
+            "pdf": "Khieu-nai-Dich-vu.pdf",
+            "note": "Hướng dẫn các bước xử lý khiếu nại dịch vụ.",
+            "xmtt": XMTT_2 // Ví dụ: yêu cầu XMTT loại 2
+        }
+    },
+    ```
 
-Thiết kế hiện tại chỉ cho phép vùng nội dung chính (`#main-content`) tự cuộn, nhưng vì các thành phần bên trong nó có chiều cao được tính theo tỷ lệ phần trăm (%), việc `iframe` dài ra không làm cho `#main-content` bị "tràn" ra, do đó thanh cuộn của nó không xuất hiện.
+5.  **Lưu tệp `flowchart-data.js`**. Trang web sẽ tự động cập nhật ô điều kiện và chức năng tìm kiếm sau khi bạn tải lại trang.
 
-### Cách khắc phục
+---
 
-Để cho phép toàn trang có thể cuộn một cách tự nhiên, bạn cần xóa bỏ thuộc tính `overflow: hidden;` đó.
+## 3. Cách Sửa hoặc Xóa một Mục
 
-1.  Mở file `style2.css`.
-2.  Tìm đến khối `html, body`.
-3.  Xóa dòng `overflow: hidden;`.
+- **Để sửa:**
+  - Mở tệp `flowchart-data.js`.
+  - Tìm đến đúng mục bạn muốn sửa.
+  - Chỉnh sửa lại tên (key) hoặc các giá trị (`pdf`, `note`, `xmtt`).
+- **Để xóa:**
+  - Mở tệp `flowchart-data.js`.
+  - Tìm đến đúng mục bạn muốn xóa.
+  - Xóa toàn bộ khối mã của mục đó (từ tên key cho đến dấu `{` và `}` đóng của nó). Hãy cẩn thận với các dấu phẩy (`,`) để không làm hỏng cấu trúc file.
 
-**Kết quả sau khi sửa:**
+---
 
-```css
-html,
-body {
-  height: 100%;
-  width: 100%;
-  /* Dòng "overflow: hidden;" đã được xóa */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-}
-```
+## 4. Về Chức năng Tìm kiếm
 
-Sau khi xóa, trang web của bạn sẽ có thể cuộn xuống để xem toàn bộ nội dung của `iframe` khi nó dài hơn màn hình.
+Chức năng tìm kiếm được thiết kế để **tự động cập nhật**. Mỗi khi bạn thay đổi nội dung trong `flowchart-data.js` và tải lại trang, hệ thống sẽ tự động quét lại toàn bộ dữ liệu để xây dựng "bản đồ" tìm kiếm mới.
 
-//xoá scroll của #main-content dòng 167
-overflow-y: auto;
+**Bạn không cần phải làm thêm bất kỳ thao tác nào** để cập nhật cho chức năng tìm kiếm. Chỉ cần đảm bảo dữ liệu trong `flowchart-data.js` là chính xác.

@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // --- DOM ELEMENT REFERENCES ---
   const dynamicFiltersContainer = document.getElementById(
     "dynamic-filters-container"
   );
@@ -19,7 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   const logoBtnElement = document.getElementById("logo-btn");
   const toastContainer = document.getElementById("toast-container");
+  const overlay = document.getElementById("overlay");
+  const headerSearch = document.getElementById("header-search");
+  const searchResultsContainer = document.getElementById(
+    "search-results-container"
+  );
 
+  // --- CONSTANTS AND STATE VARIABLES ---
   const FOLDER_MAP = {
     1: "THONG_TIN_CHUNG",
     2: "THONG_TIN_SAN_PHAM",
@@ -28,18 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     5: "KENH_THANH_TOAN",
     6: "THANH_TOAN_CIC",
   };
-
-  const overlay = document.getElementById("overlay");
-
-  let lastScrollY = 0;
-  let isHeaderHidden = false;
-
-  // --- INITIALIZATION ---
-  function initialize() {
-    createFirstLevelDropdown();
-    setupEventListeners();
-  }
-
   const levelLabels = {
     1: "Chọn vấn đề:",
     2: "Chọn chi tiết vấn đề:",
@@ -47,157 +42,63 @@ document.addEventListener("DOMContentLoaded", () => {
     4: "Chọn kênh:",
     5: "Chọn loại đầu vào:",
   };
+  let flattenedFlowchartData = []; // For efficient searching
 
-  // --- DROPDOWN CREATION ---
-  function createFirstLevelDropdown() {
-    if (!dynamicFiltersContainer) return;
-    dynamicFiltersContainer.innerHTML = ""; // Clear previous dropdowns
-    const initialOptions = Object.keys(flowchartData);
-    createDropdown(initialOptions, 1, flowchartData);
-  }
-
-  function createDropdown(options, level, dataNode) {
-    const filterGroup = document.createElement("div");
-    filterGroup.className = "filter-group";
-
-    const label = document.createElement("label");
-    label.className = "filter-label";
-    label.textContent = levelLabels[level] || `Chọn điều kiện cấp ${level}:`;
-
-    const select = document.createElement("select");
-    select.className = "filter-select";
-    select.dataset.level = level;
-
-    select.innerHTML = '<option value="">-- Chọn --</option>';
-    options.forEach((optionText) => {
-      const option = document.createElement("option");
-      option.value = optionText;
-      option.textContent = optionText;
-      select.appendChild(option);
-    });
-
-    select.addEventListener("change", (e) =>
-      handleSelection(e, level, dataNode)
-    );
-
-    filterGroup.appendChild(label);
-    filterGroup.appendChild(select);
-    dynamicFiltersContainer.appendChild(filterGroup);
-  }
-
+  // --- UTILITY FUNCTIONS ---
   function isObject(value) {
     return typeof value === "object" && value !== null;
   }
 
   function isLeaf(node) {
-    return node.pdf !== undefined;
+    return isObject(node) && node.pdf !== undefined;
   }
 
-  // --- EVENT HANDLING ---
-  function handleSelection(event, level, parentDataNode) {
-    const selectedKey = event.target.value;
+  /**
+   * HƯỚNG DẪN CẬP NHẬT TÌM KIẾM
+   * Hàm `flattenFlowchart` này duyệt qua toàn bộ cây dữ liệu `flowchartData`
+   * và tạo ra một danh sách phẳng (`flattenedFlowchartData`) chứa tất cả
+   * các đường dẫn đến file PDF.
+   *
+   * Mỗi khi bạn thêm/sửa/xóa một mục trong `flowchart-data.js`,
+   * hàm này sẽ tự động cập nhật danh sách tìm kiếm khi trang được tải lại.
+   * Bạn không cần phải chỉnh sửa gì ở đây. Chỉ cần đảm bảo dữ liệu trong
+   * `flowchart-data.js` có cấu trúc đúng là được.
+   */
+  function flattenFlowchart(node, path = [], breadcrumb = []) {
+    Object.keys(node).forEach((key) => {
+      const newPath = [...path, key];
+      const newBreadcrumb = [...breadcrumb, key.replace(/^\d+\.\s*/, "")]; // Remove numeric prefix for display
+      const childNode = node[key];
 
-    // --- CAPTURE FUTURE PATH (using text content) ---
-    const futureSelections = [];
-    const allSelects =
-      dynamicFiltersContainer.querySelectorAll("select");
-    allSelects.forEach((select) => {
-      const selectLevel = parseInt(select.dataset.level, 10);
-      if (selectLevel > level && select.selectedIndex > 0) {
-        futureSelections.push(select.options[select.selectedIndex].text);
+      if (isLeaf(childNode)) {
+        flattenedFlowchartData.push({
+          path: newPath,
+          pdfName: childNode.pdf || "",
+          displayText: newBreadcrumb.join(" > "),
+        });
+      } else if (isObject(childNode)) {
+        flattenFlowchart(childNode, newPath, newBreadcrumb);
       }
     });
-
-    removeDropdowns(level + 1);
-    resetResults();
-
-    if (!selectedKey) {
-      return;
-    }
-
-    let currentNode = parentDataNode[selectedKey];
-    let currentLevel = level + 1;
-    let lastKey = selectedKey;
-
-    if (isObject(currentNode) && isLeaf(currentNode)) {
-      displayResult(currentNode, lastKey);
-      return;
-    }
-
-    if (isObject(currentNode) && !isLeaf(currentNode)) {
-      createDropdown(Object.keys(currentNode), currentLevel, currentNode);
-    } else {
-      return; // Nothing to do if it's not a valid node
-    }
-
-    // --- TRY TO REAPPLY FUTURE PATH ---
-    let reselectionSuccessful = true;
-    while (futureSelections.length > 0 && reselectionSuccessful) {
-      const conceptToTry = futureSelections.shift();
-      const nextSelect = dynamicFiltersContainer.querySelector(
-        `select[data-level="${currentLevel}"]`
-      );
-
-      if (conceptToTry && nextSelect) {
-        const matchingOption = Array.from(nextSelect.options).find(
-          (opt) => opt.text === conceptToTry
-        );
-
-        if (matchingOption) {
-          const keyToTry = matchingOption.value;
-          nextSelect.value = keyToTry;
-          lastKey = keyToTry;
-          const nextNode = currentNode[keyToTry];
-
-          if (isObject(nextNode) && isLeaf(nextNode)) {
-            displayResult(nextNode, lastKey);
-            reselectionSuccessful = false; // End the loop
-          } else if (isObject(nextNode) && !isLeaf(nextNode)) {
-            currentNode = nextNode;
-            currentLevel++;
-            createDropdown(Object.keys(currentNode), currentLevel, currentNode);
-          } else {
-            reselectionSuccessful = false;
-          }
-        } else {
-          reselectionSuccessful = false;
-        }
-      } else {
-        reselectionSuccessful = false;
-      }
-    }
   }
 
-  const headerSearch = document.getElementById("header-search");
-  const searchResultsContainer = document.getElementById("search-results-container");
+  // --- INITIALIZATION ---
+  function initialize() {
+    flattenFlowchart(flowchartData);
+    createFirstLevelDropdown();
+    setupEventListeners();
+  }
 
+  // --- SEARCH FUNCTIONALITY ---
   function searchFlowchartData(query) {
-    const results = [];
-    if (!query) return results;
+    if (!query) return [];
     const lowerQuery = query.toLowerCase();
 
-    Object.keys(flowchartData).forEach(level1Key => {
-      const level1Node = flowchartData[level1Key];
-      // Search Level 1
-      if (level1Key.toLowerCase().includes(lowerQuery)) {
-        results.push({
-          path: [level1Key],
-          display: level1Key
-        });
-      }
-      // Search Level 2
-      if (isObject(level1Node) && !isLeaf(level1Node)) {
-        Object.keys(level1Node).forEach(level2Key => {
-          if (level2Key.toLowerCase().includes(lowerQuery)) {
-            results.push({
-              path: [level1Key, level2Key],
-              display: `${level1Key.split('. ')[1]} > ${level2Key}`
-            });
-          }
-        });
-      }
+    return flattenedFlowchartData.filter((item) => {
+      const matchesDisplayText = item.displayText.toLowerCase().includes(lowerQuery);
+      const matchesPdf = item.pdfName.toLowerCase().includes(lowerQuery);
+      return matchesDisplayText || matchesPdf;
     });
-    return results;
   }
 
   function displaySearchResults(results) {
@@ -207,10 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    results.forEach(result => {
+    results.slice(0, 10).forEach((result) => {
       const resultItem = document.createElement("div");
       resultItem.className = "search-result-item";
-      resultItem.textContent = result.display;
+      resultItem.textContent = result.displayText;
       resultItem.dataset.path = JSON.stringify(result.path);
       searchResultsContainer.appendChild(resultItem);
     });
@@ -218,154 +119,106 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function applySearchResult(path) {
-    createFirstLevelDropdown(); // Reset to start
-    let currentNode = flowchartData;
-    
-    for (let i = 0; i < path.length; i++) {
-        const key = path[i];
-        const level = i + 1;
-        const select = dynamicFiltersContainer.querySelector(`select[data-level="${level}"]`);
-        
-        if (select && Array.from(select.options).some(opt => opt.value === key)) {
-            select.value = key;
-            currentNode = currentNode[key];
-            
-            if (isObject(currentNode) && !isLeaf(currentNode)) {
-                createDropdown(Object.keys(currentNode), level + 1, currentNode);
-            } else if (isObject(currentNode) && isLeaf(currentNode)) {
-                displayResult(currentNode, key);
-            }
-        }
+    removeDropdowns(1); // Clear all dropdowns
+    let currentDataNode = flowchartData;
+    let lastKey = "";
+
+    path.forEach((key, index) => {
+      const level = index + 1;
+      const options = Object.keys(currentDataNode);
+      createDropdown(options, level, currentDataNode);
+      const select = dynamicFiltersContainer.querySelector(
+        `select[data-level="${level}"]`
+      );
+      if (select) {
+        select.value = key;
+        lastKey = key;
+        currentDataNode = currentDataNode[key];
+      }
+    });
+
+    if (isLeaf(currentDataNode)) {
+      displayResult(currentDataNode, lastKey);
     }
-    
+
     searchResultsContainer.classList.remove("show");
     headerSearch.value = "";
+    headerSearch.blur();
   }
 
-  function setupSearchEventListeners() {
-    headerSearch.addEventListener("input", (e) => {
-      const query = e.target.value;
-      if (query.length > 1) {
-        const results = searchFlowchartData(query);
-        displaySearchResults(results);
-      } else {
-        searchResultsContainer.classList.remove("show");
-      }
-    });
-
-    headerSearch.addEventListener("focus", (e) => {
-        const query = e.target.value;
-        if (query.length > 1) {
-            const results = searchFlowchartData(query);
-            if (results.length > 0) {
-                searchResultsContainer.classList.add("show");
-            }
-        }
-    });
-
-    // Use mousedown instead of click to fire before blur
-    searchResultsContainer.addEventListener("mousedown", (e) => {
-        const resultItem = e.target.closest(".search-result-item");
-        if (resultItem && resultItem.dataset.path) {
-            const path = JSON.parse(resultItem.dataset.path);
-            applySearchResult(path);
-        }
-    });
-
-    headerSearch.addEventListener("blur", () => {
-      setTimeout(() => {
-        searchResultsContainer.classList.remove("show");
-      }, 150);
-    });
+  // --- DROPDOWN AND SELECTION LOGIC ---
+  function createFirstLevelDropdown() {
+    dynamicFiltersContainer.innerHTML = "";
+    createDropdown(Object.keys(flowchartData), 1, flowchartData);
   }
 
-  // --- EVENT HANDLING ---
+  function createDropdown(options, level, dataNode) {
+    const filterGroup = document.createElement("div");
+    filterGroup.className = "filter-group";
+
+    const label = document.createElement("label");
+    label.className = "filter-label";
+    label.textContent = levelLabels[level] || `Cấp ${level}:`;
+    filterGroup.appendChild(label);
+
+    const select = document.createElement("select");
+    select.className = "filter-select";
+    select.dataset.level = level;
+    select.innerHTML = '<option value="">-- Chọn --</option>';
+    options.forEach((text) => {
+      const option = document.createElement("option");
+      option.value = text;
+      option.textContent = text;
+      select.appendChild(option);
+    });
+    select.addEventListener("change", (e) => handleSelection(e, level, dataNode));
+    filterGroup.appendChild(select);
+    dynamicFiltersContainer.appendChild(filterGroup);
+  }
+
   function handleSelection(event, level, parentDataNode) {
     const selectedKey = event.target.value;
-
-    // --- CAPTURE FUTURE PATH (using text content) ---
-    const futureSelections = [];
-    const allSelects =
-      dynamicFiltersContainer.querySelectorAll("select");
-    allSelects.forEach((select) => {
-      const selectLevel = parseInt(select.dataset.level, 10);
-      if (selectLevel > level && select.selectedIndex > 0) {
-        futureSelections.push(select.options[select.selectedIndex].text);
-      }
-    });
-
     removeDropdowns(level + 1);
     resetResults();
 
-    if (!selectedKey) {
-      return;
-    }
+    if (!selectedKey) return;
 
-    let currentNode = parentDataNode[selectedKey];
-    let currentLevel = level + 1;
-    let lastKey = selectedKey;
-
-    if (isObject(currentNode) && isLeaf(currentNode)) {
-      displayResult(currentNode, lastKey);
-      return;
-    }
-
-    if (isObject(currentNode) && !isLeaf(currentNode)) {
-      createDropdown(Object.keys(currentNode), currentLevel, currentNode);
-    } else {
-      return; // Nothing to do if it's not a valid node
-    }
-
-    // --- TRY TO REAPPLY FUTURE PATH ---
-    let reselectionSuccessful = true;
-    while (futureSelections.length > 0 && reselectionSuccessful) {
-      const conceptToTry = futureSelections.shift();
-      const nextSelect = dynamicFiltersContainer.querySelector(
-        `select[data-level="${currentLevel}"]`
-      );
-
-      if (conceptToTry && nextSelect) {
-        const matchingOption = Array.from(nextSelect.options).find(
-          (opt) => opt.text === conceptToTry
-        );
-
-        if (matchingOption) {
-          const keyToTry = matchingOption.value;
-          nextSelect.value = keyToTry;
-          lastKey = keyToTry;
-          const nextNode = currentNode[keyToTry];
-
-          if (isObject(nextNode) && isLeaf(nextNode)) {
-            displayResult(nextNode, lastKey);
-            reselectionSuccessful = false; // End the loop
-          } else if (isObject(nextNode) && !isLeaf(nextNode)) {
-            currentNode = nextNode;
-            currentLevel++;
-            createDropdown(Object.keys(currentNode), currentLevel, currentNode);
-          } else {
-            reselectionSuccessful = false;
-          }
-        } else {
-          reselectionSuccessful = false;
-        }
-      } else {
-        reselectionSuccessful = false;
-      }
+    const selectedNode = parentDataNode[selectedKey];
+    if (isLeaf(selectedNode)) {
+      displayResult(selectedNode, selectedKey);
+    } else if (isObject(selectedNode)) {
+      createDropdown(Object.keys(selectedNode), level + 1, selectedNode);
     }
   }
 
+  // --- UI AND EVENT LISTENERS SETUP ---
   function setupEventListeners() {
-    sidebarToggle.addEventListener("click", () => {
-      body.classList.toggle("sidebar-collapsed");
+    sidebarToggle.addEventListener("click", () =>
+      body.classList.toggle("sidebar-collapsed")
+    );
+    logoBtnElement?.addEventListener("click", () => location.reload());
+
+    // Search listeners
+    headerSearch.addEventListener("input", (e) => {
+      const results = searchFlowchartData(e.target.value);
+      displaySearchResults(results);
+    });
+    headerSearch.addEventListener("focus", (e) => {
+      const results = searchFlowchartData(e.target.value);
+      if (results.length > 0) searchResultsContainer.classList.add("show");
+    });
+    searchResultsContainer.addEventListener("mousedown", (e) => {
+      const item = e.target.closest(".search-result-item");
+      if (item?.dataset.path) applySearchResult(JSON.parse(item.dataset.path));
+    });
+    document.addEventListener("click", (e) => {
+      if (!headerSearch.contains(e.target) && !searchResultsContainer.contains(e.target)) {
+        searchResultsContainer.classList.remove("show");
+      }
     });
 
-    logoBtnElement &&
-      logoBtnElement.addEventListener("click", () => location.reload());
-
-    setupSearchEventListeners(); // Call search event listeners setup
-    // Event listeners for expand buttons
-    const expandBtns = document.querySelectorAll(".expand-btn");
-    expandBtns.forEach((btn) => {
+    // Expand/Collapse and Overlay listeners
+    document.querySelectorAll(".expand-btn").forEach((btn) => {
       btn.addEventListener("click", () => {
         const targetBox = document.getElementById(btn.dataset.target);
         if (targetBox) {
@@ -375,95 +228,46 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
-
-    // Event listener for overlay to close expanded boxes
     overlay.addEventListener("click", () => {
       const expandedBox = document.querySelector(".sub-header-box.expanded");
       if (expandedBox) {
         expandedBox.classList.remove("expanded");
         overlay.classList.remove("show");
-        // Reset the button text
-        const expandBtn = expandedBox.querySelector(".expand-btn");
-        if (expandBtn) {
-          expandBtn.textContent = "⤢";
-        }
+        expandedBox.querySelector(".expand-btn").textContent = "⤢";
       }
     });
   }
 
-  // --- UI UPDATES ---
+  // --- UI DISPLAY LOGIC ---
   function displayResult(resultObject, selectionText) {
-    xmttResult.innerHTML = resultObject.xmtt
-      ? `<p>${resultObject.xmtt}</p>`
-      : "<p>Không yêu cầu XMTT.</p>";
-    notesResult.innerHTML = resultObject.note
-      ? `<p>${resultObject.note}</p>`
-      : "<p>Không có lưu ý.</p>";
+    xmttResult.innerHTML = resultObject.xmtt ? `<p>${resultObject.xmtt}</p>` : "<p>Không yêu cầu XMTT.</p>";
+    notesResult.innerHTML = resultObject.note ? `<p>${resultObject.note}</p>` : "<p>Không có lưu ý.</p>";
 
     if (resultObject.pdf) {
-      let pdfPath;
-      // If pdf value contains a '/', treat it as a full path
-      if (resultObject.pdf.includes("/")) {
-        pdfPath = resultObject.pdf;
-      } else {
-        // Otherwise, construct path dynamically based on the TOP-LEVEL category
-        const firstLevelSelect = document.querySelector('select[data-level="1"]');
-        const firstLevelSelection = firstLevelSelect ? firstLevelSelect.value : "";
-        const categoryIndex = firstLevelSelection.charAt(0);
-        const folderName = FOLDER_MAP[categoryIndex];
-        
-        if (folderName) {
-          pdfPath = `./pdfile/${folderName}/${resultObject.pdf}`;
-        } else {
-          // Fallback to root pdfile directory if no folder is mapped
-          pdfPath = `./pdfile/${resultObject.pdf}`;
-        }
-      }
-      pdfViewer.src = pdfPath;
+      const firstLevelSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
+      const categoryIndexMatch = firstLevelSelect?.value.match(/^(\d+)/);
+      const folderName = categoryIndexMatch ? FOLDER_MAP[categoryIndexMatch[1]] : null;
+      pdfViewer.src = folderName ? `./pdfile/${folderName}/${resultObject.pdf}` : `./pdfile/${resultObject.pdf}`;
     } else {
       pdfViewer.src = "";
     }
 
-    // Handle single or multiple alerts
     if (resultObject.alert) {
-      if (Array.isArray(resultObject.alert)) {
-        resultObject.alert.forEach((msg) => showNotification(msg));
-      } else {
-        showNotification(resultObject.alert);
-      }
+      (Array.isArray(resultObject.alert) ? resultObject.alert : [resultObject.alert])
+        .forEach(msg => showNotification(msg));
     }
   }
 
   function showNotification(message) {
     if (!toastContainer) return;
-
     const toast = document.createElement("div");
-    toast.className = "notification-toast";
-
-    const toastMessage = document.createElement("p");
-    toastMessage.textContent = message;
-
-    const toastClose = document.createElement("button");
-    toastClose.className = "toast-close";
-    toastClose.innerHTML = "✕";
-    toastClose.onclick = () => {
+    toast.className = "notification-toast show";
+    toast.innerHTML = `<p>${message}</p><button class="toast-close">✕</button>`;
+    toast.querySelector('.toast-close').onclick = () => {
       toast.classList.remove("show");
-      // Optional: remove the element after transition
-      setTimeout(() => {
-        if (toast.parentNode) {
-          toast.parentNode.removeChild(toast);
-        }
-      }, 400);
+      setTimeout(() => toast.remove(), 400);
     };
-
-    toast.appendChild(toastMessage);
-    toast.appendChild(toastClose);
     toastContainer.appendChild(toast);
-
-    // Trigger the show animation
-    setTimeout(() => {
-      toast.classList.add("show");
-    }, 10); // Short delay to allow CSS transition
   }
 
   function resetResults() {
@@ -473,16 +277,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function removeDropdowns(startLevel) {
-    const allDropdowns =
-      dynamicFiltersContainer.querySelectorAll(".filter-group");
-    allDropdowns.forEach((dropdown) => {
-      const select = dropdown.querySelector("select");
-      if (parseInt(select.dataset.level, 10) >= startLevel) {
-        dropdown.remove();
-      }
+    dynamicFiltersContainer.querySelectorAll(".filter-group").forEach((group) => {
+      const select = group.querySelector("select");
+      if (parseInt(select.dataset.level) >= startLevel) group.remove();
     });
   }
-
 
   // --- START THE APP ---
   initialize();
