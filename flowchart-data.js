@@ -19,88 +19,88 @@ const XMTT_4 = "4. Đúng SĐT + CMND/CCCD + 1A";
 const XMTT_5 = "5. Đúng SĐT + CMND + Sai 1A";
 const XMTT_6 = "6. Đúng SĐT + CMND + 1A + 1B";
 const XMTT_7 = "7. Đúng SĐT update + CMND + 2A + 1B";
-const XMTT_8 = "8. Sai SĐT<br>  a. còn dùng SDT cũ: dùng đúng SDT gọi lại<br>  b. Không còn dùng SDT:<br>   - HĐ Closed hết: CMND/CCCD + 1A<br>   - HĐ còn mở: CMND/CCCD + 2A  đồng thời hướng dẫn cập nhật SDT.";
+const XMTT_8 =
+  "8. Sai SĐT<br>  a. còn dùng SDT cũ: dùng đúng SDT gọi lại<br>  b. Không còn dùng SDT:<br>   - HĐ Closed hết: CMND/CCCD + 1A<br>   - HĐ còn mở: CMND/CCCD + 2A  đồng thời hướng dẫn cập nhật SDT.";
 const XMTT_9 = "9. Sai SĐT + CMND + 1A";
 
-
 const flowchartData = {
-    "1. THÔNG TIN CHUNG": {
-        "Thông tin công ty": {
-            "pdf": "Thông tin công ty.pdf",
-            "note": "Các thông tin cơ bản về công ty.",
-            "xmtt": XMTT_1
-        },
-        "Hợp tác kinh doanh": {
-            "pdf": "Hợp tác kinh doanh.pdf",
-            "note": "Thông tin dành cho đối tác muốn hợp tác kinh doanh.",
-            "xmtt": XMTT_1
-        },
-        "Xóa Dữ Liệu Cá Nhân": {
-            "pdf": "Xóa Dữ Liệu Cá Nhân.pdf",
-            "note": "Hướng dẫn thực hiện yêu cầu xóa dữ liệu cá nhân theo quy định.",
-            "xmtt": XMTT_1
-        },
-        "Mở Chặn Cuộc Gọi": {
-            "pdf": "Mở Chặn Cuộc Gọi.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        },
-        "Ngừng Mời Vay/QC": {
-            "pdf": "Ngừng Mời Vay_QC.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        },
-        "Khuyến Mãi": {
-            "pdf": "Khuyến Mãi.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        }
+  "1. THÔNG TIN CHUNG": {
+    "Thông tin công ty": {
+      pdf: "Thông tin công ty.pdf",
+      note: "Các thông tin cơ bản về công ty.",
+      xmtt: XMTT_1,
     },
-    "2. THÔNG TIN SẢN PHẨM": {
-        "Vay Mua Xe Máy": {
-            "pdf": "Sản Phẩm Vay Mua Xe Máy.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        },
-        "Vay Mua Điện Máy": {
-            "pdf": "Sản Phẩm Vay Mua Điện Máy.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        },
-        "Vay Tiền Mặt": {
-            "pdf": "Sản Phẩm Vay Tiền Mặt.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        }
+    "Hợp tác kinh doanh": {
+      pdf: "Hợp tác kinh doanh.pdf",
+      note: "Thông tin dành cho đối tác muốn hợp tác kinh doanh.",
+      xmtt: XMTT_1,
     },
-    "3. ĐĂNG KÝ VAY": {
-        "Vay Mua Xe Máy": {
-            "pdf": "Vay Sản Phẩm Vay Mua Xe Máy.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        },
-        "Vay Mua Điện Máy": {
-            "pdf": "Vay Sản Phẩm Vay Mua Điện Máy.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        },
-        "Vay Tiền Mặt": {
-            "pdf": "Vay Sản Phẩm Vay Tiền Mặt.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        }
+    "Xóa Dữ Liệu Cá Nhân": {
+      pdf: "Xóa Dữ Liệu Cá Nhân.pdf",
+      note: "Hướng dẫn thực hiện yêu cầu xóa dữ liệu cá nhân theo quy định.",
+      xmtt: XMTT_1,
     },
-    "4. GIẢI NGÂN": {
-        "Giải Ngân Tiền Mặt": {
-            "pdf": "Giải Ngân Tiền Mặt.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        }
+    "Mở Chặn Cuộc Gọi": {
+      pdf: "Mở Chặn Cuộc Gọi.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
     },
-    "5. KÊNH THANH TOÁN": {
-        "TT TRỰC TUYẾN": {
-            "pdf": "THANH TOÁN TRỰC TUYẾN.pdf",
-            "note": `Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo.
+    "Ngừng Mời Vay/QC": {
+      pdf: "Ngừng Mời Vay_QC.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+    "Khuyến Mãi": {
+      pdf: "Khuyến Mãi.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+  },
+  "2. THÔNG TIN SẢN PHẨM": {
+    "Vay Mua Xe Máy": {
+      pdf: "Sản Phẩm Vay Mua Xe Máy.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+    "Vay Mua Điện Máy": {
+      pdf: "Sản Phẩm Vay Mua Điện Máy.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+    "Vay Tiền Mặt": {
+      pdf: "Sản Phẩm Vay Tiền Mặt.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+  },
+  "3. ĐĂNG KÝ VAY": {
+    "Vay Mua Xe Máy": {
+      pdf: "Vay Sản Phẩm Vay Mua Xe Máy.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+    "Vay Mua Điện Máy": {
+      pdf: "Vay Sản Phẩm Vay Mua Điện Máy.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+    "Vay Tiền Mặt": {
+      pdf: "Vay Sản Phẩm Vay Tiền Mặt.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+  },
+  "4. GIẢI NGÂN": {
+    "Giải Ngân Tiền Mặt": {
+      pdf: "Giải Ngân Tiền Mặt.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+  },
+  "5. KÊNH THANH TOÁN": {
+    "TT TRỰC TUYẾN": {
+      pdf: "THANH TOÁN TRỰC TUYẾN.pdf",
+      note: `Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
@@ -108,130 +108,263 @@ const flowchartData = {
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.`,
-            "xmtt": XMTT_1,
-            "alert": "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo"
-        },
-        "TT TIỀN MẶT": {
-            "pdf": "THANH TOÁN TIỀN MẶT.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        },
-        "TT QUA ATM/CDM": {
-            "pdf": "THANH TOÁN QUA ATM CDM.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        },
-        "TRÍCH NỢ TỰ ĐỘNG": {
-            "pdf": "TRÍCH NỢ TỰ ĐỘNG.pdf",
-            "note": "N/A",
-            "xmtt": XMTT_1
-        }
+      xmtt: XMTT_1,
+      alert:
+        "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo",
     },
-    "6. THANH TOÁN + CIC": {
-        "Lịch Trả Nợ": {
-            "HĐ FEC": {
-                "IB Đúng SĐT": { "pdf": "IB Dung SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "IB Sai SĐT": { "pdf": "IB Sai SDT.pdf", "note": "N/A", "xmtt": XMTT_8 },
-                "Email": { "pdf": "Email.pdf", "note": "Xem Slide 12+13", "xmtt": XMTT_4 },
-                "Chat Post Login": { "pdf": "Chat Post Login.pdf", "note": "Ghi chú cho Post Login", "xmtt": XMTT_4 },
-                "Chat Trường hợp khác": { "pdf": "Chat Truong hop khac.pdf", "note": "Xem Slide 10+11", "xmtt": XMTT_4 }
-            },
-            "Cash 24": { "pdf": "HD Cash 24.pdf", "note": "N/A", "xmtt": XMTT_1 },
-            "Kim An": { "pdf": "HĐ Kim An.pdf", "note": "Lưu ý cho hợp đồng Kim An.", "xmtt": XMTT_2 },
-            "Bán Nợ Một Phần": { "pdf": "HĐ Bán Nợ Một Phần.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Galaxy": { "pdf": "HĐ Bán Nợ Galaxy.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Fc Sold_Azura": { "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Welcome Vina": { "pdf": "HĐ Bán Nợ Welcome Vina.pdf", "note": "N/A", "xmtt": XMTT_4 }
-        },
-        "Lịch Sử TT": {
-            "HĐ FEC": {
-                "IB Đúng SĐT": { "pdf": "IB Dung SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "IB Sai SĐT": { "pdf": "IB Sai SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "Email": { "pdf": "Email.pdf", "note": "Xem Slide 12+13", "xmtt": XMTT_4 },
-                "Chat Post Login": { "pdf": "Chat Post Login.pdf", "note": "Ghi chú cho Post Login", "xmtt": XMTT_4 },
-                "Chat Trường hợp khác": { "pdf": "Chat Truong hop khac.pdf", "note": "Xem Slide 10+11", "xmtt": XMTT_4 }
-            },
-            "Cash 24": { "pdf": "HD Cash 24.pdf", "note": "N/A", "xmtt": XMTT_1 },
-            "Kim An": { "pdf": "HĐ Kim An.pdf", "note": "Lưu ý cho hợp đồng Kim An.", "xmtt": XMTT_2 },
-            "Bán Nợ Một Phần": { "pdf": "HĐ Bán Nợ Một Phần.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Galaxy": { "pdf": "HĐ Bán Nợ Galaxy.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Fc Sold_Azura": { "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Welcome Vina": { "pdf": "HĐ Bán Nợ Welcome Vina.pdf", "note": "N/A", "xmtt": XMTT_4 }
-        },
-        "Thanh Lý HĐ": {
-            "HĐ FEC": {
-                "IB Đúng SĐT": { "pdf": "IB Dung SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "IB Sai SĐT": { "pdf": "IB Sai SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "Email": { "pdf": "Email.pdf", "note": "Xem Slide 12+13", "xmtt": XMTT_4 },
-                "Chat Post Login": { "pdf": "Chat Post Login.pdf", "note": "Ghi chú cho Post Login", "xmtt": XMTT_4 },
-                "Chat Trường hợp khác": { "pdf": "Chat Truong hop khac.pdf", "note": "Xem Slide 10+11", "xmtt": XMTT_4 }
-            },
-            "Cash 24": { "pdf": "HD Cash 24.pdf", "note": "N/A", "xmtt": XMTT_1 },
-            "Kim An": { "pdf": "HĐ Kim An.pdf", "note": "Lưu ý cho hợp đồng Kim An.", "xmtt": XMTT_2 },
-            "Bán Nợ Một Phần": { "pdf": "HĐ Bán Nợ Một Phần.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Galaxy": { "pdf": "HĐ Bán Nợ Galaxy.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Fc Sold_Azura": { "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Welcome Vina": { "pdf": "HĐ Bán Nợ Welcome Vina.pdf", "note": "N/A", "xmtt": XMTT_4 }
-        },
-        "Thỏa Thuận KV": {
-            "HĐ FEC": {
-                "IB Đúng SĐT": { "pdf": "IB Dung SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "IB Sai SĐT": { "pdf": "IB Sai SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "Email": { "pdf": "Email.pdf", "note": "Xem Slide 12+13", "xmtt": XMTT_4 },
-                "Chat Post Login": { "pdf": "Chat Post Login.pdf", "note": "Ghi chú cho Post Login", "xmtt": XMTT_4 },
-                "Chat Trường hợp khác": { "pdf": "Chat Truong hop khac.pdf", "note": "Xem Slide 10+11", "xmtt": XMTT_4 }
-            },
-            "Cash 24": { "pdf": "HD Cash 24.pdf", "note": "N/A", "xmtt": XMTT_1 },
-            "Kim An": { "pdf": "HĐ Kim An.pdf", "note": "Lưu ý cho hợp đồng Kim An.", "xmtt": XMTT_2 },
-            "Bán Nợ Một Phần": { "pdf": "HĐ Bán Nợ Một Phần.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Galaxy": { "pdf": "HĐ Bán Nợ Galaxy.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Fc Sold_Azura": { "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Welcome Vina": { "pdf": "HĐ Bán Nợ Welcome Vina.pdf", "note": "N/A", "xmtt": XMTT_4 }
-        },
-        "Tình Trạng HĐ": {
-            "HĐ FEC": {
-                "IB Đúng SĐT": { "pdf": "IB Dung SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "IB Sai SĐT": { "pdf": "IB Sai SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "Email": { "pdf": "Email.pdf", "note": "Xem Slide 12+13", "xmtt": XMTT_4 },
-                "Chat Post Login": { "pdf": "Chat Post Login.pdf", "note": "Ghi chú cho Post Login", "xmtt": XMTT_4 },
-                "Chat Trường hợp khác": { "pdf": "Chat Truong hop khac.pdf", "note": "Xem Slide 10+11", "xmtt": XMTT_4 }
-            },
-            "Cash 24": { "pdf": "HD Cash 24.pdf", "note": "N/A", "xmtt": XMTT_1 },
-            "Kim An": { "pdf": "HĐ Kim An.pdf", "note": "Lưu ý cho hợp đồng Kim An.", "xmtt": XMTT_2 },
-            "Bán Nợ Một Phần": { "pdf": "HĐ Bán Nợ Một Phần.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Galaxy": { "pdf": "HĐ Bán Nợ Galaxy.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Fc Sold_Azura": { "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Welcome Vina": { "pdf": "HĐ Bán Nợ Welcome Vina.pdf", "note": "N/A", "xmtt": XMTT_4 }
-        },
-        "Đóng HĐ": {
-            "HĐ FEC": {
-                "IB Đúng SĐT": { "pdf": "IB Dung SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "IB Sai SĐT": { "pdf": "IB Sai SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "Email": { "pdf": "Email.pdf", "note": "Xem Slide 12+13", "xmtt": XMTT_4 },
-                "Chat Post Login": { "pdf": "Chat Post Login.pdf", "note": "Ghi chú cho Post Login", "xmtt": XMTT_4 },
-                "Chat Trường hợp khác": { "pdf": "Chat Truong hop khac.pdf", "note": "Xem Slide 10+11", "xmtt": XMTT_4 }
-            },
-            "Cash 24": { "pdf": "HD Cash 24.pdf", "note": "N/A", "xmtt": XMTT_1 },
-            "Kim An": { "pdf": "HĐ Kim An.pdf", "note": "Lưu ý cho hợp đồng Kim An.", "xmtt": XMTT_2 },
-            "Bán Nợ Một Phần": { "pdf": "HĐ Bán Nợ Một Phần.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Galaxy": { "pdf": "HĐ Bán Nợ Galaxy.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Fc Sold_Azura": { "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Welcome Vina": { "pdf": "HĐ Bán Nợ Welcome Vina.pdf", "note": "N/A", "xmtt": XMTT_4 }
-        },
-        "CIC": {
-            "HĐ FEC": {
-                "IB Đúng SĐT": { "pdf": "IB Dung SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "IB Sai SĐT": { "pdf": "IB Sai SDT.pdf", "note": "N/A", "xmtt": XMTT_4 },
-                "Email": { "pdf": "Email.pdf", "note": "Xem Slide 12+13", "xmtt": XMTT_4 },
-                "Chat Post Login": { "pdf": "Chat Post Login.pdf", "note": "Ghi chú cho Post Login", "xmtt": XMTT_4 },
-                "Chat Trường hợp khác": { "pdf": "Chat Truong hop khac.pdf", "note": "Xem Slide 10+11", "xmtt": XMTT_4 }
-            },
-            "Cash 24": { "pdf": "HD Cash 24.pdf", "note": "N/A", "xmtt": XMTT_1 },
-            "Kim An": { "pdf": "HĐ Kim An.pdf", "note": "Lưu ý cho hợp đồng Kim An.", "xmtt": XMTT_2 },
-            "Bán Nợ Một Phần": { "pdf": "HĐ Bán Nợ Một Phần.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Galaxy": { "pdf": "HĐ Bán Nợ Galaxy.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Fc Sold_Azura": { "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf", "note": "N/A", "xmtt": XMTT_4 },
-            "Bán Nợ Welcome Vina": { "pdf": "HĐ Bán Nợ Welcome Vina.pdf", "note": "N/A", "xmtt": XMTT_4 }
-        }
+    "TT TIỀN MẶT": {
+      pdf: "THANH TOÁN TIỀN MẶT.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+    "TT QUA ATM/CDM": {
+      pdf: "THANH TOÁN QUA ATM CDM.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+    "TRÍCH NỢ TỰ ĐỘNG": {
+      pdf: "TRÍCH NỢ TỰ ĐỘNG.pdf",
+      note: "N/A",
+      xmtt: XMTT_1,
+    },
+  },
+  "6. THANH TOÁN + CIC": {
+    "Lịch Trả Nợ": {
+      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
+      "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "Kim An": {
+        pdf: "HĐ Kim An.pdf",
+        note: "Lưu ý cho hợp đồng Kim An.",
+        xmtt: XMTT_2,
+      },
+      "Bán Nợ Một Phần": {
+        pdf: "HĐ Bán Nợ Một Phần.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Galaxy": {
+        pdf: "HĐ Bán Nợ Galaxy.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Welcome Vina": {
+        pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+    },
+    "Lịch Sử TT": {
+      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
+      "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "Kim An": {
+        pdf: "HĐ Kim An.pdf",
+        note: "Lưu ý cho hợp đồng Kim An.",
+        xmtt: XMTT_2,
+      },
+      "Bán Nợ Một Phần": {
+        pdf: "HĐ Bán Nợ Một Phần.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Galaxy": {
+        pdf: "HĐ Bán Nợ Galaxy.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Welcome Vina": {
+        pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+    },
+    "Thanh Lý HĐ": {
+      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
+      "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "Kim An": {
+        pdf: "HĐ Kim An.pdf",
+        note: "Lưu ý cho hợp đồng Kim An.",
+        xmtt: XMTT_2,
+      },
+      "Bán Nợ Một Phần": {
+        pdf: "HĐ Bán Nợ Một Phần.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Galaxy": {
+        pdf: "HĐ Bán Nợ Galaxy.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Welcome Vina": {
+        pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+    },
+    "Thỏa Thuận KV": {
+      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
+      "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "Kim An": {
+        pdf: "HĐ Kim An.pdf",
+        note: "Lưu ý cho hợp đồng Kim An.",
+        xmtt: XMTT_2,
+      },
+      "Bán Nợ Một Phần": {
+        pdf: "HĐ Bán Nợ Một Phần.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Galaxy": {
+        pdf: "HĐ Bán Nợ Galaxy.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Welcome Vina": {
+        pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+    },
+    "Tình Trạng HĐ": {
+      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
+      "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "Kim An": {
+        pdf: "HĐ Kim An.pdf",
+        note: "Lưu ý cho hợp đồng Kim An.",
+        xmtt: XMTT_2,
+      },
+      "Bán Nợ Một Phần": {
+        pdf: "HĐ Bán Nợ Một Phần.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Galaxy": {
+        pdf: "HĐ Bán Nợ Galaxy.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Welcome Vina": {
+        pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+    },
+    "Đóng HĐ": {
+      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
+      "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "Kim An": {
+        pdf: "HĐ Kim An.pdf",
+        note: "Lưu ý cho hợp đồng Kim An.",
+        xmtt: XMTT_2,
+      },
+      "Bán Nợ Một Phần": {
+        pdf: "HĐ Bán Nợ Một Phần.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Galaxy": {
+        pdf: "HĐ Bán Nợ Galaxy.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Welcome Vina": {
+        pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "Kim An": {
+        pdf: "HĐ Kim An.pdf",
+        note: "Lưu ý cho hợp đồng Kim An.",
+        xmtt: XMTT_2,
+      },
+      "Bán Nợ Một Phần": {
+        pdf: "HĐ Bán Nợ Một Phần.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Galaxy": {
+        pdf: "HĐ Bán Nợ Galaxy.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Welcome Vina": {
+        pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+    },
+    CIC: {
+      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
+      "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "Kim An": {
+        pdf: "HĐ Kim An.pdf",
+        note: "Lưu ý cho hợp đồng Kim An.",
+        xmtt: XMTT_2,
+      },
+      "Bán Nợ Một Phần": {
+        pdf: "HĐ Bán Nợ Một Phần.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Galaxy": {
+        pdf: "HĐ Bán Nợ Galaxy.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Bán Nợ Welcome Vina": {
+        pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+    },
+  },
+  "7. Test": {
+    "7.1. Mục con Test": {
+        "pdf": "Test.pdf",
+        "note": "Đây là ghi chú cho mục test.",
+        "xmtt-ib": "Nội dung cho IB ở mục Test.",
+        "xmtt-ecom": "Nội dung cho ECOM ở mục Test."
     }
+  },
 };
