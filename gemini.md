@@ -35,3 +35,5 @@ Nội dung thêm:
 - khi croll xuống để đọc nội dung thì header sẽ ẩn, khi scroll lên sẽ xuất hiện lại.
 - phần iframe cho chiều dọc dài hơn để có thể dễ đọc hết nội dung của 1 trang dpf
 - mục tiêu code cho người sau code có thể tự thêm, xoá các phần tử trong điều kiện nên làm đến đâu thì vui lòng note hướng dẫn vào.
+
+- tất cả phản hồi phải đưa ra hướng xử ý và hỏi tôi có đồng ý không, nếu được đồng ý mới được code

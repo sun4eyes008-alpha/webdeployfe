@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flowchart Editor (Group Support)</title>
+
+    <script>
+      window.onerror = function (message, source, lineno, colno, error) {
+        alert("Lỗi hệ thống: " + message + "\nTại dòng: " + lineno);
+      };
+    </script>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      .html-content {
+        white-space: pre-wrap;
+        font-family: monospace;
+        background: #f8fafc;
+        padding: 4px;
+        border-radius: 4px;
+        border: 1px solid #e2e8f0;
+      }
+      .code-input {
+        font-family: monospace;
+        font-size: 13px;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      /* Active Group Style */
+      .group-item.active {
+        background-color: #eff6ff;
+        border-left: 4px solid #2563eb;
+        color: #1e40af;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, useMemo } = React;
+
+      // --- ICONS ---
+      const Icon = ({ path, size = 18, color = "currentColor" }) => (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {path}
+        </svg>
+      );
+      const Icons = {
+        ChevronRight: <polyline points="9 18 15 12 9 6" />,
+        ChevronDown: <polyline points="6 9 12 15 18 9" />,
+        Plus: (
+          <>
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </>
+        ),
+        Trash2: (
+          <>
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </>
+        ),
+        Edit2: (
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+        ),
+        Save: (
+          <>
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+            <polyline points="17 21 17 13 7 13 7 21" />
+            <polyline points="7 3 7 8 15 8" />
+          </>
+        ),
+        Download: (
+          <>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </>
+        ),
+        Upload: (
+          <>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </>
+        ),
+        X: (
+          <>
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </>
+        ),
+        FileText: (
+          <>
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+            <polyline points="14 2 14 8 20 8" />
+          </>
+        ),
+        Folder: (
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+        ),
+      };
+      const BtnIcon = ({ name, size }) => (
+        <Icon path={Icons[name]} size={size} />
+      );
+
+      // --- HELPER FUNCTIONS ---
+      const replaceAllSafe = (str, find, replace) => {
+        if (!str) return "";
+        const regex = new RegExp(`\\b${find}\\b`, "g");
+        return str.replace(regex, replace);
+      };
+
+      const safeEvalFlowchartData = (dataStr, allConstants) => {
+        let processedStr = dataStr;
+        Object.entries(allConstants).forEach(([key, value]) => {
+          const safeValue = value.replace(/"/g, '\\"').replace(/\n/g, "\\n");
+          processedStr = replaceAllSafe(processedStr, key, `"${safeValue}"`);
+        });
+        try {
+          // eslint-disable-next-line
+          return new Function(`return (${processedStr})`)();
+        } catch (e) {
+          alert("Lỗi cú pháp file JS: " + e.message);
+          return {};
+        }
+      };
+
+      const HtmlDisplay = ({ content }) => {
+        if (!content) return null;
+        const isHtml = /<[a-z][\s\S]*>/i.test(content);
+        return (
+          <div
+            className={`text-xs mt-1 ${
+              isHtml ? "html-content" : "text-gray-600"
+            }`}
+          >
+            {isHtml ? (
+              <div dangerouslySetInnerHTML={{ __html: content }} />
+            ) : (
+              content
+            )}
+          </div>
+        );
+      };
+
+      const FlowchartEditor = () => {
+        const [data, setData] = useState({});
+        const [expandedNodes, setExpandedNodes] = useState(new Set());
+        const [editingNode, setEditingNode] = useState(null);
+
+        // --- NEW CONSTANT STATE STRUCTURE ---
+        // groupedConstants = { "Group A": { "KEY1": "VAL1" }, "Group B": { ... } }
+        const [groupedConstants, setGroupedConstants] = useState({
+          "Chưa phân loại": {},
+        });
+        const [showConstModal, setShowConstModal] = useState(false);
+
+        // --- CORE LOGIC: LEAF NODE ---
+        const isLeafNode = (node) => {
+          if (!node || typeof node !== "object") return false;
+          if (node.type === "leaf") return true;
+          if (
+            "pdf" in node ||
+            "xmtt" in node ||
+            "xmttib" in node ||
+            "note" in node ||
+            "displayName" in node
+          )
+            return true;
+          return false;
+        };
+
+        // --- FILE PARSING (UPDATED FOR GROUPS) ---
+        const handleFileUpload = (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            try {
+              const content = event.target.result;
+              const lines = content.split("\n");
+
+              const newGroupedConstants = { "Chưa phân loại": {} };
+              let currentGroup = "Chưa phân loại";
+              let hasFoundAnyGroup = false;
+
+              // Parse line by line to detect Groups
+              lines.forEach((line) => {
+                const trimmed = line.trim();
+                // 1. Detect Group Header: // --- GROUP: Name ---
+                const groupMatch = trimmed.match(
+                  /^\/\/\s*---\s*GROUP:\s*(.+?)\s*---$/
+                );
+                if (groupMatch) {
+                  currentGroup = groupMatch[1];
+                  if (!newGroupedConstants[currentGroup])
+                    newGroupedConstants[currentGroup] = {};
+                  hasFoundAnyGroup = true;
+                }
+                // 2. Detect Constant: const KEY = "VAL";
+                else {
+                  const constMatch = trimmed.match(
+                    /^const\s+(\w+)\s+=\s+"([\s\S]*?)";/
+                  );
+                  if (constMatch) {
+                    const key = constMatch[1];
+                    const val = constMatch[2].replace(/<br>/g, "\n"); // Decode <br> back to newline
+                    newGroupedConstants[currentGroup][key] = val;
+                  }
+                }
+              });
+
+              // If no groups found (old file format), ensure at least one group exists
+              if (Object.keys(newGroupedConstants).length === 0) {
+                newGroupedConstants["Chưa phân loại"] = {};
+              }
+
+              setGroupedConstants(newGroupedConstants);
+
+              // Flatten constants for safeEval
+              const flatConstants = {};
+              Object.values(newGroupedConstants).forEach((group) => {
+                Object.assign(flatConstants, group);
+              });
+
+              const dataMatch = content.match(
+                /const flowchartData = (\{[\s\S]+?\});\s*$/
+              );
+              if (dataMatch) {
+                const parsed = safeEvalFlowchartData(
+                  dataMatch[1],
+                  flatConstants
+                );
+                setData(parsed);
+                setExpandedNodes(new Set());
+              }
+            } catch (err) {
+              alert("Lỗi đọc file: " + err.message);
+            }
+          };
+          reader.readAsText(file);
+        };
+
+        // --- FILE SAVING (UPDATED FOR GROUPS) ---
+        const handleDownload = () => {
+          try {
+            let content = "/**\n * GENERATED BY FLOWCHART EDITOR\n */\n\n";
+            content += "// --- KHAI BÁO BIẾN DÙNG CHUNG ---\n";
+
+            // Flatten for replacement logic
+            const flatConstants = {};
+
+            // Write groups
+            Object.entries(groupedConstants).forEach(([groupName, items]) => {
+              if (Object.keys(items).length > 0) {
+                content += `\n// --- GROUP: ${groupName} ---\n`;
+                Object.entries(items).forEach(([key, value]) => {
+                  const safeVal = value.replace(/\n/g, "<br>");
+                  content += `const ${key} = "${safeVal}";\n`;
+                  flatConstants[key] = value;
+                });
+              }
+            });
+
+            // Clean data
+            const cleanData = JSON.parse(JSON.stringify(data));
+            const removeType = (obj) => {
+              if (typeof obj === "object" && obj !== null) {
+                delete obj.type;
+                Object.values(obj).forEach(removeType);
+              }
+            };
+            removeType(cleanData);
+
+            let jsonString = JSON.stringify(cleanData, null, 2);
+
+            // Replace values with Keys (Longest keys first)
+            const sortedConsts = Object.entries(flatConstants).sort(
+              (a, b) => b[1].length - a[1].length
+            );
+            sortedConsts.forEach(([key, value]) => {
+              const escapeRegExp = (string) =>
+                string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+              const jsonVal = JSON.stringify(value).slice(1, -1);
+              const regex = new RegExp(`"${escapeRegExp(jsonVal)}"`, "g");
+              jsonString = jsonString.replace(regex, key);
+            });
+
+            content += `\nconst flowchartData = ${jsonString};\n`;
+            const blob = new Blob([content], { type: "text/javascript" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "loan-flowchart-grouped.js";
+            a.click();
+            URL.revokeObjectURL(url);
+          } catch (e) {
+            alert("Lỗi save: " + e.message);
+          }
+        };
+
+        // --- DATA MANIPULATION HELPERS ---
+        const updateNode = (path, val) => {
+          const newData = { ...data };
+          let cur = newData;
+          for (let i = 0; i < path.length - 1; i++) cur = cur[path[i]];
+          if (val === undefined) delete cur[path[path.length - 1]];
+          else cur[path[path.length - 1]] = val;
+          setData(newData);
+        };
+
+        const addNode = (path, isLeaf) => {
+          const name = prompt(
+            isLeaf ? "Nhập tên Điều Kiện (Leaf):" : "Nhập tên Nhóm (Group):"
+          );
+          if (!name) return;
+          const parent = path.length ? getNode(data, path) : data;
+          if (parent[name]) {
+            alert("Tên này đã tồn tại!");
+            return;
+          }
+          const newNode = isLeaf
+            ? {
+                displayName: name,
+                pdf: "",
+                note: "",
+                xmttib: "",
+                xmttecom: "",
+                type: "leaf",
+              }
+            : {};
+          const newData = JSON.parse(JSON.stringify(data));
+          let cur = newData;
+          path.forEach((p) => (cur = cur[p]));
+          cur[name] = newNode;
+          setData(newData);
+          setExpandedNodes((prev) => new Set([...prev, path.join(".")]));
+        };
+
+        const getNode = (root, path) => {
+          let cur = root;
+          for (const k of path) cur = cur[k];
+          return cur;
+        };
+
+        // --- RENDER TREE ---
+        const renderTree = (node, path = []) => {
+          const isLeaf = isLeafNode(node);
+          const pathStr = path.join(".");
+          const isExpanded = expandedNodes.has(pathStr);
+          const currentKey = path[path.length - 1];
+
+          if (isLeaf) {
+            return (
+              <div
+                key={pathStr}
+                className="ml-6 mt-2 mb-2 p-3 bg-white border border-green-200 rounded shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="font-bold text-green-700 flex items-center gap-2">
+                      <span className="bg-green-100 text-xs px-2 py-0.5 rounded">
+                        Điều kiện
+                      </span>
+                      {currentKey}
+                    </div>
+                    <div className="text-sm mt-1 text-gray-700">
+                      {node.displayName && <div>🏷️ {node.displayName}</div>}
+                      {node.pdf && <div>📄 {node.pdf}</div>}
+                    </div>
+                    <HtmlDisplay content={node.note} />
+                  </div>
+                  <button
+                    onClick={() => setEditingNode({ path, node })}
+                    className="text-blue-500 hover:bg-blue-50 p-2 rounded"
+                  >
+                    <BtnIcon name="Edit2" />
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          const keys = Object.keys(node || {});
+          return (
+            <div
+              key={pathStr}
+              className={`mt-2 ${
+                path.length ? "ml-6 border-l-2 border-gray-100 pl-2" : ""
+              }`}
+            >
+              <div className="flex items-center gap-2 py-1 group bg-gray-50/50 rounded pr-2">
+                <button
+                  onClick={() => {
+                    const next = new Set(expandedNodes);
+                    if (next.has(pathStr)) next.delete(pathStr);
+                    else next.add(pathStr);
+                    setExpandedNodes(next);
+                  }}
+                  className="p-1 hover:bg-gray-200 rounded text-gray-500"
+                >
+                  {isExpanded ? (
+                    <BtnIcon name="ChevronDown" />
+                  ) : (
+                    <BtnIcon name="ChevronRight" />
+                  )}
+                </button>
+                <span className="font-semibold text-gray-800 cursor-default select-none flex-1">
+                  {currentKey || "Root"}{" "}
+                  <span className="text-xs text-gray-400 font-normal ml-2">
+                    ({keys.length})
+                  </span>
+                </span>
+                <div className="flex gap-1 transition-opacity ml-2">
+                  <button
+                    onClick={() => addNode(path, true)}
+                    className="p-1 text-green-600 hover:bg-green-100 rounded flex items-center gap-1 text-xs font-medium"
+                    title="Thêm Điều Kiện"
+                  >
+                    <BtnIcon name="Plus" size={14} /> Leaf
+                  </button>
+                  <button
+                    onClick={() => addNode(path, false)}
+                    className="p-1 text-blue-600 hover:bg-blue-100 rounded flex items-center gap-1 text-xs font-medium"
+                    title="Thêm Nhóm Con"
+                  >
+                    <BtnIcon name="Plus" size={14} /> Group
+                  </button>
+                  {path.length > 0 && (
+                    <button
+                      onClick={() => {
+                        if (confirm("Xóa nhóm này?"))
+                          updateNode(path, undefined);
+                      }}
+                      className="p-1 text-red-600 hover:bg-red-100 rounded"
+                      title="Xóa Nhóm"
+                    >
+                      <BtnIcon name="Trash2" size={14} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              {isExpanded && (
+                <div className="animate-fade-in">
+                  {keys.map((k) => renderTree(node[k], [...path, k]))}
+                  {keys.length === 0 && (
+                    <div className="ml-8 text-gray-400 italic text-sm py-2">
+                      Nhóm trống.
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        };
+
+        // --- COMPONENT: CONSTANTS MANAGER MODAL ---
+        const ConstantsManager = () => {
+          const [activeGroup, setActiveGroup] = useState(
+            Object.keys(groupedConstants)[0] || "Chưa phân loại"
+          );
+          const [tempGroups, setTempGroups] = useState(groupedConstants);
+
+          // Sync state helper
+          const updateMainState = (newGroups) => {
+            setTempGroups(newGroups);
+            setGroupedConstants(newGroups);
+          };
+
+          const addGroup = () => {
+            const name = prompt("Tên nhóm mới:");
+            if (!name) return;
+            if (tempGroups[name]) {
+              alert("Nhóm đã tồn tại");
+              return;
+            }
+            updateMainState({ ...tempGroups, [name]: {} });
+            setActiveGroup(name);
+          };
+
+          const deleteGroup = () => {
+            if (Object.keys(tempGroups).length <= 1) {
+              alert("Phải giữ lại ít nhất 1 nhóm!");
+              return;
+            }
+            if (
+              !confirm(`Xóa nhóm "${activeGroup}" và TOÀN BỘ biến bên trong?`)
+            )
+              return;
+
+            const newGroups = { ...tempGroups };
+            delete newGroups[activeGroup];
+            updateMainState(newGroups);
+            setActiveGroup(Object.keys(newGroups)[0]);
+          };
+
+          const addVar = (e) => {
+            e.preventDefault();
+            const k = e.target.key.value.trim();
+            const v = e.target.val.value;
+
+            // Check dup global
+            let exists = false;
+            Object.values(tempGroups).forEach((g) => {
+              if (g[k]) exists = true;
+            });
+
+            if (k && v && !exists) {
+              const newGroups = { ...tempGroups };
+              newGroups[activeGroup][k] = v;
+              updateMainState(newGroups);
+              e.target.reset();
+            } else if (exists) alert("Tên biến đã tồn tại ở nhóm khác!");
+          };
+
+          const deleteVar = (key) => {
+            if (!confirm("Xóa biến này?")) return;
+            const newGroups = { ...tempGroups };
+            delete newGroups[activeGroup][key];
+            updateMainState(newGroups);
+          };
+
+          const updateVar = (key, newVal) => {
+            const newGroups = { ...tempGroups };
+            newGroups[activeGroup][key] = newVal;
+            updateMainState(newGroups);
+          };
+
+          return (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-lg shadow-xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden">
+                <div className="p-4 border-b flex justify-between items-center bg-gray-100">
+                  <h3 className="font-bold text-lg flex items-center gap-2">
+                    <BtnIcon name="FileText" /> Quản lý Biến & Nhóm
+                  </h3>
+                  <button
+                    onClick={() => setShowConstModal(false)}
+                    className="hover:bg-gray-200 p-1 rounded"
+                  >
+                    <BtnIcon name="X" />
+                  </button>
+                </div>
+
+                <div className="flex flex-1 overflow-hidden">
+                  {/* LEFT: GROUP LIST */}
+                  <div className="w-1/4 border-r bg-gray-50 flex flex-col">
+                    <div className="p-2 border-b flex justify-between items-center">
+                      <span className="text-xs font-bold text-gray-500 uppercase">
+                        Danh sách Nhóm
+                      </span>
+                      <button
+                        onClick={addGroup}
+                        className="text-blue-600 hover:bg-blue-100 p-1 rounded"
+                        title="Thêm Nhóm"
+                      >
+                        <BtnIcon name="Plus" size={16} />
+                      </button>
+                    </div>
+                    <div className="flex-1 overflow-y-auto p-2 space-y-1">
+                      {Object.keys(tempGroups).map((gName) => (
+                        <div
+                          key={gName}
+                          onClick={() => setActiveGroup(gName)}
+                          className={`group-item p-2 rounded cursor-pointer text-sm flex justify-between items-center ${
+                            activeGroup === gName
+                              ? "active"
+                              : "hover:bg-gray-200 text-gray-700"
+                          }`}
+                        >
+                          <span className="truncate flex items-center gap-2">
+                            <BtnIcon name="Folder" size={14} /> {gName}
+                          </span>
+                          <span className="text-xs bg-gray-200 px-1.5 rounded-full text-gray-600">
+                            {Object.keys(tempGroups[gName]).length}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="p-2 border-t">
+                      <button
+                        onClick={deleteGroup}
+                        className="w-full py-1 text-xs text-red-600 border border-red-200 rounded hover:bg-red-50 flex items-center justify-center gap-1"
+                      >
+                        <BtnIcon name="Trash2" size={14} /> Xóa Nhóm Đang Chọn
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* RIGHT: VAR LIST */}
+                  <div className="w-3/4 flex flex-col bg-white">
+                    <div className="p-3 border-b bg-blue-50">
+                      <h4 className="font-bold text-blue-800 flex items-center gap-2">
+                        <BtnIcon name="Folder" /> {activeGroup}
+                      </h4>
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                      {Object.keys(tempGroups[activeGroup] || {}).length ===
+                        0 && (
+                        <div className="text-center text-gray-400 py-10 italic">
+                          Nhóm này chưa có biến nào.
+                        </div>
+                      )}
+                      {Object.entries(tempGroups[activeGroup] || {}).map(
+                        ([k, v]) => (
+                          <div
+                            key={k}
+                            className="flex gap-2 items-start border-b pb-2 last:border-0"
+                          >
+                            <div className="w-1/4">
+                              <input
+                                className="w-full text-xs font-mono font-bold text-blue-700 bg-gray-50 border p-1 rounded select-all"
+                                readOnly
+                                value={k}
+                              />
+                            </div>
+                            <div className="w-3/4 flex gap-2">
+                              <textarea
+                                className="w-full text-sm border p-1 rounded code-input focus:ring-1 focus:ring-blue-500 outline-none"
+                                rows={Math.max(1, v.split("\n").length)}
+                                value={v}
+                                onChange={(e) => updateVar(k, e.target.value)}
+                              />
+                              <button
+                                onClick={() => deleteVar(k)}
+                                className="text-red-400 hover:text-red-600 h-8 w-8 flex items-center justify-center"
+                              >
+                                <BtnIcon name="Trash2" size={16} />
+                              </button>
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+
+                    {/* ADD NEW VAR FORM */}
+                    <div className="p-4 border-t bg-gray-50">
+                      <form
+                        onSubmit={addVar}
+                        className="flex gap-2 items-center"
+                      >
+                        <input
+                          name="key"
+                          placeholder="Tên Biến (VD: XMTT_NEW)..."
+                          className="w-1/4 border p-2 rounded text-sm font-mono"
+                          required
+                        />
+                        <textarea
+                          name="val"
+                          placeholder="Nội dung giá trị..."
+                          className="w-2/3 border p-2 rounded text-sm"
+                          rows={1}
+                          required
+                        />
+                        <button
+                          type="submit"
+                          className="flex-1 bg-green-600 text-white p-2 rounded hover:bg-green-700 flex justify-center items-center gap-1 text-sm font-bold"
+                        >
+                          <BtnIcon name="Plus" /> Thêm
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        return (
+          <div className="min-h-screen bg-gray-50 p-6 font-sans">
+            <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg border overflow-hidden">
+              <div className="bg-slate-800 text-white p-4 flex items-center justify-between">
+                <h1 className="text-xl font-bold flex items-center gap-2">
+                  ⚡ Flowchart Editor (Group Support)
+                </h1>
+                <div className="flex gap-3">
+                  <label className="flex items-center gap-2 px-3 py-1.5 bg-slate-600 hover:bg-slate-500 rounded cursor-pointer transition text-sm">
+                    <BtnIcon name="Upload" size={16} /> Tải file
+                    <input
+                      type="file"
+                      accept=".js"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                  </label>
+                  <button
+                    onClick={() => setShowConstModal(true)}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-yellow-600 hover:bg-yellow-500 rounded transition text-sm"
+                  >
+                    <BtnIcon name="FileText" size={16} /> Quản lý Biến
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-green-600 hover:bg-green-500 rounded transition text-sm"
+                  >
+                    <BtnIcon name="Download" size={16} /> Lưu file
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-6">
+                {Object.keys(data).length === 0 ? (
+                  <div className="text-center py-20 text-gray-400 border-2 border-dashed rounded-lg">
+                    Chưa có dữ liệu.
+                    <br />
+                    <button
+                      onClick={() => addNode([], false)}
+                      className="mt-4 px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 font-medium"
+                    >
+                      Tạo nhóm gốc mới
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    {Object.keys(data).map((key) =>
+                      renderTree(data[key], [key])
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* MODALS */}
+            {editingNode && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+                  <div className="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-lg">
+                    <h3 className="font-bold text-lg">
+                      Chỉnh sửa: {editingNode.path.join(" > ")}
+                    </h3>
+                    <button
+                      onClick={() => setEditingNode(null)}
+                      className="text-gray-500 hover:text-black"
+                    >
+                      <BtnIcon name="X" />
+                    </button>
+                  </div>
+                  <div className="p-6 overflow-y-auto space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-1">
+                          Display Name
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full border rounded p-2"
+                          value={editingNode.node.displayName || ""}
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                displayName: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-1">
+                          PDF File
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full border rounded p-2"
+                          value={editingNode.node.pdf || ""}
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                pdf: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                    {["note", "xmttib", "xmttecom", "alert"].map((field) => (
+                      <div key={field}>
+                        <label className="block text-sm font-medium mb-1 uppercase text-gray-500">
+                          {field} (Hỗ trợ HTML)
+                        </label>
+                        <textarea
+                          className="w-full border rounded p-2 code-input bg-slate-50 focus:bg-white transition-colors"
+                          rows={field === "alert" ? 2 : 4}
+                          value={
+                            Array.isArray(editingNode.node[field])
+                              ? editingNode.node[field].join("\n")
+                              : editingNode.node[field] || ""
+                          }
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                [field]: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="p-4 border-t bg-gray-50 rounded-b-lg flex justify-between">
+                    <button
+                      onClick={() => {
+                        if (confirm("Xóa điều kiện này?")) {
+                          updateNode(editingNode.path, undefined);
+                          setEditingNode(null);
+                        }
+                      }}
+                      className="px-4 py-2 text-red-600 hover:bg-red-50 rounded flex items-center gap-2"
+                    >
+                      <BtnIcon name="Trash2" /> Xóa
+                    </button>
+                    <button
+                      onClick={() => {
+                        updateNode(editingNode.path, editingNode.node);
+                        setEditingNode(null);
+                      }}
+                      className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2"
+                    >
+                      <BtnIcon name="Save" /> Lưu
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            {showConstModal && <ConstantsManager />}
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<FlowchartEditor />);
+    </script>
+  </body>
+</html>

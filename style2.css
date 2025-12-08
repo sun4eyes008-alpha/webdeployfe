@@ -10,14 +10,14 @@
   --secondary-color: #009f52;
   --bg-color: #fffff7;
   --sidebar-width: 20vw;
-  --header-height: 70px; /* Changed to fixed height */
+  --header-height: 45px; /* Changed to fixed height */
   --collapsed-sidebar-width: 0px;
   --transition-speed: 0.3s;
 }
 
 html,
 body {
-  height: 110%;
+  height: 120%;
   width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
@@ -73,7 +73,7 @@ body.sidebar-collapsed {
 }
 
 .logo {
-  height: 23px; /* Adjusted logo size */
+  height: 18px; /* Adjusted logo size */
   cursor: pointer;
   transition: transform 0.2s ease;
 }
@@ -106,7 +106,7 @@ body.sidebar-collapsed {
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
-  font-size: 18px; /* Đặt lại cỡ chữ header về 20px */
+  font-size: 14px; /* Đặt lại cỡ chữ header về 20px */
   transition: background-color var(--transition-speed);
 }
 
@@ -182,11 +182,18 @@ body.sidebar-collapsed {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin: 10px; /* Add some margin */
+  margin: 3px; /* Add some margin */
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   border: 3px solid transparent;
-  background: linear-gradient(white, white) padding-box, linear-gradient(90deg,rgba(178, 255, 168, 1) 0%, rgba(95, 250, 160, 1) 41%, rgba(72, 247, 244, 1) 100%) border-box;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(
+        90deg,
+        rgba(178, 255, 168, 1) 0%,
+        rgba(95, 250, 160, 1) 41%,
+        rgba(72, 247, 244, 1) 100%
+      )
+      border-box;
 }
 
 #xmtt-box {
@@ -252,7 +259,7 @@ body.sidebar-collapsed {
 
 #pdf-viewer {
   width: 100%;
-  height: 100%;
+  height: 120%;
   border: none;
 }
 
@@ -266,12 +273,12 @@ body.sidebar-collapsed {
 
 #header-search {
   width: 100%;
-  padding: 10px 15px;
+  padding: 8px 12px;
   border: 1px solid #dfe1e5; /* Subtle border */
-  border-radius: 24px; /* Rounded corners */
+  border-radius: 20px; /* Rounded corners */
   box-shadow: none; /* No initial shadow */
   background-color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   color: #202124;
   outline: none; /* Remove default focus outline */
   transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
@@ -462,7 +469,14 @@ body.sidebar-collapsed {
   /* New styles copied from sub-header-box */
   border-radius: 10px;
   border: 3px solid transparent;
-  background: linear-gradient(white, white) padding-box, linear-gradient(90deg,rgba(178, 255, 168, 1) 0%, rgba(95, 250, 160, 1) 41%, rgba(72, 247, 244, 1) 100%) border-box;
+  background: linear-gradient(white, white) padding-box,
+    linear-gradient(
+        90deg,
+        rgba(178, 255, 168, 1) 0%,
+        rgba(95, 250, 160, 1) 41%,
+        rgba(72, 247, 244, 1) 100%
+      )
+      border-box;
 }
 
 .popup-container:not(.hidden) {
@@ -520,7 +534,7 @@ body.sidebar-collapsed {
 .dropdown-menu {
   display: none;
   position: absolute;
-  min-width: 180px; /* Widen the menu slightly for icons */
+  min-width: 150px; /* Widen the menu slightly for icons */
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 101;
   border-radius: 20px;
@@ -532,9 +546,9 @@ body.sidebar-collapsed {
 
 .dropdown-item {
   color: #4d4d4d; /* User's request */
-  padding: 8px 16px; /* Adjust padding to account for larger icons */
+  padding: 6px 10px; /* Adjust padding to account for larger icons */
   text-decoration: none;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   transition: background-color 0.2s, color 0.2s; /* Add color transition */
   /* Flex properties for icon alignment */
@@ -545,9 +559,9 @@ body.sidebar-collapsed {
 
 .dropdown-item svg {
   /* Make the SVG the circular container */
-  width: 32px; /* Circle size */
-  height: 32px; /* Circle size */
-  padding: 7px; /* Adjust padding to center the 18px icon path */
+  width: 28px; /* Circle size */
+  height: 28px; /* Circle size */
+  padding: 5px; /* Adjust padding to center the 18px icon path */
   border-radius: 50%;
   /* Default State Colors */
   background-color: #ecfae2;
@@ -610,7 +624,7 @@ body.landing-page #main-header .sidebar-toggle {
 /* New, cleaner header overrides using the dedicated class */
 #main-header.landing-header {
   background: #fdffef; /* New solid color */
-  color: #4d4d4d;    /* New text color for readability */
+  color: #4d4d4d; /* New text color for readability */
   border-bottom: none; /* Remove bottom border */
 }
 
@@ -630,5 +644,5 @@ body.landing-page #main-header .sidebar-toggle {
 /* The PLTT dropdown button active state on landing page */
 .landing-header .dropdown-toggle,
 .landing-header .tab-btn.active {
-    background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.05);
 }
