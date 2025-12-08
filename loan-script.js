@@ -251,12 +251,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- UI AND EVENT LISTENERS SETUP ---
   const popup = document.getElementById("custom-popup");
-  const popupTitle = document.getElementById("popup-title");
   const popupContent = document.getElementById("popup-content");
   const popupCloseBtn = document.getElementById("popup-close-btn");
-  const popupIconPlaceholder = document.getElementById(
-    "popup-icon-placeholder"
-  );
   const sidebar = document.getElementById("sidebar"); // Get sidebar reference
 
   function repositionPopup() {
@@ -282,26 +278,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const sourceBox = document.getElementById(targetBoxId);
     const sourceContent = sourceBox.querySelector(".box-content");
 
-    // Define titles based on the box ID
-    const titles = {
-      "xmtt-box": "XMTT",
-      "notes-box": "LƯU Ý",
-    };
-    const newTitle = titles[targetBoxId] || "Chi tiết"; // Fallback title
-
     if (!sourceBox || !sourceContent) {
       console.error("Popup source elements not found!");
       return;
     }
 
     // 1. Populate content first
-    popupTitle.textContent = newTitle;
     popupContent.innerHTML = "";
     const clonedContent = sourceContent.cloneNode(true);
     popupContent.appendChild(clonedContent);
-
-    popupIconPlaceholder.innerHTML = "";
-    // Icon logic removed as .box-header is gone
 
     // 2. Position and show
     popup.classList.remove("hidden");
@@ -312,8 +297,6 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.classList.add("hidden");
     setTimeout(() => {
       popupContent.innerHTML = "";
-      popupTitle.textContent = "";
-      popupIconPlaceholder.innerHTML = "";
     }, 300);
   }
 
