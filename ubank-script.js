@@ -105,11 +105,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function restoreStateFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const pathParam = urlParams.get("path");
+    let pathParam = null;
+    const hash = window.location.hash;
+
+    // We expect the hash to be in the format: #path=[...]
+    // We will get everything after the '=' sign
+    if (hash && hash.startsWith("#path=")) {
+      pathParam = hash.substring(6); // Get the part after #path=
+    } else {
+      // Fallback to support old query parameter links if they still exist
+      const urlParams = new URLSearchParams(window.location.search);
+      pathParam = urlParams.get("path");
+    }
+
     if (pathParam) {
       try {
-        const path = JSON.parse(pathParam);
+        // The hash part is URL-encoded, so we need to decode it
+        const decodedParam = decodeURIComponent(pathParam);
+        const path = JSON.parse(decodedParam);
         if (Array.isArray(path)) {
           applySearchResult(path, false); // Apply without saving state again
         }
@@ -278,25 +291,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function openPopup(targetBoxId) {
     const sourceBox = document.getElementById(targetBoxId);
-    const sourceTitle = sourceBox.querySelector(".box-title b");
     const sourceContent = sourceBox.querySelector(".box-content");
-    const sourceIcon = sourceBox.querySelector(".box-header svg");
 
-    if (!sourceBox || !sourceTitle || !sourceContent) {
+    // Define titles based on the box ID
+    const titles = {
+      "xmtt-box": "XMTT",
+      "notes-box": "LƯU Ý",
+    };
+    const newTitle = titles[targetBoxId] || "Chi tiết"; // Fallback title
+
+    if (!sourceBox || !sourceContent) {
       console.error("Popup source elements not found!");
       return;
     }
 
     // 1. Populate content first
-    popupTitle.textContent = sourceTitle.textContent;
+    popupTitle.textContent = newTitle;
     popupContent.innerHTML = "";
     const clonedContent = sourceContent.cloneNode(true);
     popupContent.appendChild(clonedContent);
 
     popupIconPlaceholder.innerHTML = "";
-    if (sourceIcon) {
-      popupIconPlaceholder.appendChild(sourceIcon.cloneNode(true));
-    }
+    // Icon logic removed as .box-header is gone
 
     // 2. Position and show
     popup.classList.remove("hidden");
@@ -355,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const changeLogBtn = document.getElementById("change-log-btn");
     if (changeLogBtn) {
       changeLogBtn.addEventListener("click", () => {
-        pdfViewer.src = "./pdfile/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
+        pdfViewer.src = "./pdfile-ubank/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
         document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
         document.getElementById("xmtt-ecom-content").innerHTML = "<p>...</p>";
         notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
@@ -365,7 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const khuyenMaiBtn = document.getElementById("khuyen-mai-btn");
     if (khuyenMaiBtn) {
       khuyenMaiBtn.addEventListener("click", () => {
-        pdfViewer.src = "./pdfile/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
+        pdfViewer.src = "./pdfile-ubank/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
         document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
         document.getElementById("xmtt-ecom-content").innerHTML = "<p>...</p>";
         notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
@@ -391,11 +407,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const xmttIbContent = document.getElementById("xmtt-ib-content");
     const xmttEcomContent = document.getElementById("xmtt-ecom-content");
 
-    xmttIbContent.innerHTML = resultObject["xmtt-ib"]
-      ? `<p>${resultObject["xmtt-ib"]}</p>`
+    xmttIbContent.innerHTML = resultObject.xmttib
+      ? `<p>${resultObject.xmttib}</p>`
       : "<p>...</p>";
-    xmttEcomContent.innerHTML = resultObject["xmtt-ecom"]
-      ? `<p>${resultObject["xmtt-ecom"]}</p>`
+    xmttEcomContent.innerHTML = resultObject.xmttecom
+      ? `<p>${resultObject.xmttecom}</p>`
       : "<p>...</p>";
 
     // Handle old 'xmtt' property for backward compatibility
@@ -417,8 +433,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ? FOLDER_MAP[categoryIndexMatch[1]]
         : null;
       pdfViewer.src = folderName
-        ? `./pdfile/${folderName}/${resultObject.pdf}`
-        : `./pdfile/${resultObject.pdf}`;
+        ? `./pdfile-ubank/${folderName}/${resultObject.pdf}`
+        : `./pdfile-ubank/${resultObject.pdf}`;
     } else {
       pdfViewer.src = "";
     }

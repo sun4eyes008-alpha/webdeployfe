@@ -218,7 +218,7 @@ const flowchartData = {
       },
     },
     "Thỏa Thuận KV": {
-      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
+      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_8 },
       "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
       "Kim An": {
         pdf: "HĐ Kim An.pdf",
@@ -247,7 +247,7 @@ const flowchartData = {
       },
     },
     "Tình Trạng HĐ": {
-      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
+      "HĐ FEC": { pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_8 },
       "Cash 24": { pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
       "Kim An": {
         pdf: "HĐ Kim An.pdf",
@@ -362,10 +362,10 @@ const flowchartData = {
   },
   "7. Test": {
     "7.1. Mục con Test": {
-        "pdf": "Test.pdf",
-        "note": "Đây là ghi chú cho mục test.",
-        "xmtt-ib": "Nội dung cho IB ở mục Test.",
-        "xmtt-ecom": "Nội dung cho ECOM ở mục Test."
+        pdf: "Test.pdf",
+        note: "Đây là ghi chú cho mục test.",
+        xmttib: "Nội dung cho IB ở mục Test.",
+        xmttecom: "Nội dung cho ECOM ở mục Test."
     }
   },
 };
