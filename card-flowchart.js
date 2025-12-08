@@ -27,7 +27,7 @@ const flowchartData = {
   "1. THÔNG TIN CHUNG": {
     "Thông tin công ty": {
       displayName: "Thông tin công ty",
-      pdf: "Thông tin công ty.pdf",
+      pdf: "toolclaude.html",
       note: "Các thông tin cơ bản về công ty.",
       xmtt: XMTT_1,
     },
@@ -147,8 +147,18 @@ const flowchartData = {
   },
   "6. THANH TOÁN + CIC": {
     "Lịch Trả Nợ": {
-      "HĐ FEC": { displayName: "Lịch Trả Nợ HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
-      "Cash 24": { displayName: "Lịch Trả Nợ Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "HĐ FEC": {
+        displayName: "Lịch Trả Nợ HĐ FEC",
+        pdf: "IB Dung SDT.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Cash 24": {
+        displayName: "Lịch Trả Nợ Cash 24",
+        pdf: "HD Cash 24.pdf",
+        note: "N/A",
+        xmtt: XMTT_1,
+      },
       "Kim An": {
         displayName: "Lịch Trả Nợ Kim An",
         pdf: "HĐ Kim An.pdf",
@@ -181,8 +191,18 @@ const flowchartData = {
       },
     },
     "Lịch Sử TT": {
-      "HĐ FEC": { displayName: "Lịch Sử TT HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
-      "Cash 24": { displayName: "Lịch Sử TT Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "HĐ FEC": {
+        displayName: "Lịch Sử TT HĐ FEC",
+        pdf: "IB Dung SDT.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Cash 24": {
+        displayName: "Lịch Sử TT Cash 24",
+        pdf: "HD Cash 24.pdf",
+        note: "N/A",
+        xmtt: XMTT_1,
+      },
       "Kim An": {
         displayName: "Lịch Sử TT Kim An",
         pdf: "HĐ Kim An.pdf",
@@ -215,8 +235,18 @@ const flowchartData = {
       },
     },
     "Thanh Lý HĐ": {
-      "HĐ FEC": { displayName: "Thanh Lý HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
-      "Cash 24": { displayName: "Thanh Lý HĐ Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "HĐ FEC": {
+        displayName: "Thanh Lý HĐ FEC",
+        pdf: "IB Dung SDT.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Cash 24": {
+        displayName: "Thanh Lý HĐ Cash 24",
+        pdf: "HD Cash 24.pdf",
+        note: "N/A",
+        xmtt: XMTT_1,
+      },
       "Kim An": {
         displayName: "Thanh Lý HĐ Kim An",
         pdf: "HĐ Kim An.pdf",
@@ -249,8 +279,18 @@ const flowchartData = {
       },
     },
     "Thỏa Thuận KV": {
-      "HĐ FEC": { displayName: "Thỏa Thuận KV HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_8 },
-      "Cash 24": { displayName: "Thỏa Thuận KV Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "HĐ FEC": {
+        displayName: "Thỏa Thuận KV HĐ FEC",
+        pdf: "IB Dung SDT.pdf",
+        note: "N/A",
+        xmtt: XMTT_8,
+      },
+      "Cash 24": {
+        displayName: "Thỏa Thuận KV Cash 24",
+        pdf: "HD Cash 24.pdf",
+        note: "N/A",
+        xmtt: XMTT_1,
+      },
       "Kim An": {
         displayName: "Thỏa Thuận KV Kim An",
         pdf: "HĐ Kim An.pdf",
@@ -283,8 +323,18 @@ const flowchartData = {
       },
     },
     "Tình Trạng HĐ": {
-      "HĐ FEC": { displayName: "Tình Trạng HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_8 },
-      "Cash 24": { displayName: "Tình Trạng HĐ Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "HĐ FEC": {
+        displayName: "Tình Trạng HĐ FEC",
+        pdf: "IB Dung SDT.pdf",
+        note: "N/A",
+        xmtt: XMTT_8,
+      },
+      "Cash 24": {
+        displayName: "Tình Trạng HĐ Cash 24",
+        pdf: "HD Cash 24.pdf",
+        note: "N/A",
+        xmtt: XMTT_1,
+      },
       "Kim An": {
         displayName: "Tình Trạng HĐ Kim An",
         pdf: "HĐ Kim An.pdf",
@@ -317,8 +367,18 @@ const flowchartData = {
       },
     },
     "Đóng HĐ": {
-      "HĐ FEC": { displayName: "Đóng HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
-      "Cash 24": { displayName: "Đóng HĐ Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "HĐ FEC": {
+        displayName: "Đóng HĐ FEC",
+        pdf: "IB Dung SDT.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Cash 24": {
+        displayName: "Đóng HĐ Cash 24",
+        pdf: "HD Cash 24.pdf",
+        note: "N/A",
+        xmtt: XMTT_1,
+      },
       "Kim An": {
         displayName: "Đóng HĐ Kim An",
         pdf: "HĐ Kim An.pdf",
@@ -351,8 +411,18 @@ const flowchartData = {
       },
     },
     CIC: {
-      "HĐ FEC": { displayName: "CIC HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmtt: XMTT_4 },
-      "Cash 24": { displayName: "CIC Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmtt: XMTT_1 },
+      "HĐ FEC": {
+        displayName: "CIC HĐ FEC",
+        pdf: "IB Dung SDT.pdf",
+        note: "N/A",
+        xmtt: XMTT_4,
+      },
+      "Cash 24": {
+        displayName: "CIC Cash 24",
+        pdf: "HD Cash 24.pdf",
+        note: "N/A",
+        xmtt: XMTT_1,
+      },
       "Kim An": {
         displayName: "CIC Kim An",
         pdf: "HĐ Kim An.pdf",
@@ -387,11 +457,11 @@ const flowchartData = {
   },
   "7. Test": {
     "7.1. Mục con Test": {
-        displayName: "Test > Mục con Test",
-        pdf: "Test.pdf",
-        note: "Đây là ghi chú cho mục test.",
-        xmttib: "Nội dung cho IB ở mục Test.",
-        xmttecom: "Nội dung cho ECOM ở mục Test."
-    }
+      displayName: "Test > Mục con Test",
+      pdf: "Test.pdf",
+      note: "Đây là ghi chú cho mục test.",
+      xmttib: "Nội dung cho IB ở mục Test.",
+      xmttecom: "Nội dung cho ECOM ở mục Test.",
+    },
   },
 };

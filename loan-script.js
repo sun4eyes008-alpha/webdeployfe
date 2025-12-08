@@ -98,26 +98,58 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- STATE MANAGEMENT (URL) ---
   function saveStateToURL(path) {
     const jsonPath = JSON.stringify(path);
-    // Construct the URL with hash
-    const newUrl = window.location.pathname + "#" + encodeURIComponent(jsonPath);
+    const encodedPath = encodeURIComponent(jsonPath);
+    // Use query parameter instead of hash for better PDF hyperlink compatibility
+    const newUrl = window.location.pathname + "?path=" + encodedPath;
     history.pushState({ path: path }, "", newUrl);
+    console.log('💾 Saved to URL:', newUrl);
   }
 
   function restoreStateFromURL() {
-    const hash = window.location.hash;
+    // Check query parameter first (new method)
+    const urlParams = new URLSearchParams(window.location.search);
+    const pathParam = urlParams.get('path');
 
-    if (hash && hash.length > 1) { // Check if hash exists and is not just "#"
-      const pathParam = hash.substring(1); // Remove leading "#"
+    console.log('🔍 Checking URL for state...');
+    console.log('Query string:', window.location.search);
+    console.log('Hash:', window.location.hash);
+
+    if (pathParam) {
+      console.log('📋 Found query parameter:', pathParam);
       try {
         const decodedParam = decodeURIComponent(pathParam);
+        console.log('🔓 Decoded:', decodedParam);
+
+        const path = JSON.parse(decodedParam);
+        console.log('✅ Parsed path:', path);
+
+        if (Array.isArray(path)) {
+          console.log('🎯 Applying search result with path:', path);
+          applySearchResult(path, false);
+          return;
+        }
+      } catch (e) {
+        console.log("❌ Query parameter is not a valid path:", e);
+      }
+    }
+
+    // Fallback to hash for backward compatibility
+    const hash = window.location.hash;
+    if (hash && hash.length > 1) {
+      console.log('📋 Trying hash fallback:', hash);
+      const hashParam = hash.substring(1);
+      try {
+        const decodedParam = decodeURIComponent(hashParam);
         const path = JSON.parse(decodedParam);
         if (Array.isArray(path)) {
+          console.log('🎯 Applying from hash:', path);
           applySearchResult(path, false);
         }
       } catch (e) {
-        // Could be a normal anchor link, not a JSON path. Ignore the error.
-        console.log("Hash is not a valid path, ignoring.", e);
+        console.log("❌ Hash is not a valid path:", e);
       }
+    } else {
+      console.log('ℹ️ No state found in URL');
     }
   }
 
@@ -331,6 +363,12 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         searchResultsContainer.classList.remove("show");
       }
+    });
+
+    // Listen for popstate events (browser back/forward with query parameters)
+    window.addEventListener("popstate", () => {
+      console.log('🔄 Popstate event, restoring state...');
+      restoreStateFromURL();
     });
 
     const changeLogBtn = document.getElementById("change-log-btn");

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flowchart Editor (V7.2 - Rename All Nodes)</title>
+
+    <script>
+      window.onerror = function (message, source, lineno, colno, error) {
+        alert("Lỗi hệ thống: " + message + "\nTại dòng: " + lineno);
+      };
+    </script>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      .html-content {
+        white-space: pre-wrap;
+        font-family: monospace;
+        background: #f8fafc;
+        padding: 4px;
+        border-radius: 4px;
+        border: 1px solid #e2e8f0;
+      }
+      .code-input {
+        font-family: monospace;
+        font-size: 13px;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      .group-item.active {
+        background-color: #eff6ff;
+        border-left: 4px solid #2563eb;
+        color: #1e40af;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, useMemo } = React;
+
+      // --- ICONS ---
+      const Icon = ({ path, size = 18, color = "currentColor" }) => (
+        <svg
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke={color}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {path}
+        </svg>
+      );
+      const Icons = {
+        ChevronRight: <polyline points="9 18 15 12 9 6" />,
+        ChevronDown: <polyline points="6 9 12 15 18 9" />,
+        Plus: (
+          <>
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </>
+        ),
+        Trash2: (
+          <>
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </>
+        ),
+        Edit2: (
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+        ),
+        Save: (
+          <>
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+            <polyline points="17 21 17 13 7 13 7 21" />
+            <polyline points="7 3 7 8 15 8" />
+          </>
+        ),
+        Download: (
+          <>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </>
+        ),
+        Upload: (
+          <>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </>
+        ),
+        X: (
+          <>
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </>
+        ),
+        FileText: (
+          <>
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+            <polyline points="14 2 14 8 20 8" />
+          </>
+        ),
+        Folder: (
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+        ),
+        ArrowUp: (
+          <>
+            <line x1="12" y1="19" x2="12" y2="5" />
+            <polyline points="5 12 12 5 19 12" />
+          </>
+        ),
+        ArrowDown: (
+          <>
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <polyline points="19 12 12 19 5 12" />
+          </>
+        ),
+      };
+      const BtnIcon = ({ name, size }) => (
+        <Icon path={Icons[name]} size={size} />
+      );
+
+      // --- UTILS ---
+      const replaceAllSafe = (str, find, replace) => {
+        if (!str) return "";
+        const regex = new RegExp(`\\b${find}\\b`, "g");
+        return str.replace(regex, replace);
+      };
+
+      const safeEvalFlowchartData = (dataStr, allConstants) => {
+        let processedStr = dataStr;
+        Object.entries(allConstants).forEach(([key, value]) => {
+          const safeValue = value
+            .replace(/\\/g, "\\\\")
+            .replace(/"/g, '\\"')
+            .replace(/\n/g, "\\n")
+            .replace(/\r/g, "");
+          processedStr = replaceAllSafe(processedStr, key, `"${safeValue}"`);
+        });
+        try {
+          return new Function(`return (${processedStr})`)();
+        } catch (e) {
+          alert("Lỗi cú pháp file JS: " + e.message);
+          return {};
+        }
+      };
+
+      const HtmlDisplay = ({ content }) => {
+        if (!content) return null;
+        const isHtml = /<[a-z][\s\S]*>/i.test(content);
+        return (
+          <div
+            className={`text-xs mt-1 ${
+              isHtml ? "html-content" : "text-gray-600"
+            }`}
+          >
+            {isHtml ? (
+              <div dangerouslySetInnerHTML={{ __html: content }} />
+            ) : (
+              content
+            )}
+          </div>
+        );
+      };
+
+      // --- MAIN APP ---
+      const FlowchartEditor = () => {
+        const [data, setData] = useState({});
+        const [expandedNodes, setExpandedNodes] = useState(new Set());
+        const [editingNode, setEditingNode] = useState(null);
+        const [groupedConstants, setGroupedConstants] = useState({
+          "Chưa phân loại": {},
+        });
+        const [showConstModal, setShowConstModal] = useState(false);
+
+        // --- FILE PARSING ---
+        const handleFileUpload = (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            try {
+              const content = event.target.result;
+              const groupRegex = /\/\/\s*---\s*GROUP:\s*(.+?)\s*---/g;
+              const groupsFound = [];
+              let gMatch;
+              while ((gMatch = groupRegex.exec(content)) !== null)
+                groupsFound.push({ index: gMatch.index, name: gMatch[1] });
+
+              const constRegex = /const\s+(\w+)\s*=\s*"([\s\S]*?)";/g;
+              const constsFound = [];
+              let cMatch;
+              while ((cMatch = constRegex.exec(content)) !== null)
+                constsFound.push({
+                  index: cMatch.index,
+                  key: cMatch[1],
+                  value: cMatch[2].replace(/<br>/g, "\n"),
+                });
+
+              const newGroupedConstants = { "Chưa phân loại": {} };
+              groupsFound.forEach((g) => {
+                if (!newGroupedConstants[g.name])
+                  newGroupedConstants[g.name] = {};
+              });
+
+              constsFound.forEach((c) => {
+                let targetGroup = "Chưa phân loại";
+                let maxGroupIndex = -1;
+                for (const g of groupsFound) {
+                  if (g.index < c.index && g.index > maxGroupIndex) {
+                    maxGroupIndex = g.index;
+                    targetGroup = g.name;
+                  }
+                }
+                if (!newGroupedConstants[targetGroup])
+                  newGroupedConstants[targetGroup] = {};
+                newGroupedConstants[targetGroup][c.key] = c.value;
+              });
+
+              setGroupedConstants(newGroupedConstants);
+              const flatConstants = {};
+              Object.values(newGroupedConstants).forEach((group) =>
+                Object.assign(flatConstants, group)
+              );
+
+              const dataMatch = content.match(
+                /const flowchartData = (\{[\s\S]+?\});\s*$/
+              );
+              if (dataMatch) {
+                const parsed = safeEvalFlowchartData(
+                  dataMatch[1],
+                  flatConstants
+                );
+                setData(parsed);
+                setExpandedNodes(new Set());
+              }
+            } catch (err) {
+              alert("Lỗi đọc file: " + err.message);
+            }
+          };
+          reader.readAsText(file);
+        };
+
+        const handleDownload = () => {
+          try {
+            let content = "/**\n * GENERATED BY FLOWCHART EDITOR\n */\n\n";
+            content += "// --- KHAI BÁO BIẾN DÙNG CHUNG ---\n";
+            const flatConstants = {};
+            Object.entries(groupedConstants).forEach(([groupName, items]) => {
+              if (Object.keys(items).length > 0) {
+                content += `\n// --- GROUP: ${groupName} ---\n`;
+                Object.entries(items).forEach(([key, value]) => {
+                  const safeVal = value.replace(/\n/g, "<br>");
+                  content += `const ${key} = "${safeVal}";\n`;
+                  flatConstants[key] = value;
+                });
+              }
+            });
+
+            const cleanData = JSON.parse(JSON.stringify(data));
+            const removeType = (obj) => {
+              if (typeof obj === "object" && obj !== null) {
+                delete obj.type;
+                Object.values(obj).forEach(removeType);
+              }
+            };
+            removeType(cleanData);
+
+            let jsonString = JSON.stringify(cleanData, null, 2);
+            const sortedConsts = Object.entries(flatConstants).sort(
+              (a, b) => b[1].length - a[1].length
+            );
+            sortedConsts.forEach(([key, value]) => {
+              const escapeRegExp = (string) =>
+                string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+              const jsonVal = JSON.stringify(value).slice(1, -1);
+              const regex = new RegExp(`"${escapeRegExp(jsonVal)}"`, "g");
+              jsonString = jsonString.replace(regex, key);
+            });
+
+            content += `\nconst flowchartData = ${jsonString};\n`;
+            const blob = new Blob([content], { type: "text/javascript" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "loan-flowchart-v7-final.js";
+            a.click();
+            URL.revokeObjectURL(url);
+          } catch (e) {
+            alert("Lỗi save: " + e.message);
+          }
+        };
+
+        const getNode = (root, path) => {
+          let cur = root;
+          for (const k of path) cur = cur[k];
+          return cur;
+        };
+
+        const updateNode = (path, val) => {
+          const newData = { ...data };
+          let cur = newData;
+          for (let i = 0; i < path.length - 1; i++) cur = cur[path[i]];
+          if (val === undefined) delete cur[path[path.length - 1]];
+          else cur[path[path.length - 1]] = val;
+          setData(newData);
+        };
+
+        const addNode = (path, isLeaf) => {
+          const name = prompt(
+            isLeaf
+              ? "Nhập tên Kết quả (PDF/HTML):"
+              : "Nhập tên Nhánh con (Sub-Group):"
+          );
+          if (!name) return;
+          const parent = path.length ? getNode(data, path) : data;
+          if (parent[name]) {
+            alert("Tên này đã tồn tại!");
+            return;
+          }
+          const newNode = isLeaf
+            ? {
+                displayName: name,
+                pdf: "",
+                note: "",
+                xmttib: "",
+                xmttecom: "",
+                type: "leaf",
+              }
+            : {};
+          const newData = JSON.parse(JSON.stringify(data));
+          let cur = newData;
+          path.forEach((p) => (cur = cur[p]));
+          cur[name] = newNode;
+          setData(newData);
+          setExpandedNodes((prev) => new Set([...prev, path.join(".")]));
+        };
+
+        // --- RENAME NODE FUNCTION ---
+        const renameNode = (path) => {
+          const parentPath = path.slice(0, -1);
+          const oldName = path[path.length - 1];
+
+          const newName = prompt(`Đổi tên "${oldName}" thành:`, oldName);
+          if (!newName || newName === oldName) return;
+
+          const parentNode =
+            parentPath.length === 0 ? data : getNode(data, parentPath);
+          if (parentNode[newName]) {
+            alert("Tên này đã tồn tại!");
+            return;
+          }
+
+          const keys = Object.keys(parentNode);
+          const newParentNode = {};
+          keys.forEach((k) => {
+            if (k === oldName) {
+              newParentNode[newName] = parentNode[oldName];
+            } else {
+              newParentNode[k] = parentNode[k];
+            }
+          });
+
+          if (parentPath.length === 0) {
+            setData(newParentNode);
+          } else {
+            updateNode(parentPath, newParentNode);
+          }
+
+          const oldPathStr = path.join(".");
+          const newPath = [...parentPath, newName];
+          const newPathStr = newPath.join(".");
+          if (expandedNodes.has(oldPathStr)) {
+            const next = new Set(expandedNodes);
+            next.delete(oldPathStr);
+            next.add(newPathStr);
+            setExpandedNodes(next);
+          }
+        };
+
+        const moveNode = (path, direction) => {
+          const parentPath = path.slice(0, -1);
+          const nodeKey = path[path.length - 1];
+          const parentNode =
+            parentPath.length === 0 ? data : getNode(data, parentPath);
+          const keys = Object.keys(parentNode);
+          const index = keys.indexOf(nodeKey);
+
+          if (index === -1) return;
+          if (direction === "up" && index === 0) return;
+          if (direction === "down" && index === keys.length - 1) return;
+
+          const newKeys = [...keys];
+          const swapIndex = direction === "up" ? index - 1 : index + 1;
+          [newKeys[index], newKeys[swapIndex]] = [
+            newKeys[swapIndex],
+            newKeys[index],
+          ];
+
+          const newParentNode = {};
+          newKeys.forEach((k) => {
+            newParentNode[k] = parentNode[k];
+          });
+
+          if (parentPath.length === 0) {
+            setData(newParentNode);
+          } else {
+            updateNode(parentPath, newParentNode);
+          }
+        };
+
+        const isLeafNode = (node) => {
+          if (!node || typeof node !== "object") return false;
+          if (node.type === "leaf") return true;
+          if (
+            "pdf" in node ||
+            "xmtt" in node ||
+            "xmttib" in node ||
+            "note" in node ||
+            "displayName" in node
+          )
+            return true;
+          return false;
+        };
+
+        const renderTree = (node, path = []) => {
+          const isLeaf = isLeafNode(node);
+          const pathStr = path.join(".");
+          const isExpanded = expandedNodes.has(pathStr);
+          const currentKey = path[path.length - 1];
+
+          if (isLeaf) {
+            return (
+              <div
+                key={pathStr}
+                className="ml-6 mt-2 mb-2 p-3 bg-white border border-green-200 rounded shadow-sm hover:shadow-md transition-shadow group relative"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="font-bold text-green-700 flex items-center gap-2">
+                      <span className="bg-green-100 text-xs px-2 py-0.5 rounded">
+                        PDF/HTML
+                      </span>
+                      {currentKey}
+                    </div>
+                    <div className="text-sm mt-1 text-gray-700">
+                      {node.displayName && <div>🏷️ {node.displayName}</div>}
+                      {node.pdf && <div>📄 {node.pdf}</div>}
+                    </div>
+                    <HtmlDisplay content={node.note} />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        moveNode(path, "up");
+                      }}
+                      className="p-1 text-gray-400 hover:text-blue-600 hover:bg-gray-100 rounded"
+                      title="Lên"
+                    >
+                      <BtnIcon name="ArrowUp" size={14} />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        moveNode(path, "down");
+                      }}
+                      className="p-1 text-gray-400 hover:text-blue-600 hover:bg-gray-100 rounded"
+                      title="Xuống"
+                    >
+                      <BtnIcon name="ArrowDown" size={14} />
+                    </button>
+                    {/* --- NÚT ĐỔI TÊN CHO PDF/HTML (LEAF) --- */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        renameNode(path);
+                      }}
+                      className="p-1 text-purple-600 hover:bg-purple-100 rounded"
+                      title="Đổi tên"
+                    >
+                      <BtnIcon name="Edit2" size={14} />
+                    </button>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingNode({ path, node });
+                      }}
+                      className="p-1 text-blue-500 hover:bg-blue-50 rounded"
+                      title="Sửa nội dung"
+                    >
+                      <BtnIcon name="FileText" size={14} />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (confirm("Xóa?")) updateNode(path, undefined);
+                      }}
+                      className="p-1 text-red-500 hover:bg-red-50 rounded"
+                    >
+                      <BtnIcon name="Trash2" size={14} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          const keys = Object.keys(node || {});
+          return (
+            <div
+              key={pathStr}
+              className={`mt-2 ${
+                path.length ? "ml-6 border-l-2 border-gray-100 pl-2" : ""
+              }`}
+            >
+              <div className="flex items-center gap-2 py-1 group bg-gray-50/50 rounded pr-2 hover:bg-gray-100 transition-colors">
+                <button
+                  onClick={() => {
+                    const next = new Set(expandedNodes);
+                    if (next.has(pathStr)) next.delete(pathStr);
+                    else next.add(pathStr);
+                    setExpandedNodes(next);
+                  }}
+                  className="p-1 hover:bg-gray-200 rounded text-gray-500"
+                >
+                  {isExpanded ? (
+                    <BtnIcon name="ChevronDown" />
+                  ) : (
+                    <BtnIcon name="ChevronRight" />
+                  )}
+                </button>
+                <span className="font-semibold text-gray-800 cursor-default select-none flex-1 truncate">
+                  {currentKey || "Root"}{" "}
+                  <span className="text-xs text-gray-400 font-normal ml-2">
+                    ({keys.length})
+                  </span>
+                </span>
+
+                <div className="flex items-center gap-1">
+                  {path.length > 0 && (
+                    <>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          moveNode(path, "up");
+                        }}
+                        className="p-1 text-gray-400 hover:text-blue-600 hover:bg-gray-200 rounded"
+                        title="Lên"
+                      >
+                        <BtnIcon name="ArrowUp" size={14} />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          moveNode(path, "down");
+                        }}
+                        className="p-1 text-gray-400 hover:text-blue-600 hover:bg-gray-200 rounded mr-2"
+                        title="Xuống"
+                      >
+                        <BtnIcon name="ArrowDown" size={14} />
+                      </button>
+                      {/* --- NÚT ĐỔI TÊN CHO NHÁNH CON (GROUP) --- */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          renameNode(path);
+                        }}
+                        className="p-1 text-purple-600 hover:bg-purple-100 rounded mr-2"
+                        title="Đổi tên Nhóm"
+                      >
+                        <BtnIcon name="Edit2" size={14} />
+                      </button>
+                    </>
+                  )}
+                  <button
+                    onClick={() => addNode(path, true)}
+                    className="p-1 text-green-600 hover:bg-green-100 rounded flex items-center gap-1 text-xs font-medium"
+                    title="Thêm PDF/HTML"
+                  >
+                    <BtnIcon name="Plus" size={14} /> Thêm PDF/HTML
+                  </button>
+                  <button
+                    onClick={() => addNode(path, false)}
+                    className="p-1 text-blue-600 hover:bg-blue-100 rounded flex items-center gap-1 text-xs font-medium"
+                    title="Thêm nhánh con"
+                  >
+                    <BtnIcon name="Plus" size={14} /> Thêm nhánh con
+                  </button>
+
+                  {path.length > 0 && (
+                    <button
+                      onClick={() => {
+                        if (confirm("Xóa nhóm này?"))
+                          updateNode(path, undefined);
+                      }}
+                      className="p-1 text-red-600 hover:bg-red-100 rounded ml-1"
+                      title="Xóa Nhóm"
+                    >
+                      <BtnIcon name="Trash2" size={14} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              {isExpanded && (
+                <div className="animate-fade-in">
+                  {keys.map((k) => renderTree(node[k], [...path, k]))}
+                  {keys.length === 0 && (
+                    <div className="ml-8 text-gray-400 italic text-sm py-2">
+                      Nhánh trống.
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        };
+
+        const ConstantsManager = () => {
+          const [activeGroup, setActiveGroup] = useState(
+            Object.keys(groupedConstants)[0] || "Chưa phân loại"
+          );
+          const [tempGroups, setTempGroups] = useState(groupedConstants);
+          const updateMainState = (newGroups) => {
+            setTempGroups(newGroups);
+            setGroupedConstants(newGroups);
+          };
+          const addGroup = () => {
+            const name = prompt("Tên nhóm mới:");
+            if (!name) return;
+            if (tempGroups[name]) {
+              alert("Nhóm đã tồn tại");
+              return;
+            }
+            updateMainState({ ...tempGroups, [name]: {} });
+            setActiveGroup(name);
+          };
+          const renameGroup = (targetGroup) => {
+            const groupToRename = targetGroup || activeGroup;
+            const newName = prompt(
+              `Đổi tên nhóm biến "${groupToRename}" thành:`,
+              groupToRename
+            );
+            if (!newName || newName === groupToRename) return;
+            if (tempGroups[newName]) {
+              alert("Tên nhóm đã tồn tại!");
+              return;
+            }
+            const newGroups = {};
+            Object.keys(tempGroups).forEach((key) => {
+              if (key === groupToRename)
+                newGroups[newName] = tempGroups[groupToRename];
+              else newGroups[key] = tempGroups[key];
+            });
+            updateMainState(newGroups);
+            if (activeGroup === groupToRename) setActiveGroup(newName);
+          };
+          const deleteGroup = () => {
+            if (Object.keys(tempGroups).length <= 1) return;
+            if (!confirm(`Xóa group ${activeGroup}?`)) return;
+            const n = { ...tempGroups };
+            delete n[activeGroup];
+            updateMainState(n);
+            setActiveGroup(Object.keys(n)[0]);
+          };
+          const addVar = (e) => {
+            e.preventDefault();
+            const k = e.target.key.value.trim();
+            const v = e.target.val.value;
+            let exists = false;
+            Object.values(tempGroups).forEach((g) => {
+              if (g[k]) exists = true;
+            });
+            if (k && v && !exists) {
+              const n = { ...tempGroups };
+              n[activeGroup][k] = v;
+              updateMainState(n);
+              e.target.reset();
+            } else if (exists) alert("Tên biến bị trùng!");
+          };
+          const deleteVar = (key) => {
+            if (!confirm("Xóa biến này?")) return;
+            const n = { ...tempGroups };
+            delete n[activeGroup][key];
+            updateMainState(n);
+          };
+          const updateVar = (key, newVal) => {
+            const n = { ...tempGroups };
+            n[activeGroup][key] = newVal;
+            updateMainState(n);
+          };
+
+          return (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-lg shadow-xl w-full max-w-5xl h-[85vh] flex flex-col overflow-hidden">
+                <div className="p-4 border-b flex justify-between bg-gray-100">
+                  <h3 className="font-bold flex items-center gap-2">
+                    <BtnIcon name="FileText" /> Quản lý Biến
+                  </h3>
+                  <button onClick={() => setShowConstModal(false)}>
+                    <BtnIcon name="X" />
+                  </button>
+                </div>
+                <div className="flex flex-1 overflow-hidden">
+                  <div className="w-1/4 border-r bg-gray-50 flex flex-col p-2 gap-2 overflow-y-auto">
+                    <button
+                      onClick={addGroup}
+                      className="w-full border border-dashed p-1 text-sm text-blue-600 hover:bg-blue-50"
+                    >
+                      + Nhóm mới
+                    </button>
+                    {Object.keys(tempGroups).map((g) => (
+                      <div
+                        key={g}
+                        onClick={() => setActiveGroup(g)}
+                        className={`group/item p-2 cursor-pointer rounded text-sm flex justify-between items-center ${
+                          activeGroup === g
+                            ? "bg-blue-100 font-bold text-blue-700"
+                            : "hover:bg-gray-200"
+                        }`}
+                      >
+                        <span className="truncate flex-1">{g}</span>
+                        <div className="flex items-center gap-1">
+                          <span className="text-xs bg-white px-1 rounded border">
+                            {Object.keys(tempGroups[g]).length}
+                          </span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              renameGroup(g);
+                            }}
+                            className="p-1 text-gray-400 hover:text-blue-600 rounded ml-1"
+                            title="Đổi tên"
+                          >
+                            <BtnIcon name="Edit2" size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      onClick={deleteGroup}
+                      className="mt-auto text-red-500 text-xs text-center border p-1 hover:bg-red-50 rounded"
+                    >
+                      Xóa Group này
+                    </button>
+                  </div>
+                  <div className="w-3/4 flex flex-col bg-white p-4">
+                    <div className="flex justify-between items-center mb-4 border-b pb-2">
+                      <h4 className="font-bold text-lg text-blue-800 flex items-center gap-2">
+                        <BtnIcon name="Folder" /> {activeGroup}
+                      </h4>
+                      <button
+                        onClick={() => renameGroup(activeGroup)}
+                        className="text-gray-500 hover:text-blue-600 flex items-center gap-1 text-sm bg-gray-50 px-2 py-1 rounded border"
+                      >
+                        <BtnIcon name="Edit2" size={14} /> Đổi tên nhóm
+                      </button>
+                    </div>
+                    <div className="flex-1 overflow-y-auto space-y-2 mb-4">
+                      {Object.entries(tempGroups[activeGroup] || {}).map(
+                        ([k, v]) => (
+                          <div key={k} className="flex gap-2 border-b pb-2">
+                            <input
+                              className="w-1/4 text-xs font-mono font-bold text-blue-700 bg-gray-50 border p-1 rounded"
+                              readOnly
+                              value={k}
+                            />
+                            <textarea
+                              className="w-3/4 text-sm border p-1 rounded code-input focus:outline-none focus:border-blue-500"
+                              rows={Math.max(1, v.split("\n").length)}
+                              value={v}
+                              onChange={(e) => updateVar(k, e.target.value)}
+                            />
+                            <button
+                              onClick={() => deleteVar(k)}
+                              className="text-red-400 hover:text-red-600"
+                            >
+                              <BtnIcon name="Trash2" />
+                            </button>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    <form
+                      onSubmit={addVar}
+                      className="flex gap-2 pt-3 border-t bg-gray-50 p-2 rounded"
+                    >
+                      <input
+                        name="key"
+                        placeholder="Tên biến (KEY)..."
+                        className="w-1/4 border p-2 text-sm rounded font-mono"
+                        required
+                      />
+                      <textarea
+                        name="val"
+                        placeholder="Giá trị (VALUE)..."
+                        className="w-2/3 border p-2 text-sm rounded"
+                        rows={1}
+                        required
+                      />
+                      <button className="flex-1 bg-green-600 text-white rounded font-bold hover:bg-green-700 transition">
+                        +
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        return (
+          <div className="min-h-screen bg-gray-50 p-6 font-sans">
+            <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg border overflow-hidden">
+              <div className="bg-slate-800 text-white p-4 flex items-center justify-between">
+                <h1 className="text-xl font-bold flex items-center gap-2">
+                  ⚡ Flowchart Editor (V7.2 - Final)
+                </h1>
+                <div className="flex gap-3">
+                  <label className="flex items-center gap-2 px-3 py-1.5 bg-slate-600 hover:bg-slate-500 rounded cursor-pointer transition text-sm">
+                    <BtnIcon name="Upload" size={16} /> Tải file
+                    <input
+                      type="file"
+                      accept=".js"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                  </label>
+                  <button
+                    onClick={() => setShowConstModal(true)}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-yellow-600 hover:bg-yellow-500 rounded transition text-sm"
+                  >
+                    <BtnIcon name="FileText" size={16} /> Biến
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-green-600 hover:bg-green-500 rounded transition text-sm"
+                  >
+                    <BtnIcon name="Download" size={16} /> Lưu file
+                  </button>
+                </div>
+              </div>
+              <div className="p-6">
+                {Object.keys(data).length === 0 ? (
+                  <div className="text-center py-20 text-gray-400 border-2 border-dashed rounded-lg">
+                    Chưa có dữ liệu.
+                    <br />
+                    <button
+                      onClick={() => addNode([], false)}
+                      className="mt-4 px-4 py-2 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 font-medium"
+                    >
+                      Tạo nhóm gốc mới
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    {Object.keys(data).map((key) =>
+                      renderTree(data[key], [key])
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            {editingNode && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+                  <div className="p-4 border-b flex justify-between items-center bg-gray-50 rounded-t-lg">
+                    <h3 className="font-bold text-lg">
+                      Chỉnh sửa: {editingNode.path.join(" > ")}
+                    </h3>
+                    <button
+                      onClick={() => setEditingNode(null)}
+                      className="hover:bg-gray-200 rounded p-1"
+                    >
+                      <BtnIcon name="X" />
+                    </button>
+                  </div>
+                  <div className="p-6 overflow-y-auto space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium">
+                          Tên hiển thị (Display Name)
+                        </label>
+                        <input
+                          className="w-full border rounded p-2"
+                          value={editingNode.node.displayName || ""}
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                displayName: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium">
+                          File PDF
+                        </label>
+                        <input
+                          className="w-full border rounded p-2"
+                          value={editingNode.node.pdf || ""}
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                pdf: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                    {["note", "xmttib", "xmttecom", "alert"].map((f) => (
+                      <div key={f}>
+                        <label className="block text-sm font-medium uppercase text-gray-500">
+                          {f} (Hỗ trợ HTML)
+                        </label>
+                        <textarea
+                          className="w-full border rounded p-2 code-input bg-slate-50 focus:bg-white transition-colors"
+                          rows={3}
+                          value={
+                            Array.isArray(editingNode.node[f])
+                              ? editingNode.node[f].join("\n")
+                              : editingNode.node[f] || ""
+                          }
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                [f]: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="p-4 border-t bg-gray-50 rounded-b-lg flex justify-between">
+                    <button
+                      onClick={() => {
+                        if (confirm("Xóa kết quả này?")) {
+                          updateNode(editingNode.path, undefined);
+                          setEditingNode(null);
+                        }
+                      }}
+                      className="text-red-600 flex gap-2 items-center hover:bg-red-50 px-3 py-2 rounded"
+                    >
+                      <BtnIcon name="Trash2" /> Xóa
+                    </button>
+                    <button
+                      onClick={() => {
+                        updateNode(editingNode.path, editingNode.node);
+                        setEditingNode(null);
+                      }}
+                      className="bg-blue-600 text-white px-6 py-2 rounded flex gap-2 items-center hover:bg-blue-700"
+                    >
+                      <BtnIcon name="Save" /> Lưu
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+            {showConstModal && <ConstantsManager />}
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<FlowchartEditor />);
+    </script>
+  </body>
+</html>

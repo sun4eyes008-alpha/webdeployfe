@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart Editor - Công cụ chỉnh sửa Flowchart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 20px;
+            padding: 30px;
+            min-height: 800px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .file-selector {
+            margin-bottom: 20px;
+        }
+
+        .file-selector label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .file-selector select,
+        .file-selector input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .file-selector select:focus,
+        .file-selector input[type="file"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Variable Manager Styles */
+        .variable-manager {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #e9ecef;
+        }
+
+        .variable-manager h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .variable-group {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #dee2e6;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .variable-group:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        .variable-group-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .variable-group-header:hover {
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+
+        .variable-group-title {
+            flex: 1;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .variable-group-toggle {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .variable-group-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .variable-group-content {
+            padding: 15px;
+            display: block;
+        }
+
+        .variable-group-content.collapsed {
+            display: none;
+        }
+
+        .variable-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .variable-item:hover {
+            background: white;
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        .variable-item-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .variable-name {
+            font-weight: bold;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 2px solid #e9ecef;
+        }
+
+        .variable-value {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            background: white;
+            min-height: 80px;
+            width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .variable-value:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: #fafbff;
+        }
+
+        .variable-value:empty:before {
+            content: attr(data-placeholder);
+            color: #adb5bd;
+            font-style: italic;
+        }
+
+
+
+        /* Tree Editor Styles */
+        .editor-area {
+            flex: 1;
+            overflow-y: auto;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+
+        .tree-node {
+            margin-bottom: 8px;
+        }
+
+        .tree-node-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            border: 2px solid #e9ecef;
+            transition: all 0.2s;
+        }
+
+        .tree-node-header:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        .tree-node-header .node-name {
+            flex: 1;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .tree-node-header .node-name:hover {
+            color: #667eea;
+        }
+
+        .tree-children {
+            margin-left: 20px;
+            padding-left: 15px;
+            border-left: 2px solid #dee2e6;
+        }
+
+        .node-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0 10px 20px;
+            border: 2px solid #667eea;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.1);
+        }
+
+        .node-actions {
+            display: flex;
+            gap: 5px;
+            margin-left: auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select,
+        .form-group .editable-field {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group .editable-field {
+            background: white;
+            min-height: 40px;
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        .form-group .editable-field:empty:before {
+            content: attr(data-placeholder);
+            color: #999;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus,
+        .form-group .editable-field:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.85em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(235, 51, 73, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 6px 12px;
+        }
+
+        .btn-icon:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Code Preview Styles */
+        .code-preview {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            overflow-x: auto;
+            flex: 1;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        .code-preview .keyword {
+            color: #569cd6;
+        }
+
+        .code-preview .string {
+            color: #ce9178;
+        }
+
+        .code-preview .comment {
+            color: #6a9955;
+        }
+
+        .code-preview .number {
+            color: #b5cea8;
+        }
+
+        .actions {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+        }
+
+        .collapsed {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .node-content {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Scrollbar Styles */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5568d3;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Flowchart Editor Pro</h1>
+            <p>Công cụ chỉnh sửa file flowchart.js chuyên nghiệp - Hoàn toàn Offline</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Left Panel: Variables & File Selection -->
+            <div class="section">
+                <h2>📦 Quản Lý Biến & File</h2>
+
+                <div class="file-selector">
+                    <label>Tải file flowchart từ máy tính:</label>
+                    <input type="file" id="fileInput" accept=".js">
+                </div>
+
+                <div class="alert alert-info" id="fileInfo" style="display: none;">
+                    📁 File: <span id="fileName"></span>
+                </div>
+
+                <!-- Variable Manager -->
+                <div class="variable-manager" id="variableManager" style="display: none;">
+                    <h3>🔤 Quản lý biến XMTT</h3>
+                    <div id="variableGroups"></div>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn btn-primary" onclick="addVariableGroup()">➕ Thêm nhóm</button>
+                        <button class="btn btn-success" onclick="addVariableToGroup()">➕ Thêm biến</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Panel: Tree Editor -->
+            <div class="section">
+                <h2>🌳 Cấu Trúc Flowchart</h2>
+
+                <div class="editor-area" id="editorArea">
+                    <p style="text-align: center; color: #999; padding: 50px;">
+                        📂 Vui lòng chọn hoặc tải file flowchart để bắt đầu chỉnh sửa
+                    </p>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="addNewNode()">➕ Thêm mục gốc</button>
+                    <button class="btn btn-info" onclick="expandAll()">📂 Mở tất cả</button>
+                    <button class="btn btn-warning" onclick="collapseAll()">📁 Thu tất cả</button>
+                    <button class="btn btn-success" onclick="downloadFile()">💾 Tải xuống</button>
+                    <button class="btn btn-primary" onclick="copyToClipboard()">📋 Copy code</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Rename Modal -->
+    <div id="renameModal" class="modal">
+        <div class="modal-content">
+            <h3>✏️ Đổi tên</h3>
+            <input type="text" id="renameInput" placeholder="Nhập tên mới...">
+            <div class="modal-actions">
+                <button class="btn btn-primary" onclick="confirmRename()">✅ Xác nhận</button>
+                <button class="btn btn-danger" onclick="closeRenameModal()">❌ Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let flowchartData = {};
+        let variableGroups = { 'Default': {} };
+        let currentFileName = '';
+        let renameTarget = null;
+
+        // Load file from input
+        document.getElementById('fileInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    loadFileContent(event.target.result, file.name);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Helper function to clean HTML fragments
+        function cleanHtmlFragments(html) {
+            if (!html) return '';
+            let cleaned = html.replace(/<!--StartFragment-->/g, '');
+                cleaned = cleaned.replace(/<!--EndFragment-->/g, '');
+            return cleaned.trim();
+        }
+
+        function loadFileContent(content, fileName) {
+            currentFileName = fileName;
+
+            // Extract variables - improved regex to handle multi-line strings
+            const variableRegex = /const\s+(XMTT_\d+)\s*=\s*\n?\s*"([^"]*(?:\\.[^"]*)*)";/gs;
+            variableGroups = { 'Default': {} };
+            let match;
+            while ((match = variableRegex.exec(content)) !== null) {
+                let value = match[2];
+                // Unescape the string properly
+                value = value.replace(/\\n/g, '\n')
+                    .replace(/\\r/g, '\r')
+                    .replace(/\\t/g, '\t')
+                    .replace(/\\"/g, '"')
+                    .replace(/\\\\/g, '\\');
+                variableGroups['Default'][match[1]] = value;
+            }
+
+            // Extract flowchartData
+            const dataMatch = content.match(/const flowchartData = ({[\s\S]+});\s*$/m);
+            if (dataMatch) {
+                try {
+                    let dataStr = dataMatch[1];
+
+                    // First, handle template strings by converting them to regular strings
+                    dataStr = dataStr.replace(/`([^`]*)`/g, function (match, p1) {
+                        // Escape quotes in template string content
+                        return '"' + p1.replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '') + '"';
+                    });
+
+                    // Replace variable references with placeholder objects
+                    const varPlaceholders = {};
+                    for (let groupName in variableGroups) {
+                        for (let varName in variableGroups[groupName]) {
+                            const placeholder = `__VAR_${varName}__`;
+                            varPlaceholders[placeholder] = { group: groupName, name: varName };
+                            const regex = new RegExp('\\b' + varName + '\\b', 'g');
+                            dataStr = dataStr.replace(regex, `"${placeholder}"`);
+                        }
+                    }
+
+                    // Parse the data
+                    flowchartData = eval('(' + dataStr + ')');
+
+                    // Replace placeholders back with actual variable values
+                    function replacePlaceholders(obj) {
+                        for (let key in obj) {
+                            if (typeof obj[key] === 'string') {
+                                for (let placeholder in varPlaceholders) {
+                                    if (obj[key] === placeholder) {
+                                        const varInfo = varPlaceholders[placeholder];
+                                        obj[key] = variableGroups[varInfo.group][varInfo.name];
+                                    }
+                                }
+                            } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                                replacePlaceholders(obj[key]);
+                            }
+                        }
+                    }
+                    replacePlaceholders(flowchartData);
+
+                    renderEditor();
+                    renderVariables();
+                    generateCode();
+
+                    document.getElementById('fileInfo').style.display = 'block';
+                    document.getElementById('fileName').textContent = fileName;
+                } catch (error) {
+                    console.error('Parse error:', error);
+                    alert('Lỗi khi phân tích file: ' + error.message + '\n\nVui lòng kiểm tra lại cú pháp file JavaScript.');
+                }
+            } else {
+                alert('Không tìm thấy flowchartData trong file!');
+            }
+        }
+
+        function renderVariables() {
+            const container = document.getElementById('variableGroups');
+            container.innerHTML = '';
+
+            for (let groupName in variableGroups) {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'variable-group';
+
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'variable-group-header';
+
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'variable-group-title';
+                titleDiv.innerHTML = `
+                    <span class="variable-group-toggle">🔽</span>
+                    <span>${groupName}</span>
+                    <span style="color: #adb5bd; font-size: 0.9em;">(${Object.keys(variableGroups[groupName]).length} biến)</span>
+                `;
+                titleDiv.onclick = function () {
+                    toggleVariableGroup(headerDiv);
+                };
+
+                const actionsDiv = document.createElement('div');
+                actionsDiv.style.display = 'flex';
+                actionsDiv.style.gap = '8px';
+                if (groupName !== 'Default') {
+                    actionsDiv.innerHTML = `
+                        <button class="btn btn-info btn-sm" onclick="renameGroupPrompt('${groupName}')">✏️</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteGroup('${groupName}')">🗑️</button>
+                    `;
+                }
+
+                headerDiv.appendChild(titleDiv);
+                headerDiv.appendChild(actionsDiv);
+                groupDiv.appendChild(headerDiv);
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'variable-group-content';
+
+                const variables = variableGroups[groupName];
+                for (let varName in variables) {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'variable-item';
+
+                    const itemHeader = document.createElement('div');
+                    itemHeader.className = 'variable-item-header';
+
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'variable-name';
+                    nameDiv.textContent = varName;
+
+                    const itemActions = document.createElement('div');
+                    itemActions.style.display = 'flex';
+                    itemActions.style.gap = '5px';
+                    itemActions.style.marginLeft = 'auto';
+                    itemActions.innerHTML = `
+                        <button class="btn btn-info btn-sm" onclick="renameVariable('${groupName}', '${varName}')">✏️</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteVariable('${groupName}', '${varName}')">🗑️</button>
+                    `;
+
+                    itemHeader.appendChild(nameDiv);
+                    itemHeader.appendChild(itemActions);
+
+                    const valueDiv = document.createElement('div');
+                    valueDiv.className = 'variable-value';
+                    valueDiv.contentEditable = true;
+                    valueDiv.setAttribute('data-placeholder', 'Nhập nội dung biến (hỗ trợ HTML)...');
+                    valueDiv.innerHTML = escapeHtml(variables[varName]);
+                    valueDiv.addEventListener('blur', function () {
+                        updateVariable(groupName, varName, this.innerHTML);
+                    });
+                    valueDiv.addEventListener('paste', function (e) {
+                        e.preventDefault();
+                        let text = e.clipboardData.getData('text/html') || e.clipboardData.getData('text/plain');
+                        text = cleanHtmlFragments(text);
+                        document.execCommand('insertHTML', false, text);
+                    });
+
+                    itemDiv.appendChild(itemHeader);
+                    itemDiv.appendChild(valueDiv);
+                    contentDiv.appendChild(itemDiv);
+                }
+
+                groupDiv.appendChild(contentDiv);
+                container.appendChild(groupDiv);
+            }
+
+            document.getElementById('variableManager').style.display = 'block';
+        }
+
+        function toggleVariableGroup(headerElement) {
+            const groupDiv = headerElement.parentElement;
+            const contentDiv = groupDiv.querySelector('.variable-group-content');
+            const toggleIcon = groupDiv.querySelector('.variable-group-toggle');
+
+            contentDiv.classList.toggle('collapsed');
+            toggleIcon.classList.toggle('collapsed');
+            toggleIcon.textContent = contentDiv.classList.contains('collapsed') ? '▶️' : '🔽';
+        }
+
+        function renameGroupPrompt(oldName) {
+            const newName = prompt('Nhập tên nhóm mới:', oldName);
+            if (newName && newName !== oldName && !variableGroups[newName]) {
+                variableGroups[newName] = variableGroups[oldName];
+                delete variableGroups[oldName];
+                renderVariables();
+            } else if (variableGroups[newName]) {
+                alert('Nhóm này đã tồn tại!');
+            }
+        }
+
+        function escapeHtml(html) {
+            return html;
+        }
+
+        function updateVariable(groupName, varName, value) {
+            variableGroups[groupName][varName] = value;
+        }
+
+        function deleteVariable(groupName, varName) {
+            if (confirm(`Bạn có chắc muốn xóa biến ${varName}?`)) {
+                delete variableGroups[groupName][varName];
+                renderVariables();
+            }
+        }
+
+        function renameVariable(groupName, oldName) {
+            renameTarget = { type: 'variable', groupName, oldName };
+            document.getElementById('renameInput').value = oldName;
+            document.getElementById('renameModal').classList.add('active');
+            document.getElementById('renameInput').focus();
+        }
+
+        function addVariableGroup() {
+            const groupName = prompt('Nhập tên nhóm biến mới:');
+            if (groupName && !variableGroups[groupName]) {
+                variableGroups[groupName] = {};
+                renderVariables();
+            } else if (variableGroups[groupName]) {
+                alert('Nhóm này đã tồn tại!');
+            }
+        }
+
+        function addVariableToGroup() {
+            const groupNames = Object.keys(variableGroups);
+            let groupName = groupNames.length === 1 ? groupNames[0] : prompt(`Nhập tên nhóm (${groupNames.join(', ')}):`, groupNames[0]);
+
+            if (groupName && variableGroups[groupName]) {
+                const varNum = Object.keys(variableGroups[groupName]).length + 1;
+                const varName = `XMTT_${varNum}`;
+                variableGroups[groupName][varName] = `${varNum}. Nội dung mới`;
+                renderVariables();
+            }
+        }
+
+        function deleteGroup(groupName) {
+            if (confirm(`Bạn có chắc muốn xóa nhóm ${groupName} và tất cả biến trong đó?`)) {
+                delete variableGroups[groupName];
+                renderVariables();
+            }
+        }
+
+        function renderEditor() {
+            const container = document.getElementById('editorArea');
+            container.innerHTML = '';
+            renderNode(flowchartData, container, []);
+        }
+
+        function renderNode(node, container, path) {
+            for (let key in node) {
+                const value = node[key];
+                const currentPath = [...path, key];
+
+                const nodeDiv = document.createElement('div');
+                nodeDiv.className = 'tree-node';
+
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'tree-node-header';
+
+                const isLeaf = value.hasOwnProperty('pdf') || value.hasOwnProperty('note');
+
+                if (isLeaf) {
+                    headerDiv.innerHTML = `
+                        <button class="btn btn-icon btn-sm" onclick="toggleNode(this)">📄</button>
+                        <span class="node-name" onclick="toggleNode(this.previousElementSibling)">${key}</span>
+                        <div class="node-actions">
+                            <button class="btn btn-success btn-sm" onclick="event.stopPropagation(); addChildToLeafNode(${JSON.stringify(currentPath).replace(/"/g, '&quot;')})" title="Thêm điều kiện con">➕ Con</button>
+                            <button class="btn btn-success btn-sm" onclick="event.stopPropagation(); addSiblingNode(${JSON.stringify(currentPath).replace(/"/g, '&quot;')})" title="Thêm cùng cấp">➕ Cấp</button>
+                            <button class="btn btn-info btn-sm" onclick="renameNode(${JSON.stringify(currentPath).replace(/"/g, '&quot;')})">✏️</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteNode(${JSON.stringify(currentPath).replace(/"/g, '&quot;')})">🗑️</button>
+                        </div>
+                    `;
+
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'node-content collapsed';
+
+                    const fields = [
+                        { label: 'Display Name', key: 'displayName', type: 'editable' },
+                        { label: 'PDF', key: 'pdf', type: 'editable' },
+                        { label: 'Note', key: 'note', type: 'editable' },
+                        { label: 'XMTT', key: 'xmtt', type: 'select' },
+                        { label: 'XMTT IB (tùy chọn)', key: 'xmttib', type: 'editable' },
+                        { label: 'XMTT ECOM (tùy chọn)', key: 'xmttecom', type: 'editable' },
+                        { label: 'Alert (tùy chọn)', key: 'alert', type: 'editable' }
+                    ];
+
+                    fields.forEach(field => {
+                        const formGroup = document.createElement('div');
+                        formGroup.className = 'form-group';
+
+                        const label = document.createElement('label');
+                        label.textContent = field.label;
+                        formGroup.appendChild(label);
+
+                        if (field.type === 'select') {
+                            const select = document.createElement('select');
+                            select.innerHTML = `<option value="">-- Chọn XMTT --</option>${getAllVariablesOptions(value[field.key])}`;
+                            select.addEventListener('change', function () {
+                                updateNodeValue(currentPath, field.key, this.value);
+                            });
+                            formGroup.appendChild(select);
+                        } else {
+                            const editableDiv = document.createElement('div');
+                            editableDiv.className = 'editable-field';
+                            editableDiv.contentEditable = true;
+                            editableDiv.setAttribute('data-placeholder', `Nhập ${field.label.toLowerCase()}...`);
+                            editableDiv.innerHTML = value[field.key] || '';
+                            editableDiv.addEventListener('blur', function () {
+                                updateNodeValue(currentPath, field.key, this.innerHTML);
+                            });
+                            editableDiv.addEventListener('paste', function (e) {
+                                e.preventDefault();
+                                let text = e.clipboardData.getData('text/html') || e.clipboardData.getData('text/plain');
+                                text = cleanHtmlFragments(text);
+                                document.execCommand('insertHTML', false, text);
+                            });
+                            formGroup.appendChild(editableDiv);
+                        }
+
+                        contentDiv.appendChild(formGroup);
+                    });
+
+                    nodeDiv.appendChild(headerDiv);
+                    nodeDiv.appendChild(contentDiv);
+                } else {
+                    headerDiv.innerHTML = `
+                        <button class="btn btn-icon btn-sm" onclick="toggleNode(this)">📁</button>
+                        <span class="node-name" onclick="toggleNode(this.previousElementSibling)">${key}</span>
+                        <div class="node-actions">
+                            <button class="btn btn-success btn-sm" onclick="addChildNode(${JSON.stringify(currentPath).replace(/"/g, '&quot;')})">➕</button>
+                            <button class="btn btn-info btn-sm" onclick="renameNode(${JSON.stringify(currentPath).replace(/"/g, '&quot;')})">✏️</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteNode(${JSON.stringify(currentPath).replace(/"/g, '&quot;')})">🗑️</button>
+                        </div>
+                    `;
+
+                    const childrenDiv = document.createElement('div');
+                    childrenDiv.className = 'tree-children collapsed';
+                    renderNode(value, childrenDiv, currentPath);
+
+                    nodeDiv.appendChild(headerDiv);
+                    nodeDiv.appendChild(childrenDiv);
+                }
+
+                container.appendChild(nodeDiv);
+            }
+        }
+
+        function getAllVariablesOptions(selectedValue) {
+            let options = '';
+            for (let groupName in variableGroups) {
+                const variables = variableGroups[groupName];
+                for (let varName in variables) {
+                    const isSelected = variables[varName] === selectedValue ? 'selected' : '';
+                    options += `<option value="${varName}" ${isSelected}>${groupName} > ${varName}</option>`;
+                }
+            }
+            return options;
+        }
+
+        function toggleNode(button) {
+            const header = button.closest('.tree-node-header');
+            const content = header.nextElementSibling;
+            if (content) {
+                content.classList.toggle('collapsed');
+                const icon = button.textContent.trim();
+                button.textContent = content.classList.contains('collapsed')
+                    ? (icon === '📂' ? '📁' : '📄')
+                    : (icon === '📁' ? '📂' : '📄');
+            }
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.collapsed').forEach(el => el.classList.remove('collapsed'));
+            document.querySelectorAll('.btn-icon').forEach(btn => {
+                if (btn.textContent.trim() === '📁') btn.textContent = '📂';
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.tree-children, .node-content').forEach(el => el.classList.add('collapsed'));
+            document.querySelectorAll('.btn-icon').forEach(btn => {
+                if (btn.textContent.trim() === '📂') btn.textContent = '📁';
+            });
+        }
+
+        function updateNodeValue(path, field, value) {
+            let node = flowchartData;
+            for (let i = 0; i < path.length - 1; i++) {
+                node = node[path[i]];
+            }
+
+            if (field === 'xmtt') {
+                // Find the variable value
+                for (let groupName in variableGroups) {
+                    if (variableGroups[groupName][value]) {
+                        node[path[path.length - 1]][field] = variableGroups[groupName][value];
+                        return;
+                    }
+                }
+            }
+            node[path[path.length - 1]][field] = value;
+        }
+
+        function renameNode(path) {
+            renameTarget = { type: 'node', path };
+            document.getElementById('renameInput').value = path[path.length - 1];
+            document.getElementById('renameModal').classList.add('active');
+            document.getElementById('renameInput').focus();
+        }
+
+        function confirmRename() {
+            const newName = document.getElementById('renameInput').value.trim();
+            if (!newName) {
+                alert('Tên không được để trống!');
+                return;
+            }
+
+            if (renameTarget.type === 'node') {
+                const path = renameTarget.path;
+                const oldName = path[path.length - 1];
+
+                let node = flowchartData;
+                for (let i = 0; i < path.length - 1; i++) {
+                    node = node[path[i]];
+                }
+
+                if (newName !== oldName) {
+                    node[newName] = node[oldName];
+                    delete node[oldName];
+                    renderEditor();
+                }
+            } else if (renameTarget.type === 'variable') {
+                const { groupName, oldName } = renameTarget;
+                if (newName !== oldName && !variableGroups[groupName][newName]) {
+                    variableGroups[groupName][newName] = variableGroups[groupName][oldName];
+                    delete variableGroups[groupName][oldName];
+                    renderVariables();
+                }
+            }
+
+            closeRenameModal();
+        }
+
+        function closeRenameModal() {
+            document.getElementById('renameModal').classList.remove('active');
+            renameTarget = null;
+        }
+
+        function deleteNode(path) {
+            if (confirm('Bạn có chắc muốn xóa mục này?')) {
+                let node = flowchartData;
+                for (let i = 0; i < path.length - 1; i++) {
+                    node = node[path[i]];
+                }
+                delete node[path[path.length - 1]];
+                renderEditor();
+            }
+        }
+
+        function addChildNode(path) {
+            const nodeName = prompt('Nhập tên mục con:');
+            if (nodeName) {
+                let node = flowchartData;
+                for (let i = 0; i < path.length; i++) {
+                    node = node[path[i]];
+                }
+
+                const firstVar = Object.values(variableGroups)[0];
+                const firstVarValue = Object.values(firstVar)[0] || '';
+
+                node[nodeName] = {
+                    displayName: nodeName,
+                    pdf: '',
+                    note: 'N/A',
+                    xmtt: firstVarValue
+                };
+                renderEditor();
+            }
+        }
+
+        function addSiblingNode(path) {
+            const nodeName = prompt('Nhập tên mục mới (cùng cấp):');
+            if (nodeName) {
+                let node = flowchartData;
+                for (let i = 0; i < path.length - 1; i++) {
+                    node = node[path[i]];
+                }
+
+                const firstVar = Object.values(variableGroups)[0];
+                const firstVarValue = Object.values(firstVar)[0] || '';
+
+                node[nodeName] = {
+                    displayName: nodeName,
+                    pdf: '',
+                    note: 'N/A',
+                    xmtt: firstVarValue
+                };
+                renderEditorKeepState();
+            }
+        }
+
+        function addChildToLeafNode(path) {
+            const nodeName = prompt('Nhập tên điều kiện con:');
+            if (nodeName) {
+                let node = flowchartData;
+                for (let i = 0; i < path.length; i++) {
+                    node = node[path[i]];
+                }
+
+                // Convert leaf to branch by storing current data
+                const currentData = { ...node };
+
+                // Clear the node
+                for (let key in node) {
+                    delete node[key];
+                }
+
+                const firstVar = Object.values(variableGroups)[0];
+                const firstVarValue = Object.values(firstVar)[0] || '';
+
+                // Add new child node
+                node[nodeName] = {
+                    displayName: nodeName,
+                    pdf: '',
+                    note: 'N/A',
+                    xmtt: firstVarValue
+                };
+
+                renderEditorKeepState();
+            }
+        }
+
+        function renderEditorKeepState() {
+            // Save expanded state
+            const expandedNodes = new Set();
+            document.querySelectorAll('.tree-node-header').forEach(header => {
+                const content = header.nextElementSibling;
+                if (content && !content.classList.contains('collapsed')) {
+                    const nameSpan = header.querySelector('.node-name');
+                    if (nameSpan) {
+                        expandedNodes.add(nameSpan.textContent);
+                    }
+                }
+            });
+
+            // Re-render
+            renderEditor();
+
+            // Restore expanded state
+            setTimeout(() => {
+                document.querySelectorAll('.tree-node-header').forEach(header => {
+                    const nameSpan = header.querySelector('.node-name');
+                    if (nameSpan && expandedNodes.has(nameSpan.textContent)) {
+                        const content = header.nextElementSibling;
+                        const button = header.querySelector('.btn-icon');
+                        if (content && content.classList.contains('collapsed')) {
+                            content.classList.remove('collapsed');
+                            if (button) {
+                                const icon = button.textContent.trim();
+                                button.textContent = icon === '📁' ? '📂' : '📄';
+                            }
+                        }
+                    }
+                });
+            }, 10);
+        }
+
+        function addNewNode() {
+            const nodeName = prompt('Nhập tên mục gốc mới:');
+            if (nodeName) {
+                const firstVar = Object.values(variableGroups)[0];
+                const firstVarValue = Object.values(firstVar)[0] || '';
+
+                flowchartData[nodeName] = {
+                    displayName: nodeName,
+                    pdf: '',
+                    note: 'N/A',
+                    xmtt: firstVarValue
+                };
+                renderEditor();
+            }
+        }
+
+        function generateCode() {
+            let code = '/**\n * HƯỚNG DẪN CẬP NHẬT DỮ LIỆU FLOWCHART\n *\n';
+            code += ' * 1. CẤU TRÚC:\n';
+            code += ' *    - Dữ liệu được tổ chức dưới dạng một đối tượng (Object) lồng nhau.\n';
+            code += ' *    - "Value" (giá trị) có thể là một đối tượng con (nhánh) hoặc một đối tượng chứa thông tin điều kiện cuối (lá).\n';
+            code += ' *    - Điều kiện cuối (lá) phải chứa các thuộc tính: `pdf`, `note`, `xmtt`.\n';
+            code += ' *\n';
+            code += ' * 2. KHAI BÁO XMTT:\n';
+            code += ' *    - Các nội dung XMTT dùng chung được khai báo bằng biến hằng (const) ở đầu file.\n';
+            code += ' *    - Khi cần sửa nội dung một XMTT, chỉ cần sửa ở dòng khai báo tương ứng.\n';
+            code += ' */\n\n';
+            code += '// --- KHAI BÁO CÁC LOẠI XMTT DÙNG CHUNG ---\n';
+
+            for (let groupName in variableGroups) {
+                if (Object.keys(variableGroups[groupName]).length > 0) {
+                    code += `\n// ${groupName}\n`;
+                    for (let varName in variableGroups[groupName]) {
+                        const value = variableGroups[groupName][varName].replace(/\n/g, '<br>');
+                        code += `const ${varName} = "${value}";\n`;
+                    }
+                }
+            }
+
+            code += '\nconst flowchartData = ';
+            code += stringifyWithVariables(flowchartData, 0);
+            code += ';\n';
+
+            return code;
+        }
+
+        function highlightCode(code) {
+            // Simple syntax highlighting
+            return code
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/(\/\*[\s\S]*?\*\/|\/\/.*)/g, '<span class="comment">$1</span>')
+                .replace(/\b(const|let|var|function|return|if|else|for|while)\b/g, '<span class="keyword">$1</span>')
+                .replace(/"([^"\\]*(\\.[^"\\]*)*)"/g, '<span class="string">"$1"</span>')
+                .replace(/\b(\d+)\b/g, '<span class="number">$1</span>');
+        }
+
+        function stringifyWithVariables(obj, indent) {
+            const spaces = '  '.repeat(indent);
+            const nextSpaces = '  '.repeat(indent + 1);
+
+            let result = '{\n';
+            const keys = Object.keys(obj);
+
+            keys.forEach((key, index) => {
+                const value = obj[key];
+                result += `${nextSpaces}"${key}": `;
+
+                if (typeof value === 'object' && !Array.isArray(value)) {
+                    if (value.hasOwnProperty('pdf') || value.hasOwnProperty('note')) {
+                        // Leaf node
+                        result += '{\n';
+                        const props = ['displayName', 'pdf', 'note', 'xmtt', 'xmttib', 'xmttecom', 'alert'];
+                        props.forEach(prop => {
+                            if (value[prop] !== undefined && value[prop] !== '') {
+                                const nextNextSpaces = '  '.repeat(indent + 2);
+                                result += `${nextNextSpaces}${prop}: `;
+
+                                if (prop === 'xmtt') {
+                                    // Find variable name
+                                    let varName = null;
+                                    for (let groupName in variableGroups) {
+                                        for (let vName in variableGroups[groupName]) {
+                                            if (variableGroups[groupName][vName] === value[prop]) {
+                                                varName = vName;
+                                                break;
+                                            }
+                                        }
+                                        if (varName) break;
+                                    }
+                                    result += varName ? varName : `"${value[prop]}"`;
+                                } else if (typeof value[prop] === 'string') {
+                                    if (value[prop].includes('\n') || value[prop].length > 80) {
+                                        result += '`' + value[prop] + '`';
+                                    } else {
+                                        result += '"' + value[prop].replace(/"/g, '\\"') + '"';
+                                    }
+                                } else {
+                                    result += JSON.stringify(value[prop]);
+                                }
+                                result += ',\n';
+                            }
+                        });
+                        result += `${nextSpaces}}`;
+                    } else {
+                        // Branch node
+                        result += stringifyWithVariables(value, indent + 1);
+                    }
+                } else {
+                    result += JSON.stringify(value);
+                }
+
+                if (index < keys.length - 1) {
+                    result += ',';
+                }
+                result += '\n';
+            });
+
+            result += `${spaces}}`;
+            return result;
+        }
+
+        function downloadFile() {
+            const code = generateCode();
+            const blob = new Blob([code], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = currentFileName || 'flowchart.js';
+            a.click();
+            URL.revokeObjectURL(url);
+            alert('✅ Đã tải xuống file!');
+        }
+
+        function copyToClipboard() {
+            const code = generateCode();
+            navigator.clipboard.writeText(code).then(() => {
+                alert('✅ Đã copy code vào clipboard!');
+            });
+        }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeRenameModal();
+            }
+        });
+
+        // Close modal on click outside
+        document.getElementById('renameModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeRenameModal();
+            }
+        });
+
+        // Enter key to confirm rename
+        document.getElementById('renameInput').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                confirmRename();
+            }
+        });
+    </script>
+</body>
+
+</html>

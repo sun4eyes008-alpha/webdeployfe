@@ -19,6 +19,7 @@ html,
 body {
   height: 120%;
   width: 100%;
+  font-size: 13px; /* Global base font size */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 }
@@ -548,7 +549,7 @@ body.sidebar-collapsed {
   color: #4d4d4d; /* User's request */
   padding: 6px 10px; /* Adjust padding to account for larger icons */
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   transition: background-color 0.2s, color 0.2s; /* Add color transition */
   /* Flex properties for icon alignment */
@@ -591,7 +592,7 @@ body.sidebar-collapsed {
 body.landing-page {
   /* Override grid display from style2.css for this page */
   display: block;
-  padding-top: 70px;
+  padding-top: var(--header-height);
   overflow: hidden;
 }
 
@@ -601,24 +602,25 @@ body.landing-page #main-header .sidebar-toggle {
 
 .video-background-main {
   position: absolute;
-  top: 70px;
+  top: var(--header-height);
   left: 0;
   width: 100vw;
   height: calc(100vh - 70px);
   overflow: hidden;
   z-index: 0;
+  background-color: #fdffef;
 }
 
 .video-background-main video {
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
+  min-width: 90%;
+  min-height: 90%;
+  width: 90%;
+  height: 90%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  object-fit: contain; /* Changed from cover to contain */
+  object-fit: contain;
 }
 
 /* New, cleaner header overrides using the dedicated class */

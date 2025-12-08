@@ -105,19 +105,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function restoreStateFromURL() {
     const hash = window.location.hash;
+    console.log('🔍 Checking URL hash:', hash);
 
-    if (hash && hash.length > 1) { // Check if hash exists and is not just "#"
-      const pathParam = hash.substring(1); // Remove leading "#"
+    if (hash && hash.length > 1) {
+      const pathParam = hash.substring(1);
+      console.log('📋 Raw hash parameter:', pathParam);
+
       try {
-        const decodedParam = decodeURIComponent(pathParam);
+        let decodedParam = decodeURIComponent(pathParam);
+        console.log('🔓 First decode:', decodedParam);
+
+        if (decodedParam.includes('%')) {
+          decodedParam = decodeURIComponent(decodedParam);
+          console.log('🔓 Second decode:', decodedParam);
+        }
+
         const path = JSON.parse(decodedParam);
+        console.log('✅ Parsed path:', path);
+
         if (Array.isArray(path)) {
+          console.log('🎯 Applying search result with path:', path);
           applySearchResult(path, false);
         }
       } catch (e) {
-        // Could be a normal anchor link, not a JSON path. Ignore the error.
-        console.log("Hash is not a valid path, ignoring.", e);
+        console.log("❌ Hash is not a valid path, ignoring.", e);
+        console.log("Raw hash was:", pathParam);
       }
+    } else {
+      console.log('ℹ️ No hash found in URL');
     }
   }
 
@@ -331,6 +346,12 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         searchResultsContainer.classList.remove("show");
       }
+    });
+
+    // Listen for hash changes (e.g., from PDF hyperlinks)
+    window.addEventListener("hashchange", () => {
+      console.log('🔄 Hash changed, restoring state...');
+      restoreStateFromURL();
     });
 
     const changeLogBtn = document.getElementById("change-log-btn");
