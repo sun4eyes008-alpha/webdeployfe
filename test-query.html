@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Query Parameter</title>
+</head>
+
+<body>
+    <h1>Test Query Parameter</h1>
+    <p>Click link bên dưới và xem console:</p>
+    <a href="loan.html?path=%5B%221.%20TH%C3%94NG%20TIN%20CHUNG%22%2C%22Th%C3%B4ng%20tin%20c%C3%B4ng%20ty%22%5D">
+        Test Link với Query Parameter
+    </a>
+
+    <hr>
+    <h2>Current URL Info:</h2>
+    <div id="info"></div>
+
+    <script>
+        const info = document.getElementById('info');
+        info.innerHTML = `
+            <p><strong>Full URL:</strong> ${window.location.href}</p>
+            <p><strong>Pathname:</strong> ${window.location.pathname}</p>
+            <p><strong>Search (query):</strong> ${window.location.search}</p>
+            <p><strong>Hash:</strong> ${window.location.hash}</p>
+        `;
+
+        console.log('🔍 URL Info:');
+        console.log('Full URL:', window.location.href);
+        console.log('Pathname:', window.location.pathname);
+        console.log('Search:', window.location.search);
+        console.log('Hash:', window.location.hash);
+    </script>
+</body>
+
+</html>

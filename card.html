@@ -1,163 +1,141 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PLTT CARD</title>
-    <link rel="stylesheet" href="style2.css" />
-  </head>
-  <body>
-    <!-- Header -->
-    <header id="main-header">
-      <div class="header-container">
-        <button class="sidebar-toggle" id="sidebar-toggle">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PLTT CARD</title>
+  <link rel="stylesheet" href="style2.css" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header id="main-header">
+    <div class="header-container">
+      <button class="sidebar-toggle" id="sidebar-toggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <div class="logo-container">
+        <a href="index.html">
+          <img src="./logo/logo-fecredit.svg" alt="FECredit" class="logo" />
+        </a>
+      </div>
+
+      <!-- NEW SEARCH BAR -->
+      <div class="search-container">
+        <input type="search" id="header-search" placeholder="Tìm kiếm thông tin..." />
+        <div id="search-results-container" class="search-results"></div>
+      </div>
+
+      <div class="header-tabs">
+        <div class="dropdown">
+          <button class="tab-btn dropdown-toggle">PLTT</button>
+          <div class="dropdown-menu">
+            <a href="loan.html#%5B%221.%20TH%C3%94NG%20TIN%20CHUNG%22%2C%22Th%C3%B4ng%20tin%20c%C3%B4ng%20ty%22%5D"
+              class="dropdown-item" id="loan-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z" />
+                <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z" />
+                <path
+                  d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z" />
+              </svg>
+              LOAN
+            </a>
+            <a href="card.html" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
+                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
+              </svg>
+              CARD
+            </a>
+            <a href="outbound.html" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z" />
+              </svg>
+              OUTBOUND
+            </a>
+            <a href="ubank.html" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z" />
+              </svg>
+
+              UBANK
+            </a>
+          </div>
+        </div>
+        <button class="tab-btn" data-tab="xmtt">XMTT</button>
+        <button class="tab-btn" data-tab="quy-dinh">QUY ĐỊNH CHUNG</button>
+        <button class="tab-btn" data-tab="khuyen-mai" id="khuyen-mai-btn">
+          KHUYẾN MÃI
         </button>
-        <div class="logo-container">
-          <a href="index.html">
-            <img
-              src="./logo/logo-fecredit.svg"
-              alt="FECredit"
-              class="logo"
-            />
-          </a>
-        </div>
+        <button class="tab-btn" data-tab="change-log" id="change-log-btn">
+          CHANGE LOG
+        </button>
+      </div>
+    </div>
+  </header>
 
-        <!-- NEW SEARCH BAR -->
-        <div class="search-container">
-          <input
-            type="search"
-            id="header-search"
-            placeholder="Tìm kiếm thông tin..."
-          />
-          <div id="search-results-container" class="search-results"></div>
-        </div>
+  <!-- Sidebar -->
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h5>ĐIỀU KIỆN</h5>
+    </div>
+    <div class="sidebar-content">
+      <div id="dynamic-filters-container"></div>
+    </div>
+  </nav>
 
-        <div class="header-tabs">
-          <div class="dropdown">
-            <button class="tab-btn dropdown-toggle">PLTT</button>
-            <div class="dropdown-menu">
-              <a href="loan.html" class="dropdown-item" id="loan-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                  <path
-                    d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z"
-                  />
-                  <path
-                    d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z"
-                  />
-                  <path
-                    d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z"
-                  />
-                </svg>
-                LOAN
-              </a>
-              <a href="card.html" class="dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                  <path
-                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"
-                  />
-                  <path
-                    d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"
-                  />
-                </svg>
-                CARD
-              </a>
-              <a href="outbound.html" class="dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                  <path
-                    fill-rule="evenodd"
-                    d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z"
-                  />
-                </svg>
-                OUTBOUND
-              </a>
-              <a href="ubank.html" class="dropdown-item">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                  <path
-                    d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z"
-                  />
-                </svg>
-
-                UBANK
-              </a>
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Sub Header -->
+    <div id="sub-header">
+      <div class="sub-header-box" id="xmtt-box">
+        <button class="expand-btn" data-target="xmtt-box">⤢</button>
+        <div id="xmtt-result" class="box-content">
+          <div class="xmtt-column" id="xmtt-ib-column">
+            <h5>XMTT IB</h5>
+            <div id="xmtt-ib-content">
+              <p>...</p>
             </div>
           </div>
-          <button class="tab-btn" data-tab="xmtt">XMTT</button>
-          <button class="tab-btn" data-tab="quy-dinh">QUY ĐỊNH CHUNG</button>
-          <button class="tab-btn" data-tab="khuyen-mai" id="khuyen-mai-btn">
-            KHUYẾN MÃI
-          </button>
-          <button class="tab-btn" data-tab="change-log" id="change-log-btn">
-            CHANGE LOG
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!-- Sidebar -->
-    <nav id="sidebar">
-      <div class="sidebar-header">
-        <h5>ĐIỀU KIỆN</h5>
-      </div>
-      <div class="sidebar-content">
-        <div id="dynamic-filters-container"></div>
-      </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main id="main-content">
-      <!-- Sub Header -->
-      <div id="sub-header">
-        <div class="sub-header-box" id="xmtt-box">
-          <button class="expand-btn" data-target="xmtt-box">⤢</button>
-          <div id="xmtt-result" class="box-content">
-            <div class="xmtt-column" id="xmtt-ib-column">
-              <h5>XMTT IB</h5>
-              <div id="xmtt-ib-content"><p>...</p></div>
-            </div>
-            <div class="xmtt-column" id="xmtt-ecom-column">
-              <h5>XMTT ECOM</h5>
-              <div id="xmtt-ecom-content"><p>...</p></div>
+          <div class="xmtt-column" id="xmtt-ecom-column">
+            <h5>XMTT ECOM</h5>
+            <div id="xmtt-ecom-content">
+              <p>...</p>
             </div>
           </div>
         </div>
-        <div class="sub-header-box" id="notes-box">
-          <button class="expand-btn" data-target="notes-box">⤢</button>
-          <div id="notes-result" class="box-content">
-            <p>Thông báo và lưu ý sẽ hiển thị ở đây</p>
-          </div>
+      </div>
+      <div class="sub-header-box" id="notes-box">
+        <button class="expand-btn" data-target="notes-box">⤢</button>
+        <div id="notes-result" class="box-content">
+          <p>Thông báo và lưu ý sẽ hiển thị ở đây</p>
         </div>
       </div>
-
-      <!-- Body Content (PDF Viewer) -->
-      <div id="body-proper">
-        <iframe
-          id="pdf-viewer"
-          src=""
-          style="width: 100%; height: 100%; border: none"
-        ></iframe>
-      </div>
-    </main>
-
-    <div id="custom-popup" class="popup-container hidden">
-      <button id="popup-close-btn">✖</button>
-      <div id="popup-content"></div>
     </div>
 
-    <div id="overlay"></div>
-    <div id="toast-container"></div>
-    <script src="card-flowchart.js"></script>
-    <script src="card-script.js"></script>
-  </body>
+    <!-- Body Content (PDF Viewer) -->
+    <div id="body-proper">
+      <iframe id="pdf-viewer" src="" style="width: 100%; height: 100%; border: none"></iframe>
+    </div>
+  </main>
+
+  <div id="custom-popup" class="popup-container hidden">
+    <button id="popup-close-btn">✖</button>
+    <div id="popup-content"></div>
+  </div>
+
+  <div id="overlay"></div>
+  <div id="toast-container"></div>
+  <script src="card-flowchart.js"></script>
+  <script src="card-script.js"></script>
+</body>
+
 </html>

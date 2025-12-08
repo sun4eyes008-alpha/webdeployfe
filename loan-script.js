@@ -99,8 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function saveStateToURL(path) {
     const jsonPath = JSON.stringify(path);
     const encodedPath = encodeURIComponent(jsonPath);
-    // Use query parameter instead of hash for better PDF hyperlink compatibility
-    const newUrl = window.location.pathname + "?path=" + encodedPath;
+    // Use hash for better file:/// protocol compatibility
+    const newUrl = window.location.pathname + "#" + encodedPath;
     history.pushState({ path: path }, "", newUrl);
     console.log('💾 Saved to URL:', newUrl);
   }
