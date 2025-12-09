@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test HTML Escaping</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #333;
+            background: #f5f5f5;
+        }
+
+        textarea,
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .result {
+            background: white;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🧪 Test HTML Escaping - toolclaude.html</h1>
+
+    <div class="test-section">
+        <h2>Test 1: HTML với ký tự đặc biệt</h2>
+        <textarea id="input1" rows="3"><div class="test">Hello "World" & 'Friends' <br> New line</div></textarea>
+        <button onclick="testEscape('input1', 'output1', 'backtick')">Test với Backticks</button>
+        <button onclick="testEscape('input1', 'output1', 'quote')">Test với Quotes</button>
+        <div class="result" id="output1"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Unescape String</h2>
+        <textarea id="input2" rows="3">Value with \\n newline and \\" quotes and \\\\ backslash</textarea>
+        <button onclick="testUnescape('input2', 'output2')">Unescape</button>
+        <div class="result" id="output2"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Full Cycle (Escape → Unescape)</h2>
+        <textarea id="input3" rows="3"><div>Test\nMultiline\nHTML</div></textarea>
+        <button onclick="testFullCycle('input3', 'output3')">Test Full Cycle</button>
+        <div class="result" id="output3"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 4: Backslash Path</h2>
+        <input id="input4" value="C:\Users\Desktop\file.txt" />
+        <button onclick="testPath('input4', 'output4')">Test Path Escape</button>
+        <div class="result" id="output4"></div>
+    </div>
+
+    <script>
+        // Hàm unescape giống trong toolclaude.html
+        const unescapeString = (text) => {
+            return text
+                .replace(/\\n/g, "\n")
+                .replace(/\\r/g, "\r")
+                .replace(/\\t/g, "\t")
+                .replace(/\\"/g, '"')
+                .replace(/\\'/g, "'")
+                .replace(/\\\\/g, "\\")
+                .replace(/\\`/g, "`")
+                .replace(/\\\$/g, "$");
+        };
+
+        // Hàm escape cho backticks
+        const escapeForBackticks = (value) => {
+            return value
+                .replace(/\\/g, '\\\\')
+                .replace(/`/g, '\\`')
+                .replace(/\$/g, '\\$');
+        };
+
+        // Hàm escape cho quotes
+        const escapeForQuotes = (value) => {
+            return value
+                .replace(/\\/g, '\\\\')
+                .replace(/"/g, '\\"')
+                .replace(/\n/g, '<br>');
+        };
+
+        function testEscape(inputId, outputId, type) {
+            const input = document.getElementById(inputId).value;
+            let output;
+
+            if (type === 'backtick') {
+                const escaped = escapeForBackticks(input);
+                output = `ORIGINAL:\n${input}\n\nESCAPED FOR BACKTICKS:\n\`${escaped}\`\n\nFINAL OUTPUT:\nconst testvar = \`${escaped}\`;`;
+            } else {
+                const escaped = escapeForQuotes(input);
+                output = `ORIGINAL:\n${input}\n\nESCAPED FOR QUOTES:\n"${escaped}"\n\nFINAL OUTPUT:\nconst testvar = "${escaped}";`;
+            }
+
+            document.getElementById(outputId).innerHTML = output;
+        }
+
+        function testUnescape(inputId, outputId) {
+            const input = document.getElementById(inputId).value;
+            const unescaped = unescapeString(input);
+
+            const output = `ORIGINAL (escaped):\n${input}\n\nUNESCAPED:\n${unescaped}\n\nLENGTH: ${input.length} → ${unescaped.length}`;
+            document.getElementById(outputId).innerHTML = output;
+        }
+
+        function testFullCycle(inputId, outputId) {
+            const original = document.getElementById(inputId).value;
+
+            // Step 1: Escape
+            const escaped = escapeForBackticks(original);
+            const jsCode = `\`${escaped}\``;
+
+            // Step 2: Simulate saving to file
+            const fileContent = `const testvar = ${jsCode};`;
+
+            // Step 3: Simulate reading from file and unescape
+            const extracted = escaped; // Giả lập extract từ file
+            const unescaped = unescapeString(extracted);
+
+            // Step 4: Compare
+            const isEqual = original === unescaped;
+
+            const output = `ORIGINAL:\n${original}\n\n1️⃣ AFTER ESCAPE:\n${escaped}\n\n2️⃣ JS CODE:\n${fileContent}\n\n3️⃣ AFTER UNESCAPE:\n${unescaped}\n\n✅ MATCH: ${isEqual ? '✓ SUCCESS' : '✗ FAILED'}\n${isEqual ? '' : '\n⚠️ Values do not match!'}`;
+
+            document.getElementById(outputId).innerHTML = output;
+            document.getElementById(outputId).className = 'result ' + (isEqual ? 'success' : 'error');
+        }
+
+        function testPath(inputId, outputId) {
+            const original = document.getElementById(inputId).value;
+
+            // Escape for quotes
+            const escaped = original.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            const jsCode = `const path = "${escaped}";`;
+
+            // Unescape
+            const unescaped = escaped.replace(/\\\\/g, '\\').replace(/\\"/g, '"');
+
+            const isEqual = original === unescaped;
+
+            const output = `ORIGINAL:\n${original}\n\nESCAPED:\n${escaped}\n\nJS CODE:\n${jsCode}\n\nUNESCAPED:\n${unescaped}\n\n✅ MATCH: ${isEqual ? '✓ SUCCESS' : '✗ FAILED'}`;
+
+            document.getElementById(outputId).innerHTML = output;
+            document.getElementById(outputId).className = 'result ' + (isEqual ? 'success' : 'error');
+        }
+
+        // Auto-run tests on load
+        window.onload = () => {
+            console.log('Test page loaded. Click buttons to test escaping logic.');
+        };
+    </script>
+</body>
+
+</html>

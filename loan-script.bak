@@ -378,16 +378,16 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Listen for hash changes (e.g., from PDF hyperlinks)
-    window.addEventListener("hashchange", () => {
-      console.log('🔄 Hash changed, restoring state...');
+    // Listen for popstate events (browser back/forward with query parameters)
+    window.addEventListener("popstate", () => {
+      console.log('🔄 Popstate event, restoring state...');
       restoreStateFromURL();
     });
 
     const changeLogBtn = document.getElementById("change-log-btn");
     if (changeLogBtn) {
       changeLogBtn.addEventListener("click", () => {
-        pdfViewer.src = "./pdfile-card/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
+        pdfViewer.src = "./pdfile-loan/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
         document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
         document.getElementById("xmtt-ecom-content").innerHTML = "<p>...</p>";
         notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
@@ -397,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const khuyenMaiBtn = document.getElementById("khuyen-mai-btn");
     if (khuyenMaiBtn) {
       khuyenMaiBtn.addEventListener("click", () => {
-        pdfViewer.src = "./pdfile-card/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
+        pdfViewer.src = "./pdfile-loan/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
         document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
         document.getElementById("xmtt-ecom-content").innerHTML = "<p>...</p>";
         notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
@@ -436,9 +436,8 @@ document.addEventListener("DOMContentLoaded", () => {
       xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
     }
 
-    // Display note with proper HTML rendering
     notesResult.innerHTML = resultObject.note
-      ? resultObject.note
+      ? `<p>${resultObject.note}</p>`
       : "<p>Không có lưu ý.</p>";
 
     if (resultObject.pdf) {
@@ -450,8 +449,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ? FOLDER_MAP[categoryIndexMatch[1]]
         : null;
       pdfViewer.src = folderName
-        ? `./pdfile-card/${folderName}/${resultObject.pdf}`
-        : `./pdfile-card/${resultObject.pdf}`;
+        ? `./pdfile-loan/${folderName}/${resultObject.pdf}`
+        : `./pdfile-loan/${resultObject.pdf}`;
     } else {
       pdfViewer.src = "";
     }

@@ -97,42 +97,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- STATE MANAGEMENT (URL) ---
   function saveStateToURL(path) {
+    // Use base64 encoding for safer handling of special characters
     const jsonPath = JSON.stringify(path);
-    // Construct the URL with hash
-    const newUrl = window.location.pathname + "#" + encodeURIComponent(jsonPath);
+    const base64Path = btoa(encodeURIComponent(jsonPath));
+    // Use query parameter instead of hash for better href compatibility
+    const newUrl = window.location.pathname + "?path=" + base64Path;
     history.pushState({ path: path }, "", newUrl);
+    console.log('💾 Saved to URL:', newUrl);
   }
 
   function restoreStateFromURL() {
-    const hash = window.location.hash;
-    console.log('🔍 Checking URL hash:', hash);
+    // Check query parameter first (new method with base64)
+    const urlParams = new URLSearchParams(window.location.search);
+    const pathParam = urlParams.get('path');
 
-    if (hash && hash.length > 1) {
-      const pathParam = hash.substring(1);
-      console.log('📋 Raw hash parameter:', pathParam);
+    console.log('🔍 Checking URL for state...');
+    console.log('Query string:', window.location.search);
+    console.log('Hash:', window.location.hash);
 
+    if (pathParam) {
+      console.log('📋 Found query parameter:', pathParam);
       try {
-        let decodedParam = decodeURIComponent(pathParam);
-        console.log('🔓 First decode:', decodedParam);
+        // Decode from base64 first
+        const decodedBase64 = decodeURIComponent(atob(pathParam));
+        console.log('🔓 Decoded from base64:', decodedBase64);
 
-        if (decodedParam.includes('%')) {
-          decodedParam = decodeURIComponent(decodedParam);
-          console.log('🔓 Second decode:', decodedParam);
-        }
-
-        const path = JSON.parse(decodedParam);
+        const path = JSON.parse(decodedBase64);
         console.log('✅ Parsed path:', path);
 
         if (Array.isArray(path)) {
           console.log('🎯 Applying search result with path:', path);
           applySearchResult(path, false);
+          return;
         }
       } catch (e) {
-        console.log("❌ Hash is not a valid path, ignoring.", e);
-        console.log("Raw hash was:", pathParam);
+        console.log("❌ Query parameter is not a valid path:", e);
+        // Try old format for backward compatibility
+        try {
+          const decodedParam = decodeURIComponent(pathParam);
+          const path = JSON.parse(decodedParam);
+          if (Array.isArray(path)) {
+            applySearchResult(path, false);
+            return;
+          }
+        } catch (e2) {
+          console.log("❌ Both decoding methods failed:", e2);
+        }
+      }
+    }
+
+    // Fallback to hash for backward compatibility
+    const hash = window.location.hash;
+    if (hash && hash.length > 1) {
+      console.log('📋 Trying hash fallback:', hash);
+      const hashParam = hash.substring(1);
+      try {
+        const decodedParam = decodeURIComponent(hashParam);
+        const path = JSON.parse(decodedParam);
+        if (Array.isArray(path)) {
+          console.log('🎯 Applying from hash:', path);
+          applySearchResult(path, false);
+        }
+      } catch (e) {
+        console.log("❌ Hash is not a valid path:", e);
       }
     } else {
-      console.log('ℹ️ No hash found in URL');
+      console.log('ℹ️ No state found in URL');
     }
   }
 
@@ -406,8 +436,9 @@ document.addEventListener("DOMContentLoaded", () => {
       xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
     }
 
+    // Display note with proper HTML rendering
     notesResult.innerHTML = resultObject.note
-      ? `<p>${resultObject.note}</p>`
+      ? resultObject.note
       : "<p>Không có lưu ý.</p>";
 
     if (resultObject.pdf) {
