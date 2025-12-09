@@ -599,75 +599,77 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- STATE MANAGEMENT (URL) ---
-  function saveStateToURL(path) {
-    // Use base64 encoding for safer handling of special characters
-    const jsonPath = JSON.stringify(path);
-    const base64Path = btoa(encodeURIComponent(jsonPath));
-    // Use query parameter instead of hash for better href compatibility
-    const newUrl = window.location.pathname + "?path=" + base64Path;
-    history.pushState({ path: path }, "", newUrl);
-    console.log('💾 Saved to URL:', newUrl);
-  }
+      function saveStateToURL(path) {
+        // Encode path for URL: JSON -> URIComponent -> base64
+        const jsonPath = JSON.stringify(path);
+        const encodedPath = btoa(encodeURIComponent(jsonPath));
 
-  function restoreStateFromURL() {
-    // Check query parameter first (new method with base64)
-    const urlParams = new URLSearchParams(window.location.search);
-    const pathParam = urlParams.get('path');
+        // Use hash for state, remove query parameter to avoid conflicts
+        const newUrl = window.location.pathname + "#" + encodedPath;
+        history.pushState({ path: path }, "", newUrl);
+        console.log('💾 Saved state to URL hash:', newUrl);
+      }
 
-    console.log('🔍 Checking URL for state...');
-    console.log('Query string:', window.location.search);
-    console.log('Hash:', window.location.hash);
+      function restoreStateFromURL() {
+        console.log('🔍 Checking URL for state...');
+        const hash = window.location.hash;
 
-    if (pathParam) {
-      console.log('📋 Found query parameter:', pathParam);
-      try {
-        // Decode from base64 first
-        const decodedBase64 = decodeURIComponent(atob(pathParam));
-        console.log('🔓 Decoded from base64:', decodedBase64);
+        // 1. Try restoring from hash (new primary method)
+        if (hash && hash.length > 1) {
+          const encodedPath = hash.substring(1);
+          console.log('📋 Found hash:', encodedPath);
+          try {
+            const jsonPath = decodeURIComponent(atob(encodedPath));
+            const path = JSON.parse(jsonPath);
+            if (Array.isArray(path)) {
+              console.log('🎯 Applying state from hash:', path);
+              applySearchResult(path, false);
+              return; // State restored
+            }
+          } catch (e) {
+            console.error("❌ Failed to parse state from hash. It might be a legacy hash.", e);
+             // Fallback for old, non-base64 hash format
+            try {
+              const decodedParam = decodeURIComponent(encodedPath);
+              const path = JSON.parse(decodedParam);
+              if (Array.isArray(path)) {
+                console.log('🎯 Applying from hash (legacy):', path);
+                applySearchResult(path, false);
+                return; // Success
+              }
+            } catch (e2) {
+              console.error("❌ Invalid path data in hash.", e2);
+            }
+          }
+          return; // Stop after attempting hash
+        }
 
-        const path = JSON.parse(decodedBase64);
-        console.log('✅ Parsed path:', path);
+        // 2. Fallback for old links: Try restoring from query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const pathParam = urlParams.get('path');
+        if (pathParam) {
+          console.log('📋 Found legacy query parameter:', pathParam);
+          try {
+            const jsonPath = decodeURIComponent(atob(pathParam));
+            const path = JSON.parse(jsonPath);
+            if (Array.isArray(path)) {
+              console.log('🎯 Applying state from query parameter, will update URL to hash format.');
+              // Restore state but don't re-save/push history here
+              applySearchResult(path, false);
 
-        if (Array.isArray(path)) {
-          console.log('🎯 Applying search result with path:', path);
-          applySearchResult(path, false);
+              // Replace the URL to use the new hash format without adding a new history entry
+              const newUrl = window.location.pathname + "#" + pathParam;
+              history.replaceState({ path: path }, "", newUrl);
+              return; // State restored and URL updated
+            }
+          } catch (e) {
+            console.error("❌ Failed to parse state from query parameter.", e);
+          }
           return;
         }
-      } catch (e) {
-        console.log("❌ Query parameter is not a valid path:", e);
-        // Try old format for backward compatibility
-        try {
-          const decodedParam = decodeURIComponent(pathParam);
-          const path = JSON.parse(decodedParam);
-          if (Array.isArray(path)) {
-            applySearchResult(path, false);
-            return;
-          }
-        } catch (e2) {
-          console.log("❌ Both decoding methods failed:", e2);
-        }
-      }
-    }
 
-    // Fallback to hash for backward compatibility
-    const hash = window.location.hash;
-    if (hash && hash.length > 1) {
-      console.log('📋 Trying hash fallback:', hash);
-      const hashParam = hash.substring(1);
-      try {
-        const decodedParam = decodeURIComponent(hashParam);
-        const path = JSON.parse(decodedParam);
-        if (Array.isArray(path)) {
-          console.log('🎯 Applying from hash:', path);
-          applySearchResult(path, false);
-        }
-      } catch (e) {
-        console.log("❌ Hash is not a valid path:", e);
+        console.log('ℹ️ No state found in URL.');
       }
-    } else {
-      console.log('ℹ️ No state found in URL');
-    }
-  }
 
   // --- SEARCH FUNCTIONALITY ---
   function searchFlowchartData(query) {
@@ -881,9 +883,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Listen for hash changes (e.g., from PDF hyperlinks)
-    window.addEventListener("hashchange", () => {
-      console.log('🔄 Hash changed, restoring state...');
+    // Listen for popstate events (browser back/forward navigation)
+    window.addEventListener("popstate", () => {
+      console.log('🔄 Popstate event, restoring state...');
       restoreStateFromURL();
     });
 

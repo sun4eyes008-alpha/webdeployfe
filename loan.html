@@ -1,153 +1,180 @@
 <!DOCTYPE html>
 <html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PLTT LOAN</title>
+    <link rel="stylesheet" href="style2.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PLTT LOAN</title>
-  <link rel="stylesheet" href="style2.css" />
-</head>
-
-<body>
-  <!-- Header -->
-  <header id="main-header">
-    <div class="header-container">
-      <button class="sidebar-toggle" id="sidebar-toggle">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-      </button>
-      <div class="logo-container">
-        <a href="index.html">
-          <img src="./logo/logo-fecredit.svg" alt="FECredit" class="logo" />
-        </a>
-      </div>
-
-      <!-- NEW SEARCH BAR -->
-      <div class="search-container">
-        <input type="search" id="header-search" placeholder="Tìm kiếm thông tin..." />
-        <div id="search-results-container" class="search-results"></div>
-      </div>
-
-      <div class="header-tabs">
-        <div class="dropdown">
-          <button class="tab-btn dropdown-toggle">PLTT</button>
-          <div class="dropdown-menu">
-            <a href="loan.html" class="dropdown-item" id="loan-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z" />
-                <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z" />
-                <path
-                  d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z" />
-              </svg>
-              LOAN
-            </a>
-            <a href="card.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path
-                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
-                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
-              </svg>
-              CARD
-            </a>
-            <a href="outbound.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                  d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z" />
-              </svg>
-              OUTBOUND
-            </a>
-            <a href="ubank.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path
-                  d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z" />
-              </svg>
-
-              UBANK
-            </a>
-          </div>
+  <body>
+    <!-- Header -->
+    <header id="main-header">
+      <div class="header-container">
+        <button class="sidebar-toggle" id="sidebar-toggle">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="logo-container">
+          <a href="index.html">
+            <img src="./logo/logo-fecredit.svg" alt="FECredit" class="logo" />
+          </a>
         </div>
-        <button class="tab-btn" data-tab="xmtt">XMTT</button>
-        <button class="tab-btn" data-tab="quy-dinh">QUY ĐỊNH CHUNG</button>
-        <button class="tab-btn" data-tab="khuyen-mai" id="khuyen-mai-btn">
-          KHUYẾN MÃI
-        </button>
-        <button class="tab-btn" data-tab="change-log" id="change-log-btn">
-          CHANGE LOG
-        </button>
-      </div>
-    </div>
-  </header>
 
-  <!-- Sidebar -->
-  <nav id="sidebar">
-    <div class="sidebar-header">
-      <h5>ĐIỀU KIỆN</h5>
-    </div>
-    <div class="sidebar-content">
-      <div id="dynamic-filters-container"></div>
-    </div>
-  </nav>
+        <!-- NEW SEARCH BAR -->
+        <div class="search-container">
+          <input
+            type="search"
+            id="header-search"
+            placeholder="Tìm kiếm thông tin..."
+          />
+          <div id="search-results-container" class="search-results"></div>
+        </div>
 
-  <!-- Main Content -->
-  <main id="main-content">
-    <!-- Sub Header -->
-    <div id="sub-header">
-      <div class="sub-header-box" id="xmtt-box">
-        <button class="expand-btn" data-target="xmtt-box">⤢</button>
-        <div id="xmtt-result" class="box-content">
-          <div class="xmtt-column" id="xmtt-ib-column">
-            <h5>XMTT IB</h5>
-            <div id="xmtt-ib-content">
-              <p>...</p>
+        <div class="header-tabs">
+          <div class="dropdown">
+            <button class="tab-btn dropdown-toggle">PLTT</button>
+            <div class="dropdown-menu">
+              <a
+                href="loan.html#%5B%221.%20TH%C3%94NG%20TIN%20CHUNG%22%2C%22Th%C3%B4ng%20tin%20c%C3%B4ng%20ty%22%5D"
+                class="dropdown-item"
+                id="loan-btn"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path
+                    d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z"
+                  />
+                  <path
+                    d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z"
+                  />
+                  <path
+                    d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z"
+                  />
+                </svg>
+                LOAN
+              </a>
+              <a href="card.html" class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path
+                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"
+                  />
+                  <path
+                    d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"
+                  />
+                </svg>
+                CARD
+              </a>
+              <a href="outbound.html" class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path
+                    fill-rule="evenodd"
+                    d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z"
+                  />
+                </svg>
+                OUTBOUND
+              </a>
+              <a href="ubank.html" class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path
+                    d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z"
+                  />
+                </svg>
+
+                UBANK
+              </a>
             </div>
           </div>
-          <div class="xmtt-column" id="xmtt-ecom-column">
-            <h5>XMTT ECOM</h5>
-            <div id="xmtt-ecom-content">
-              <p>...</p>
+          <button class="tab-btn" data-tab="xmtt">XMTT</button>
+          <button class="tab-btn" data-tab="quy-dinh">QUY ĐỊNH CHUNG</button>
+          <button class="tab-btn" data-tab="khuyen-mai" id="khuyen-mai-btn">
+            KHUYẾN MÃI
+          </button>
+          <button class="tab-btn" data-tab="change-log" id="change-log-btn">
+            CHANGE LOG
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <h5>ĐIỀU KIỆN</h5>
+      </div>
+      <div class="sidebar-content">
+        <div id="dynamic-filters-container"></div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+      <!-- Sub Header -->
+      <div id="sub-header">
+        <div class="sub-header-box" id="xmtt-box">
+          <button class="expand-btn" data-target="xmtt-box">⤢</button>
+          <div id="xmtt-result" class="box-content">
+            <div class="xmtt-column" id="xmtt-ib-column">
+              <h5>XMTT IB</h5>
+              <div id="xmtt-ib-content">
+                <p>...</p>
+              </div>
+            </div>
+            <div class="xmtt-column" id="xmtt-ecom-column">
+              <h5>XMTT ECOM</h5>
+              <div id="xmtt-ecom-content">
+                <p>...</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="sub-header-box" id="notes-box">
-        <button class="expand-btn" data-target="notes-box">⤢</button>
-        <div id="notes-result" class="box-content">
-          <p>Thông báo và lưu ý sẽ hiển thị ở đây</p>
+        <div class="sub-header-box" id="notes-box">
+          <button class="expand-btn" data-target="notes-box">⤢</button>
+          <div id="notes-result" class="box-content">
+            <p>Thông báo và lưu ý sẽ hiển thị ở đây</p>
+          </div>
         </div>
       </div>
+
+      <!-- Body Content (PDF Viewer) -->
+      <div id="body-proper">
+        <iframe
+          id="pdf-viewer"
+          src=""
+          style="width: 100%; height: 100%; border: none"
+        ></iframe>
+      </div>
+    </main>
+
+    <div id="custom-popup" class="popup-container hidden">
+      <button id="popup-close-btn">✖</button>
+      <div id="popup-content"></div>
     </div>
 
-    <!-- Body Content (PDF Viewer) -->
-    <div id="body-proper">
-      <iframe id="pdf-viewer" src="" style="width: 100%; height: 100%; border: none"></iframe>
-    </div>
-  </main>
-
-  <div id="custom-popup" class="popup-container hidden">
-    <button id="popup-close-btn">✖</button>
-    <div id="popup-content"></div>
-  </div>
-
-  <div id="overlay"></div>
-  <div id="toast-container"></div>
-  <script>
-
-
-    // --- KHAI BÁO CÁC LOẠI XMTT DÙNG CHUNG ---
-    const XMTT_1 = "1. Không cần XMTT";
-    const XMTT_2 = "2. CMND/CCCD";
-    const XMTT_3 = "3. CCCD/CMND/SHD";
-    const XMTT_4 = "4. Đúng SĐT + CMND/CCCD + 1A";
-    const XMTT_5 = "5. Đúng SĐT + CMND + Sai 1A";
-    const XMTT_6 = "6. Đúng SĐT + CMND + 1A + 1B";
-    const XMTT_7 = "7. Đúng SĐT update + CMND + 2A + 1B";
-    const XMTT_8 =
-      "8. Sai SĐT<br>  a. còn dùng SDT cũ: dùng đúng SDT gọi lại<br>  b. Không còn dùng SDT:<br>   - HĐ Closed hết: CMND/CCCD + 1A<br>   - HĐ còn mở: CMND/CCCD + 2A  đồng thời hướng dẫn cập nhật SDT.";
-    const XMTT_9 = "9. Sai SĐT + CMND + 1A";
-    const XMTTIB_10 = `<td style="background-color:white">
+    <div id="overlay"></div>
+    <div id="toast-container"></div>
+    <script>
+      // --- KHAI BÁO CÁC LOẠI XMTT DÙNG CHUNG ---
+      const XMTT_1 = "1. Không cần XMTT";
+      const XMTT_2 = "2. CMND/CCCD";
+      const XMTT_3 = "3. CCCD/CMND/SHD";
+      const XMTT_4 = "4. Đúng SĐT + CMND/CCCD + 1A";
+      const XMTT_5 = "5. Đúng SĐT + CMND + Sai 1A";
+      const XMTT_6 = "6. Đúng SĐT + CMND + 1A + 1B";
+      const XMTT_7 = "7. Đúng SĐT update + CMND + 2A + 1B";
+      const XMTT_8 =
+        "8. Sai SĐT<br>  a. còn dùng SDT cũ: dùng đúng SDT gọi lại<br>  b. Không còn dùng SDT:<br>   - HĐ Closed hết: CMND/CCCD + 1A<br>   - HĐ còn mở: CMND/CCCD + 2A  đồng thời hướng dẫn cập nhật SDT.";
+      const XMTT_9 = "9. Sai SĐT + CMND + 1A";
+      const XMTTIB_10 = `<td style="background-color:white">
 			<p>-<strong>Đúng</strong><strong> SĐT: </strong><span style="color:red"><strong>1A</strong></span><strong> ( </strong>nếu <strong>sai</strong><strong> 1A</strong> chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán)</p>
 
 			<p>-<strong>Sai SĐT</strong>:</p>
@@ -157,98 +184,98 @@
 			<p>+ Còn HĐ active:<span style="color:red"><strong> 1A </strong></span>(chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán)</p>
 			</td>`;
 
-    const flowchartData = {
-      "1. THÔNG TIN CHUNG": {
-        "Thông tin công ty": {
-          displayName: "Thông tin công ty",
-          pdf: "Thông tin công ty.pdf",
-          note: "Các thông tin cơ bản về công ty.",
-          xmttib: XMTT_1,
+      const flowchartData = {
+        "1. THÔNG TIN CHUNG": {
+          "Thông tin công ty": {
+            displayName: "Thông tin công ty",
+            pdf: "Thông tin công ty.pdf",
+            note: "Các thông tin cơ bản về công ty.",
+            xmttib: XMTT_1,
+          },
+          "Hợp tác kinh doanh": {
+            displayName: "Hợp tác kinh doanh",
+            pdf: "Hợp tác kinh doanh.pdf",
+            note: "Thông tin dành cho đối tác muốn hợp tác kinh doanh.",
+            xmttib: XMTT_1,
+          },
+          "Xóa Dữ Liệu Cá Nhân": {
+            displayName: "Xóa Dữ Liệu Cá Nhân",
+            pdf: "Xóa Dữ Liệu Cá Nhân.pdf",
+            note: "Hướng dẫn thực hiện yêu cầu xóa dữ liệu cá nhân theo quy định.",
+            xmttib: XMTT_1,
+          },
+          "Mở Chặn Cuộc Gọi": {
+            displayName: "Mở Chặn Cuộc Gọi",
+            pdf: "Mở Chặn Cuộc Gọi.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+          },
+          "Ngừng Mời Vay/QC": {
+            displayName: "Ngừng Mời Vay/QC",
+            pdf: "Ngừng Mời Vay_QC.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+          },
+          "Khuyến Mãi": {
+            displayName: "Khuyến Mãi",
+            pdf: "Khuyến Mãi.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+          },
         },
-        "Hợp tác kinh doanh": {
-          displayName: "Hợp tác kinh doanh",
-          pdf: "Hợp tác kinh doanh.pdf",
-          note: "Thông tin dành cho đối tác muốn hợp tác kinh doanh.",
-          xmttib: XMTT_1,
+        "2. THÔNG TIN SẢN PHẨM": {
+          "Vay Mua Xe Máy": {
+            displayName: "Thông tin sản phẩm > Vay Mua Xe Máy",
+            pdf: "Sản Phẩm Vay Mua Xe Máy.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+          },
+          "Vay Mua Điện Máy": {
+            displayName: "Thông tin sản phẩm > Vay Mua Điện Máy",
+            pdf: "Sản Phẩm Vay Mua Điện Máy.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+          },
+          "Vay Tiền Mặt": {
+            displayName: "Thông tin sản phẩm > Vay Tiền Mặt",
+            pdf: "Sản Phẩm Vay Tiền Mặt.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+          },
         },
-        "Xóa Dữ Liệu Cá Nhân": {
-          displayName: "Xóa Dữ Liệu Cá Nhân",
-          pdf: "Xóa Dữ Liệu Cá Nhân.pdf",
-          note: "Hướng dẫn thực hiện yêu cầu xóa dữ liệu cá nhân theo quy định.",
-          xmttib: XMTT_1,
+        "3. ĐĂNG KÝ VAY": {
+          "Vay Mua Xe Máy": {
+            displayName: "Đăng ký vay > Vay Mua Xe Máy",
+            pdf: "Vay Sản Phẩm Vay Mua Xe Máy.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+          },
+          "Vay Mua Điện Máy": {
+            displayName: "Đăng ký vay > Vay Mua Điện Máy",
+            pdf: "Vay Sản Phẩm Vay Mua Điện Máy.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+          },
+          "Vay Tiền Mặt": {
+            pdf: "Vay Sản Phẩm Vay Tiền Mặt.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+            displayName: "Đăng ký vay PL",
+          },
         },
-        "Mở Chặn Cuộc Gọi": {
-          displayName: "Mở Chặn Cuộc Gọi",
-          pdf: "Mở Chặn Cuộc Gọi.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
+        "4. GIẢI NGÂN": {
+          "Giải Ngân Tiền Mặt": {
+            displayName: "Giải Ngân Tiền Mặt",
+            pdf: "Giải Ngân Tiền Mặt.pdf",
+            note: "N/A",
+            xmttib: XMTT_1,
+          },
         },
-        "Ngừng Mời Vay/QC": {
-          displayName: "Ngừng Mời Vay/QC",
-          pdf: "Ngừng Mời Vay_QC.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-        "Khuyến Mãi": {
-          displayName: "Khuyến Mãi",
-          pdf: "Khuyến Mãi.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-      },
-      "2. THÔNG TIN SẢN PHẨM": {
-        "Vay Mua Xe Máy": {
-          displayName: "Thông tin sản phẩm > Vay Mua Xe Máy",
-          pdf: "Sản Phẩm Vay Mua Xe Máy.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-        "Vay Mua Điện Máy": {
-          displayName: "Thông tin sản phẩm > Vay Mua Điện Máy",
-          pdf: "Sản Phẩm Vay Mua Điện Máy.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-        "Vay Tiền Mặt": {
-          displayName: "Thông tin sản phẩm > Vay Tiền Mặt",
-          pdf: "Sản Phẩm Vay Tiền Mặt.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-      },
-      "3. ĐĂNG KÝ VAY": {
-        "Vay Mua Xe Máy": {
-          displayName: "Đăng ký vay > Vay Mua Xe Máy",
-          pdf: "Vay Sản Phẩm Vay Mua Xe Máy.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-        "Vay Mua Điện Máy": {
-          displayName: "Đăng ký vay > Vay Mua Điện Máy",
-          pdf: "Vay Sản Phẩm Vay Mua Điện Máy.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-        "Vay Tiền Mặt": {
-          pdf: "Vay Sản Phẩm Vay Tiền Mặt.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-          displayName: "Đăng ký vay PL",
-        },
-      },
-      "4. GIẢI NGÂN": {
-        "Giải Ngân Tiền Mặt": {
-          displayName: "Giải Ngân Tiền Mặt",
-          pdf: "Giải Ngân Tiền Mặt.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-      },
-      "5. KÊNH THANH TOÁN": {
-        "TT TRỰC TUYẾN": {
-          displayName: "Kênh thanh toán > TT TRỰC TUYẾN",
-          pdf: "THANH TOÁN TRỰC TUYẾN.pdf",
-          note: `Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo.
+        "5. KÊNH THANH TOÁN": {
+          "TT TRỰC TUYẾN": {
+            displayName: "Kênh thanh toán > TT TRỰC TUYẾN",
+            pdf: "THANH TOÁN TRỰC TUYẾN.pdf",
+            note: `Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
@@ -256,795 +283,871 @@
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.
                     </br> Lưu ý: Chuyển khoản đúng số hợp đồng và tên người vay.`,
-          xmttib: XMTT_1,
-          alert:
-            "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo",
-        },
-        "THANH TOÁN TIỀN MẶT": {
-          displayName: "Kênh thanh toán > Thanh toán qua tiền mặt",
-          pdf: "THANH TOÁN TIỀN MẶT.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-        "THANH TOÁN QUA ATM/CDM": {
-          displayName: "Kênh thanh toán > Thanh toán qua ATM/CDM",
-          pdf: "THANH TOÁN QUA ATM CDM.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-        "TRÍCH NỢ TỰ ĐỘNG": {
-          displayName: "Kênh thanh toán > Trích nợ tự động",
-          pdf: "TRÍCH NỢ TỰ ĐỘNG.pdf",
-          note: "N/A",
-          xmttib: XMTT_1,
-        },
-      },
-      "6.VẤN ĐỀ THANH TOÁN": {
-        "Lịch Trả Nợ": {
-          "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
-            displayName: "Lịch Trả Nợ HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy",
-            pdf: "PDF_LICH_TRA_NO_FEC.pdf",
-            note: "N/A",
-            xmttib: XMTTIB_10,
-            xmttecom: XMTT_1
+            xmttib: XMTT_1,
+            alert:
+              "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo",
           },
-          "HĐ Bán Nợ Toàn Phần Galaxy": {
-            displayName: "Lịch Trả Nợ Hđ Bán Nợ Toàn Phần Galaxy",
-            pdf: "HĐ Kim An.pdf",
+          "THANH TOÁN TIỀN MẶT": {
+            displayName: "Kênh thanh toán > Thanh toán qua tiền mặt",
+            pdf: "THANH TOÁN TIỀN MẶT.pdf",
             note: "N/A",
-            xmttib: XMTTIB_10,
+            xmttib: XMTT_1,
           },
-          "HĐ Bán Nợ FC Sold_Azura": {
-            displayName: "Lịch Trả Nợ HĐ bán nợ FC Sold_Azura",
-            pdf: "HĐ Bán Nợ Một Phần.pdf",
+          "THANH TOÁN QUA ATM/CDM": {
+            displayName: "Kênh thanh toán > Thanh toán qua ATM/CDM",
+            pdf: "THANH TOÁN QUA ATM CDM.pdf",
             note: "N/A",
-            xmttib: XMTT_4,
+            xmttib: XMTT_1,
           },
-          "HĐ Bán Nợ Welcome Vina": {
-            displayName: "Lịch Trả Nợ HĐ bán nợ Welcome Vina",
-            pdf: "HĐ Bán Nợ Galaxy.pdf",
+          "TRÍCH NỢ TỰ ĐỘNG": {
+            displayName: "Kênh thanh toán > Trích nợ tự động",
+            pdf: "TRÍCH NỢ TỰ ĐỘNG.pdf",
             note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "HĐ CF/ HĐ FC Sold CF	": {
-            displayName: "Lịch Trả Nợ HĐ bán nợ CF/ HĐ FC Sold CF",
-            pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "HĐ Cash 24": { displayName: "Lịch Trả Nợ Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmttib: XMTT_1 },
-          "HĐ B2": {
-            displayName: "Lịch Trả Nợ Bán Nợ Welcome Vina",
-            pdf: "HĐ Bán Nợ Welcome Vina.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "HĐ Kim An": {
-            displayName: "Lịch Trả Nợ Bán Nợ Welcome Vina",
-            pdf: "HĐ Bán Nợ Welcome Vina.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
+            xmttib: XMTT_1,
           },
         },
-        "Lịch Sử TT": {
-          "HĐ FEC": { displayName: "Lịch Sử TT HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmttib: XMTT_4 },
-          "Cash 24": { displayName: "Lịch Sử TT Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmttib: XMTT_1 },
-          "Kim An": {
-            displayName: "Lịch Sử TT Kim An",
-            pdf: "HĐ Kim An.pdf",
-            note: "Lưu ý cho hợp đồng Kim An.",
-            xmtt: XMTT_2,
+        "6.VẤN ĐỀ THANH TOÁN": {
+          "Lịch Trả Nợ": {
+            "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
+              displayName:
+                "Lịch Trả Nợ HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy",
+              pdf: "PDF_LICH_TRA_NO_FEC.pdf",
+              note: "N/A",
+              xmttib: XMTTIB_10,
+              xmttecom: XMTT_1,
+            },
+            "HĐ Bán Nợ Toàn Phần Galaxy": {
+              displayName: "Lịch Trả Nợ Hđ Bán Nợ Toàn Phần Galaxy",
+              pdf: "HĐ Kim An.pdf",
+              note: "N/A",
+              xmttib: XMTTIB_10,
+            },
+            "HĐ Bán Nợ FC Sold_Azura": {
+              displayName: "Lịch Trả Nợ HĐ bán nợ FC Sold_Azura",
+              pdf: "HĐ Bán Nợ Một Phần.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "HĐ Bán Nợ Welcome Vina": {
+              displayName: "Lịch Trả Nợ HĐ bán nợ Welcome Vina",
+              pdf: "HĐ Bán Nợ Galaxy.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "HĐ CF/ HĐ FC Sold CF	": {
+              displayName: "Lịch Trả Nợ HĐ bán nợ CF/ HĐ FC Sold CF",
+              pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "HĐ Cash 24": {
+              displayName: "Lịch Trả Nợ Cash 24",
+              pdf: "HD Cash 24.pdf",
+              note: "N/A",
+              xmttib: XMTT_1,
+            },
+            "HĐ B2": {
+              displayName: "Lịch Trả Nợ Bán Nợ Welcome Vina",
+              pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "HĐ Kim An": {
+              displayName: "Lịch Trả Nợ Bán Nợ Welcome Vina",
+              pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
           },
-          "Bán Nợ Một Phần": {
-            displayName: "Lịch Sử TT Bán Nợ Một Phần",
-            pdf: "HĐ Bán Nợ Một Phần.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
+          "Lịch Sử TT": {
+            "HĐ FEC": {
+              displayName: "Lịch Sử TT HĐ FEC",
+              pdf: "IB Dung SDT.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Cash 24": {
+              displayName: "Lịch Sử TT Cash 24",
+              pdf: "HD Cash 24.pdf",
+              note: "N/A",
+              xmttib: XMTT_1,
+            },
+            "Kim An": {
+              displayName: "Lịch Sử TT Kim An",
+              pdf: "HĐ Kim An.pdf",
+              note: "Lưu ý cho hợp đồng Kim An.",
+              xmtt: XMTT_2,
+            },
+            "Bán Nợ Một Phần": {
+              displayName: "Lịch Sử TT Bán Nợ Một Phần",
+              pdf: "HĐ Bán Nợ Một Phần.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Galaxy": {
+              displayName: "Lịch Sử TT Bán Nợ Galaxy",
+              pdf: "HĐ Bán Nợ Galaxy.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              displayName: "Lịch Sử TT Bán Nợ Fc Sold_Azura",
+              pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Welcome Vina": {
+              displayName: "Lịch Sử TT Bán Nợ Welcome Vina",
+              pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
           },
-          "Bán Nợ Galaxy": {
-            displayName: "Lịch Sử TT Bán Nợ Galaxy",
-            pdf: "HĐ Bán Nợ Galaxy.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
+          "Thanh Lý HĐ": {
+            "HĐ FEC": {
+              displayName: "Thanh Lý HĐ FEC",
+              pdf: "IB Dung SDT.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Cash 24": {
+              displayName: "Thanh Lý HĐ Cash 24",
+              pdf: "HD Cash 24.pdf",
+              note: "N/A",
+              xmttib: XMTT_1,
+            },
+            "Kim An": {
+              displayName: "Thanh Lý HĐ Kim An",
+              pdf: "HĐ Kim An.pdf",
+              note: "Lưu ý cho hợp đồng Kim An.",
+              xmtt: XMTT_2,
+            },
+            "Bán Nợ Một Phần": {
+              displayName: "Thanh Lý HĐ Bán Nợ Một Phần",
+              pdf: "HĐ Bán Nợ Một Phần.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Galaxy": {
+              displayName: "Thanh Lý HĐ Bán Nợ Galaxy",
+              pdf: "HĐ Bán Nợ Galaxy.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              displayName: "Thanh Lý HĐ Bán Nợ Fc Sold_Azura",
+              pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Welcome Vina": {
+              displayName: "Thanh Lý HĐ Bán Nợ Welcome Vina",
+              pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
           },
-          "Bán Nợ Fc Sold_Azura": {
-            displayName: "Lịch Sử TT Bán Nợ Fc Sold_Azura",
-            pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
+          "Thỏa Thuận KV": {
+            "HĐ FEC": {
+              displayName: "Thỏa Thuận KV HĐ FEC",
+              pdf: "IB Dung SDT.pdf",
+              note: "N/A",
+              xmttib: XMTT_8,
+            },
+            "Cash 24": {
+              displayName: "Thỏa Thuận KV Cash 24",
+              pdf: "HD Cash 24.pdf",
+              note: "N/A",
+              xmttib: XMTT_1,
+            },
+            "Kim An": {
+              displayName: "Thỏa Thuận KV Kim An",
+              pdf: "HĐ Kim An.pdf",
+              note: "Lưu ý cho hợp đồng Kim An.",
+              xmtt: XMTT_2,
+            },
+            "Bán Nợ Một Phần": {
+              displayName: "Thỏa Thuận KV Bán Nợ Một Phần",
+              pdf: "HĐ Bán Nợ Một Phần.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Galaxy": {
+              displayName: "Thỏa Thuận KV Bán Nợ Galaxy",
+              pdf: "HĐ Bán Nợ Galaxy.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              displayName: "Thỏa Thuận KV Bán Nợ Fc Sold_Azura",
+              pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Welcome Vina": {
+              displayName: "Thỏa Thuận KV Bán Nợ Welcome Vina",
+              pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
           },
-          "Bán Nợ Welcome Vina": {
-            displayName: "Lịch Sử TT Bán Nợ Welcome Vina",
-            pdf: "HĐ Bán Nợ Welcome Vina.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
+          "Tình Trạng HĐ": {
+            "HĐ FEC": {
+              displayName: "Tình Trạng HĐ FEC",
+              pdf: "IB Dung SDT.pdf",
+              note: "N/A",
+              xmttib: XMTT_8,
+            },
+            "Cash 24": {
+              displayName: "Tình Trạng HĐ Cash 24",
+              pdf: "HD Cash 24.pdf",
+              note: "N/A",
+              xmttib: XMTT_1,
+            },
+            "Kim An": {
+              displayName: "Tình Trạng HĐ Kim An",
+              pdf: "HĐ Kim An.pdf",
+              note: "Lưu ý cho hợp đồng Kim An.",
+              xmtt: XMTT_2,
+            },
+            "Bán Nợ Một Phần": {
+              displayName: "Tình Trạng HĐ Bán Nợ Một Phần",
+              pdf: "HĐ Bán Nợ Một Phần.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Galaxy": {
+              displayName: "Tình Trạng HĐ Bán Nợ Galaxy",
+              pdf: "HĐ Bán Nợ Galaxy.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              displayName: "Tình Trạng HĐ Bán Nợ Fc Sold_Azura",
+              pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Welcome Vina": {
+              displayName: "Tình Trạng HĐ Bán Nợ Welcome Vina",
+              pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+          },
+          "Đóng HĐ": {
+            "HĐ FEC": {
+              displayName: "Đóng HĐ FEC",
+              pdf: "IB Dung SDT.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Cash 24": {
+              displayName: "Đóng HĐ Cash 24",
+              pdf: "HD Cash 24.pdf",
+              note: "N/A",
+              xmttib: XMTT_1,
+            },
+            "Kim An": {
+              displayName: "Đóng HĐ Kim An",
+              pdf: "HĐ Kim An.pdf",
+              note: "Lưu ý cho hợp đồng Kim An.",
+              xmtt: XMTT_2,
+            },
+            "Bán Nợ Một Phần": {
+              displayName: "Đóng HĐ Bán Nợ Một Phần",
+              pdf: "HĐ Bán Nợ Một Phần.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Galaxy": {
+              displayName: "Đóng HĐ Bán Nợ Galaxy",
+              pdf: "HĐ Bán Nợ Galaxy.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              displayName: "Đóng HĐ Bán Nợ Fc Sold_Azura",
+              pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Welcome Vina": {
+              displayName: "Đóng HĐ Bán Nợ Welcome Vina",
+              pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+          },
+          CIC: {
+            "HĐ FEC": {
+              displayName: "CIC HĐ FEC",
+              pdf: "IB Dung SDT.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Cash 24": {
+              displayName: "CIC Cash 24",
+              pdf: "HD Cash 24.pdf",
+              note: "N/A",
+              xmttib: XMTT_1,
+            },
+            "Kim An": {
+              displayName: "CIC Kim An",
+              pdf: "HĐ Kim An.pdf",
+              note: "Lưu ý cho hợp đồng Kim An.",
+              xmtt: XMTT_2,
+            },
+            "Bán Nợ Một Phần": {
+              displayName: "CIC Bán Nợ Một Phần",
+              pdf: "HĐ Bán Nợ Một Phần.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Galaxy": {
+              displayName: "CIC Bán Nợ Galaxy",
+              pdf: "HĐ Bán Nợ Galaxy.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              displayName: "CIC Bán Nợ Fc Sold_Azura",
+              pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
+            "Bán Nợ Welcome Vina": {
+              displayName: "CIC Bán Nợ Welcome Vina",
+              pdf: "HĐ Bán Nợ Welcome Vina.pdf",
+              note: "N/A",
+              xmttib: XMTT_4,
+            },
           },
         },
-        "Thanh Lý HĐ": {
-          "HĐ FEC": { displayName: "Thanh Lý HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmttib: XMTT_4 },
-          "Cash 24": { displayName: "Thanh Lý HĐ Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmttib: XMTT_1 },
-          "Kim An": {
-            displayName: "Thanh Lý HĐ Kim An",
-            pdf: "HĐ Kim An.pdf",
-            note: "Lưu ý cho hợp đồng Kim An.",
-            xmtt: XMTT_2,
-          },
-          "Bán Nợ Một Phần": {
-            displayName: "Thanh Lý HĐ Bán Nợ Một Phần",
-            pdf: "HĐ Bán Nợ Một Phần.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Galaxy": {
-            displayName: "Thanh Lý HĐ Bán Nợ Galaxy",
-            pdf: "HĐ Bán Nợ Galaxy.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            displayName: "Thanh Lý HĐ Bán Nợ Fc Sold_Azura",
-            pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Welcome Vina": {
-            displayName: "Thanh Lý HĐ Bán Nợ Welcome Vina",
-            pdf: "HĐ Bán Nợ Welcome Vina.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
+        "7. Test": {
+          "7.1. Mục con Test": {
+            displayName: "Test > Mục con Test",
+            pdf: "Test.pdf",
+            note: "Đây là ghi chú cho mục test.",
+            xmttib: "Nội dung cho IB ở mục Test.",
+            xmttecom: "Nội dung cho ECOM ở mục Test.",
           },
         },
-        "Thỏa Thuận KV": {
-          "HĐ FEC": { displayName: "Thỏa Thuận KV HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmttib: XMTT_8 },
-          "Cash 24": { displayName: "Thỏa Thuận KV Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmttib: XMTT_1 },
-          "Kim An": {
-            displayName: "Thỏa Thuận KV Kim An",
-            pdf: "HĐ Kim An.pdf",
-            note: "Lưu ý cho hợp đồng Kim An.",
-            xmtt: XMTT_2,
-          },
-          "Bán Nợ Một Phần": {
-            displayName: "Thỏa Thuận KV Bán Nợ Một Phần",
-            pdf: "HĐ Bán Nợ Một Phần.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Galaxy": {
-            displayName: "Thỏa Thuận KV Bán Nợ Galaxy",
-            pdf: "HĐ Bán Nợ Galaxy.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            displayName: "Thỏa Thuận KV Bán Nợ Fc Sold_Azura",
-            pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Welcome Vina": {
-            displayName: "Thỏa Thuận KV Bán Nợ Welcome Vina",
-            pdf: "HĐ Bán Nợ Welcome Vina.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-        },
-        "Tình Trạng HĐ": {
-          "HĐ FEC": { displayName: "Tình Trạng HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmttib: XMTT_8 },
-          "Cash 24": { displayName: "Tình Trạng HĐ Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmttib: XMTT_1 },
-          "Kim An": {
-            displayName: "Tình Trạng HĐ Kim An",
-            pdf: "HĐ Kim An.pdf",
-            note: "Lưu ý cho hợp đồng Kim An.",
-            xmtt: XMTT_2,
-          },
-          "Bán Nợ Một Phần": {
-            displayName: "Tình Trạng HĐ Bán Nợ Một Phần",
-            pdf: "HĐ Bán Nợ Một Phần.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Galaxy": {
-            displayName: "Tình Trạng HĐ Bán Nợ Galaxy",
-            pdf: "HĐ Bán Nợ Galaxy.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            displayName: "Tình Trạng HĐ Bán Nợ Fc Sold_Azura",
-            pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Welcome Vina": {
-            displayName: "Tình Trạng HĐ Bán Nợ Welcome Vina",
-            pdf: "HĐ Bán Nợ Welcome Vina.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-        },
-        "Đóng HĐ": {
-          "HĐ FEC": { displayName: "Đóng HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmttib: XMTT_4 },
-          "Cash 24": { displayName: "Đóng HĐ Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmttib: XMTT_1 },
-          "Kim An": {
-            displayName: "Đóng HĐ Kim An",
-            pdf: "HĐ Kim An.pdf",
-            note: "Lưu ý cho hợp đồng Kim An.",
-            xmtt: XMTT_2,
-          },
-          "Bán Nợ Một Phần": {
-            displayName: "Đóng HĐ Bán Nợ Một Phần",
-            pdf: "HĐ Bán Nợ Một Phần.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Galaxy": {
-            displayName: "Đóng HĐ Bán Nợ Galaxy",
-            pdf: "HĐ Bán Nợ Galaxy.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            displayName: "Đóng HĐ Bán Nợ Fc Sold_Azura",
-            pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Welcome Vina": {
-            displayName: "Đóng HĐ Bán Nợ Welcome Vina",
-            pdf: "HĐ Bán Nợ Welcome Vina.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-        },
-        CIC: {
-          "HĐ FEC": { displayName: "CIC HĐ FEC", pdf: "IB Dung SDT.pdf", note: "N/A", xmttib: XMTT_4 },
-          "Cash 24": { displayName: "CIC Cash 24", pdf: "HD Cash 24.pdf", note: "N/A", xmttib: XMTT_1 },
-          "Kim An": {
-            displayName: "CIC Kim An",
-            pdf: "HĐ Kim An.pdf",
-            note: "Lưu ý cho hợp đồng Kim An.",
-            xmtt: XMTT_2,
-          },
-          "Bán Nợ Một Phần": {
-            displayName: "CIC Bán Nợ Một Phần",
-            pdf: "HĐ Bán Nợ Một Phần.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Galaxy": {
-            displayName: "CIC Bán Nợ Galaxy",
-            pdf: "HĐ Bán Nợ Galaxy.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            displayName: "CIC Bán Nợ Fc Sold_Azura",
-            pdf: "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-          "Bán Nợ Welcome Vina": {
-            displayName: "CIC Bán Nợ Welcome Vina",
-            pdf: "HĐ Bán Nợ Welcome Vina.pdf",
-            note: "N/A",
-            xmttib: XMTT_4,
-          },
-        },
-      },
-      "7. Test": {
-        "7.1. Mục con Test": {
-          displayName: "Test > Mục con Test",
-          pdf: "Test.pdf",
-          note: "Đây là ghi chú cho mục test.",
-          xmttib: "Nội dung cho IB ở mục Test.",
-          xmttecom: "Nội dung cho ECOM ở mục Test."
+      };
+    </script>
+    <script>
+      // Embedded main script
+      document.addEventListener("DOMContentLoaded", () => {
+        // Check if data is loaded
+        if (typeof flowchartData === "undefined") {
+          console.error(
+            "Flowchart data not loaded. Make sure flowchart-data.js is included and correct."
+          );
+          return;
         }
-      },
-    };
-  </script>
-  <script>
-    // Embedded main script
-    document.addEventListener("DOMContentLoaded", () => {
-      // Check if data is loaded
-      if (typeof flowchartData === "undefined") {
-        console.error(
-          "Flowchart data not loaded. Make sure flowchart-data.js is included and correct."
+
+        // --- DOM ELEMENT REFERENCES ---
+        const dynamicFiltersContainer = document.getElementById(
+          "dynamic-filters-container"
         );
-        return;
-      }
+        const xmttResult = document.getElementById("xmtt-result");
+        const notesResult = document.getElementById("notes-result");
+        const pdfViewer = document.getElementById("pdf-viewer");
+        const sidebarToggle = document.getElementById("sidebar-toggle");
+        const mainHeader = document.getElementById("main-header");
+        const body = document.body;
+        const toastContainer = document.getElementById("toast-container");
+        const overlay = document.getElementById("overlay");
+        const headerSearch = document.getElementById("header-search");
+        const searchResultsContainer = document.getElementById(
+          "search-results-container"
+        );
+        const subHeader = document.getElementById("sub-header");
 
-      // --- DOM ELEMENT REFERENCES ---
-      const dynamicFiltersContainer = document.getElementById(
-        "dynamic-filters-container"
-      );
-      const xmttResult = document.getElementById("xmtt-result");
-      const notesResult = document.getElementById("notes-result");
-      const pdfViewer = document.getElementById("pdf-viewer");
-      const sidebarToggle = document.getElementById("sidebar-toggle");
-      const mainHeader = document.getElementById("main-header");
-      const body = document.body;
-      const toastContainer = document.getElementById("toast-container");
-      const overlay = document.getElementById("overlay");
-      const headerSearch = document.getElementById("header-search");
-      const searchResultsContainer = document.getElementById(
-        "search-results-container"
-      );
-      const subHeader = document.getElementById("sub-header");
+        // --- CONSTANTS AND STATE VARIABLES ---
+        const FOLDER_MAP = {
+          1: "THONG_TIN_CHUNG",
+          2: "THONG_TIN_SAN_PHAM",
+          3: "DANG_KY_VAY",
+          4: "GIAI_NGAN",
+          5: "KENH_THANH_TOAN",
+          6: "THANH_TOAN_CIC",
+          7: "TEST",
+        };
+        const levelLabels = {
+          1: "Chọn vấn đề:",
+          2: "Chọn chi tiết vấn đề:",
+          3: "Chọn loại HĐ:",
+          4: "Chọn kênh:",
+          5: "Chọn loại đầu vào:",
+        };
+        let flattenedFlowchartData = []; // For efficient searching
 
-      // --- CONSTANTS AND STATE VARIABLES ---
-      const FOLDER_MAP = {
-        1: "THONG_TIN_CHUNG",
-        2: "THONG_TIN_SAN_PHAM",
-        3: "DANG_KY_VAY",
-        4: "GIAI_NGAN",
-        5: "KENH_THANH_TOAN",
-        6: "THANH_TOAN_CIC",
-        7: "TEST",
-      };
-      const levelLabels = {
-        1: "Chọn vấn đề:",
-        2: "Chọn chi tiết vấn đề:",
-        3: "Chọn loại HĐ:",
-        4: "Chọn kênh:",
-        5: "Chọn loại đầu vào:",
-      };
-      let flattenedFlowchartData = []; // For efficient searching
+        // --- UTILITY FUNCTIONS ---
+        function isObject(value) {
+          return typeof value === "object" && value !== null;
+        }
 
-      // --- UTILITY FUNCTIONS ---
-      function isObject(value) {
-        return typeof value === "object" && value !== null;
-      }
+        function isLeaf(node) {
+          return isObject(node) && node.pdf !== undefined;
+        }
 
-      function isLeaf(node) {
-        return isObject(node) && node.pdf !== undefined;
-      }
+        function removeAccents(str) {
+          if (!str) return "";
+          return str
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/đ/g, "d")
+            .replace(/Đ/g, "D");
+        }
 
-      function removeAccents(str) {
-        if (!str) return "";
-        return str
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .replace(/đ/g, "d")
-          .replace(/Đ/g, "D");
-      }
+        function flattenFlowchart(node, path = [], breadcrumb = []) {
+          Object.keys(node).forEach((key) => {
+            const newPath = [...path, key];
+            const newBreadcrumb = [...breadcrumb, key.replace(/^\d+\.\s*/, "")];
+            const childNode = node[key];
 
-      function flattenFlowchart(node, path = [], breadcrumb = []) {
-        Object.keys(node).forEach((key) => {
-          const newPath = [...path, key];
-          const newBreadcrumb = [...breadcrumb, key.replace(/^\d+\.\s*/, "")];
-          const childNode = node[key];
+            if (isLeaf(childNode)) {
+              const displayText =
+                childNode.displayName || newBreadcrumb.join(" > ");
+              const pdfName = childNode.pdf || "";
 
-          if (isLeaf(childNode)) {
-            const displayText = childNode.displayName || newBreadcrumb.join(" > ");
-            const pdfName = childNode.pdf || "";
+              flattenedFlowchartData.push({
+                path: newPath,
+                pdfName: pdfName,
+                displayText: displayText,
+                // Add pre-normalized versions for efficient searching
+                normalizedDisplayText: removeAccents(displayText.toLowerCase()),
+                normalizedPdfName: removeAccents(pdfName.toLowerCase()),
+              });
+            } else if (isObject(childNode)) {
+              flattenFlowchart(childNode, newPath, newBreadcrumb);
+            }
+          });
+        }
 
-            flattenedFlowchartData.push({
-              path: newPath,
-              pdfName: pdfName,
-              displayText: displayText,
-              // Add pre-normalized versions for efficient searching
-              normalizedDisplayText: removeAccents(displayText.toLowerCase()),
-              normalizedPdfName: removeAccents(pdfName.toLowerCase()),
-            });
-          } else if (isObject(childNode)) {
-            flattenFlowchart(childNode, newPath, newBreadcrumb);
-          }
-        });
-      }
-
-      // --- INITIALIZATION ---
-      function initialize() {
-        flattenFlowchart(flowchartData);
-        createFirstLevelDropdown();
-        setupEventListeners();
-        // New: Check URL for state on load
-        restoreStateFromURL();
-      }
+        // --- INITIALIZATION ---
+        function initialize() {
+          flattenFlowchart(flowchartData);
+          createFirstLevelDropdown();
+          setupEventListeners();
+          // New: Check URL for state on load
+          restoreStateFromURL();
+        }
 
       // --- STATE MANAGEMENT (URL) ---
       function saveStateToURL(path) {
-        // Use base64 encoding for safer handling of special characters
+        // Encode path for URL: JSON -> URIComponent -> base64
         const jsonPath = JSON.stringify(path);
-        const base64Path = btoa(encodeURIComponent(jsonPath));
-        // Use query parameter instead of hash for better href compatibility
-        const newUrl = window.location.pathname + "?path=" + base64Path;
+        const encodedPath = btoa(encodeURIComponent(jsonPath));
+
+        // Use hash for state, remove query parameter to avoid conflicts
+        const newUrl = window.location.pathname + "#" + encodedPath;
         history.pushState({ path: path }, "", newUrl);
-        console.log('💾 Saved to URL:', newUrl);
+        console.log('💾 Saved state to URL hash:', newUrl);
       }
 
       function restoreStateFromURL() {
-        // Check query parameter first (new method with base64)
-        const urlParams = new URLSearchParams(window.location.search);
-        const pathParam = urlParams.get('path');
-
         console.log('🔍 Checking URL for state...');
-        console.log('Query string:', window.location.search);
-        console.log('Hash:', window.location.hash);
+        const hash = window.location.hash;
 
-        if (pathParam) {
-          console.log('📋 Found query parameter:', pathParam);
+        // 1. Try restoring from hash (new primary method)
+        if (hash && hash.length > 1) {
+          const encodedPath = hash.substring(1);
+          console.log('📋 Found hash:', encodedPath);
           try {
-            // Decode from base64 first
-            const decodedBase64 = decodeURIComponent(atob(pathParam));
-            console.log('🔓 Decoded from base64:', decodedBase64);
-
-            const path = JSON.parse(decodedBase64);
-            console.log('✅ Parsed path:', path);
-
+            const jsonPath = decodeURIComponent(atob(encodedPath));
+            const path = JSON.parse(jsonPath);
             if (Array.isArray(path)) {
-              console.log('🎯 Applying search result with path:', path);
+              console.log('🎯 Applying state from hash:', path);
               applySearchResult(path, false);
-              return;
+              return; // State restored
             }
           } catch (e) {
-            console.log("❌ Query parameter is not a valid path:", e);
-            // Try old format for backward compatibility
+            console.error("❌ Failed to parse state from hash. It might be a legacy hash.", e);
+             // Fallback for old, non-base64 hash format
             try {
-              const decodedParam = decodeURIComponent(pathParam);
+              const decodedParam = decodeURIComponent(encodedPath);
               const path = JSON.parse(decodedParam);
               if (Array.isArray(path)) {
+                console.log('🎯 Applying from hash (legacy):', path);
                 applySearchResult(path, false);
-                return;
+                return; // Success
               }
             } catch (e2) {
-              console.log("❌ Both decoding methods failed:", e2);
+              console.error("❌ Invalid path data in hash.", e2);
             }
           }
+          return; // Stop after attempting hash
         }
 
-        // Fallback to hash for backward compatibility
-        const hash = window.location.hash;
-        if (hash && hash.length > 1) {
-          console.log('📋 Trying hash fallback:', hash);
-          const hashParam = hash.substring(1);
+        // 2. Fallback for old links: Try restoring from query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const pathParam = urlParams.get('path');
+        if (pathParam) {
+          console.log('📋 Found legacy query parameter:', pathParam);
           try {
-            const decodedParam = decodeURIComponent(hashParam);
-            const path = JSON.parse(decodedParam);
+            const jsonPath = decodeURIComponent(atob(pathParam));
+            const path = JSON.parse(jsonPath);
             if (Array.isArray(path)) {
-              console.log('🎯 Applying from hash:', path);
+              console.log('🎯 Applying state from query parameter, will update URL to hash format.');
+              // Restore state but don't re-save/push history here
               applySearchResult(path, false);
+
+              // Replace the URL to use the new hash format without adding a new history entry
+              const newUrl = window.location.pathname + "#" + pathParam;
+              history.replaceState({ path: path }, "", newUrl);
+              return; // State restored and URL updated
             }
           } catch (e) {
-            console.log("❌ Hash is not a valid path:", e);
+            console.error("❌ Failed to parse state from query parameter.", e);
           }
-        } else {
-          console.log('ℹ️ No state found in URL');
-        }
-      }
-
-      // --- SEARCH FUNCTIONALITY ---
-      function searchFlowchartData(query) {
-        if (!query) return [];
-        // Normalize the user's query once
-        const normalizedQuery = removeAccents(query.toLowerCase());
-
-        return flattenedFlowchartData.filter((item) => {
-          // Search against the pre-normalized data
-          const matchesDisplayText =
-            item.normalizedDisplayText.includes(normalizedQuery);
-          const matchesPdf = item.normalizedPdfName.includes(normalizedQuery);
-          return matchesDisplayText || matchesPdf;
-        });
-      }
-
-      function displaySearchResults(results) {
-        searchResultsContainer.innerHTML = "";
-        if (results.length === 0) {
-          searchResultsContainer.classList.remove("show");
           return;
         }
 
-        results.slice(0, 10).forEach((result) => {
-          const resultItem = document.createElement("div");
-          resultItem.className = "search-result-item";
-          resultItem.textContent = result.displayText;
-          resultItem.dataset.path = JSON.stringify(result.path);
-          searchResultsContainer.appendChild(resultItem);
-        });
-        searchResultsContainer.classList.add("show");
+        console.log('ℹ️ No state found in URL.');
       }
 
-      // Modified to prevent re-saving state when restoring
-      function applySearchResult(path, shouldSaveState = true) {
-        removeDropdowns(1);
-        let currentDataNode = flowchartData;
-        let lastKey = "";
-        let finalNode = null;
-        let finalPath = [];
+        // --- SEARCH FUNCTIONALITY ---
+        function searchFlowchartData(query) {
+          if (!query) return [];
+          // Normalize the user's query once
+          const normalizedQuery = removeAccents(query.toLowerCase());
 
-        path.forEach((key, index) => {
-          const level = index + 1;
-          const options = Object.keys(currentDataNode);
-          createDropdown(options, level, currentDataNode);
-          const select = dynamicFiltersContainer.querySelector(
-            `select[data-level="${level}"]`
-          );
-          if (select) {
-            select.value = key;
-            lastKey = key;
-            finalPath.push(key);
-            currentDataNode = currentDataNode[key];
-          }
-        });
-
-        finalNode = currentDataNode;
-
-        if (isLeaf(finalNode)) {
-          displayResult(finalNode, lastKey);
-          if (shouldSaveState) {
-            saveStateToURL(finalPath);
-          }
+          return flattenedFlowchartData.filter((item) => {
+            // Search against the pre-normalized data
+            const matchesDisplayText =
+              item.normalizedDisplayText.includes(normalizedQuery);
+            const matchesPdf = item.normalizedPdfName.includes(normalizedQuery);
+            return matchesDisplayText || matchesPdf;
+          });
         }
 
-        searchResultsContainer.classList.remove("show");
-        headerSearch.value = "";
-        headerSearch.blur();
-      }
+        function displaySearchResults(results) {
+          searchResultsContainer.innerHTML = "";
+          if (results.length === 0) {
+            searchResultsContainer.classList.remove("show");
+            return;
+          }
 
-      // --- DROPDOWN AND SELECTION LOGIC ---
-      function createFirstLevelDropdown() {
-        dynamicFiltersContainer.innerHTML = "";
-        createDropdown(Object.keys(flowchartData), 1, flowchartData);
-      }
-
-      function createDropdown(options, level, dataNode) {
-        const filterGroup = document.createElement("div");
-        filterGroup.className = "filter-group";
-
-        const label = document.createElement("label");
-        label.className = "filter-label";
-        label.textContent = levelLabels[level] || `Cấp ${level}:`;
-        filterGroup.appendChild(label);
-
-        const select = document.createElement("select");
-        select.className = "filter-select";
-        select.dataset.level = level;
-        select.innerHTML = '<option value="">-- Chọn --</option>';
-        options.forEach((text) => {
-          const option = document.createElement("option");
-          option.value = text;
-          option.textContent = text;
-          select.appendChild(option);
-        });
-        select.addEventListener("change", (e) =>
-          handleSelection(e, level, dataNode)
-        );
-        filterGroup.appendChild(select);
-        dynamicFiltersContainer.appendChild(filterGroup);
-      }
-
-      // Modified to save state to URL
-      function handleSelection(event, level, parentDataNode) {
-        const selectedKey = event.target.value;
-        removeDropdowns(level + 1);
-        resetResults();
-
-        if (!selectedKey) {
-          history.pushState(null, "", window.location.pathname); // Clear URL params if selection is cleared
-          return;
+          results.slice(0, 10).forEach((result) => {
+            const resultItem = document.createElement("div");
+            resultItem.className = "search-result-item";
+            resultItem.textContent = result.displayText;
+            resultItem.dataset.path = JSON.stringify(result.path);
+            searchResultsContainer.appendChild(resultItem);
+          });
+          searchResultsContainer.classList.add("show");
         }
 
-        const selectedNode = parentDataNode[selectedKey];
-        if (isLeaf(selectedNode)) {
-          displayResult(selectedNode, selectedKey);
-          // Construct the path and save it
-          const path = [];
-          document.querySelectorAll(".filter-select").forEach((select) => {
-            if (select.value) {
-              path.push(select.value);
+        // Modified to prevent re-saving state when restoring
+        function applySearchResult(path, shouldSaveState = true) {
+          removeDropdowns(1);
+          let currentDataNode = flowchartData;
+          let lastKey = "";
+          let finalNode = null;
+          let finalPath = [];
+
+          path.forEach((key, index) => {
+            const level = index + 1;
+            const options = Object.keys(currentDataNode);
+            createDropdown(options, level, currentDataNode);
+            const select = dynamicFiltersContainer.querySelector(
+              `select[data-level="${level}"]`
+            );
+            if (select) {
+              select.value = key;
+              lastKey = key;
+              finalPath.push(key);
+              currentDataNode = currentDataNode[key];
             }
           });
-          saveStateToURL(path);
-        } else if (isObject(selectedNode)) {
-          createDropdown(Object.keys(selectedNode), level + 1, selectedNode);
-        }
-      }
 
-      // --- UI AND EVENT LISTENERS SETUP ---
-      const popup = document.getElementById("custom-popup");
-      const popupContent = document.getElementById("popup-content");
-      const popupCloseBtn = document.getElementById("popup-close-btn");
-      const sidebar = document.getElementById("sidebar"); // Get sidebar reference
+          finalNode = currentDataNode;
 
-      function repositionPopup() {
-        if (popup.classList.contains("hidden")) {
-          return; // Do nothing if the popup is not visible
-        }
-
-        const subHeaderRect = subHeader.getBoundingClientRect(); // Still used for height calculation
-        const mainHeaderHeight = mainHeader.offsetHeight;
-        const sidebarWidth = sidebar.offsetWidth;
-
-        const leftOffset = 5; // 5px from the left (relative to sidebar edge)
-        const rightOffset = 20; // 20px from the right edge of the viewport
-        const totalHorizontalMargin = leftOffset + rightOffset;
-
-        popup.style.top = mainHeaderHeight + "px";
-        popup.style.left = sidebarWidth + leftOffset + "px";
-        popup.style.width = `calc(100vw - ${sidebarWidth}px - ${totalHorizontalMargin}px)`;
-        popup.style.height = subHeaderRect.height + "px";
-      }
-
-      function openPopup(targetBoxId) {
-        const sourceBox = document.getElementById(targetBoxId);
-        const sourceContent = sourceBox.querySelector(".box-content");
-
-        if (!sourceBox || !sourceContent) {
-          console.error("Popup source elements not found!");
-          return;
-        }
-
-        // 1. Populate content first
-        popupContent.innerHTML = "";
-        const clonedContent = sourceContent.cloneNode(true);
-        popupContent.appendChild(clonedContent);
-
-        // 2. Position and show
-        popup.classList.remove("hidden");
-        repositionPopup(); // Set initial position
-      }
-
-      function closePopup() {
-        popup.classList.add("hidden");
-        setTimeout(() => {
-          popupContent.innerHTML = "";
-        }, 300);
-      }
-
-      function setupEventListeners() {
-        sidebarToggle.addEventListener("click", () => {
-          body.classList.toggle("sidebar-collapsed");
-          // Recalculate popup position after the sidebar transition finishes
-          setTimeout(repositionPopup, 300); // 300ms matches CSS --transition-speed
-        });
-
-        headerSearch.addEventListener("input", (e) => {
-          const results = searchFlowchartData(e.target.value);
-          displaySearchResults(results);
-        });
-
-        headerSearch.addEventListener("focus", (e) => {
-          const results = searchFlowchartData(e.target.value);
-          if (results.length > 0) searchResultsContainer.classList.add("show");
-        });
-
-        searchResultsContainer.addEventListener("mousedown", (e) => {
-          const item = e.target.closest(".search-result-item");
-          if (item?.dataset.path) {
-            applySearchResult(JSON.parse(item.dataset.path));
+          if (isLeaf(finalNode)) {
+            displayResult(finalNode, lastKey);
+            if (shouldSaveState) {
+              saveStateToURL(finalPath);
+            }
           }
-        });
 
-        document.addEventListener("click", (e) => {
-          if (
-            !headerSearch.contains(e.target) &&
-            !searchResultsContainer.contains(e.target)
-          ) {
-            searchResultsContainer.classList.remove("show");
-          }
-        });
-
-        // Listen for popstate events (browser back/forward with query parameters)
-        window.addEventListener("popstate", () => {
-          console.log('🔄 Popstate event, restoring state...');
-          restoreStateFromURL();
-        });
-
-        const changeLogBtn = document.getElementById("change-log-btn");
-        if (changeLogBtn) {
-          changeLogBtn.addEventListener("click", () => {
-            pdfViewer.src = "./pdfile-loan/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
-            document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
-            document.getElementById("xmtt-ecom-content").innerHTML = "<p>...</p>";
-            notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
-          });
+          searchResultsContainer.classList.remove("show");
+          headerSearch.value = "";
+          headerSearch.blur();
         }
 
-        const khuyenMaiBtn = document.getElementById("khuyen-mai-btn");
-        if (khuyenMaiBtn) {
-          khuyenMaiBtn.addEventListener("click", () => {
-            pdfViewer.src = "./pdfile-loan/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
-            document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
-            document.getElementById("xmtt-ecom-content").innerHTML = "<p>...</p>";
-            notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
-          });
+        // --- DROPDOWN AND SELECTION LOGIC ---
+        function createFirstLevelDropdown() {
+          dynamicFiltersContainer.innerHTML = "";
+          createDropdown(Object.keys(flowchartData), 1, flowchartData);
         }
 
-        // Popup logic
-        document.querySelectorAll(".expand-btn").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            openPopup(btn.dataset.target);
+        function createDropdown(options, level, dataNode) {
+          const filterGroup = document.createElement("div");
+          filterGroup.className = "filter-group";
+
+          const label = document.createElement("label");
+          label.className = "filter-label";
+          label.textContent = levelLabels[level] || `Cấp ${level}:`;
+          filterGroup.appendChild(label);
+
+          const select = document.createElement("select");
+          select.className = "filter-select";
+          select.dataset.level = level;
+          select.innerHTML = '<option value="">-- Chọn --</option>';
+          options.forEach((text) => {
+            const option = document.createElement("option");
+            option.value = text;
+            option.textContent = text;
+            select.appendChild(option);
           });
-        });
-
-        popupCloseBtn.addEventListener("click", closePopup);
-
-        // Add a single, persistent resize listener
-        window.addEventListener("resize", repositionPopup);
-      }
-
-      // --- UI DISPLAY LOGIC ---
-      function displayResult(resultObject, selectionText) {
-        // New logic for IB/ECOM
-        const xmttIbContent = document.getElementById("xmtt-ib-content");
-        const xmttEcomContent = document.getElementById("xmtt-ecom-content");
-
-        xmttIbContent.innerHTML = resultObject.xmttib
-          ? `<p>${resultObject.xmttib}</p>`
-          : "<p>...</p>";
-        xmttEcomContent.innerHTML = resultObject.xmttecom
-          ? `<p>${resultObject.xmttecom}</p>`
-          : "<p>...</p>";
-
-        // Handle old 'xmtt' property for backward compatibility
-        if (resultObject.xmtt) {
-          xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
-          xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
-        }
-
-        notesResult.innerHTML = resultObject.note
-          ? `<p>${resultObject.note}</p>`
-          : "<p>Không có lưu ý.</p>";
-
-        if (resultObject.pdf) {
-          const firstLevelSelect = dynamicFiltersContainer.querySelector(
-            'select[data-level="1"]'
+          select.addEventListener("change", (e) =>
+            handleSelection(e, level, dataNode)
           );
-          const categoryIndexMatch = firstLevelSelect?.value.match(/^(\d+)/);
-          const folderName = categoryIndexMatch
-            ? FOLDER_MAP[categoryIndexMatch[1]]
-            : null;
-          pdfViewer.src = folderName
-            ? `./pdfile-loan/${folderName}/${resultObject.pdf}`
-            : `./pdfile-loan/${resultObject.pdf}`;
-        } else {
+          filterGroup.appendChild(select);
+          dynamicFiltersContainer.appendChild(filterGroup);
+        }
+
+        // Modified to save state to URL
+        function handleSelection(event, level, parentDataNode) {
+          const selectedKey = event.target.value;
+          removeDropdowns(level + 1);
+          resetResults();
+
+          if (!selectedKey) {
+            history.pushState(null, "", window.location.pathname); // Clear URL params if selection is cleared
+            return;
+          }
+
+          const selectedNode = parentDataNode[selectedKey];
+          if (isLeaf(selectedNode)) {
+            displayResult(selectedNode, selectedKey);
+            // Construct the path and save it
+            const path = [];
+            document.querySelectorAll(".filter-select").forEach((select) => {
+              if (select.value) {
+                path.push(select.value);
+              }
+            });
+            saveStateToURL(path);
+          } else if (isObject(selectedNode)) {
+            createDropdown(Object.keys(selectedNode), level + 1, selectedNode);
+          }
+        }
+
+        // --- UI AND EVENT LISTENERS SETUP ---
+        const popup = document.getElementById("custom-popup");
+        const popupContent = document.getElementById("popup-content");
+        const popupCloseBtn = document.getElementById("popup-close-btn");
+        const sidebar = document.getElementById("sidebar"); // Get sidebar reference
+
+        function repositionPopup() {
+          if (popup.classList.contains("hidden")) {
+            return; // Do nothing if the popup is not visible
+          }
+
+          const subHeaderRect = subHeader.getBoundingClientRect(); // Still used for height calculation
+          const mainHeaderHeight = mainHeader.offsetHeight;
+          const sidebarWidth = sidebar.offsetWidth;
+
+          const leftOffset = 5; // 5px from the left (relative to sidebar edge)
+          const rightOffset = 20; // 20px from the right edge of the viewport
+          const totalHorizontalMargin = leftOffset + rightOffset;
+
+          popup.style.top = mainHeaderHeight + "px";
+          popup.style.left = sidebarWidth + leftOffset + "px";
+          popup.style.width = `calc(100vw - ${sidebarWidth}px - ${totalHorizontalMargin}px)`;
+          popup.style.height = subHeaderRect.height + "px";
+        }
+
+        function openPopup(targetBoxId) {
+          const sourceBox = document.getElementById(targetBoxId);
+          const sourceContent = sourceBox.querySelector(".box-content");
+
+          if (!sourceBox || !sourceContent) {
+            console.error("Popup source elements not found!");
+            return;
+          }
+
+          // 1. Populate content first
+          popupContent.innerHTML = "";
+          const clonedContent = sourceContent.cloneNode(true);
+          popupContent.appendChild(clonedContent);
+
+          // 2. Position and show
+          popup.classList.remove("hidden");
+          repositionPopup(); // Set initial position
+        }
+
+        function closePopup() {
+          popup.classList.add("hidden");
+          setTimeout(() => {
+            popupContent.innerHTML = "";
+          }, 300);
+        }
+
+        function setupEventListeners() {
+          sidebarToggle.addEventListener("click", () => {
+            body.classList.toggle("sidebar-collapsed");
+            // Recalculate popup position after the sidebar transition finishes
+            setTimeout(repositionPopup, 300); // 300ms matches CSS --transition-speed
+          });
+
+          headerSearch.addEventListener("input", (e) => {
+            const results = searchFlowchartData(e.target.value);
+            displaySearchResults(results);
+          });
+
+          headerSearch.addEventListener("focus", (e) => {
+            const results = searchFlowchartData(e.target.value);
+            if (results.length > 0)
+              searchResultsContainer.classList.add("show");
+          });
+
+          searchResultsContainer.addEventListener("mousedown", (e) => {
+            const item = e.target.closest(".search-result-item");
+            if (item?.dataset.path) {
+              applySearchResult(JSON.parse(item.dataset.path));
+            }
+          });
+
+          document.addEventListener("click", (e) => {
+            if (
+              !headerSearch.contains(e.target) &&
+              !searchResultsContainer.contains(e.target)
+            ) {
+              searchResultsContainer.classList.remove("show");
+            }
+          });
+
+          // Listen for popstate events (browser back/forward with query parameters)
+          window.addEventListener("popstate", () => {
+            console.log("🔄 Popstate event, restoring state...");
+            restoreStateFromURL();
+          });
+
+          const changeLogBtn = document.getElementById("change-log-btn");
+          if (changeLogBtn) {
+            changeLogBtn.addEventListener("click", () => {
+              pdfViewer.src =
+                "./pdfile-loan/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
+              document.getElementById("xmtt-ib-content").innerHTML =
+                "<p>...</p>";
+              document.getElementById("xmtt-ecom-content").innerHTML =
+                "<p>...</p>";
+              notesResult.innerHTML =
+                "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
+            });
+          }
+
+          const khuyenMaiBtn = document.getElementById("khuyen-mai-btn");
+          if (khuyenMaiBtn) {
+            khuyenMaiBtn.addEventListener("click", () => {
+              pdfViewer.src =
+                "./pdfile-loan/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
+              document.getElementById("xmtt-ib-content").innerHTML =
+                "<p>...</p>";
+              document.getElementById("xmtt-ecom-content").innerHTML =
+                "<p>...</p>";
+              notesResult.innerHTML =
+                "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
+            });
+          }
+
+          // Popup logic
+          document.querySelectorAll(".expand-btn").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              openPopup(btn.dataset.target);
+            });
+          });
+
+          popupCloseBtn.addEventListener("click", closePopup);
+
+          // Add a single, persistent resize listener
+          window.addEventListener("resize", repositionPopup);
+        }
+
+        // --- UI DISPLAY LOGIC ---
+        function displayResult(resultObject, selectionText) {
+          // New logic for IB/ECOM
+          const xmttIbContent = document.getElementById("xmtt-ib-content");
+          const xmttEcomContent = document.getElementById("xmtt-ecom-content");
+
+          xmttIbContent.innerHTML = resultObject.xmttib
+            ? `<p>${resultObject.xmttib}</p>`
+            : "<p>...</p>";
+          xmttEcomContent.innerHTML = resultObject.xmttecom
+            ? `<p>${resultObject.xmttecom}</p>`
+            : "<p>...</p>";
+
+          // Handle old 'xmtt' property for backward compatibility
+          if (resultObject.xmtt) {
+            xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+            xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+          }
+
+          notesResult.innerHTML = resultObject.note
+            ? `<p>${resultObject.note}</p>`
+            : "<p>Không có lưu ý.</p>";
+
+          if (resultObject.pdf) {
+            const firstLevelSelect = dynamicFiltersContainer.querySelector(
+              'select[data-level="1"]'
+            );
+            const categoryIndexMatch = firstLevelSelect?.value.match(/^(\d+)/);
+            const folderName = categoryIndexMatch
+              ? FOLDER_MAP[categoryIndexMatch[1]]
+              : null;
+            pdfViewer.src = folderName
+              ? `./pdfile-loan/${folderName}/${resultObject.pdf}`
+              : `./pdfile-loan/${resultObject.pdf}`;
+          } else {
+            pdfViewer.src = "";
+          }
+
+          if (resultObject.alert) {
+            (Array.isArray(resultObject.alert)
+              ? resultObject.alert
+              : [resultObject.alert]
+            ).forEach((msg) => showNotification(msg));
+          }
+        }
+
+        function showNotification(message) {
+          if (!toastContainer) return;
+          const toast = document.createElement("div");
+          toast.className = "notification-toast show";
+          toast.innerHTML = `<p>${message}</p><button class="toast-close">✕</button>`;
+          toast.querySelector(".toast-close").onclick = () => {
+            toast.classList.remove("show");
+            setTimeout(() => toast.remove(), 400);
+          };
+          toastContainer.appendChild(toast);
+        }
+
+        function resetResults() {
+          const xmttIbContent = document.getElementById("xmtt-ib-content");
+          const xmttEcomContent = document.getElementById("xmtt-ecom-content");
+          // Clear all content areas
+          xmttIbContent.innerHTML = "<p>...</p>";
+          xmttEcomContent.innerHTML = "<p>...</p>";
+          notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
           pdfViewer.src = "";
         }
 
-        if (resultObject.alert) {
-          (Array.isArray(resultObject.alert)
-            ? resultObject.alert
-            : [resultObject.alert]
-          ).forEach((msg) => showNotification(msg));
+        function removeDropdowns(startLevel) {
+          dynamicFiltersContainer
+            .querySelectorAll(".filter-group")
+            .forEach((group) => {
+              const select = group.querySelector("select");
+              if (parseInt(select.dataset.level) >= startLevel) group.remove();
+            });
         }
-      }
 
-      function showNotification(message) {
-        if (!toastContainer) return;
-        const toast = document.createElement("div");
-        toast.className = "notification-toast show";
-        toast.innerHTML = `<p>${message}</p><button class="toast-close">✕</button>`;
-        toast.querySelector(".toast-close").onclick = () => {
-          toast.classList.remove("show");
-          setTimeout(() => toast.remove(), 400);
-        };
-        toastContainer.appendChild(toast);
-      }
-
-      function resetResults() {
-        const xmttIbContent = document.getElementById("xmtt-ib-content");
-        const xmttEcomContent = document.getElementById("xmtt-ecom-content");
-        // Clear all content areas
-        xmttIbContent.innerHTML = "<p>...</p>";
-        xmttEcomContent.innerHTML = "<p>...</p>";
-        notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
-        pdfViewer.src = "";
-      }
-
-      function removeDropdowns(startLevel) {
-        dynamicFiltersContainer
-          .querySelectorAll(".filter-group")
-          .forEach((group) => {
-            const select = group.querySelector("select");
-            if (parseInt(select.dataset.level) >= startLevel) group.remove();
-          });
-      }
-
-      // --- START THE APP ---
-      initialize();
-    });
-
-  </script>
-</body>
-
+        // --- START THE APP ---
+        initialize();
+      });
+    </script>
+  </body>
 </html>
