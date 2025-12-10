@@ -257,6 +257,7 @@ body.sidebar-collapsed {
   color: #555;
   margin: 0;
   padding: 0;
+  white-space: normal; /* Ensure line breaks are respected */
 }
 
 /* Notes Result - block layout, full width */
