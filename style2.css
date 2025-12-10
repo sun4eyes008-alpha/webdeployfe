@@ -762,3 +762,28 @@ body.landing-page #main-header .sidebar-toggle {
 .landing-header .tab-btn.active {
   background-color: rgba(0, 0, 0, 0.05);
 }
+
+.sidebar-header {
+  display: flex;
+  padding: 0;
+  border-bottom: 1px solid #dee2e6;
+}
+.sidebar-tab-btn {
+  flex: 1;
+  background-color: #f8f9fa;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #6c757d;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+.sidebar-tab-btn:hover {
+  background-color: #e9ecef;
+}
+.sidebar-tab-btn.active {
+  color: #81c753;
+  background-color: #fff;
+  border-bottom-color: #009f52;
+}

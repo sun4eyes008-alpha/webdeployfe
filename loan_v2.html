@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PLTT LOAN v2</title>
+    <link rel="stylesheet" href="style2.css" />
+
+  </head>
+
+  <body>
+    <!-- Header -->
+    <header id="main-header">
+      <div class="header-container">
+        <button class="sidebar-toggle" id="sidebar-toggle">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="logo-container">
+          <a href="index.html">
+            <img src="./logo/logo-fecredit.svg" alt="FECredit" class="logo" />
+          </a>
+        </div>
+
+        <!-- NEW SEARCH BAR -->
+        <div class="search-container">
+          <input
+            type="search"
+            id="header-search"
+            placeholder="Tìm kiếm thông tin..."
+          />
+          <div id="search-results-container" class="search-results"></div>
+        </div>
+
+        <div class="header-tabs">
+          <div class="dropdown">
+            <button class="tab-btn dropdown-toggle">PLTT</button>
+            <div class="dropdown-menu">
+              <a
+                href="loan_v2.html?source=truyvan#JTVCJTIyMS4lMjBUSCVDMyU5NE5HJTIwVElOJTIwQ0hVTkclMjIlMkMlMjJUaCVDMyVCNG5nJTIwVGluJTIwQyVDMyVCNG5nJTIwVHklMjIlNUQ="
+                class="dropdown-item"
+                id="loan-btn"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path
+                    d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z"
+                  />
+                  <path
+                    d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z"
+                  />
+                  <path
+                    d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z"
+                  />
+                </svg>
+                LOAN
+              </a>
+              <a href="card_v2.html" class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path
+                    d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"
+                  />
+                  <path
+                    d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"
+                  />
+                </svg>
+                CARD
+              </a>
+              <a href="outbound.html" class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path
+                    fill-rule="evenodd"
+                    d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z"
+                  />
+                </svg>
+                OUTBOUND
+              </a>
+              <a href="ubank_v2.html" class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <path
+                    d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z"
+                  />
+                </svg>
+
+                UBANK
+              </a>
+            </div>
+          </div>
+          <button class="tab-btn" data-tab="xmtt">XMTT</button>
+          <button class="tab-btn" data-tab="quy-dinh">QUY ĐỊNH CHUNG</button>
+          <button class="tab-btn" data-tab="khuyen-mai" id="khuyen-mai-btn">
+            KHUYẾN MÃI
+          </button>
+          <button class="tab-btn" data-tab="change-log" id="change-log-btn">
+            CHANGE LOG
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav id="sidebar">
+      <div class="sidebar-header" id="sidebar-tabs">
+        <button class="sidebar-tab-btn active" data-source="truyvan">TRUY VẤN</button>
+        <button class="sidebar-tab-btn" data-source="feedback">FEEDBACK</button>
+      </div>
+      <div class="sidebar-content">
+        <div id="dynamic-filters-container"></div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+      <!-- Sub Header -->
+      <div id="sub-header">
+        <div class="sub-header-box" id="xmtt-box">
+          <button class="expand-btn" data-target="xmtt-box">⤢</button>
+          <div id="xmtt-result" class="box-content">
+            <div class="xmtt-column" id="xmtt-ib-column">
+              <h5>XMTT IB</h5>
+              <div id="xmtt-ib-content">
+                <p>...</p>
+              </div>
+            </div>
+            <div class="xmtt-column" id="xmtt-ecom-column">
+              <h5>XMTT ECOM</h5>
+              <div id="xmtt-ecom-content">
+                <p>...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sub-header-box" id="notes-box">
+          <button class="expand-btn" data-target="notes-box">⤢</button>
+          <div id="notes-result" class="box-content">
+            <p>Thông báo và lưu ý sẽ hiển thị ở đây</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body Content (PDF Viewer) -->
+      <div id="body-proper">
+        <iframe
+          id="pdf-viewer"
+          src=""
+          style="width: 100%; height: 100%; border: none"
+        ></iframe>
+      </div>
+    </main>
+
+    <div id="custom-popup" class="popup-container hidden">
+      <button id="popup-close-btn">✖</button>
+      <div id="popup-content"></div>
+    </div>
+
+    <div id="overlay"></div>
+    <div id="toast-container"></div>
+
+    <script src="loan-flowchart.js" defer></script>
+    <script src="loan-fb-flowchart.js" defer></script>
+    <script>
+      // Embedded main script
+      document.addEventListener("DOMContentLoaded", () => {
+        // Now that scripts are deferred, this check runs after they have loaded.
+        if (typeof window.flowchartData === "undefined" || typeof window.flowchartDataFeedback === "undefined") {
+          alert("Lỗi: Không thể tải dữ liệu điều kiện. Vui lòng kiểm tra các file .js và thử lại.");
+          console.error("Flowchart data objects not found on window object.");
+          return;
+        }
+
+        // --- DOM ELEMENT REFERENCES ---
+        const dynamicFiltersContainer = document.getElementById("dynamic-filters-container");
+        const notesResult = document.getElementById("notes-result");
+        const pdfViewer = document.getElementById("pdf-viewer");
+        const sidebarToggle = document.getElementById("sidebar-toggle");
+        const mainHeader = document.getElementById("main-header");
+        const body = document.body;
+        const headerSearch = document.getElementById("header-search");
+        const searchResultsContainer = document.getElementById("search-results-container");
+        const subHeader = document.getElementById("sub-header");
+        const toastContainer = document.getElementById("toast-container");
+
+        // --- CONSTANTS AND STATE ---
+        const FOLDER_MAPS = {
+          truyvan: {
+            1: "THONG_TIN_CHUNG",
+            2: "THONG_TIN_SAN_PHAM",
+            3: "DANG_KY_VAY",
+            4: "GIAI_NGAN",
+            5: "KENH_THANH_TOAN",
+            6: "THANH_TOAN_CIC",
+          },
+          feedback: {
+            1: "GOP_Y_TICH_CUC",
+            2: "GOP_Y_TIEU_CUC",
+          }
+        };
+        const LEVEL_LABELS = {
+          truyvan: {
+            1: "Chọn vấn đề:",
+            2: "Chọn chi tiết vấn đề:",
+            3: "Chọn loại HĐ:",
+            4: "Chọn kênh:",
+            5: "Chọn loại đầu vào:",
+          },
+          feedback: {
+            1: "Chọn loại góp ý:",
+            2: "Chọn chi tiết:",
+          }
+        };
+        
+        const state = {
+            activeData: null,
+            flattenedData: [],
+            activeSourceName: 'truyvan',
+        };
+
+        const dataSources = {
+            truyvan: window.flowchartData,
+            feedback: window.flowchartDataFeedback,
+        };
+
+        // --- UTILITY FUNCTIONS ---
+        const isObject = (value) => typeof value === "object" && value !== null;
+        const isLeaf = (node) => isObject(node) && node.pdf !== undefined;
+        const removeAccents = (str) => {
+          if (!str) return "";
+          return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
+        };
+
+        function flattenFlowchart(node, path = [], breadcrumb = []) {
+          Object.keys(node).forEach((key) => {
+            const newPath = [...path, key];
+            const newBreadcrumb = [...breadcrumb, key.replace(/^\d+\.\s*/, "")];
+            const childNode = node[key];
+
+            if (isLeaf(childNode)) {
+              const displayText = childNode.displayName || newBreadcrumb.join(" > ");
+              state.flattenedData.push({
+                path: newPath,
+                pdfName: childNode.pdf || "",
+                displayText: displayText,
+                normalizedDisplayText: removeAccents(displayText.toLowerCase()),
+                normalizedPdfName: removeAccents((childNode.pdf || "").toLowerCase()),
+              });
+            } else if (isObject(childNode)) {
+              flattenFlowchart(childNode, newPath, newBreadcrumb);
+            }
+          });
+        }
+        
+        function switchDataSource(sourceName) {
+            if (!dataSources[sourceName]) {
+                console.error(`Data source "${sourceName}" not found.`);
+                return;
+            }
+
+            state.activeSourceName = sourceName;
+            state.activeData = dataSources[sourceName];
+            
+            document.querySelectorAll('.sidebar-tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.source === sourceName);
+            });
+
+            state.flattenedData = [];
+            flattenFlowchart(state.activeData);
+            createFirstLevelDropdown();
+            resetResults();
+            history.pushState({ source: sourceName }, "", `${window.location.pathname}?source=${sourceName}`);
+        }
+
+        // --- INITIALIZATION ---
+        function initialize() {
+          setupEventListeners();
+          const urlParams = new URLSearchParams(window.location.search);
+          const sourceParam = urlParams.get('source') || 'truyvan';
+          switchDataSource(sourceParam);
+          restoreStateFromURL();
+        }
+
+        // --- URL STATE MANAGEMENT ---
+        function saveStateToURL(path) {
+            const jsonPath = JSON.stringify(path);
+            const encodedPath = btoa(encodeURIComponent(jsonPath));
+            const newUrl = `${window.location.pathname}?source=${state.activeSourceName}#${encodedPath}`;
+            history.pushState({ path: path, source: state.activeSourceName }, "", newUrl);
+        }
+
+        function restoreStateFromURL() {
+            const hash = window.location.hash;
+            if (hash && hash.length > 1) {
+                const encodedPath = hash.substring(1);
+                try {
+                    const jsonPath = decodeURIComponent(atob(encodedPath));
+                    const path = JSON.parse(jsonPath);
+                    if (Array.isArray(path)) {
+                        applySearchResult(path, false);
+                    }
+                } catch (e) {
+                    console.error("Failed to parse state from hash.", e);
+                }
+            }
+        }
+
+        // --- SEARCH ---
+        function searchFlowchartData(query) {
+          if (!query) return [];
+          const normalizedQuery = removeAccents(query.toLowerCase());
+          return state.flattenedData.filter(item => 
+            item.normalizedDisplayText.includes(normalizedQuery) || 
+            item.normalizedPdfName.includes(normalizedQuery)
+          );
+        }
+
+        function displaySearchResults(results) {
+          searchResultsContainer.innerHTML = "";
+          if (results.length === 0) {
+            searchResultsContainer.classList.remove("show");
+            return;
+          }
+          results.slice(0, 10).forEach((result) => {
+            const resultItem = document.createElement("div");
+            resultItem.className = "search-result-item";
+            resultItem.textContent = result.displayText;
+            resultItem.dataset.path = JSON.stringify(result.path);
+            searchResultsContainer.appendChild(resultItem);
+          });
+          searchResultsContainer.classList.add("show");
+        }
+
+        function applySearchResult(path, shouldSaveState = true) {
+          removeDropdowns(1);
+          let currentDataNode = state.activeData;
+          path.forEach((key, index) => {
+            if (!currentDataNode || !currentDataNode[key]) return;
+            const level = index + 1;
+            const options = Object.keys(currentDataNode);
+            createDropdown(options, level, currentDataNode);
+            const select = dynamicFiltersContainer.querySelector(`select[data-level="${level}"]`);
+            if (select) {
+              select.value = key;
+              currentDataNode = currentDataNode[key];
+            }
+          });
+
+          if (isLeaf(currentDataNode)) {
+            displayResult(currentDataNode);
+            if (shouldSaveState) saveStateToURL(path);
+          }
+          searchResultsContainer.classList.remove("show");
+          headerSearch.value = "";
+          headerSearch.blur();
+        }
+
+        // --- DROPDOWNS ---
+        function createFirstLevelDropdown() {
+          dynamicFiltersContainer.innerHTML = "";
+          createDropdown(Object.keys(state.activeData), 1, state.activeData);
+        }
+
+        function createDropdown(options, level, dataNode) {
+          const filterGroup = document.createElement("div");
+          filterGroup.className = "filter-group";
+          const label = document.createElement("label");
+          label.className = "filter-label";
+          label.textContent = LEVEL_LABELS[state.activeSourceName][level] || `Cấp ${level}:`;
+          filterGroup.appendChild(label);
+
+          const select = document.createElement("select");
+          select.className = "filter-select";
+          select.dataset.level = level;
+          select.innerHTML = '<option value="">-- Chọn --</option>';
+          options.forEach((text) => {
+            const option = document.createElement("option");
+            option.value = text;
+            option.textContent = text;
+            select.appendChild(option);
+          });
+          select.addEventListener("change", (e) => handleSelection(e, level, dataNode));
+          filterGroup.appendChild(select);
+          dynamicFiltersContainer.appendChild(filterGroup);
+        }
+
+        function handleSelection(event, level, parentDataNode) {
+          const selectedKey = event.target.value;
+          removeDropdowns(level + 1);
+          resetResults();
+          if (!selectedKey) {
+            history.pushState({source: state.activeSourceName}, "", `${window.location.pathname}?source=${state.activeSourceName}`);
+            return;
+          }
+          const selectedNode = parentDataNode[selectedKey];
+          if (isLeaf(selectedNode)) {
+            displayResult(selectedNode);
+            const path = Array.from(document.querySelectorAll(".filter-select"))
+                             .map(s => s.value)
+                             .filter(Boolean);
+            saveStateToURL(path);
+          } else if (isObject(selectedNode)) {
+            createDropdown(Object.keys(selectedNode), level + 1, selectedNode);
+          }
+        }
+
+        // --- EVENT LISTENERS ---
+        function setupEventListeners() {
+          document.getElementById('sidebar-tabs').addEventListener('click', (e) => {
+            if (e.target.matches('.sidebar-tab-btn')) {
+                const source = e.target.dataset.source;
+                if (source !== state.activeSourceName) switchDataSource(source);
+            }
+          });
+
+          sidebarToggle.addEventListener("click", () => body.classList.toggle("sidebar-collapsed"));
+          headerSearch.addEventListener("input", (e) => displaySearchResults(searchFlowchartData(e.target.value)));
+          headerSearch.addEventListener("focus", (e) => {
+            if(e.target.value) displaySearchResults(searchFlowchartData(e.target.value));
+          });
+          searchResultsContainer.addEventListener("mousedown", (e) => {
+            const item = e.target.closest(".search-result-item");
+            if (item?.dataset.path) applySearchResult(JSON.parse(item.dataset.path));
+          });
+          document.addEventListener("click", (e) => {
+            if (!headerSearch.contains(e.target) && !searchResultsContainer.contains(e.target)) {
+              searchResultsContainer.classList.remove("show");
+            }
+          });
+          window.addEventListener("popstate", () => restoreStateFromURL());
+        }
+
+        // --- UI DISPLAY ---
+        function displayResult(resultObject) {
+          const xmttIbContent = document.getElementById("xmtt-ib-content");
+          const xmttEcomContent = document.getElementById("xmtt-ecom-content");
+          xmttIbContent.innerHTML = resultObject.xmttib ? `<p>${resultObject.xmttib}</p>` : "<p>...</p>";
+          if(xmttEcomContent) xmttEcomContent.innerHTML = resultObject.xmttecom ? `<p>${resultObject.xmttecom}</p>` : "<p>...</p>";
+          if (resultObject.xmtt) { // Backward compatibility
+            xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+            if(xmttEcomContent) xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+          }
+          notesResult.innerHTML = resultObject.note ? `<p>${resultObject.note}</p>` : "<p>Không có lưu ý.</p>";
+
+          if (resultObject.pdf) {
+            const firstLevelSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
+            const categoryIndexMatch = firstLevelSelect?.value.match(/^(\d+)/);
+            const folderMap = FOLDER_MAPS[state.activeSourceName];
+            const folderName = (categoryIndexMatch && folderMap) ? folderMap[categoryIndexMatch[1]] : null;
+            const baseFolder = state.activeSourceName === 'feedback' ? 'pdfile-loan-fb' : 'pdfile-loan';
+            
+            if (folderName) {
+              pdfViewer.src = `./${baseFolder}/${folderName}/${resultObject.pdf}`;
+            } else {
+              // Fallback for items without a numbered category, or if mapping is missing
+              pdfViewer.src = `./${baseFolder}/${resultObject.pdf}`;
+            }
+          } else {
+            pdfViewer.src = "";
+          }
+          if (resultObject.alert) {
+            (Array.isArray(resultObject.alert) ? resultObject.alert : [resultObject.alert])
+              .forEach((msg) => showNotification(msg));
+          }
+        }
+
+        function showNotification(message) {
+          if (!toastContainer) return;
+          const toast = document.createElement("div");
+          toast.className = "notification-toast show";
+          toast.innerHTML = `<p>${message}</p><button class="toast-close">✕</button>`;
+          toast.querySelector(".toast-close").onclick = () => {
+            toast.classList.remove("show");
+            setTimeout(() => toast.remove(), 400);
+          };
+          toastContainer.appendChild(toast);
+        }
+
+        function resetResults() {
+          document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
+          const ecomContent = document.getElementById("xmtt-ecom-content");
+          if(ecomContent) ecomContent.innerHTML = "<p>...</p>";
+          notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
+          pdfViewer.src = "";
+        }
+
+        function removeDropdowns(startLevel) {
+          dynamicFiltersContainer.querySelectorAll(".filter-group").forEach((group) => {
+            const select = group.querySelector("select");
+            if (parseInt(select.dataset.level) >= startLevel) group.remove();
+          });
+        }
+
+        // --- START THE APP ---
+        initialize();
+      });
+    </script>
+  </body>
+</html>

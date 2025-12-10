@@ -229,8 +229,6 @@
       // ĐỂ SỬA MẶC ĐỊNH NODE: Tìm "nodeQuoteTypes[fieldKey] || '\"'" và đổi '"' thành '`'
       const [nodeQuoteTypes, setNodeQuoteTypes] = useState({});
       const [errorInfo, setErrorInfo] = useState(null); // {title, message, details, lineNumber, codeSnippet}
-      const [originalFileContent, setOriginalFileContent] = useState("");
-      const [dataObjectInfo, setDataObjectInfo] = useState(null); // { name, declaration, startIndex, endIndex }
 
       // Helper to get code snippet around error line
 
@@ -351,103 +349,340 @@
       const handleFileUpload = (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        
+
+        // Validate file extension
+        if (!file.name.endsWith('.js')) {
+          setErrorInfo({
+            title: "❌ Sai Định Dạng File",
+            message: "Vui lòng chọn file JavaScript (.js)",
+            details: `File được chọn: ${file.name}`,
+            lineNumber: null
+          });
+          return;
+        }
+
         const reader = new FileReader();
         reader.onload = (event) => {
-          const content = event.target.result;
-          setOriginalFileContent(content); // Save original content
-
           try {
-            // Step 1: Find constants (flexible declaration)
-            const constRegex = /(?:(?:const|let|var)\s+(\w+)|window\.(\w+))\s*=\s*(?:"([\s\S]*?)"|`([\s\S]*?)`);/g;
-            const flatConstants = {};
+            const content = event.target.result;
+
+            // Step 1: Parse groups
+            const groupRegex = /\/\/\s*---\s*GROUP:\s*(.+?)\s*---/g;
+            const groupsFound = [];
+            let gMatch;
+            while ((gMatch = groupRegex.exec(content)) !== null)
+              groupsFound.push({ index: gMatch.index, name: gMatch[1] });
+
+            // Step 2: Parse constants - handle both "string" and `template literal`
+            const constRegex = /const\s+(\w+)\s*=\s*(?:"([\s\S]*?)"|`([\s\S]*?)`);/g;
+            const constsFound = [];
             let cMatch;
+
+            // Helper function to decode HTML entities
+            const decodeHtmlEntities = (text) => {
+              try {
+                const textarea = document.createElement('textarea');
+                textarea.innerHTML = text;
+                return textarea.value;
+              } catch (e) {
+                throw new Error(`Lỗi decode HTML entities: ${e.message}`);
+              }
+            };
+
+            // Helper function to unescape string literals
+            const unescapeString = (text) => {
+              return text
+                .replace(/\\n/g, "\n")      // Convert \n to actual newline
+                .replace(/\\r/g, "\r")      // Convert \r to actual carriage return
+                .replace(/\\t/g, "\t")      // Convert \t to actual tab
+                .replace(/\\"/g, '"')       // Convert \" to "
+                .replace(/\\'/g, "'")       // Convert \' to '
+                .replace(/\\\\/g, "\\")     // Convert \\ to \
+                .replace(/\\`/g, "`")       // Convert \` to `
+                .replace(/\\\$/g, "$");     // Convert \$ to $
+            };
+
             while ((cMatch = constRegex.exec(content)) !== null) {
-              const key = cMatch[1] || cMatch[2];
-              let value = (cMatch[3] !== undefined) ? cMatch[3] : (cMatch[4] || "");
-               try {
-                  const unescapedValue = new Function(`return "${value.replace(/"/g, '\\"')}"`)();
-                  flatConstants[key] = unescapedValue.replace(/<br>/gi, "\n");
-               } catch(e) {
-                   // Fallback for complex template literals
-                   flatConstants[key] = value;
-               }
+              try {
+                // cMatch[2] is double-quoted string, cMatch[3] is template literal
+                let value = (cMatch[2] !== undefined ? cMatch[2] : cMatch[3] || "");
+
+                // Unescape string literals first
+                value = unescapeString(value);
+
+                // Decode HTML entities (e.g., &lt; -> <, &gt; -> >)
+                value = decodeHtmlEntities(value);
+
+                // Replace <br> tags with newlines
+                value = value
+                  .replace(/<br>/gi, "\n")
+                  .replace(/<\/br>/gi, "\n");
+
+                constsFound.push({
+                  index: cMatch.index,
+                  key: cMatch[1],
+                  value: value,
+                });
+              } catch (varError) {
+                const lineNumber = content.substring(0, cMatch.index).split('\n').length;
+                setErrorInfo({
+                  title: "❌ Lỗi Parse Biến",
+                  message: `Không thể parse biến "${cMatch[1]}"`,
+                  details: `Dòng ${lineNumber}: ${varError.message}`,
+                  lineNumber: lineNumber
+                });
+                return;
+              }
             }
 
-            // Step 2: Find the main data object (flexible)
-            const dataRegex = /((?:const|let|var|window\.)\s*\w+\s*=\s*)(\{[\s\S]+?\});?\s*$/;
-            const dataMatch = content.match(dataRegex);
+            const newGroupedConstants = { "Chưa phân loại": {} };
+            groupsFound.forEach((g) => {
+              if (!newGroupedConstants[g.name])
+                newGroupedConstants[g.name] = {};
+            });
+
+            constsFound.forEach((c) => {
+              let targetGroup = "Chưa phân loại";
+              let maxGroupIndex = -1;
+              for (const g of groupsFound) {
+                if (g.index < c.index && g.index > maxGroupIndex) {
+                  maxGroupIndex = g.index;
+                  targetGroup = g.name;
+                }
+              }
+              if (!newGroupedConstants[targetGroup])
+                newGroupedConstants[targetGroup] = {};
+              newGroupedConstants[targetGroup][c.key] = c.value;
+            });
+
+            setGroupedConstants(newGroupedConstants);
+            const flatConstants = {};
+            Object.values(newGroupedConstants).forEach((group) =>
+              Object.assign(flatConstants, group)
+            );
+
+            // Step 3: Parse flowchartData
+            const dataMatch = content.match(
+              /window.flowchartData = (\{[\s\S]+?\});?\s*$/
+            );
 
             if (!dataMatch) {
-              setErrorInfo({ title: "❌ Không Tìm Thấy Đối Tượng Dữ Liệu", message: "Không tìm thấy đối tượng dữ liệu chính trong file (ví dụ: const flowchartData = {...};)" });
+              setErrorInfo({
+                title: "❌ Không Tìm Thấy flowchartData",
+                message: "File không chứa 'const flowchartData = {...}'",
+                details: "Đảm bảo file có khai báo:\nconst flowchartData = { ... };",
+                lineNumber: null
+              });
               return;
             }
 
-            const declaration = dataMatch[1]; // e.g., "const flowchartData = "
-            const dataObjectString = dataMatch[2]; // The "{...}" string
-            const nameMatch = declaration.match(/(?:const|let|var|window\.)\s*(\w+)/);
-            const name = nameMatch ? nameMatch[1] : 'flowchartData';
-            
-            const startIndex = dataMatch.index + declaration.length;
-            const endIndex = startIndex + dataObjectString.length;
+            try {
+              const parsed = safeEvalFlowchartData(
+                dataMatch[1],
+                flatConstants
+              );
 
-            setDataObjectInfo({ name, declaration, startIndex, endIndex });
-            
-            // Step 3: Parse the data object for UI
-            const parsedData = safeEvalFlowchartData(dataObjectString, flatConstants);
-            setData(parsedData);
-            setExpandedNodes(new Set());
-            setErrorInfo({ title: "✅ Import Thành Công!", message: `Đã tải file: ${file.name}`, isSuccess: true });
+              // Validate parsed data
+              if (!parsed || typeof parsed !== 'object') {
+                throw new Error("flowchartData không phải là object hợp lệ");
+              }
 
+              setData(parsed);
+              setExpandedNodes(new Set());
+
+              // Show success message
+              setErrorInfo({
+                title: "✅ Import Thành Công!",
+                message: `Đã load file: ${file.name}`,
+                details: `• Số biến: ${constsFound.length}\n• Số nhóm: ${Object.keys(newGroupedConstants).length}\n• Số nodes: ${Object.keys(parsed).length}`,
+                lineNumber: null,
+                isSuccess: true
+              });
+            } catch (evalError) {
+              // Try to find line number if possible
+              // Use pattern search to find actual error line
+              let lineNumber = findErrorLineInContent(content, evalError.message);
+
+              // Fallback to flowchartData start if not found
+              if (!lineNumber) {
+                const flowchartStart = content.indexOf('const flowchartData');
+                if (flowchartStart !== -1) {
+                  lineNumber = content.substring(0, flowchartStart).split('\\n').length;
+                }
+              }
+
+              // Get error line content for fix suggestion
+              const errorLineContent = lineNumber ? content.split('\n')[lineNumber - 1] : null;
+              const fixSuggestions = errorLineContent ? generateFixSuggestion(errorLineContent, lineNumber) : null;
+
+              setErrorInfo({
+                title: "❌ Lỗi Cú Pháp flowchartData",
+                message: "Không thể parse flowchartData",
+                codeSnippet: lineNumber ? getCodeSnippet(content, lineNumber, 4) : null,
+                details: `${evalError.message}\n\n🔍 Kiểm tra:\n• Thiếu/thừa dấu phẩy (,)\n• Thiếu/thừa dấu ngoặc ({, }, [, ])\n• Tên biến không tồn tại\n• Cú pháp JavaScript không hợp lệ`,
+                lineNumber: lineNumber,
+                fixSuggestions: fixSuggestions
+              });
+            }
           } catch (err) {
-            setErrorInfo({ title: "❌ Lỗi Phân Tích File", message: "Có lỗi khi đọc và phân tích cú pháp file.", details: err.message + "\n" + err.stack });
+            // General error
+            const lineMatch = err.stack?.match(/\:(\d+)\:/);
+            const lineNumber = lineMatch ? parseInt(lineMatch[1]) : null;
+
+            setErrorInfo({
+              title: "❌ Lỗi Đọc File",
+              message: "Có lỗi khi đọc và parse file",
+              details: `${err.message}\n\nStack trace:\n${err.stack || 'N/A'}`,
+              lineNumber: lineNumber
+            });
           }
         };
+
+        reader.onerror = () => {
+          setErrorInfo({
+            title: "❌ Lỗi Đọc File",
+            message: "Không thể đọc file",
+            details: "Vui lòng thử lại hoặc chọn file khác",
+            lineNumber: null
+          });
+        };
+
         reader.readAsText(file);
       };
 
       const handleDownload = () => {
-        if (!originalFileContent || !dataObjectInfo) {
-          alert("Lỗi: Không có nội dung file gốc để lưu. Vui lòng tải file lên trước.");
-          return;
-        }
-
         try {
-          // Re-evaluate constants from the editor state, not the original file
+          let content = "/**\n * GENERATED BY FLOWCHART EDITOR\n */\n\n";
+          content += "// --- KHAI BÁO BIẾN DÙNG CHUNG ---\n";
           const flatConstants = {};
-          Object.values(groupedConstants).forEach(group => Object.assign(flatConstants, group));
+          Object.entries(groupedConstants).forEach(([groupName, items]) => {
+            if (Object.keys(items).length > 0) {
+              content += `\n// --- GROUP: ${groupName} ---\n`;
+              Object.entries(items).forEach(([key, value]) => {
+                // Dùng quote type đã chọn, mặc định là backtick (`)
+                // ĐỂ SỬA MẶC ĐỊNH: Tìm "varQuoteTypes[key] || '\`'" và đổi '\`' thành '"'
+                const quoteType = varQuoteTypes[key] || '`';
 
-          // Generate new data string from the current state
-          let newJsonString = JSON.stringify(data, null, 2);
-
-          // Replace values with constant names
-          const sortedConsts = Object.entries(flatConstants).sort((a, b) => b[1].length - a[1].length);
-          sortedConsts.forEach(([key, value]) => {
-            if (typeof value === 'string' && value.trim() !== '') {
-              const jsonVal = JSON.stringify(value).slice(1, -1);
-              const regex = new RegExp(`"${jsonVal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "g");
-              newJsonString = newJsonString.replace(regex, key);
+                if (quoteType === '`') {
+                  // Dùng template literal (backticks)
+                  const templateVal = value
+                    .replace(/`/g, '\\`')
+                    .replace(/\$/g, '\\$');
+                  content += `const ${key} = \`${templateVal}\`;\n`;
+                } else if (quoteType === '"') {
+                  // Dùng double quotes
+                  const safeVal = value
+                    .replace(/\\/g, '\\\\')
+                    .replace(/"/g, '\\"')
+                    .replace(/\n/g, '<br>');
+                  content += `const ${key} = "${safeVal}";\n`;
+                } else if (quoteType === 'var') {
+                  // Không có quote - dùng như variable name (không export value)
+                  // Chỉ comment để reference
+                  content += `// ${key} = (variable reference)\n`;
+                }
+                flatConstants[key] = value;
+              });
             }
           });
 
-          // Re-create final content by replacing only the data object part
-          const beforeData = originalFileContent.substring(0, dataObjectInfo.startIndex);
-          const afterData = originalFileContent.substring(dataObjectInfo.endIndex);
-          const finalContent = beforeData + newJsonString + afterData;
+          const cleanData = JSON.parse(JSON.stringify(data));
+          const removeType = (obj) => {
+            if (typeof obj === "object" && obj !== null) {
+              delete obj.type;
+              Object.values(obj).forEach(removeType);
+            }
+          };
+          removeType(cleanData);
 
-          // Trigger download
-          const blob = new Blob([finalContent], { type: "text/javascript;charset=utf-8" });
+          let jsonString = JSON.stringify(cleanData, null, 2);
+          const sortedConsts = Object.entries(flatConstants).sort(
+            (a, b) => b[1].length - a[1].length
+          );
+
+          // Thay thế giá trị của biến (value) bằng tên biến
+          sortedConsts.forEach(([key, value]) => {
+            const escapeRegExp = (string) =>
+              string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            const jsonVal = JSON.stringify(value).slice(1, -1);
+            const regex = new RegExp(`"${escapeRegExp(jsonVal)}"`, "g");
+            jsonString = jsonString.replace(regex, key);
+          });
+
+          // Thay thế tên biến khi người dùng nhập trực tiếp (ví dụ: "ecslide11" -> ecslide11)
+          Object.keys(flatConstants).forEach((varName) => {
+            // Tìm các trường hợp "varName" và thay bằng varName (không có dấu ngoặc kép)
+            const regex = new RegExp(`"(${varName})"`, "g");
+            jsonString = jsonString.replace(regex, (match, p1) => {
+              // Chỉ thay thế nếu đúng là tên biến (không phải là một phần của string khác)
+              return p1;
+            });
+          });
+
+          // Thay thế các field có HTML bằng template literals (backticks)
+          // Sử dụng một approach khác: Parse từng dòng thay vì dùng regex phức tạp
+          const lines = jsonString.split('\n');
+          const processedLines = lines.map(line => {
+            // Match pattern: "fieldname": "value..."
+            const fieldMatch = line.match(/^(\s*)(".*?"):\s*"(.*)"(,?)$/);
+            if (fieldMatch) {
+              const indent = fieldMatch[1];
+              const fieldName = fieldMatch[2];
+              const value = fieldMatch[3];
+              const comma = fieldMatch[4];
+
+              // Check if value contains HTML tags
+              const hasHtml = /<[a-z][\s\S]*>/i.test(value);
+
+              if (hasHtml) {
+                // Convert to template literal
+                // Value đã được JSON.stringify nên cần unescape TẤT CẢ escape sequences
+                const unescapedValue = value
+                  .replace(/\\"/g, '"')         // Unescape quotes \" -> "
+                  .replace(/\\\\/g, '\\')       // Unescape backslashes \\\\ -> \
+                  .replace(/\\n/g, '\n')        // Convert \\n to newline
+                  .replace(/\\r/g, '\r')        // Convert \\r to carriage return
+                  .replace(/\\t/g, '\t');       // Convert \\t to tab
+
+                // Now escape ONLY for template literals (không escape quotes!)
+                const backtickValue = unescapedValue
+                  .replace(/`/g, '\\`')         // Escape backticks
+                  .replace(/\$/g, '\\$');       // Escape dollar signs
+                // NOTE: Không cần escape backslash vì template literal giữ nguyên
+
+                return `${indent}${fieldName}: \`${backtickValue}\`${comma}`;
+              }
+            }
+            return line;
+          });
+          jsonString = processedLines.join('\n');
+
+          // Handle variable references from nodeQuoteTypes
+          // For fields marked as 'var', remove quotes so they export as variable names
+          Object.entries(nodeQuoteTypes).forEach(([fieldKey, quoteType]) => {
+            if (quoteType === 'var') {
+              // fieldKey format: "path.to.node.fieldName"
+              const parts = fieldKey.split('.');
+              const fieldName = parts[parts.length - 1];
+
+              // Find pattern: "fieldName": "VALUE" and replace with: fieldName: VALUE
+              // Need to be careful to match the exact field in the tree structure
+              const pattern = new RegExp(`"${fieldName}":\\s*"([^"]*)"`, 'g');
+              jsonString = jsonString.replace(pattern, `"${fieldName}": $1`);
+            }
+          });
+
+
+          content += `\nconst flowchartData = ${jsonString};\n`;
+          const blob = new Blob([content], { type: "text/javascript" });
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = `edited-${dataObjectInfo.name}.js`;
-          document.body.appendChild(a);
+          a.download = "loan-flowchart-final.js";
           a.click();
-          document.body.removeChild(a);
           URL.revokeObjectURL(url);
-
         } catch (e) {
-          setErrorInfo({ title: "❌ Lỗi Lưu File", message: "Không thể tạo file để tải xuống.", details: e.message });
+          alert("Lỗi save: " + e.message);
         }
       };
 

@@ -24,7 +24,7 @@ const XMTT_7 = "7. Đúng SĐT update + CMND + 2A + 1B";
 const XMTT_8 = "8. Sai SĐT<br>  a. còn dùng SDT cũ: dùng đúng SDT gọi lại<br>  b. Không còn dùng SDT:<br>   - HĐ Closed hết: CMND/CCCD + 1A<br>   - HĐ còn mở: CMND/CCCD + 2A  đồng thời hướng dẫn cập nhật SDT.";
 const XMTT_9 = "9. Sai SĐT + CMND + 1A";
 
-const flowchartData = {
+window.cardFlowchartData = {
   "1. THÔNG TIN CHUNG": {
     "Thông tin công ty": {
       displayName: "Thông tin công ty",
