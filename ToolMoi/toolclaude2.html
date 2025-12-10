@@ -1,0 +1,1440 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flowchart Editor (Fixed Group Rename)</title>
+
+  <script>
+    window.onerror = function (message, source, lineno, colno, error) {
+      alert("Lỗi hệ thống: " + message + "\nTại dòng: " + lineno);
+    };
+  </script>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .html-content {
+      white-space: pre-wrap;
+      font-family: monospace;
+      background: #f8fafc;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .code-input {
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .group-item.active {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      color: #1e40af;
+      font-weight: 600;
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.2s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
+
+    // --- ICONS ---
+    const Icon = ({ path, size = 18, color = "currentColor" }) => (
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {path}
+      </svg>
+    );
+    const Icons = {
+      ChevronRight: <polyline points="9 18 15 12 9 6" />,
+      ChevronDown: <polyline points="6 9 12 15 18 9" />,
+      Plus: (
+        <>
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </>
+      ),
+      Trash2: (
+        <>
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </>
+      ),
+      Edit2: (
+        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+      ),
+      Save: (
+        <>
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+          <polyline points="17 21 17 13 7 13 7 21" />
+          <polyline points="7 3 7 8 15 8" />
+        </>
+      ),
+      Download: (
+        <>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </>
+      ),
+      Upload: (
+        <>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
+        </>
+      ),
+      X: (
+        <>
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </>
+      ),
+      FileText: (
+        <>
+          <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+          <polyline points="14 2 14 8 20 8" />
+        </>
+      ),
+      Folder: (
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+      ),
+      ArrowUp: (
+        <>
+          <line x1="12" y1="19" x2="12" y2="5" />
+          <polyline points="5 12 12 5 19 12" />
+        </>
+      ),
+      ArrowDown: (
+        <>
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <polyline points="19 12 12 19 5 12" />
+        </>
+      ),
+    };
+    const BtnIcon = ({ name, size }) => (
+      <Icon path={Icons[name]} size={size} />
+    );
+
+    // --- HELPER FUNCTIONS ---
+    const replaceAllSafe = (str, find, replace) => {
+      if (!str) return "";
+      const regex = new RegExp(`\\b${find}\\b`, "g");
+      return str.replace(regex, replace);
+    };
+
+    const safeEvalFlowchartData = (dataStr, allConstants) => {
+      let processedStr = dataStr;
+      const replacements = [];
+
+      Object.entries(allConstants).forEach(([key, value]) => {
+        // Only escape what's necessary for JSON
+        const safeValue = value
+          .replace(/\\/g, "\\\\")   // Escape backslashes
+          .replace(/"/g, '\\"')      // Escape quotes
+          .replace(/\n/g, "\\n")     // Convert newlines to \n
+          .replace(/\r/g, "\\r")     // Convert carriage returns to \r
+          .replace(/\t/g, "\\t");    // Convert tabs to \t
+        processedStr = replaceAllSafe(processedStr, key, `"${safeValue}"`);
+        replacements.push({ key, hasValue: true });
+      });
+
+      try {
+        const result = new Function(`return (${processedStr})`)();
+        return result;
+      } catch (e) {
+        // Enhance error message
+        throw new Error(`${e.message}\n\n🔍 Đã thay thế ${replacements.length} biến\n\nNội dung sau khi thay thế (50 ký tự đầu):\n${processedStr.substring(0, 50)}...`);
+      }
+    };
+
+    const HtmlDisplay = ({ content }) => {
+      if (!content) return null;
+      const isHtml = /<[a-z][\s\S]*>/i.test(content);
+      return (
+        <div className={`small mt-1 ${isHtml ? "html-content" : "text-secondary"}`}>
+          {isHtml ? (
+            <div dangerouslySetInnerHTML={{ __html: content }} />
+          ) : (
+            content
+          )}
+        </div>
+      );
+    };
+
+    // --- MAIN COMPONENT ---
+    const FlowchartEditor = () => {
+      const [dataSources, setDataSources] = useState({}); // All data objects from the file, keyed by name
+      const [activeDataKey, setActiveDataKey] = useState(null); // The key of the currently active data source
+      const [allDataObjectInfo, setAllDataObjectInfo] = useState({}); // Store info for all objects
+      
+      const [expandedNodes, setExpandedNodes] = useState(new Set());
+      const [editingNode, setEditingNode] = useState(null);
+      const [groupedConstants, setGroupedConstants] = useState({
+        "Chưa phân loại": {},
+      });
+      const [showConstModal, setShowConstModal] = useState(false);
+      const [varQuoteTypes, setVarQuoteTypes] = useState({});
+      const [nodeQuoteTypes, setNodeQuoteTypes] = useState({});
+      const [errorInfo, setErrorInfo] = useState(null);
+      const [originalFileContent, setOriginalFileContent] = useState("");
+      
+      // Derived state for the active data tree
+      const activeData = activeDataKey ? dataSources[activeDataKey] : null;
+
+      // Helper to get active data for editing functions
+      const updateActiveData = (updater) => {
+        if (!activeDataKey) return;
+        setDataSources(prev => ({
+          ...prev,
+          [activeDataKey]: updater(prev[activeDataKey])
+        }));
+      };
+
+      // Helper to get code snippet around error line
+
+      // Helper to find actual error line by searching for patterns
+      const findErrorLineInContent = (content, errorMessage) => {
+        const lines = content.split('\n');
+
+        // Pattern 1: Unclosed strings - lines with odd number of unescaped quotes
+        if (errorMessage.includes('Unexpected') || errorMessage.includes('Invalid')) {
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const quoteMatches = line.match(/"/g);
+            const quoteCount = quoteMatches ? quoteMatches.length : 0;
+            if (quoteCount % 2 !== 0 && line.includes(':')) {
+              return i + 1;
+            }
+          }
+        }
+
+        // Pattern 2: Adjacent strings
+        for (let i = 0; i < lines.length; i++) {
+          if (lines[i].match(/"[^"]*"[^\s,+:}\]]/)) {
+            return i + 1;
+          }
+        }
+
+        return null;
+      };
+
+      const getCodeSnippet = (content, lineNumber, contextLines = 3) => {
+        const lines = content.split('\n');
+        const startLine = Math.max(0, lineNumber - contextLines - 1);
+        const endLine = Math.min(lines.length, lineNumber + contextLines);
+
+        const snippet = [];
+        for (let i = startLine; i < endLine; i++) {
+          snippet.push({
+            lineNum: i + 1,
+            content: lines[i],
+            isError: i + 1 === lineNumber
+          });
+        }
+        return snippet;
+      };
+
+      // Helper to generate fix suggestions for common errors
+      const generateFixSuggestion = (errorLine, lineNumber) => {
+        if (!errorLine) return null;
+
+        const suggestions = [];
+
+        // Pattern 1: Unclosed double quote - count quotes
+        const doubleQuotes = (errorLine.match(/"/g) || []).length;
+        if (doubleQuotes % 2 !== 0) {
+          // Find the last unclosed quote position
+          let fixed = errorLine;
+          const lastQuotePos = errorLine.lastIndexOf('"');
+          const afterLastQuote = errorLine.substring(lastQuotePos + 1);
+          // If there's content after last quote without closing quote, add one before comma/end
+          if (afterLastQuote.includes(',')) {
+            fixed = errorLine.substring(0, lastQuotePos + 1) + afterLastQuote.replace(',', '",');
+          } else {
+            fixed = errorLine.trimEnd() + '"';
+          }
+          suggestions.push({
+            type: 'unclosed_quote',
+            description: 'Thiếu dấu ngoặc kép đóng (")',
+            original: errorLine,
+            fixed: fixed,
+            lineNumber: lineNumber
+          });
+        }
+
+        // Pattern 2: Misplaced backtick like `text_`more`
+        const backtickMatch = errorLine.match(/`([^`]*)`([^`\s,}\]]+)/);
+        if (backtickMatch) {
+          const fixed = errorLine.replace(/`([^`]*)`([^`\s,}\]]+)`?/, '`$1$2`');
+          suggestions.push({
+            type: 'misplaced_backtick',
+            description: 'Backtick (`) đặt sai vị trí',
+            original: errorLine,
+            fixed: fixed,
+            lineNumber: lineNumber
+          });
+        }
+
+        // Pattern 3: Adjacent strings "abc""def" or "abc"text
+        const adjacentMatch = errorLine.match(/"([^"]*)"\s*"([^"]*)"/);
+        if (adjacentMatch) {
+          const fixed = errorLine.replace(/"([^"]*)"\s*"([^"]*)"/, '"$1$2"');
+          suggestions.push({
+            type: 'adjacent_strings',
+            description: 'Hai chuỗi liền nhau (thiếu dấu +)',
+            original: errorLine,
+            fixed: fixed,
+            lineNumber: lineNumber
+          });
+        }
+
+        // Pattern 4: String followed by text without operator "abc"Text
+        const stringTextMatch = errorLine.match(/"([^"]*)"([A-Za-z])/);
+        if (stringTextMatch && !adjacentMatch) {
+          const fixed = errorLine.replace(/"([^"]*)"([A-Za-z])/, '"$1$2"');
+          suggestions.push({
+            type: 'string_text',
+            description: 'Chuỗi theo sau bởi văn bản (cần gộp lại)',
+            original: errorLine,
+            fixed: fixed,
+            lineNumber: lineNumber
+          });
+        }
+
+        return suggestions.length > 0 ? suggestions : null;
+      };
+
+
+      // --- FILE PARSING ---
+      const handleFileUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const content = event.target.result;
+          setOriginalFileContent(content);
+
+          try {
+            // Reset states
+            setDataSources({});
+            setActiveDataKey(null);
+            setAllDataObjectInfo({});
+
+            // 1. Parse constants and their groups (same logic as before)
+            const groupRegex = /\/\/\s*---\s*GROUP:\s*(.+?)\s*---/g;
+            const groupsFound = [];
+            let gMatch;
+            while ((gMatch = groupRegex.exec(content)) !== null) {
+              groupsFound.push({ name: gMatch[1].trim(), index: gMatch.index });
+            }
+            const constRegex = /(?:(?:const|let|var)\s+(\w+)|window\.(\w+))\s*=\s*(?:"([\s\S]*?)"|`([\s\S]*?)`);/g;
+            const constsFound = [];
+            let cMatch;
+            while ((cMatch = constRegex.exec(content)) !== null) {
+              const key = cMatch[1] || cMatch[2];
+              let value = (cMatch[3] !== undefined) ? cMatch[3] : (cMatch[4] || "");
+              let unescapedValue;
+               try {
+                  unescapedValue = JSON.parse(`"${value.replace(/"/g, '\\"')}"`);
+               } catch(e) {
+                   unescapedValue = value; // Fallback
+               }
+              constsFound.push({ key, value: unescapedValue, index: cMatch.index });
+            }
+            const newGroupedConstants = { "Chưa phân loại": {} };
+            groupsFound.forEach(g => { newGroupedConstants[g.name] = {}; });
+            constsFound.forEach(c => {
+              let targetGroup = "Chưa phân loại";
+              let maxGroupIndex = -1;
+              for (const g of groupsFound) {
+                if (g.index < c.index && g.index > maxGroupIndex) {
+                  maxGroupIndex = g.index;
+                  targetGroup = g.name;
+                }
+              }
+              newGroupedConstants[targetGroup][c.key] = c.value;
+            });
+            setGroupedConstants(newGroupedConstants);
+            const flatConstants = {};
+            Object.values(newGroupedConstants).forEach(group => Object.assign(flatConstants, group));
+
+            // 2. Find ALL data objects
+            const dataRegex = /((?:const|let|var|window\.)\s*(\w+)\s*=\s*)(\{[\s\S]+?\});/g;
+            const newAllDataObjectInfo = {};
+            const newDataSources = {};
+            let firstDataKey = null;
+
+            for (const match of content.matchAll(dataRegex)) {
+                const declaration = match[1];
+                const name = match[2];
+                const dataObjectString = match[3];
+
+                newAllDataObjectInfo[name] = {
+                    name,
+                    declaration,
+                };
+
+                const parsedData = safeEvalFlowchartData(dataObjectString, flatConstants);
+                newDataSources[name] = parsedData;
+
+                if (!firstDataKey) {
+                    firstDataKey = name;
+                }
+            }
+
+            if (!firstDataKey) {
+              setErrorInfo({ title: "❌ Không Tìm Thấy Đối Tượng Dữ Liệu", message: "Không tìm thấy đối tượng dữ liệu flowchart nào trong file." });
+              return;
+            }
+
+            // 3. Update all states
+            setAllDataObjectInfo(newAllDataObjectInfo);
+            setDataSources(newDataSources);
+            setActiveDataKey(firstDataKey);
+            setExpandedNodes(new Set());
+            setErrorInfo({ title: "✅ Import Thành Công!", message: `Đã tải file: ${file.name}. Tìm thấy ${Object.keys(newDataSources).length} khối dữ liệu.`, isSuccess: true });
+
+          } catch (err) {
+            setErrorInfo({ title: "❌ Lỗi Phân Tích File", message: "Có lỗi khi đọc và phân tích cú pháp file.", details: err.message + "\n" + err.stack });
+          }
+        };
+        reader.readAsText(file);
+      };
+
+      const handleDownload = () => {
+        if (Object.keys(dataSources).length === 0) {
+          alert("Lỗi: Không có dữ liệu để lưu.");
+          return;
+        }
+
+        try {
+          // 1. Build the constants block (same logic as before)
+          let constantsContent = "";
+          const flatConstants = {};
+          Object.entries(groupedConstants).forEach(([groupName, items]) => {
+            if (Object.keys(items).length > 0) {
+              constantsContent += `\n// --- GROUP: ${groupName} ---\n`;
+              Object.entries(items).forEach(([key, value]) => {
+                flatConstants[key] = value;
+    
+                const quoteType = varQuoteTypes[key] || '`';
+                let constantLine = `const ${key} = `;
+
+                if (quoteType === 'var') {
+                    constantLine += `${value};\n`;
+                } else if (quoteType === '`') {
+                    const finalValue = value.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\${/g, '\\${');
+                    constantLine += `\`${finalValue}\`;\n`;
+                } else {
+                    const finalValue = value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+                    constantLine += `"${finalValue}";\n`;
+                }
+                constantsContent += constantLine;
+              });
+            }
+          });
+
+          // 2. Build the data objects string
+          let dataObjectsContent = "";
+          const sortedConsts = Object.entries(flatConstants).sort((a, b) => (b[1] || '').length - (a[1] || '').length);
+
+          Object.entries(dataSources).forEach(([name, data]) => {
+              const info = allDataObjectInfo[name];
+              if (!info) return;
+
+              let newJsonString = JSON.stringify(data, null, 2);
+
+              sortedConsts.forEach(([key, value]) => {
+                if (typeof value === 'string' && value.trim() !== '') {
+                  const jsonEscapedValue = JSON.stringify(value);
+                  newJsonString = newJsonString.split(jsonEscapedValue).join(key);
+                }
+              });
+
+              dataObjectsContent += `\n${info.declaration}${newJsonString};\n`;
+          });
+          
+          // 3. Combine all parts
+          const finalContent = 
+`/**
+ * GENERATED BY FLOWCHART EDITOR
+ */
+${constantsContent}
+${dataObjectsContent}
+`;
+
+          // 4. Trigger download
+          const blob = new Blob([finalContent], { type: "text/javascript;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `edited-flowcharts.js`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+
+        } catch (e) {
+          setErrorInfo({ title: "❌ Lỗi Lưu File", message: "Không thể tạo file để tải xuống.", details: e.message });
+        }
+      };
+
+      const getNode = (root, path) => {
+        let cur = root;
+        for (const k of path) cur = cur[k];
+        return cur;
+      };
+
+      const updateNode = (path, val) => {
+        updateActiveData(currentData => {
+            const newData = { ...currentData };
+            let cur = newData;
+            for (let i = 0; i < path.length - 1; i++) {
+              if (!cur[path[i]]) cur[path[i]] = {}; // Safeguard for robustness
+              cur = cur[path[i]];
+            }
+            if (val === undefined) {
+                delete cur[path[path.length - 1]];
+            } else {
+                cur[path[path.length - 1]] = val;
+            }
+            return newData;
+        });
+      };
+
+      const addNode = (path, isLeaf) => {
+        const name = prompt(
+          isLeaf ? "Nhập tên Kết quả (FDF/HTML):" : "Nhập tên Nhánh con:"
+        );
+        if (!name) return;
+
+        updateActiveData(currentData => {
+            const parent = path.length ? getNode(currentData, path) : currentData;
+            if (parent[name]) {
+              alert("Tên này đã tồn tại!");
+              return currentData; // Return original data if name exists
+            }
+            const newNode = isLeaf
+              ? {
+                  displayName: name,
+                  pdf: "",
+                  note: "",
+                  xmttib: "",
+                  xmttecom: "",
+                  type: "leaf",
+                }
+              : {};
+
+            const newData = JSON.parse(JSON.stringify(currentData));
+            let cur = newData;
+            // Ensure path exists before traversing
+            path.forEach((p) => { 
+              if (!cur[p]) cur[p] = {};
+              cur = cur[p] 
+            });
+            cur[name] = newNode;
+            setExpandedNodes((prev) => new Set([...prev, path.join(".")]));
+            return newData;
+        });
+      };
+
+      // --- RENAME NODE FUNCTION (CORE FIX) ---
+      const renameNode = (path) => {
+        const parentPath = path.slice(0, -1);
+        const oldName = path[path.length - 1];
+
+        const newName = prompt(`Đổi tên "${oldName}" thành:`, oldName);
+        if (!newName || newName === oldName) return;
+
+        updateActiveData(currentData => {
+            const parentNode = parentPath.length === 0 ? currentData : getNode(currentData, parentPath);
+            if (parentNode[newName]) {
+              alert("Tên này đã tồn tại!");
+              return currentData;
+            }
+
+            const keys = Object.keys(parentNode);
+            const newParentNode = {};
+            keys.forEach((k) => {
+              if (k === oldName) {
+                newParentNode[newName] = parentNode[oldName];
+              } else {
+                newParentNode[k] = parentNode[k];
+              }
+            });
+
+            const newData = JSON.parse(JSON.stringify(currentData));
+            let cur = newData;
+            for (let i = 0; i < parentPath.length; i++) {
+              cur = cur[parentPath[i]];
+            }
+            // Replace the old parentNode with the new one
+            if (parentPath.length === 0) {
+              return newParentNode; // Root level change
+            } else {
+              cur[parentPath[parentPath.length - 1]] = newParentNode;
+            }
+            
+            // Re-expand path
+            const oldPathStr = path.join(".");
+            const newPath = [...parentPath, newName];
+            const newPathStr = newPath.join(".");
+            if (expandedNodes.has(oldPathStr)) {
+              const next = new Set(expandedNodes);
+              next.delete(oldPathStr);
+              next.add(newPathStr);
+              setExpandedNodes(next);
+            }
+            return newData; // Return updated data
+        });
+      };
+
+      const moveNode = (path, direction) => {
+        updateActiveData(currentData => {
+            const parentPath = path.slice(0, -1);
+            const nodeKey = path[path.length - 1];
+            const parentNode = parentPath.length === 0 ? currentData : getNode(currentData, parentPath);
+            const keys = Object.keys(parentNode);
+            const index = keys.indexOf(nodeKey);
+
+            if (index === -1) return currentData;
+            if (direction === "up" && index === 0) return currentData;
+            if (direction === "down" && index === keys.length - 1) return currentData;
+
+            const newKeys = [...keys];
+            const swapIndex = direction === "up" ? index - 1 : index + 1;
+            [newKeys[index], newKeys[swapIndex]] = [
+              newKeys[swapIndex],
+              newKeys[index],
+            ];
+
+            const newParentNode = {};
+            newKeys.forEach((k) => {
+              newParentNode[k] = parentNode[k];
+            });
+
+            const newData = JSON.parse(JSON.stringify(currentData));
+            let cur = newData;
+            for (let i = 0; i < parentPath.length; i++) {
+              cur = cur[parentPath[i]];
+            }
+            if (parentPath.length === 0) {
+                return newParentNode; // Root level change
+            } else {
+                cur[parentPath[parentPath.length - 1]] = newParentNode;
+            }
+            return newData;
+        });
+      };
+
+      const isLeafNode = (node) => {
+        if (!node || typeof node !== "object") return false;
+        if (node.type === "leaf") return true;
+        if (
+          "pdf" in node ||
+          "xmtt" in node ||
+          "xmttib" in node ||
+          "note" in node ||
+          "displayName" in node
+        )
+          return true;
+        return false;
+      };
+
+      const renderTree = (node, path = []) => {
+        const isLeaf = isLeafNode(node);
+        const pathStr = path.join(".");
+        const isExpanded = expandedNodes.has(pathStr);
+        const currentKey = path[path.length - 1];
+
+        if (isLeaf) {
+          return (
+            <div
+              key={pathStr}
+              className="ms-4 mt-2 mb-2 p-3 bg-white border border-success-subtle rounded shadow-sm position-relative"
+            >
+              <div className="d-flex justify-content-between align-items-start">
+                <div>
+                  <div className="fw-bold text-success d-flex align-items-center gap-2">
+                    <span className="bg-success-subtle small px-2 py-1 rounded">
+                      Kết quả
+                    </span>
+                    {currentKey}
+                  </div>
+                  <div className="small mt-1 text-body-secondary">
+                    {node.displayName && <div>🏷️ {node.displayName}</div>}
+                    {node.pdf && <div>📄 {node.pdf}</div>}
+                  </div>
+                  {node.note && (
+                    <div className="mt-2">
+                        <label className="small fw-bold text-muted">NOTE</label>
+                        <HtmlDisplay content={node.note} />
+                    </div>
+                  )}
+                  {node.xmttib && (
+                      <div className="mt-2">
+                          <label className="small fw-bold text-muted">XMTT IB</label>
+                          <HtmlDisplay content={node.xmttib} />
+                      </div>
+                  )}
+                  {node.xmttecom && (
+                      <div className="mt-2">
+                          <label className="small fw-bold text-muted">XMTT ECOM</label>
+                          <HtmlDisplay content={node.xmttecom} />
+                      </div>
+                  )}
+                </div>
+                <div className="d-flex align-items-center gap-1">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      moveNode(path, "up");
+                    }}
+                    className="btn btn-sm btn-link text-secondary p-1"
+                    title="Lên"
+                  >
+                    <BtnIcon name="ArrowUp" size={14} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      moveNode(path, "down");
+                    }}
+                    className="btn btn-sm btn-link text-secondary p-1"
+                    title="Xuống"
+                  >
+                    <BtnIcon name="ArrowDown" size={14} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      renameNode(path);
+                    }}
+                    className="btn btn-sm p-1"
+                    style={{ color: '#9333ea' }}
+                    title="Sửa tên Kết quả"
+                  >
+                    <BtnIcon name="Edit2" size={14} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setEditingNode({ path, node });
+                    }}
+                    className="btn btn-sm btn-link text-primary p-1"
+                  >
+                    <BtnIcon name="Edit2" size={14} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (confirm("Xóa kết quả này?"))
+                        updateNode(path, undefined);
+                    }}
+                    className="btn btn-sm btn-link text-danger p-1"
+                  >
+                    <BtnIcon name="Trash2" size={14} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        const keys = Object.keys(node || {});
+        return (
+          <div
+            key={pathStr}
+            className={`mt-2 ${path.length ? "ms-4 border-start border-2 ps-2" : ""
+              }`}
+          >
+            <div className="d-flex align-items-center gap-2 py-1 bg-light bg-opacity-50 rounded pe-2">
+              <button
+                onClick={() => {
+                  const next = new Set(expandedNodes);
+                  if (next.has(pathStr)) next.delete(pathStr);
+                  else next.add(pathStr);
+                  setExpandedNodes(next);
+                }}
+                className="btn btn-sm btn-link text-secondary p-1"
+              >
+                {isExpanded ? (
+                  <BtnIcon name="ChevronDown" />
+                ) : (
+                  <BtnIcon name="ChevronRight" />
+                )}
+              </button>
+              <span className="fw-semibold text-dark flex-fill text-truncate">
+                {currentKey || "Root"}{" "}
+                <span className="small text-secondary fw-normal ms-2">
+                  ({keys.length})
+                </span>
+              </span>
+
+              <div className="d-flex align-items-center gap-1">
+                {path.length > 0 && (
+                  <>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        moveNode(path, "up");
+                      }}
+                      className="btn btn-sm btn-link text-secondary p-1"
+                      title="Lên"
+                    >
+                      <BtnIcon name="ArrowUp" size={14} />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        moveNode(path, "down");
+                      }}
+                      className="btn btn-sm btn-link text-secondary p-1 me-2"
+                      title="Xuống"
+                    >
+                      <BtnIcon name="ArrowDown" size={14} />
+                    </button>
+                    {/* --- NÚT ĐỔI TÊN NHÓM (TÍM) --- */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        renameNode(path);
+                      }}
+                      className="btn btn-sm p-1 me-2"
+                      style={{ color: '#9333ea' }}
+                      title="Sửa tên Điều kiện"
+                    >
+                      <BtnIcon name="Edit2" size={14} />
+                    </button>
+                  </>
+                )}
+                <button
+                  onClick={() => addNode(path, true)}
+                  className="btn btn-sm btn-success p-1 d-flex align-items-center gap-1"
+                  title="Thêm Kết quả (PDF/HTML)"
+                >
+                  <BtnIcon name="Plus" size={14} /> Thêm PDF/HTML
+                </button>
+                <button
+                  onClick={() => addNode(path, false)}
+                  className="btn btn-sm btn-primary p-1 d-flex align-items-center gap-1"
+                  title="Thêm Nhánh con"
+                >
+                  <BtnIcon name="Plus" size={14} /> Thêm nhánh con
+                </button>
+
+                {path.length > 0 && (
+                  <button
+                    onClick={() => {
+                      if (confirm("Xóa nhánh này?"))
+                        updateNode(path, undefined);
+                    }}
+                    className="btn btn-sm btn-danger p-1 ms-1"
+                    title="Xóa Nhánh"
+                  >
+                    <BtnIcon name="Trash2" size={14} />
+                  </button>
+                )}
+              </div>
+            </div>
+            {isExpanded && (
+              <div className="animate-fade-in">
+                {keys.map((k) => renderTree(node[k], [...path, k]))}
+                {keys.length === 0 && (
+                  <div className="ms-5 text-secondary fst-italic small py-2">
+                    Nhánh trống.
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+      };
+
+      const ConstantsManager = () => {
+        const [activeGroup, setActiveGroup] = useState(
+          Object.keys(groupedConstants)[0] || "Chưa phân loại"
+        );
+        const [tempGroups, setTempGroups] = useState(groupedConstants);
+        // varQuoteTypes và setVarQuoteTypes được truyền từ parent FlowchartEditor
+        const updateMainState = (newGroups) => {
+          setTempGroups(newGroups);
+          setGroupedConstants(newGroups);
+        };
+        const addGroup = () => {
+          const name = prompt("Tên nhóm mới:");
+          if (!name) return;
+          if (tempGroups[name]) {
+            alert("Nhóm đã tồn tại");
+            return;
+          }
+          updateMainState({ ...tempGroups, [name]: {} });
+          setActiveGroup(name);
+        };
+
+        // Đổi tên Nhóm Biến
+        const renameGroup = (targetGroup) => {
+          const groupToRename = targetGroup || activeGroup;
+          const newName = prompt(
+            `Đổi tên nhóm "${groupToRename}" thành:`,
+            groupToRename
+          );
+          if (!newName || newName === groupToRename) return;
+          if (tempGroups[newName]) {
+            alert("Tên nhóm đã tồn tại!");
+            return;
+          }
+          const newGroups = {};
+          Object.keys(tempGroups).forEach((key) => {
+            if (key === groupToRename)
+              newGroups[newName] = tempGroups[groupToRename];
+            else newGroups[key] = tempGroups[key];
+          });
+          updateMainState(newGroups);
+          if (activeGroup === groupToRename) setActiveGroup(newName);
+        };
+
+        const deleteGroup = () => {
+          if (Object.keys(tempGroups).length <= 1) return;
+          if (!confirm(`Xóa group ${activeGroup}?`)) return;
+          const n = { ...tempGroups };
+          delete n[activeGroup];
+          updateMainState(n);
+          setActiveGroup(Object.keys(n)[0]);
+        };
+        const addVar = (e) => {
+          e.preventDefault();
+          const k = e.target.key.value.trim();
+          const v = e.target.val.value;
+          let exists = false;
+          Object.values(tempGroups).forEach((g) => {
+            if (g[k]) exists = true;
+          });
+          if (k && v && !exists) {
+            const n = { ...tempGroups };
+            n[activeGroup][k] = v;
+            setTempGroups(n);
+            e.target.reset();
+          } else if (exists) alert("Tên biến bị trùng!");
+        };
+        const deleteVar = (key) => {
+          if (!confirm("Xóa biến này?")) return;
+          const n = { ...tempGroups };
+          delete n[activeGroup][key];
+          setTempGroups(n);
+        };
+        const updateVar = (key, newVal) => {
+          const n = { ...tempGroups };
+          n[activeGroup][key] = newVal;
+          setTempGroups(n);
+          // Chỉ sync với groupedConstants khi người dùng thực sự cần (không phải mỗi keystroke)
+        };
+
+        return (
+          <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
+            <div className="bg-white rounded shadow-lg w-100 d-flex flex-column overflow-hidden" style={{ maxWidth: '1200px', height: '85vh' }}>
+              <div className="p-3 border-bottom d-flex justify-content-between bg-light">
+                <h5 className="fw-bold d-flex align-items-center gap-2 mb-0">
+                  <BtnIcon name="FileText" /> Quản lý Biến
+                </h5>
+                <button onClick={() => {
+                  setGroupedConstants(tempGroups); // Lưu thay đổi trước khi đóng
+                  setShowConstModal(false);
+                }} className="btn-close"></button>
+              </div>
+              <div className="d-flex flex-fill overflow-hidden">
+                <div className="border-end bg-light d-flex flex-column p-2 gap-2 overflow-auto" style={{ width: '25%' }}>
+                  <button
+                    onClick={addGroup}
+                    className="w-100 btn btn-outline-primary btn-sm border-dashed"
+                  >
+                    + Nhóm mới
+                  </button>
+                  {Object.keys(tempGroups).map((g) => (
+                    <div
+                      key={g}
+                      onClick={() => setActiveGroup(g)}
+                      className={`p-2 rounded small d-flex justify-content-between align-items-center ${activeGroup === g
+                        ? "bg-primary bg-opacity-25 fw-bold text-primary"
+                        : "bg-white"
+                        }`}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <span className="text-truncate flex-fill">{g}</span>
+                      <div className="d-flex align-items-center gap-1">
+                        <span className="badge bg-white text-dark border">
+                          {Object.keys(tempGroups[g]).length}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            renameGroup(g);
+                          }}
+                          className="btn btn-sm btn-link text-secondary p-1"
+                          title="Đổi tên"
+                        >
+                          <BtnIcon name="Edit2" size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    onClick={deleteGroup}
+                    className="mt-auto btn btn-outline-danger btn-sm"
+                  >
+                    Xóa Group này
+                  </button>
+                </div>
+                <div className="d-flex flex-column bg-white p-3" style={{ width: '75%' }}>
+                  <div className="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                    <h5 className="fw-bold text-primary d-flex align-items-center gap-2 mb-0">
+                      <BtnIcon name="Folder" /> {activeGroup}
+                    </h5>
+                    <button
+                      onClick={() => renameGroup(activeGroup)}
+                      className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                    >
+                      <BtnIcon name="Edit2" size={14} /> Đổi tên nhóm
+                    </button>
+                  </div>
+                  <div className="flex-fill overflow-auto mb-3">
+                    {Object.keys(tempGroups[activeGroup] || {}).length ===
+                      0 && (
+                        <div className="text-secondary text-center py-5">
+                          Trống
+                        </div>
+                      )}
+                    {Object.entries(tempGroups[activeGroup] || {}).map(
+                      ([k, v]) => (
+                        <div key={k} className="d-flex gap-2 border-bottom pb-2 mb-2 align-items-start">
+                          <input
+                            className="form-control form-control-sm font-monospace fw-bold text-primary bg-light"
+                            style={{ width: '20%' }}
+                            readOnly
+                            value={k}
+                          />
+                          {/* Dropdown chọn loại quote - MẶC ĐỊNH: backtick (`) */}
+                          <select
+                            className="form-select form-select-sm"
+                            style={{ width: '60px' }}
+                            value={varQuoteTypes[k] || '`'}
+                            onChange={(e) => setVarQuoteTypes({ ...varQuoteTypes, [k]: e.target.value })}
+                            title="Loại quote khi export"
+                          >
+                            <option value="`">`</option>
+                            <option value='"'>"</option>
+                            <option value="var">var</option>
+                          </select>
+                          <textarea
+                            className="form-control form-control-sm code-input"
+                            style={{ width: '55%' }}
+                            rows={Math.max(1, v.split("\n").length)}
+                            value={v}
+                            onChange={(e) => updateVar(k, e.target.value)}
+                          />
+                          <button
+                            onClick={() => deleteVar(k)}
+                            className="btn btn-sm btn-link text-danger"
+                          >
+                            <BtnIcon name="Trash2" />
+                          </button>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <form
+                    onSubmit={addVar}
+                    className="d-flex gap-2 pt-3 border-top bg-light p-2 rounded"
+                  >
+                    <input
+                      name="key"
+                      placeholder="Tên biến (KEY)..."
+                      className="form-control form-control-sm font-monospace"
+                      style={{ width: '25%' }}
+                      required
+                    />
+                    <textarea
+                      name="val"
+                      placeholder="Giá trị (VALUE)..."
+                      className="form-control form-control-sm"
+                      style={{ width: '65%' }}
+                      rows={1}
+                      required
+                    />
+                    <button className="btn btn-success fw-bold" style={{ width: '10%' }}>
+                      +
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      return (
+        <div className="min-vh-100 bg-light p-4">
+          <div className="container-fluid bg-white rounded shadow border overflow-hidden" style={{ maxWidth: '1400px' }}>
+            <div className="bg-dark text-white p-3 d-flex align-items-center justify-content-between">
+              <h1 className="h4 fw-bold d-flex align-items-center gap-2 mb-0">
+                ⚡ Flowchart Editor (v5.0 Final)
+              </h1>
+              <div className="d-flex gap-2">
+                <label className="btn btn-secondary btn-sm d-flex align-items-center gap-2">
+                  <BtnIcon name="Upload" size={16} /> Tải file
+                  <input
+                    type="file"
+                    accept=".js"
+                    onChange={handleFileUpload}
+                    className="d-none"
+                  />
+                </label>
+                <button
+                  onClick={() => setShowConstModal(true)}
+                  className="btn btn-warning btn-sm d-flex align-items-center gap-2"
+                >
+                  <BtnIcon name="FileText" size={16} /> Biến
+                </button>
+                <button
+                  onClick={handleDownload}
+                  className="btn btn-success btn-sm d-flex align-items-center gap-2"
+                >
+                  <BtnIcon name="Download" size={16} /> Lưu file
+                </button>
+              </div>
+            </div>
+            <div className="p-3 border-bottom bg-light">
+              <label htmlFor="dataSourceSelect" className="form-label fw-bold small mb-1">Chọn Khối Dữ Liệu để Sửa:</label>
+              <select 
+                  id="dataSourceSelect" 
+                  className="form-select form-select-sm" 
+                  value={activeDataKey || ''}
+                  onChange={e => {
+                    setActiveDataKey(e.target.value);
+                    setExpandedNodes(new Set()); // Reset expanded nodes on switch
+                  }}
+                  disabled={!activeDataKey}
+              >
+                {!activeDataKey && <option>Tải file để bắt đầu...</option>}
+                {Object.keys(dataSources).map(key => (
+                    <option key={key} value={key}>{key}</option>
+                ))}
+              </select>
+            </div>
+            <div className="p-4">
+              {!activeData ? (
+                <div className="text-center py-5 text-secondary border border-2 border-dashed rounded">
+                  Chưa có dữ liệu. Vui lòng tải file.
+                </div>
+              ) : (
+                renderTree(activeData, [])
+              )}
+            </div>
+          </div>
+          {editingNode && (
+            <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
+              <div className="bg-white rounded shadow-lg w-100 d-flex flex-column" style={{ maxWidth: '900px', maxHeight: '90vh' }}>
+                <div className="p-3 border-bottom d-flex justify-content-between align-items-center bg-light rounded-top">
+                  <h5 className="fw-bold mb-0">
+                    Chỉnh sửa: {editingNode.path.join(" > ")}
+                  </h5>
+                  <button
+                    onClick={() => setEditingNode(null)}
+                    className="btn-close"
+                  ></button>
+                </div>
+                <div className="p-4 overflow-auto">
+                  <div className="row g-3 mb-3">
+                    <div className="col-md-6">
+                      <label className="form-label small fw-medium">
+                        Tên hiển thị (Display Name)
+                      </label>
+                      <input
+                        className="form-control"
+                        value={editingNode.node.displayName || ""}
+                        onChange={(e) =>
+                          setEditingNode({
+                            ...editingNode,
+                            node: {
+                              ...editingNode.node,
+                              displayName: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <label className="form-label small fw-medium">
+                        File PDF
+                      </label>
+                      <input
+                        className="form-control"
+                        value={editingNode.node.pdf || ""}
+                        onChange={(e) =>
+                          setEditingNode({
+                            ...editingNode,
+                            node: {
+                              ...editingNode.node,
+                              pdf: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                  {["note", "xmttib", "xmttecom", "alert"].map((f) => {
+                    // Unique key for this field in this node
+                    const fieldKey = `${editingNode.path.join('.')}.${f}`;
+                    return (
+                      <div key={f} className="mb-3">
+                        <div className="d-flex align-items-center gap-2 mb-1">
+                          <label className="form-label small fw-medium text-uppercase text-secondary mb-0">
+                            {f} (Hỗ trợ HTML)
+                          </label>
+                          {/* Dropdown chọn loại quote - MẶC ĐỊNH: note/xmttib/xmttecom=`, alert=" */}
+                          <select
+                            className="form-select form-select-sm"
+                            style={{ width: '60px' }}
+                            value={nodeQuoteTypes[fieldKey] || (f === 'alert' ? '"' : '`')}
+                            onChange={(e) => setNodeQuoteTypes({ ...nodeQuoteTypes, [fieldKey]: e.target.value })}
+                            title="Loại quote khi export"
+                          >
+                            <option value='"'>"</option>
+                            <option value="`">`</option>
+                            <option value="var">var</option>
+                          </select>
+                        </div>
+                        <textarea
+                          className="form-control code-input bg-light"
+                          rows={3}
+                          value={
+                            Array.isArray(editingNode.node[f])
+                              ? editingNode.node[f].join("\n")
+                              : editingNode.node[f] || ""
+                          }
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                [f]: e.target.value,
+                              },
+                            })
+                          }
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="p-3 border-top bg-light rounded-bottom d-flex justify-content-between">
+                  <button
+                    onClick={() => {
+                      if (confirm("Xóa kết quả này?")) {
+                        updateNode(editingNode.path, undefined);
+                        setEditingNode(null);
+                      }
+                    }}
+                    className="btn btn-outline-danger d-flex gap-2 align-items-center"
+                  >
+                    <BtnIcon name="Trash2" /> Xóa
+                  </button>
+                  <button
+                    onClick={() => {
+                      updateNode(editingNode.path, editingNode.node);
+                      setEditingNode(null);
+                    }}
+                    className="btn btn-primary d-flex gap-2 align-items-center"
+                  >
+                    <BtnIcon name="Save" /> Lưu
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          {showConstModal && <ConstantsManager />}
+
+          {/* Error Modal */}
+          {errorInfo && (
+            <div
+              className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4"
+              style={{ backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 2000 }}
+              onClick={() => setErrorInfo(null)}
+            >
+              <div
+                className="bg-white rounded shadow-lg w-100 d-flex flex-column"
+                style={{ maxWidth: '700px', maxHeight: '80vh' }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className={`p-3 border-bottom d-flex justify-content-between align-items-center ${errorInfo.isSuccess ? 'bg-success' : 'bg-danger'} text-white rounded-top`}>
+                  <h5 className="fw-bold mb-0">{errorInfo.title}</h5>
+                  <button
+                    onClick={() => setErrorInfo(null)}
+                    className="btn-close btn-close-white"
+                  ></button>
+                </div>
+
+                <div className="p-4 overflow-auto">
+                  <div className="alert alert-light border mb-3">
+                    <h6 className="fw-bold mb-2">📋 Thông báo:</h6>
+                    <p className="mb-0">{errorInfo.message}</p>
+                  </div>
+
+                  {errorInfo.lineNumber && (
+                    <div className="alert alert-warning mb-3">
+                      <h6 className="fw-bold mb-2">📍 Vị trí lỗi:</h6>
+                      <p className="mb-0 font-monospace">Dòng {errorInfo.lineNumber}</p>
+                    </div>
+                  )}
+
+                  {errorInfo.codeSnippet && errorInfo.codeSnippet.length > 0 && (
+                    <div className="alert alert-light border mb-3">
+                      <h6 className="fw-bold mb-2"> Code tại vị trí lỗi:</h6>
+                      <div className="bg-dark text-white p-2 rounded" style={{ fontSize: '12px', fontFamily: 'monospace', overflowX: 'auto' }}>
+                        {errorInfo.codeSnippet.map((line, idx) => (
+                          <div
+                            key={idx}
+                            className={line.isError ? 'bg-warning bg-opacity-25' : ''}
+                            style={{ padding: '2px 8px', borderLeft: line.isError ? '3px solid #ffc107' : '3px solid transparent' }}
+                          >
+                            <span className="text-secondary me-2" style={{ minWidth: '35px', display: 'inline-block', textAlign: 'right' }}>{line.lineNum}</span>
+                            <span className={line.isError ? 'text-warning fw-bold' : ''}>{line.content || ' '}</span>
+                          </div>
+                        ))}
+                      </div>
+                      <small className="text-muted mt-1 d-block">Dòng vàng = vị trí lỗi</small>
+                    </div>
+                  )}
+
+                  {/* Fix Suggestions */}
+                  {errorInfo.fixSuggestions && errorInfo.fixSuggestions.length > 0 && (
+                    <div className="alert alert-success mb-3">
+                      <h6 className="fw-bold mb-2">🔧 Gợi ý sửa lỗi:</h6>
+                      {errorInfo.fixSuggestions.map((suggestion, idx) => (
+                        <div key={idx} className="mb-3 p-2 bg-white rounded border">
+                          <div className="small text-muted mb-2">
+                            <strong>Vấn đề:</strong> {suggestion.description}
+                          </div>
+                          <div className="mb-2">
+                            <div className="small text-danger mb-1">❌ Code lỗi (dòng {suggestion.lineNumber}):</div>
+                            <code className="d-block bg-danger bg-opacity-10 p-2 rounded small" style={{ whiteSpace: 'pre-wrap' }}>
+                              {suggestion.original}
+                            </code>
+                          </div>
+                          <div className="mb-2">
+                            <div className="small text-success mb-1">✅ Gợi ý sửa:</div>
+                            <code className="d-block bg-success bg-opacity-10 p-2 rounded small" style={{ whiteSpace: 'pre-wrap' }}>
+                              {suggestion.fixed}
+                            </code>
+                          </div>
+                          <button
+                            className="btn btn-sm btn-outline-success"
+                            onClick={() => {
+                              navigator.clipboard.writeText(suggestion.fixed);
+                              alert('Đã copy! Dán vào file để sửa lỗi.');
+                            }}
+                          >
+                            📋 Copy code đã sửa
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {errorInfo.details && (
+                    <div className="alert alert-info mb-3">
+                      <h6 className="fw-bold mb-2">🔍 Chi tiết:</h6>
+                      <pre className="mb-0 small" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                        {errorInfo.details}
+                      </pre>
+                    </div>
+                  )}
+
+                  {!errorInfo.isSuccess && (
+                    <div className="alert alert-secondary mb-0">
+                      <h6 className="fw-bold mb-2">💡 Gợi ý:</h6>
+                      <ul className="mb-0 small">
+                        <li>Kiểm tra cú pháp JavaScript trong file</li>
+                        <li>Mở file bằng VS Code/Notepad++ để tìm lỗi</li>
+                        <li>Dùng file backup nếu có</li>
+                        <li>Xem QUICKSTART-TOOLCLAUDE.md để biết thêm chi tiết</li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-3 border-top bg-light text-end">
+                  <button
+                    onClick={() => setErrorInfo(null)}
+                    className={`btn ${errorInfo.isSuccess ? 'btn-success' : 'btn-primary'}`}
+                  >
+                    Đóng
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<FlowchartEditor />);
+  </script>
+</body>
+
+</html>

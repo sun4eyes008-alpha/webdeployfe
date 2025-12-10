@@ -415,6 +415,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add a single, persistent resize listener
     window.addEventListener("resize", repositionPopup);
+
+    document.querySelector('.header-tabs').addEventListener('click', (e) => {
+        if (e.target.classList.contains('pdf-link-btn')) {
+          const pdfName = e.target.getAttribute('data-pdf');
+          if (pdfName) {
+            pdfViewer.src = `./pdf-header/${pdfName}`;
+            // Reset other UI elements for clarity
+            resetResults();
+            removeDropdowns(1);
+            history.pushState(null, "", window.location.pathname);
+          }
+        }
+    });
   }
 
   // --- UI DISPLAY LOGIC ---

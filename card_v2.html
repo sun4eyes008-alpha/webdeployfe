@@ -84,10 +84,11 @@
               </a>
             </div>
         </div>
-        <button class="tab-btn" data-tab="xmtt">XMTT</button>
-        <button class="tab-btn" data-tab="quy-dinh">QUY ĐỊNH CHUNG</button>
-        <button class="tab-btn" data-tab="khuyen-mai" id="khuyen-mai-btn">KHUYẾN MÃI</button>
-        <button class="tab-btn" data-tab="change-log" id="change-log-btn">CHANGE LOG</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="THONG BAO.pdf">THÔNG BÁO</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="XMTT.pdf" data-tab="xmtt">XMTT</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="QUY DINH CHUNG.pdf" data-tab="quy-dinh">QUY ĐỊNH CHUNG</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="KHUYEN MAI.pdf" data-tab="khuyen-mai" id="khuyen-mai-btn">KHUYẾN MÃI</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="CHANGE LOG.pdf" data-tab="change-log" id="change-log-btn">CHANGE LOG</button>
       </div>
     </div>
   </header>
@@ -415,6 +416,19 @@
           popupCloseBtn.addEventListener("click", closePopup);
 
           window.addEventListener("resize", repositionPopup);
+
+          document.querySelector('.header-tabs').addEventListener('click', (e) => {
+            if (e.target.classList.contains('pdf-link-btn')) {
+              const pdfName = e.target.getAttribute('data-pdf');
+              if (pdfName) {
+                pdfViewer.src = `./pdf-header/${pdfName}`;
+                // Reset other UI elements for clarity
+                resetResults();
+                removeDropdowns(1);
+                history.pushState({ source: state.activeSourceName }, "", `${window.location.pathname}?source=${state.activeSourceName}`);
+              }
+            }
+          });
         }
 
         function displayResult(resultObject) {
