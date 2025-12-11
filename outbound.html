@@ -602,8 +602,10 @@ document.addEventListener("DOMContentLoaded", () => {
     flattenFlowchart(flowchartData);
     createFirstLevelDropdown();
     setupEventListeners();
-    // New: Check URL for state on load
-    restoreStateFromURL();
+    // Try to restore from URL first, then fall back to sessionStorage
+    if (!restoreStateFromURL()) {
+      restoreStateFromSession();
+    }
   }
 
   // --- STATE MANAGEMENT (URL) ---
@@ -616,6 +618,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const newUrl = window.location.pathname + "#" + encodedPath;
         history.pushState({ path: path }, "", newUrl);
         console.log('💾 Saved state to URL hash:', newUrl);
+        // Also save to sessionStorage as a backup
+        sessionStorage.setItem('flowchartState', jsonPath);
       }
 
       function restoreStateFromURL() {
@@ -632,7 +636,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (Array.isArray(path)) {
               console.log('🎯 Applying state from hash:', path);
               applySearchResult(path, false);
-              return; // State restored
+              sessionStorage.setItem('flowchartState', jsonPath);
+              return true; // State restored
             }
           } catch (e) {
             console.error("❌ Failed to parse state from hash. It might be a legacy hash.", e);
@@ -643,13 +648,13 @@ document.addEventListener("DOMContentLoaded", () => {
               if (Array.isArray(path)) {
                 console.log('🎯 Applying from hash (legacy):', path);
                 applySearchResult(path, false);
-                return; // Success
+                sessionStorage.setItem('flowchartState', decodedParam);
+                return true; // Success
               }
             } catch (e2) {
               console.error("❌ Invalid path data in hash.", e2);
             }
           }
-          return; // Stop after attempting hash
         }
 
         // 2. Fallback for old links: Try restoring from query parameter
@@ -662,21 +667,35 @@ document.addEventListener("DOMContentLoaded", () => {
             const path = JSON.parse(jsonPath);
             if (Array.isArray(path)) {
               console.log('🎯 Applying state from query parameter, will update URL to hash format.');
-              // Restore state but don't re-save/push history here
               applySearchResult(path, false);
-
+              sessionStorage.setItem('flowchartState', jsonPath);
               // Replace the URL to use the new hash format without adding a new history entry
               const newUrl = window.location.pathname + "#" + pathParam;
               history.replaceState({ path: path }, "", newUrl);
-              return; // State restored and URL updated
+              return true; // State restored and URL updated
             }
           } catch (e) {
             console.error("❌ Failed to parse state from query parameter.", e);
           }
-          return;
         }
+        
+        return false; // No state found in URL
+      }
 
-        console.log('ℹ️ No state found in URL.');
+      function restoreStateFromSession() {
+          const jsonPath = sessionStorage.getItem('flowchartState');
+          if (jsonPath) {
+            try {
+              const path = JSON.parse(jsonPath);
+              if (Array.isArray(path)) {
+                console.log('Restoring state from session storage.');
+                // Restore and also update URL hash to keep them in sync
+                applySearchResult(path, true); 
+              }
+            } catch(e) {
+              console.error('Failed to restore state from session storage.', e);
+            }
+          }
       }
 
   // --- SEARCH FUNCTIONALITY ---

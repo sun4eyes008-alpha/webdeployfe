@@ -415,22 +415,54 @@ window.cardFlowchartDataFeedback = {
           setupEventListeners();
           const sourceParam = new URLSearchParams(window.location.search).get('source') || 'truyvan';
           switchDataSource(sourceParam);
-          restoreStateFromURL();
+          // Try to restore from URL first, then fall back to sessionStorage
+          if (!restoreStateFromURL()) {
+            restoreStateFromSession();
+          }
         }
 
         function saveStateToURL(path) {
             const jsonPath = JSON.stringify(path);
             const encodedPath = btoa(encodeURIComponent(jsonPath));
             history.pushState({ path, source: state.activeSourceName }, "", `${window.location.pathname}?source=${state.activeSourceName}#${encodedPath}`);
+            // Also save to sessionStorage as a backup
+            sessionStorage.setItem('flowchartState', jsonPath);
         }
 
         function restoreStateFromURL() {
             if (window.location.hash.length > 1) {
+                const encodedPath = window.location.hash.substring(1);
                 try {
-                    const path = JSON.parse(decodeURIComponent(atob(window.location.hash.substring(1))));
-                    if (Array.isArray(path)) applySearchResult(path, false);
-                } catch (e) { console.error("Failed to parse state from hash.", e); }
+                    const jsonPath = decodeURIComponent(atob(encodedPath));
+                    const path = JSON.parse(jsonPath);
+                    if (Array.isArray(path)) {
+                        applySearchResult(path, false);
+                        // Also save to session storage in case it came from a direct link
+                        sessionStorage.setItem('flowchartState', jsonPath);
+                        return true; // Indicate success
+                    }
+                } catch (e) {
+                    console.error("Failed to parse state from hash.", e);
+                    return false; // Indicate failure
+                }
             }
+            return false; // No hash found
+        }
+
+        function restoreStateFromSession() {
+          const jsonPath = sessionStorage.getItem('flowchartState');
+          if (jsonPath) {
+            try {
+              const path = JSON.parse(jsonPath);
+              if (Array.isArray(path)) {
+                console.log('Restoring state from session storage.');
+                // Restore and also update URL hash to keep them in sync
+                applySearchResult(path, true);
+              }
+            } catch(e) {
+              console.error('Failed to restore state from session storage.', e);
+            }
+          }
         }
 
         function searchFlowchartData(query) {
