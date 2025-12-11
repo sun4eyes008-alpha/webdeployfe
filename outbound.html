@@ -36,7 +36,7 @@
           <button class="tab-btn dropdown-toggle">PLTT</button>
           <div class="dropdown-menu">
             <a href="loan_v2.html?source=truyvan&s=NoIgjAdABAKgEgFYHIHFYEklQMJwKqogA0IMAFgC8B2A5rAJZU7V0wCeIAukA"
-              class="dropdown-item" id="loan-btn">>
+              class="dropdown-item" id="loan-btn">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z" />
                 <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z" />
@@ -45,7 +45,8 @@
               </svg>
               LOAN
             </a>
-            <a href="card_v2.html" class="dropdown-item">
+            <a href="card_v2.html?source=truyvan&s=NoIgjAdABAKgEgFYHIHFYEklQMJwKqogA0IMAFgC8B2A5lAC4CWVUAxtXfQJ4gC6QA"
+              class="dropdown-item">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
@@ -60,7 +61,8 @@
               </svg>
               OUTBOUND
             </a>
-            <a href="ubank_v2.html" class="dropdown-item">
+            <a href="ubank_v2.html?source=truyvan&s=NoIgjAdABAKgEgFYHIHFYEklQMJwKqogA0IMAFgC8B2A5lAC4CWVUAxtXfQJ4gC6QA"
+              class="dropdown-item">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z" />
@@ -599,9 +601,34 @@
         if (!restoreStateFromURL()) {
           restoreStateFromSession();
         }
+        // Initialize the LOAN link with current state
+        updateLoanLinkWithState();
       }
 
       // --- STATE MANAGEMENT (URL) ---
+      function updateLoanLinkWithState() {
+        // Update the LOAN navigation link to preserve loan's state from sessionStorage
+        const loanLink = document.getElementById('loan-btn');
+        if (loanLink) {
+          // Read loan's state from its sessionStorage
+          const loanState = sessionStorage.getItem('loanFlowchartState');
+
+          if (loanState) {
+            try {
+              const compressed = LZString.compressToEncodedURIComponent(loanState);
+              const loanSource = sessionStorage.getItem('loanSource') || 'truyvan';
+              loanLink.href = `loan_v2.html?source=${loanSource}&s=${compressed}`;
+            } catch (e) {
+              const loanSource = sessionStorage.getItem('loanSource') || 'truyvan';
+              loanLink.href = `loan_v2.html?source=${loanSource}`;
+            }
+          } else {
+            const loanSource = sessionStorage.getItem('loanSource') || 'truyvan';
+            loanLink.href = `loan_v2.html?source=${loanSource}`;
+          }
+        }
+      }
+
       function saveStateToURL(path) {
         const jsonPath = JSON.stringify(path);
         // Use LZ-String compression for much shorter URLs (50-70% reduction)
@@ -609,8 +636,10 @@
         const newUrl = window.location.pathname + "#" + compressed;
         history.pushState({ path: path }, "", newUrl);
         console.log('💾 Saved state to URL hash:', newUrl);
-        // Also save to sessionStorage as a backup
-        sessionStorage.setItem('flowchartState', jsonPath);
+        // Also save to sessionStorage as a backup with page-specific key
+        sessionStorage.setItem('outboundFlowchartState', jsonPath);
+        // Update the LOAN link with current state
+        updateLoanLinkWithState();
       }
 
       function restoreStateFromURL() {
@@ -629,7 +658,8 @@
               if (Array.isArray(path)) {
                 console.log('🎯 Applying state from compressed hash:', path);
                 applySearchResult(path, false);
-                sessionStorage.setItem('flowchartState', jsonPath);
+                sessionStorage.setItem('outboundFlowchartState', jsonPath);
+                updateLoanLinkWithState();
                 return true; // State restored
               }
             }
@@ -642,7 +672,7 @@
               if (Array.isArray(path)) {
                 console.log('🎯 Applying from hash (legacy base64):', path);
                 applySearchResult(path, false);
-                sessionStorage.setItem('flowchartState', jsonPath);
+                sessionStorage.setItem('outboundFlowchartState', jsonPath);
                 return true; // Success
               }
             } catch (e2) {
@@ -677,7 +707,7 @@
       }
 
       function restoreStateFromSession() {
-        const jsonPath = sessionStorage.getItem('flowchartState');
+        const jsonPath = sessionStorage.getItem('outboundFlowchartState');
         if (jsonPath) {
           try {
             const path = JSON.parse(jsonPath);
