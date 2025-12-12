@@ -1580,35 +1580,19 @@
         createFirstLevelDropdown();
         resetResults();
 
-        // Preserve existing compressed state parameter if present
-        const urlParams = new URLSearchParams(window.location.search);
-        const stateParam = urlParams.get('s');
-        let newUrl = `${window.location.pathname}?source=${sourceName}`;
-        if (stateParam) {
-          newUrl += `&s=${stateParam}`;
-        }
-
-        history.pushState(
-          { source: sourceName },
-          "",
-          newUrl
-        );
-        // Save source to sessionStorage for other pages to use
-        sessionStorage.setItem('loanSource', sourceName);
+        // Don't add source to URL - keep it simple
         updateLoanLinkWithState();
       }
 
       // --- INITIALIZATION ---
       function initialize() {
         setupEventListeners();
-        const urlParams = new URLSearchParams(window.location.search);
-        const sourceParam = urlParams.get("source") || "truyvan";
-        switchDataSource(sourceParam);
-        // Try to restore from URL first, then fall back to sessionStorage
+        // Always start with TRUY VẤN - simple and reliable
+        switchDataSource('truyvan');
+        // Try to restore selections from URL
         if (!restoreStateFromURL()) {
           restoreStateFromSession();
         }
-        // Initialize the LOAN link with current state
         updateLoanLinkWithState();
       }
 
@@ -1619,12 +1603,11 @@
         if (loanLink) {
           const urlParams = new URLSearchParams(window.location.search);
           const compressed = urlParams.get('s');
-          const source = state.activeSourceName || 'truyvan';
 
           if (compressed) {
-            loanLink.href = `loan_v2.html?source=${source}&s=${compressed}`;
+            loanLink.href = `loan_v2.html?s=${compressed}`;
           } else {
-            loanLink.href = `loan_v2.html?source=${source}`;
+            loanLink.href = `loan_v2.html`;
           }
         }
       }
@@ -1633,16 +1616,14 @@
         const jsonPath = JSON.stringify(path);
         // Use LZ-String compression for much shorter URLs (50-70% reduction)
         const compressed = LZString.compressToEncodedURIComponent(jsonPath);
-        const newUrl = `${window.location.pathname}?source=${state.activeSourceName}&s=${compressed}`;
+        const newUrl = `${window.location.pathname}?s=${compressed}`;
         history.pushState(
-          { path: path, source: state.activeSourceName },
+          { path: path },
           "",
           newUrl
         );
         // Also save to sessionStorage as a backup with page-specific key
         sessionStorage.setItem('loanFlowchartState', jsonPath);
-        // Save source to sessionStorage for other pages to use
-        sessionStorage.setItem('loanSource', state.activeSourceName);
         // Update the LOAN link with current state
         updateLoanLinkWithState();
       }
@@ -1913,6 +1894,18 @@
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
           });
         }
+
+        // Intercept navigation clicks to preserve source parameter
+        document.addEventListener('click', (e) => {
+          const link = e.target.closest('a[href*="card_v2.html"], a[href*="ubank_v2.html"], a[href*="outbound.html"], a[href*="loan_v2.html"]');
+          if (link && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+            e.preventDefault();
+            const url = new URL(link.href, window.location.origin);
+            const currentSource = state.activeSourceName || 'truyvan';
+            url.searchParams.set('source', currentSource);
+            window.location.href = url.toString();
+          }
+        });
       }
 
       // --- UI DISPLAY ---

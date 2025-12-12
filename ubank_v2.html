@@ -235,28 +235,15 @@
         flattenFlowchart(state.activeData);
         createFirstLevelDropdown();
         resetResults();
-
-        // Preserve existing compressed state parameter if present
-        const urlParams = new URLSearchParams(window.location.search);
-        const stateParam = urlParams.get('s');
-        let newUrl = `${window.location.pathname}?source=${sourceName}`;
-        if (stateParam) {
-          newUrl += `&s=${stateParam}`;
-        }
-
-        history.pushState({ source: sourceName }, "", newUrl);
         updateLoanLinkWithState();
       }
 
       function initialize() {
         setupEventListeners();
-        const sourceParam = new URLSearchParams(window.location.search).get('source') || 'truyvan';
-        switchDataSource(sourceParam);
-        // Try to restore from URL first, then fall back to sessionStorage
+        switchDataSource('truyvan');
         if (!restoreStateFromURL()) {
           restoreStateFromSession();
         }
-        // Initialize the LOAN link with current state
         updateLoanLinkWithState();
       }
 
@@ -532,6 +519,18 @@
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
           });
         }
+
+        // Intercept navigation clicks to preserve source parameter
+        document.addEventListener('click', (e) => {
+          const link = e.target.closest('a[href*="card_v2.html"], a[href*="ubank_v2.html"], a[href*="outbound.html"], a[href*="loan_v2.html"]');
+          if (link && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+            e.preventDefault();
+            const url = new URL(link.href, window.location.origin);
+            const currentSource = state.activeSourceName || 'truyvan';
+            url.searchParams.set('source', currentSource);
+            window.location.href = url.toString();
+          }
+        });
       }
 
       function displayResult(resultObject) {

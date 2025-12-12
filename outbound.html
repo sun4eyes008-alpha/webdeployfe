@@ -985,6 +985,19 @@
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
           });
         }
+
+        // Intercept navigation clicks to preserve source parameter (for future compatibility)
+        document.addEventListener('click', (e) => {
+          const link = e.target.closest('a[href*="card_v2.html"], a[href*="ubank_v2.html"], a[href*="outbound.html"], a[href*="loan_v2.html"]');
+          if (link && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+            e.preventDefault();
+            const url = new URL(link.href, window.location.origin);
+            // For outbound, default to truyvan since it doesn't have source switching yet
+            const currentSource = 'truyvan';
+            url.searchParams.set('source', currentSource);
+            window.location.href = url.toString();
+          }
+        });
       }
 
       // --- UI DISPLAY LOGIC ---
