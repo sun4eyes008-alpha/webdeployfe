@@ -828,10 +828,70 @@ body.landing-page #main-header .sidebar-toggle {
   color: #6c757d;
   border-bottom: 3px solid transparent;
   transition: all 0.2s ease-in-out;
+  position: relative;
+  /* For pseudo-element positioning */
+}
+
+/* Inactive state - dimmed appearance with click indicator */
+.sidebar-tab-btn.active.inactive {
+  opacity: 0.6;
+  background-color: #f1f3f5;
+  color: #adb5bd;
+  border-bottom-color: #dee2e6;
+}
+
+/* Add a subtle "click to activate" indicator for inactive tabs */
+.sidebar-tab-btn.active.inactive::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  /* Increased from 16px */
+  height: 20px;
+  /* Increased from 16px */
+  opacity: 0.9;
+  /* Increased from 0.7 for better visibility */
+  animation: pulseClick 2s infinite;
+  /* Hand pointer SVG icon with orange-red color for attention */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b35"><path d="M13 2.5C13 2.224 13.224 2 13.5 2S14 2.224 14 2.5V11H17.5C17.776 11 18 11.224 18 11.5C18 11.776 17.776 12 17.5 12H14V17.5C14 19.981 11.981 22 9.5 22C7.019 22 5 19.981 5 17.5V10L7.5 12.5L13 7V2.5ZM12 8.414L8.207 12.207C7.817 12.597 7.183 12.597 6.793 12.207L6 11.414V17.5C6 19.429 7.571 21 9.5 21S13 19.429 13 17.5V8.414Z"></path></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Pulse animation for the click indicator - more prominent */
+@keyframes pulseClick {
+
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: translateY(-50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
+  }
 }
 
 .sidebar-tab-btn:hover {
   background-color: #e9ecef;
+}
+
+/* Hover state for inactive tabs - show they're clickable */
+.sidebar-tab-btn.active.inactive:hover {
+  opacity: 0.8;
+  background-color: #e9ecef;
+  color: #868e96;
+  transform: translateY(-1px);
+}
+
+/* Change SVG icon color on hover to green theme */
+.sidebar-tab-btn.active.inactive:hover::after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23539e22"><path d="M13 2.5C13 2.224 13.224 2 13.5 2S14 2.224 14 2.5V11H17.5C17.776 11 18 11.224 18 11.5C18 11.776 17.776 12 17.5 12H14V17.5C14 19.981 11.981 22 9.5 22C7.019 22 5 19.981 5 17.5V10L7.5 12.5L13 7V2.5ZM12 8.414L8.207 12.207C7.817 12.597 7.183 12.597 6.793 12.207L6 11.414V17.5C6 19.429 7.571 21 9.5 21S13 19.429 13 17.5V8.414Z"></path></svg>');
+  opacity: 1;
 }
 
 .sidebar-tab-btn.active {

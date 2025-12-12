@@ -1518,7 +1518,8 @@
       const state = {
         activeData: null,
         flattenedData: [],
-        activeSourceName: "truyvan",
+        activeSourceName: null, // Start with no active source
+        isTabActive: false, // Track if tab is active or inactive
       };
 
       const dataSources = {
@@ -1562,7 +1563,7 @@
         });
       }
 
-      function switchDataSource(sourceName) {
+      function switchDataSource(sourceName, shouldActivate = true) {
         if (!dataSources[sourceName]) {
           console.error(`Data source "${sourceName}" not found.`);
           return;
@@ -1570,14 +1571,25 @@
 
         state.activeSourceName = sourceName;
         state.activeData = dataSources[sourceName];
+        state.isTabActive = shouldActivate;
 
         document.querySelectorAll(".sidebar-tab-btn").forEach((btn) => {
-          btn.classList.toggle("active", btn.dataset.source === sourceName);
+          const isCurrentSource = btn.dataset.source === sourceName;
+          btn.classList.toggle("active", isCurrentSource);
+          // Add 'inactive' class if this is the active tab but not activated
+          btn.classList.toggle("inactive", isCurrentSource && !shouldActivate);
         });
 
         state.flattenedData = [];
         flattenFlowchart(state.activeData);
-        createFirstLevelDropdown();
+
+        // Only create dropdown if activating
+        if (shouldActivate) {
+          createFirstLevelDropdown();
+        } else {
+          // Clear dropdowns when inactive
+          dynamicFiltersContainer.innerHTML = "";
+        }
         resetResults();
 
         // Don't add source to URL - keep it simple
@@ -1587,8 +1599,9 @@
       // --- INITIALIZATION ---
       function initialize() {
         setupEventListeners();
-        // Always start with TRUY VẤN - simple and reliable
-        switchDataSource('truyvan');
+        // Start with all tabs inactive - tabs will activate on click
+        // Set truyvan as default but don't activate
+        switchDataSource('truyvan', false);
         // Try to restore selections from URL
         if (!restoreStateFromURL()) {
           restoreStateFromSession();
@@ -1827,15 +1840,17 @@
           .addEventListener("click", (e) => {
             if (e.target.matches(".sidebar-tab-btn")) {
               const source = e.target.dataset.source;
-              if (source !== state.activeSourceName) {
+              // Check if clicking the same tab or a different one
+              if (source !== state.activeSourceName || !state.isTabActive) {
                 // Clear state BEFORE switching to prevent cross-contamination
                 history.pushState(
-                    { source: source },
-                    "",
-                    `${window.location.pathname}?source=${source}`
+                  { source: source },
+                  "",
+                  `${window.location.pathname}?source=${source}`
                 );
                 sessionStorage.removeItem('loanFlowchartState');
-                switchDataSource(source);
+                // Activate the tab and populate combobox
+                switchDataSource(source, true);
               }
             }
           });

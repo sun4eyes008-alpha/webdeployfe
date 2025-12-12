@@ -376,7 +376,8 @@
       const state = {
         activeData: null,
         flattenedData: [],
-        activeSourceName: 'truyvan',
+        activeSourceName: null, // Start with no active source
+        isTabActive: false, // Track if tab is active or inactive
       };
 
       const dataSources = {
@@ -408,21 +409,38 @@
         });
       }
 
-      function switchDataSource(sourceName) {
+      function switchDataSource(sourceName, shouldActivate = true) {
         if (!dataSources[sourceName]) return;
         state.activeSourceName = sourceName;
         state.activeData = dataSources[sourceName];
-        document.querySelectorAll('.sidebar-tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.source === sourceName));
+        state.isTabActive = shouldActivate;
+
+        document.querySelectorAll('.sidebar-tab-btn').forEach(btn => {
+          const isCurrentSource = btn.dataset.source === sourceName;
+          btn.classList.toggle('active', isCurrentSource);
+          // Add 'inactive' class if this is the active tab but not activated
+          btn.classList.toggle('inactive', isCurrentSource && !shouldActivate);
+        });
+
         state.flattenedData = [];
         flattenFlowchart(state.activeData);
-        createFirstLevelDropdown();
+
+        // Only create dropdown if activating
+        if (shouldActivate) {
+          createFirstLevelDropdown();
+        } else {
+          // Clear dropdowns when inactive
+          dynamicFiltersContainer.innerHTML = "";
+        }
         resetResults();
         updateLoanLinkWithState();
       }
 
       function initialize() {
         setupEventListeners();
-        switchDataSource('truyvan');
+        // Start with all tabs inactive - tabs will activate on click
+        // Set truyvan as default but don't activate
+        switchDataSource('truyvan', false);
         if (!restoreStateFromURL()) {
           restoreStateFromSession();
         }
@@ -639,15 +657,17 @@
       function setupEventListeners() {
         document.getElementById('sidebar-tabs').addEventListener('click', (e) => {
           const source = e.target.dataset.source;
-          if (e.target.matches('.sidebar-tab-btn') && source !== state.activeSourceName) {
+          // Check if clicking the same tab or a different one
+          if (e.target.matches('.sidebar-tab-btn') && (source !== state.activeSourceName || !state.isTabActive)) {
             // Clear state BEFORE switching to prevent cross-contamination
             history.pushState(
-                { source: source },
-                "",
-                `${window.location.pathname}?source=${source}`
+              { source: source },
+              "",
+              `${window.location.pathname}?source=${source}`
             );
             sessionStorage.removeItem('cardFlowchartState');
-            switchDataSource(source);
+            // Activate the tab and populate combobox
+            switchDataSource(source, true);
           }
         });
         sidebarToggle.addEventListener("click", () => {
