@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Regex</title>
+</head>
+
+<body>
+    <h1>Regex Test Results</h1>
+    <pre id="output"></pre>
+
+    <script>
+        const testContent = `
+const XMTT_0 = "This is the original content";
+const XMTT_1 = XMTT_0;
+const NOTE_BASE = "Base note content";
+const NOTE_COMMON = NOTE_BASE;
+`;
+
+        const constRegex = /(?:(?:const|let|var)\s+(\w+)|window\.(\w+))\s*=\s*(?:"([\s\S]*?)"|`([\s\S]*?)`|(\w+));/g;
+
+        let match;
+        let output = "=== Testing Regex ===\n\n";
+
+        while ((match = constRegex.exec(testContent)) !== null) {
+            output += `Match found:\n`;
+            output += `  Key: ${match[1] || match[2]}\n`;
+            output += `  Group 3 (double quote): ${match[3] || 'undefined'}\n`;
+            output += `  Group 4 (backtick): ${match[4] || 'undefined'}\n`;
+            output += `  Group 5 (var name): ${match[5] || 'undefined'}\n`;
+            output += `  Full match: ${match[0]}\n\n`;
+        }
+
+        document.getElementById('output').textContent = output;
+        console.log(output);
+    </script>
+</body>
+
+</html>

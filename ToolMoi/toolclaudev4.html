@@ -15,8 +15,8 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <script src="bootstrap.bundle.min.js"></script>
 
   <style>
     body {
@@ -181,21 +181,21 @@
       const replacements = [];
 
       Object.entries(allConstants).forEach(([key, value]) => {
-        // Skip replacement for variable references (quoteType='var')
-        // Only replace string constants (quoteType='"' or '`')
-        const quoteType = varQuoteTypes[key] || '`';
-        if (quoteType === 'var') {
-          // This is a variable reference, don't replace it in data objects
+        // Skip replacement if this is a variable reference (quote type 'var')
+        // These should remain as variable names, not be replaced with content
+        if (varQuoteTypes[key] === 'var') {
+          // For 'var' type, the value IS the variable name to reference
+          // We don't replace it in the data structure
           return;
         }
 
         // Only escape what's necessary for JSON
         const safeValue = value
-          .replace(/\\/g, "\\\\") // Escape backslashes
-          .replace(/"/g, '\\"') // Escape quotes
-          .replace(/\n/g, "\\n") // Convert newlines to \n
-          .replace(/\r/g, "\\r") // Convert carriage returns to \r
-          .replace(/\t/g, "\\t"); // Convert tabs to \t
+          .replace(/\\/g, "\\\\")   // Escape backslashes
+          .replace(/"/g, '\\"')      // Escape quotes
+          .replace(/\n/g, "\\n")     // Convert newlines to \n
+          .replace(/\r/g, "\\r")     // Convert carriage returns to \r
+          .replace(/\t/g, "\\t");    // Convert tabs to \t
         processedStr = replaceAllSafe(processedStr, key, `"${safeValue}"`);
         replacements.push({ key, hasValue: true });
       });
@@ -205,13 +205,7 @@
         return result;
       } catch (e) {
         // Enhance error message
-        throw new Error(
-          `${e.message}\n\n🔍 Đã thay thế ${replacements.length
-          } biến\n\nNội dung sau khi thay thế (50 ký tự đầu):\n${processedStr.substring(
-            0,
-            50
-          )}...`
-        );
+        throw new Error(`${e.message}\n\n🔍 Đã thay thế ${replacements.length} biến\n\nNội dung sau khi thay thế (50 ký tự đầu):\n${processedStr.substring(0, 50)}...`);
       }
     };
 
@@ -219,10 +213,7 @@
       if (!content) return null;
       const isHtml = /<[a-z][\s\S]*>/i.test(content);
       return (
-        <div
-          className={`small mt-1 ${isHtml ? "html-content" : "text-secondary"
-            }`}
-        >
+        <div className={`small mt-1 ${isHtml ? "html-content" : "text-secondary"}`}>
           {isHtml ? (
             <div dangerouslySetInnerHTML={{ __html: content }} />
           ) : (
@@ -255,9 +246,9 @@
       // Helper to get active data for editing functions
       const updateActiveData = (updater) => {
         if (!activeDataKey) return;
-        setDataSources((prev) => ({
+        setDataSources(prev => ({
           ...prev,
-          [activeDataKey]: updater(prev[activeDataKey]),
+          [activeDataKey]: updater(prev[activeDataKey])
         }));
       };
 
@@ -265,18 +256,15 @@
 
       // Helper to find actual error line by searching for patterns
       const findErrorLineInContent = (content, errorMessage) => {
-        const lines = content.split("\n");
+        const lines = content.split('\n');
 
         // Pattern 1: Unclosed strings - lines with odd number of unescaped quotes
-        if (
-          errorMessage.includes("Unexpected") ||
-          errorMessage.includes("Invalid")
-        ) {
+        if (errorMessage.includes('Unexpected') || errorMessage.includes('Invalid')) {
           for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             const quoteMatches = line.match(/"/g);
             const quoteCount = quoteMatches ? quoteMatches.length : 0;
-            if (quoteCount % 2 !== 0 && line.includes(":")) {
+            if (quoteCount % 2 !== 0 && line.includes(':')) {
               return i + 1;
             }
           }
@@ -293,7 +281,7 @@
       };
 
       const getCodeSnippet = (content, lineNumber, contextLines = 3) => {
-        const lines = content.split("\n");
+        const lines = content.split('\n');
         const startLine = Math.max(0, lineNumber - contextLines - 1);
         const endLine = Math.min(lines.length, lineNumber + contextLines);
 
@@ -302,7 +290,7 @@
           snippet.push({
             lineNum: i + 1,
             content: lines[i],
-            isError: i + 1 === lineNumber,
+            isError: i + 1 === lineNumber
           });
         }
         return snippet;
@@ -322,35 +310,30 @@
           const lastQuotePos = errorLine.lastIndexOf('"');
           const afterLastQuote = errorLine.substring(lastQuotePos + 1);
           // If there's content after last quote without closing quote, add one before comma/end
-          if (afterLastQuote.includes(",")) {
-            fixed =
-              errorLine.substring(0, lastQuotePos + 1) +
-              afterLastQuote.replace(",", '",');
+          if (afterLastQuote.includes(',')) {
+            fixed = errorLine.substring(0, lastQuotePos + 1) + afterLastQuote.replace(',', '",');
           } else {
             fixed = errorLine.trimEnd() + '"';
           }
           suggestions.push({
-            type: "unclosed_quote",
+            type: 'unclosed_quote',
             description: 'Thiếu dấu ngoặc kép đóng (")',
             original: errorLine,
             fixed: fixed,
-            lineNumber: lineNumber,
+            lineNumber: lineNumber
           });
         }
 
         // Pattern 2: Misplaced backtick like `text_`more`
         const backtickMatch = errorLine.match(/`([^`]*)`([^`\s,}\]]+)/);
         if (backtickMatch) {
-          const fixed = errorLine.replace(
-            /`([^`]*)`([^`\s,}\]]+)`?/,
-            "`$1$2`"
-          );
+          const fixed = errorLine.replace(/`([^`]*)`([^`\s,}\]]+)`?/, '`$1$2`');
           suggestions.push({
-            type: "misplaced_backtick",
-            description: "Backtick (`) đặt sai vị trí",
+            type: 'misplaced_backtick',
+            description: 'Backtick (`) đặt sai vị trí',
             original: errorLine,
             fixed: fixed,
-            lineNumber: lineNumber,
+            lineNumber: lineNumber
           });
         }
 
@@ -359,11 +342,11 @@
         if (adjacentMatch) {
           const fixed = errorLine.replace(/"([^"]*)"\s*"([^"]*)"/, '"$1$2"');
           suggestions.push({
-            type: "adjacent_strings",
-            description: "Hai chuỗi liền nhau (thiếu dấu +)",
+            type: 'adjacent_strings',
+            description: 'Hai chuỗi liền nhau (thiếu dấu +)',
             original: errorLine,
             fixed: fixed,
-            lineNumber: lineNumber,
+            lineNumber: lineNumber
           });
         }
 
@@ -372,16 +355,17 @@
         if (stringTextMatch && !adjacentMatch) {
           const fixed = errorLine.replace(/"([^"]*)"([A-Za-z])/, '"$1$2"');
           suggestions.push({
-            type: "string_text",
-            description: "Chuỗi theo sau bởi văn bản (cần gộp lại)",
+            type: 'string_text',
+            description: 'Chuỗi theo sau bởi văn bản (cần gộp lại)',
             original: errorLine,
             fixed: fixed,
-            lineNumber: lineNumber,
+            lineNumber: lineNumber
           });
         }
 
         return suggestions.length > 0 ? suggestions : null;
       };
+
 
       // --- FILE PARSING ---
       const handleFileUpload = (e) => {
@@ -404,14 +388,12 @@
             const groupsFound = [];
             let gMatch;
             while ((gMatch = groupRegex.exec(content)) !== null) {
-              groupsFound.push({
-                name: gMatch[1].trim(),
-                index: gMatch.index,
-              });
+              groupsFound.push({ name: gMatch[1].trim(), index: gMatch.index });
             }
-            const constRegex =
-              /(?:(?:const|let|var)\s+(\w+)|window\.(\w+))\s*=\s*(?:"([\s\S]*?)"|`([\s\S]*?)`|([^;]+));/g;
+            // Updated regex to match variables with quotes, backticks, OR no quotes (variable references)
+            const constRegex = /(?:(?:const|let|var)\s+(\w+)|window\.(\w+))\s*=\s*(?:"([\s\S]*?)"|`([\s\S]*?)`|(\w+));/g;
             const constsFound = [];
+            const newVarQuoteTypes = {}; // Track quote types during import
             let cMatch;
             while ((cMatch = constRegex.exec(content)) !== null) {
               const key = cMatch[1] || cMatch[2];
@@ -421,46 +403,35 @@
                 // Double-quoted string
                 value = cMatch[3];
                 quoteType = '"';
+                try {
+                  value = JSON.parse(`"${value.replace(/"/g, '\\"')}"`);
+                } catch (e) {
+                  // Fallback to raw value
+                }
               } else if (cMatch[4] !== undefined) {
                 // Backtick string
                 value = cMatch[4];
                 quoteType = '`';
+                try {
+                  value = JSON.parse(`"${value.replace(/"/g, '\\"')}"`);
+                } catch (e) {
+                  // Fallback to raw value
+                }
               } else if (cMatch[5] !== undefined) {
-                // Unquoted variable
-                value = cMatch[5].trim();
+                // Variable reference (no quotes)
+                value = cMatch[5];
                 quoteType = 'var';
               } else {
                 value = "";
                 quoteType = '`';
               }
 
-              let unescapedValue;
-              try {
-                if (quoteType === 'var') {
-                  // For variables, keep as-is
-                  unescapedValue = value;
-                } else {
-                  unescapedValue = JSON.parse(
-                    `"${value.replace(/"/g, '\\"')}"`
-                  );
-                }
-              } catch (e) {
-                unescapedValue = value; // Fallback
-              }
-              constsFound.push({
-                key,
-                value: unescapedValue,
-                index: cMatch.index,
-                quoteType, // Store original quote type
-              });
+              constsFound.push({ key, value, index: cMatch.index });
+              newVarQuoteTypes[key] = quoteType;
             }
             const newGroupedConstants = { "Chưa phân loại": {} };
-            const newVarQuoteTypes = {}; // Track quote types
-
-            groupsFound.forEach((g) => {
-              newGroupedConstants[g.name] = {};
-            });
-            constsFound.forEach((c) => {
+            groupsFound.forEach(g => { newGroupedConstants[g.name] = {}; });
+            constsFound.forEach(c => {
               let targetGroup = "Chưa phân loại";
               let maxGroupIndex = -1;
               for (const g of groupsFound) {
@@ -470,18 +441,29 @@
                 }
               }
               newGroupedConstants[targetGroup][c.key] = c.value;
-              newVarQuoteTypes[c.key] = c.quoteType; // Preserve original quote type
             });
             setGroupedConstants(newGroupedConstants);
-            setVarQuoteTypes(newVarQuoteTypes); // Set quote types
+
+            // Debug logging
+            console.log("📦 Grouped Constants:", newGroupedConstants);
+            console.log("🔤 Variable Quote Types:", newVarQuoteTypes);
+
+            // Build flatConstants, but EXCLUDE variables with quote type 'var'
+            // These are variable references and should NOT be replaced during parsing
             const flatConstants = {};
-            Object.values(newGroupedConstants).forEach((group) =>
-              Object.assign(flatConstants, group)
-            );
+            Object.values(newGroupedConstants).forEach(group => {
+              Object.entries(group).forEach(([key, value]) => {
+                // Only add to flatConstants if it's NOT a 'var' type (not a variable reference)
+                if (newVarQuoteTypes[key] !== 'var') {
+                  flatConstants[key] = value;
+                }
+              });
+            });
+
+            console.log("✅ Flat Constants (for replacement):", flatConstants);
 
             // 2. Find ALL data objects
-            const dataRegex =
-              /((?:const|let|var|window\.)\s*(\w+)\s*=\s*)(\{[\s\S]+?\});/g;
+            const dataRegex = /((?:const|let|var|window\.)\s*(\w+)\s*=\s*)(\{[\s\S]+?\});/g;
             const newAllDataObjectInfo = {};
             const newDataSources = {};
             let firstDataKey = null;
@@ -496,11 +478,7 @@
                 declaration,
               };
 
-              const parsedData = safeEvalFlowchartData(
-                dataObjectString,
-                flatConstants,
-                newVarQuoteTypes
-              );
+              const parsedData = safeEvalFlowchartData(dataObjectString, flatConstants, newVarQuoteTypes);
               newDataSources[name] = parsedData;
 
               if (!firstDataKey) {
@@ -509,11 +487,7 @@
             }
 
             if (!firstDataKey) {
-              setErrorInfo({
-                title: "❌ Không Tìm Thấy Đối Tượng Dữ Liệu",
-                message:
-                  "Không tìm thấy đối tượng dữ liệu flowchart nào trong file.",
-              });
+              setErrorInfo({ title: "❌ Không Tìm Thấy Đối Tượng Dữ Liệu", message: "Không tìm thấy đối tượng dữ liệu flowchart nào trong file." });
               return;
             }
 
@@ -522,18 +496,11 @@
             setDataSources(newDataSources);
             setActiveDataKey(firstDataKey);
             setExpandedNodes(new Set());
-            setErrorInfo({
-              title: "✅ Import Thành Công!",
-              message: `Đã tải file: ${file.name}. Tìm thấy ${Object.keys(newDataSources).length
-                } khối dữ liệu.`,
-              isSuccess: true,
-            });
+            setVarQuoteTypes(newVarQuoteTypes); // Restore quote types from import
+            setErrorInfo({ title: "✅ Import Thành Công!", message: `Đã tải file: ${file.name}. Tìm thấy ${Object.keys(newDataSources).length} khối dữ liệu.`, isSuccess: true });
+
           } catch (err) {
-            setErrorInfo({
-              title: "❌ Lỗi Phân Tích File",
-              message: "Có lỗi khi đọc và phân tích cú pháp file.",
-              details: err.message + "\n" + err.stack,
-            });
+            setErrorInfo({ title: "❌ Lỗi Phân Tích File", message: "Có lỗi khi đọc và phân tích cú pháp file.", details: err.message + "\n" + err.stack });
           }
         };
         reader.readAsText(file);
@@ -555,23 +522,16 @@
               Object.entries(items).forEach(([key, value]) => {
                 flatConstants[key] = value;
 
-                const quoteType = varQuoteTypes[key] || "`";
+                const quoteType = varQuoteTypes[key] || '`';
                 let constantLine = `const ${key} = `;
 
-                if (quoteType === "var") {
+                if (quoteType === 'var') {
                   constantLine += `${value};\n`;
-                } else if (quoteType === "`") {
-                  const finalValue = value
-                    .replace(/\\/g, "\\\\")
-                    .replace(/`/g, "\\`")
-                    .replace(/\${/g, "\\${");
+                } else if (quoteType === '`') {
+                  const finalValue = value.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\${/g, '\\${');
                   constantLine += `\`${finalValue}\`;\n`;
                 } else {
-                  const finalValue = value
-                    .replace(/\\/g, "\\\\")
-                    .replace(/"/g, '\\"')
-                    .replace(/\n/g, "\\n")
-                    .replace(/\r/g, "\\r");
+                  const finalValue = value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
                   constantLine += `"${finalValue}";\n`;
                 }
                 constantsContent += constantLine;
@@ -581,9 +541,7 @@
 
           // 2. Build the data objects string
           let dataObjectsContent = "";
-          const sortedConsts = Object.entries(flatConstants).sort(
-            (a, b) => (b[1] || "").length - (a[1] || "").length
-          );
+          const sortedConsts = Object.entries(flatConstants).sort((a, b) => (b[1] || '').length - (a[1] || '').length);
 
           Object.entries(dataSources).forEach(([name, data]) => {
             const info = allDataObjectInfo[name];
@@ -592,18 +550,9 @@
             let newJsonString = JSON.stringify(data, null, 2);
 
             sortedConsts.forEach(([key, value]) => {
-              // Skip replacement for variable references (quoteType='var')
-              const quoteType = varQuoteTypes[key] || '`';
-              if (quoteType === 'var') {
-                // This is a variable reference, don't replace it in export
-                return;
-              }
-
-              if (typeof value === "string" && value.trim() !== "") {
+              if (typeof value === 'string' && value.trim() !== '') {
                 const jsonEscapedValue = JSON.stringify(value);
-                newJsonString = newJsonString
-                  .split(jsonEscapedValue)
-                  .join(key);
+                newJsonString = newJsonString.split(jsonEscapedValue).join(key);
               }
             });
 
@@ -611,7 +560,8 @@
           });
 
           // 3. Combine all parts
-          const finalContent = `/**
+          const finalContent =
+            `/**
  * GENERATED BY FLOWCHART EDITOR
  */
 ${constantsContent}
@@ -619,9 +569,7 @@ ${dataObjectsContent}
 `;
 
           // 4. Trigger download
-          const blob = new Blob([finalContent], {
-            type: "text/javascript;charset=utf-8",
-          });
+          const blob = new Blob([finalContent], { type: "text/javascript;charset=utf-8" });
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
@@ -630,12 +578,9 @@ ${dataObjectsContent}
           a.click();
           document.body.removeChild(a);
           URL.revokeObjectURL(url);
+
         } catch (e) {
-          setErrorInfo({
-            title: "❌ Lỗi Lưu File",
-            message: "Không thể tạo file để tải xuống.",
-            details: e.message,
-          });
+          setErrorInfo({ title: "❌ Lỗi Lưu File", message: "Không thể tạo file để tải xuống.", details: e.message });
         }
       };
 
@@ -646,7 +591,7 @@ ${dataObjectsContent}
       };
 
       const updateNode = (path, val) => {
-        updateActiveData((currentData) => {
+        updateActiveData(currentData => {
           // Create a deep clone of the data to prevent state mutation issues.
           const newData = JSON.parse(JSON.stringify(currentData));
 
@@ -679,10 +624,8 @@ ${dataObjectsContent}
         );
         if (!name) return;
 
-        updateActiveData((currentData) => {
-          const parent = path.length
-            ? getNode(currentData, path)
-            : currentData;
+        updateActiveData(currentData => {
+          const parent = path.length ? getNode(currentData, path) : currentData;
           if (parent[name]) {
             alert("Tên này đã tồn tại!");
             return currentData; // Return original data if name exists
@@ -702,7 +645,7 @@ ${dataObjectsContent}
           // Ensure path exists before traversing
           path.forEach((p) => {
             if (!cur[p]) cur[p] = {};
-            cur = cur[p];
+            cur = cur[p]
           });
           cur[name] = newNode;
           setExpandedNodes((prev) => new Set([...prev, path.join(".")]));
@@ -718,11 +661,8 @@ ${dataObjectsContent}
         const newName = prompt(`Đổi tên "${oldName}" thành:`, oldName);
         if (!newName || newName === oldName) return;
 
-        updateActiveData((currentData) => {
-          const parentNode =
-            parentPath.length === 0
-              ? currentData
-              : getNode(currentData, parentPath);
+        updateActiveData(currentData => {
+          const parentNode = parentPath.length === 0 ? currentData : getNode(currentData, parentPath);
           if (parentNode[newName]) {
             alert("Tên này đã tồn tại!");
             return currentData;
@@ -745,11 +685,11 @@ ${dataObjectsContent}
           if (parentPath.length === 0) {
             // We must also update any expanded paths that were under the old root key.
             const next = new Set();
-            expandedNodes.forEach((p) => {
-              const parts = p.split(".");
+            expandedNodes.forEach(p => {
+              const parts = p.split('.');
               if (parts[0] === oldName) {
                 // This path was inside the renamed node, so update its prefix.
-                next.add([newName, ...parts.slice(1)].join("."));
+                next.add([newName, ...parts.slice(1)].join('.'));
               } else {
                 // This path is unaffected.
                 next.add(p);
@@ -769,10 +709,9 @@ ${dataObjectsContent}
           const parentKeyToReplace = parentPath[parentPath.length - 1];
 
           // Navigate to the grandparent node within our cloned data.
-          const grandParentNode =
-            grandParentPath.length === 0
-              ? newData
-              : getNode(newData, grandParentPath);
+          const grandParentNode = grandParentPath.length === 0
+            ? newData
+            : getNode(newData, grandParentPath);
 
           // Replace the old parent node with the new one that has the renamed key.
           grandParentNode[parentKeyToReplace] = newParentNode;
@@ -792,20 +731,16 @@ ${dataObjectsContent}
       };
 
       const moveNode = (path, direction) => {
-        updateActiveData((currentData) => {
+        updateActiveData(currentData => {
           const parentPath = path.slice(0, -1);
           const nodeKey = path[path.length - 1];
-          const parentNode =
-            parentPath.length === 0
-              ? currentData
-              : getNode(currentData, parentPath);
+          const parentNode = parentPath.length === 0 ? currentData : getNode(currentData, parentPath);
           const keys = Object.keys(parentNode);
           const index = keys.indexOf(nodeKey);
 
           if (index === -1) return currentData;
           if (direction === "up" && index === 0) return currentData;
-          if (direction === "down" && index === keys.length - 1)
-            return currentData;
+          if (direction === "down" && index === keys.length - 1) return currentData;
 
           const newKeys = [...keys];
           const swapIndex = direction === "up" ? index - 1 : index + 1;
@@ -832,10 +767,9 @@ ${dataObjectsContent}
           const parentKeyToReplace = parentPath[parentPath.length - 1];
 
           // Navigate to the grandparent node within our cloned data.
-          const grandParentNode =
-            grandParentPath.length === 0
-              ? newData
-              : getNode(newData, grandParentPath);
+          const grandParentNode = grandParentPath.length === 0
+            ? newData
+            : getNode(newData, grandParentPath);
 
           // Replace the old parent node with the new one that has the reordered keys.
           grandParentNode[parentKeyToReplace] = newParentNode;
@@ -889,17 +823,13 @@ ${dataObjectsContent}
                   )}
                   {node.xmttib && (
                     <div className="mt-2">
-                      <label className="small fw-bold text-muted">
-                        XMTT IB
-                      </label>
+                      <label className="small fw-bold text-muted">XMTT IB</label>
                       <HtmlDisplay content={node.xmttib} />
                     </div>
                   )}
                   {node.xmttecom && (
                     <div className="mt-2">
-                      <label className="small fw-bold text-muted">
-                        XMTT ECOM
-                      </label>
+                      <label className="small fw-bold text-muted">XMTT ECOM</label>
                       <HtmlDisplay content={node.xmttecom} />
                     </div>
                   )}
@@ -931,7 +861,7 @@ ${dataObjectsContent}
                       renameNode(path);
                     }}
                     className="btn btn-sm p-1"
-                    style={{ color: "#9333ea" }}
+                    style={{ color: '#9333ea' }}
                     title="Sửa tên Kết quả"
                   >
                     <BtnIcon name="Edit2" size={14} />
@@ -1021,7 +951,7 @@ ${dataObjectsContent}
                         renameNode(path);
                       }}
                       className="btn btn-sm p-1 me-2"
-                      style={{ color: "#9333ea" }}
+                      style={{ color: '#9333ea' }}
                       title="Sửa tên Điều kiện"
                     >
                       <BtnIcon name="Edit2" size={14} />
@@ -1151,31 +1081,19 @@ ${dataObjectsContent}
         };
 
         return (
-          <div
-            className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4"
-            style={{ backgroundColor: "rgba(0,0,0,0.5)", zIndex: 1050 }}
-          >
-            <div
-              className="bg-white rounded shadow-lg w-100 d-flex flex-column overflow-hidden"
-              style={{ maxWidth: "1200px", height: "85vh" }}
-            >
+          <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
+            <div className="bg-white rounded shadow-lg w-100 d-flex flex-column overflow-hidden" style={{ maxWidth: '1200px', height: '85vh' }}>
               <div className="p-3 border-bottom d-flex justify-content-between bg-light">
                 <h5 className="fw-bold d-flex align-items-center gap-2 mb-0">
                   <BtnIcon name="FileText" /> Quản lý Biến
                 </h5>
-                <button
-                  onClick={() => {
-                    setGroupedConstants(tempGroups); // Lưu thay đổi trước khi đóng
-                    setShowConstModal(false);
-                  }}
-                  className="btn-close"
-                ></button>
+                <button onClick={() => {
+                  setGroupedConstants(tempGroups); // Lưu thay đổi trước khi đóng
+                  setShowConstModal(false);
+                }} className="btn-close"></button>
               </div>
               <div className="d-flex flex-fill overflow-hidden">
-                <div
-                  className="border-end bg-light d-flex flex-column p-2 gap-2 overflow-auto"
-                  style={{ width: "25%" }}
-                >
+                <div className="border-end bg-light d-flex flex-column p-2 gap-2 overflow-auto" style={{ width: '25%' }}>
                   <button
                     onClick={addGroup}
                     className="w-100 btn btn-outline-primary btn-sm border-dashed"
@@ -1190,7 +1108,7 @@ ${dataObjectsContent}
                         ? "bg-primary bg-opacity-25 fw-bold text-primary"
                         : "bg-white"
                         }`}
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                     >
                       <span className="text-truncate flex-fill">{g}</span>
                       <div className="d-flex align-items-center gap-1">
@@ -1217,10 +1135,7 @@ ${dataObjectsContent}
                     Xóa Group này
                   </button>
                 </div>
-                <div
-                  className="d-flex flex-column bg-white p-3"
-                  style={{ width: "75%" }}
-                >
+                <div className="d-flex flex-column bg-white p-3" style={{ width: '75%' }}>
                   <div className="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
                     <h5 className="fw-bold text-primary d-flex align-items-center gap-2 mb-0">
                       <BtnIcon name="Folder" /> {activeGroup}
@@ -1241,27 +1156,19 @@ ${dataObjectsContent}
                       )}
                     {Object.entries(tempGroups[activeGroup] || {}).map(
                       ([k, v]) => (
-                        <div
-                          key={k}
-                          className="d-flex gap-2 border-bottom pb-2 mb-2 align-items-start"
-                        >
+                        <div key={k} className="d-flex gap-2 border-bottom pb-2 mb-2 align-items-start">
                           <input
                             className="form-control form-control-sm font-monospace fw-bold text-primary bg-light"
-                            style={{ width: "20%" }}
+                            style={{ width: '20%' }}
                             readOnly
                             value={k}
                           />
                           {/* Dropdown chọn loại quote - MẶC ĐỊNH: backtick (`) */}
                           <select
                             className="form-select form-select-sm"
-                            style={{ width: "60px" }}
-                            value={varQuoteTypes[k] || "`"}
-                            onChange={(e) =>
-                              setVarQuoteTypes({
-                                ...varQuoteTypes,
-                                [k]: e.target.value,
-                              })
-                            }
+                            style={{ width: '60px' }}
+                            value={varQuoteTypes[k] || '`'}
+                            onChange={(e) => setVarQuoteTypes({ ...varQuoteTypes, [k]: e.target.value })}
                             title="Loại quote khi export"
                           >
                             <option value="`">`</option>
@@ -1270,7 +1177,7 @@ ${dataObjectsContent}
                           </select>
                           <textarea
                             className="form-control form-control-sm code-input"
-                            style={{ width: "55%" }}
+                            style={{ width: '55%' }}
                             rows={Math.max(1, v.split("\n").length)}
                             value={v}
                             onChange={(e) => updateVar(k, e.target.value)}
@@ -1293,21 +1200,18 @@ ${dataObjectsContent}
                       name="key"
                       placeholder="Tên biến (KEY)..."
                       className="form-control form-control-sm font-monospace"
-                      style={{ width: "25%" }}
+                      style={{ width: '25%' }}
                       required
                     />
                     <textarea
                       name="val"
                       placeholder="Giá trị (VALUE)..."
                       className="form-control form-control-sm"
-                      style={{ width: "65%" }}
+                      style={{ width: '65%' }}
                       rows={1}
                       required
                     />
-                    <button
-                      className="btn btn-success fw-bold"
-                      style={{ width: "10%" }}
-                    >
+                    <button className="btn btn-success fw-bold" style={{ width: '10%' }}>
                       +
                     </button>
                   </form>
@@ -1320,14 +1224,8 @@ ${dataObjectsContent}
 
       return (
         <div className="min-vh-100 bg-light p-4">
-          <div
-            className="container-fluid bg-white rounded shadow border overflow-hidden"
-            style={{ maxWidth: "1400px" }}
-          >
-            <div
-              className="bg-dark text-white p-3 d-flex align-items-center justify-content-between"
-              style={{ position: 'sticky', top: 0, zIndex: 1000 }}
-            >
+          <div className="container-fluid bg-white rounded shadow border overflow-hidden" style={{ maxWidth: '1400px' }}>
+            <div className="bg-dark text-white p-3 d-flex align-items-center justify-content-between">
               <h1 className="h4 fw-bold d-flex align-items-center gap-2 mb-0">
                 ⚡ Flowchart Editor (v5.0 Final)
               </h1>
@@ -1356,27 +1254,20 @@ ${dataObjectsContent}
               </div>
             </div>
             <div className="p-3 border-bottom bg-light">
-              <label
-                htmlFor="dataSourceSelect"
-                className="form-label fw-bold small mb-1"
-              >
-                Chọn Khối Dữ Liệu để Sửa:
-              </label>
+              <label htmlFor="dataSourceSelect" className="form-label fw-bold small mb-1">Chọn Khối Dữ Liệu để Sửa:</label>
               <select
                 id="dataSourceSelect"
                 className="form-select form-select-sm"
-                value={activeDataKey || ""}
-                onChange={(e) => {
+                value={activeDataKey || ''}
+                onChange={e => {
                   setActiveDataKey(e.target.value);
                   setExpandedNodes(new Set()); // Reset expanded nodes on switch
                 }}
                 disabled={!activeDataKey}
               >
                 {!activeDataKey && <option>Tải file để bắt đầu...</option>}
-                {Object.keys(dataSources).map((key) => (
-                  <option key={key} value={key}>
-                    {key}
-                  </option>
+                {Object.keys(dataSources).map(key => (
+                  <option key={key} value={key}>{key}</option>
                 ))}
               </select>
             </div>
@@ -1391,14 +1282,8 @@ ${dataObjectsContent}
             </div>
           </div>
           {editingNode && (
-            <div
-              className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4"
-              style={{ backgroundColor: "rgba(0,0,0,0.5)", zIndex: 1050 }}
-            >
-              <div
-                className="bg-white rounded shadow-lg w-100 d-flex flex-column"
-                style={{ maxWidth: "900px", maxHeight: "90vh" }}
-              >
+            <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
+              <div className="bg-white rounded shadow-lg w-100 d-flex flex-column" style={{ maxWidth: '900px', maxHeight: '90vh' }}>
                 <div className="p-3 border-bottom d-flex justify-content-between align-items-center bg-light rounded-top">
                   <h5 className="fw-bold mb-0">
                     Chỉnh sửa: {editingNode.path.join(" > ")}
@@ -1449,7 +1334,7 @@ ${dataObjectsContent}
                   </div>
                   {["note", "xmttib", "xmttecom", "alert"].map((f) => {
                     // Unique key for this field in this node
-                    const fieldKey = `${editingNode.path.join(".")}.${f}`;
+                    const fieldKey = `${editingNode.path.join('.')}.${f}`;
                     return (
                       <div key={f} className="mb-3">
                         <div className="d-flex align-items-center gap-2 mb-1">
@@ -1459,17 +1344,9 @@ ${dataObjectsContent}
                           {/* Dropdown chọn loại quote - MẶC ĐỊNH: note/xmttib/xmttecom=`, alert=" */}
                           <select
                             className="form-select form-select-sm"
-                            style={{ width: "60px" }}
-                            value={
-                              nodeQuoteTypes[fieldKey] ||
-                              (f === "alert" ? '"' : "`")
-                            }
-                            onChange={(e) =>
-                              setNodeQuoteTypes({
-                                ...nodeQuoteTypes,
-                                [fieldKey]: e.target.value,
-                              })
-                            }
+                            style={{ width: '60px' }}
+                            value={nodeQuoteTypes[fieldKey] || (f === 'alert' ? '"' : '`')}
+                            onChange={(e) => setNodeQuoteTypes({ ...nodeQuoteTypes, [fieldKey]: e.target.value })}
                             title="Loại quote khi export"
                           >
                             <option value='"'>"</option>
@@ -1530,18 +1407,15 @@ ${dataObjectsContent}
           {errorInfo && (
             <div
               className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4"
-              style={{ backgroundColor: "rgba(0,0,0,0.7)", zIndex: 2000 }}
+              style={{ backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 2000 }}
               onClick={() => setErrorInfo(null)}
             >
               <div
                 className="bg-white rounded shadow-lg w-100 d-flex flex-column"
-                style={{ maxWidth: "700px", maxHeight: "80vh" }}
+                style={{ maxWidth: '700px', maxHeight: '80vh' }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <div
-                  className={`p-3 border-bottom d-flex justify-content-between align-items-center ${errorInfo.isSuccess ? "bg-success" : "bg-danger"
-                    } text-white rounded-top`}
-                >
+                <div className={`p-3 border-bottom d-flex justify-content-between align-items-center ${errorInfo.isSuccess ? 'bg-success' : 'bg-danger'} text-white rounded-top`}>
                   <h5 className="fw-bold mb-0">{errorInfo.title}</h5>
                   <button
                     onClick={() => setErrorInfo(null)}
@@ -1558,128 +1432,68 @@ ${dataObjectsContent}
                   {errorInfo.lineNumber && (
                     <div className="alert alert-warning mb-3">
                       <h6 className="fw-bold mb-2">📍 Vị trí lỗi:</h6>
-                      <p className="mb-0 font-monospace">
-                        Dòng {errorInfo.lineNumber}
-                      </p>
+                      <p className="mb-0 font-monospace">Dòng {errorInfo.lineNumber}</p>
                     </div>
                   )}
 
-                  {errorInfo.codeSnippet &&
-                    errorInfo.codeSnippet.length > 0 && (
-                      <div className="alert alert-light border mb-3">
-                        <h6 className="fw-bold mb-2">
-                          {" "}
-                          Code tại vị trí lỗi:
-                        </h6>
-                        <div
-                          className="bg-dark text-white p-2 rounded"
-                          style={{
-                            fontSize: "12px",
-                            fontFamily: "monospace",
-                            overflowX: "auto",
-                          }}
-                        >
-                          {errorInfo.codeSnippet.map((line, idx) => (
-                            <div
-                              key={idx}
-                              className={
-                                line.isError ? "bg-warning bg-opacity-25" : ""
-                              }
-                              style={{
-                                padding: "2px 8px",
-                                borderLeft: line.isError
-                                  ? "3px solid #ffc107"
-                                  : "3px solid transparent",
-                              }}
-                            >
-                              <span
-                                className="text-secondary me-2"
-                                style={{
-                                  minWidth: "35px",
-                                  display: "inline-block",
-                                  textAlign: "right",
-                                }}
-                              >
-                                {line.lineNum}
-                              </span>
-                              <span
-                                className={
-                                  line.isError ? "text-warning fw-bold" : ""
-                                }
-                              >
-                                {line.content || " "}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                        <small className="text-muted mt-1 d-block">
-                          Dòng vàng = vị trí lỗi
-                        </small>
-                      </div>
-                    )}
-
-                  {/* Fix Suggestions */}
-                  {errorInfo.fixSuggestions &&
-                    errorInfo.fixSuggestions.length > 0 && (
-                      <div className="alert alert-success mb-3">
-                        <h6 className="fw-bold mb-2">🔧 Gợi ý sửa lỗi:</h6>
-                        {errorInfo.fixSuggestions.map((suggestion, idx) => (
+                  {errorInfo.codeSnippet && errorInfo.codeSnippet.length > 0 && (
+                    <div className="alert alert-light border mb-3">
+                      <h6 className="fw-bold mb-2"> Code tại vị trí lỗi:</h6>
+                      <div className="bg-dark text-white p-2 rounded" style={{ fontSize: '12px', fontFamily: 'monospace', overflowX: 'auto' }}>
+                        {errorInfo.codeSnippet.map((line, idx) => (
                           <div
                             key={idx}
-                            className="mb-3 p-2 bg-white rounded border"
+                            className={line.isError ? 'bg-warning bg-opacity-25' : ''}
+                            style={{ padding: '2px 8px', borderLeft: line.isError ? '3px solid #ffc107' : '3px solid transparent' }}
                           >
-                            <div className="small text-muted mb-2">
-                              <strong>Vấn đề:</strong>{" "}
-                              {suggestion.description}
-                            </div>
-                            <div className="mb-2">
-                              <div className="small text-danger mb-1">
-                                ❌ Code lỗi (dòng {suggestion.lineNumber}):
-                              </div>
-                              <code
-                                className="d-block bg-danger bg-opacity-10 p-2 rounded small"
-                                style={{ whiteSpace: "pre-wrap" }}
-                              >
-                                {suggestion.original}
-                              </code>
-                            </div>
-                            <div className="mb-2">
-                              <div className="small text-success mb-1">
-                                ✅ Gợi ý sửa:
-                              </div>
-                              <code
-                                className="d-block bg-success bg-opacity-10 p-2 rounded small"
-                                style={{ whiteSpace: "pre-wrap" }}
-                              >
-                                {suggestion.fixed}
-                              </code>
-                            </div>
-                            <button
-                              className="btn btn-sm btn-outline-success"
-                              onClick={() => {
-                                navigator.clipboard.writeText(
-                                  suggestion.fixed
-                                );
-                                alert("Đã copy! Dán vào file để sửa lỗi.");
-                              }}
-                            >
-                              📋 Copy code đã sửa
-                            </button>
+                            <span className="text-secondary me-2" style={{ minWidth: '35px', display: 'inline-block', textAlign: 'right' }}>{line.lineNum}</span>
+                            <span className={line.isError ? 'text-warning fw-bold' : ''}>{line.content || ' '}</span>
                           </div>
                         ))}
                       </div>
-                    )}
+                      <small className="text-muted mt-1 d-block">Dòng vàng = vị trí lỗi</small>
+                    </div>
+                  )}
+
+                  {/* Fix Suggestions */}
+                  {errorInfo.fixSuggestions && errorInfo.fixSuggestions.length > 0 && (
+                    <div className="alert alert-success mb-3">
+                      <h6 className="fw-bold mb-2">🔧 Gợi ý sửa lỗi:</h6>
+                      {errorInfo.fixSuggestions.map((suggestion, idx) => (
+                        <div key={idx} className="mb-3 p-2 bg-white rounded border">
+                          <div className="small text-muted mb-2">
+                            <strong>Vấn đề:</strong> {suggestion.description}
+                          </div>
+                          <div className="mb-2">
+                            <div className="small text-danger mb-1">❌ Code lỗi (dòng {suggestion.lineNumber}):</div>
+                            <code className="d-block bg-danger bg-opacity-10 p-2 rounded small" style={{ whiteSpace: 'pre-wrap' }}>
+                              {suggestion.original}
+                            </code>
+                          </div>
+                          <div className="mb-2">
+                            <div className="small text-success mb-1">✅ Gợi ý sửa:</div>
+                            <code className="d-block bg-success bg-opacity-10 p-2 rounded small" style={{ whiteSpace: 'pre-wrap' }}>
+                              {suggestion.fixed}
+                            </code>
+                          </div>
+                          <button
+                            className="btn btn-sm btn-outline-success"
+                            onClick={() => {
+                              navigator.clipboard.writeText(suggestion.fixed);
+                              alert('Đã copy! Dán vào file để sửa lỗi.');
+                            }}
+                          >
+                            📋 Copy code đã sửa
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   {errorInfo.details && (
                     <div className="alert alert-info mb-3">
                       <h6 className="fw-bold mb-2">🔍 Chi tiết:</h6>
-                      <pre
-                        className="mb-0 small"
-                        style={{
-                          whiteSpace: "pre-wrap",
-                          wordBreak: "break-word",
-                        }}
-                      >
+                      <pre className="mb-0 small" style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                         {errorInfo.details}
                       </pre>
                     </div>
@@ -1692,9 +1506,7 @@ ${dataObjectsContent}
                         <li>Kiểm tra cú pháp JavaScript trong file</li>
                         <li>Mở file bằng VS Code/Notepad++ để tìm lỗi</li>
                         <li>Dùng file backup nếu có</li>
-                        <li>
-                          Xem QUICKSTART-TOOLCLAUDE.md để biết thêm chi tiết
-                        </li>
+                        <li>Xem QUICKSTART-TOOLCLAUDE.md để biết thêm chi tiết</li>
                       </ul>
                     </div>
                   )}
@@ -1703,8 +1515,7 @@ ${dataObjectsContent}
                 <div className="p-3 border-top bg-light text-end">
                   <button
                     onClick={() => setErrorInfo(null)}
-                    className={`btn ${errorInfo.isSuccess ? "btn-success" : "btn-primary"
-                      }`}
+                    className={`btn ${errorInfo.isSuccess ? 'btn-success' : 'btn-primary'}`}
                   >
                     Đóng
                   </button>
