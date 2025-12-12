@@ -1622,19 +1622,11 @@
 
         // Try to restore selections from URL
         if (!restoreStateFromURL()) {
-          // Only restore from session if URL has compressed data (not just source param)
-          if (compressed) {
+          // Only restore from session if URL had params (not clean PLTT navigation)
+          if (sourceParam || compressed) {
             restoreStateFromSession();
           }
         }
-
-        // SAFETY NET: Ensure combobox exists after all operations
-        const hasDropdown = dynamicFiltersContainer.querySelector('select[data-level="1"]');
-        if (!hasDropdown) {
-          console.warn('No dropdown detected after initialize, creating fallback combobox');
-          createFirstLevelDropdown();
-        }
-
         updateLoanLinkWithState();
       }
 
@@ -1709,18 +1701,13 @@
         if (jsonPath) {
           try {
             const path = JSON.parse(jsonPath);
-            // Validate path is array AND has content
-            if (Array.isArray(path) && path.length > 0) {
+            if (Array.isArray(path)) {
               console.log('Restoring state from session storage.');
+              // Restore and also update URL hash to keep them in sync
               applySearchResult(path, true);
-            } else if (Array.isArray(path) && path.length === 0) {
-              console.warn('Empty path in session storage, skipping restore');
             }
           } catch (e) {
-            console.error('Failed to restore state from session storage, clearing corrupted data:', e);
-            // Clear corrupted data
-            sessionStorage.removeItem('loanFlowchartState');
-            sessionStorage.removeItem('loanSource');
+            console.error('Failed to restore state from session storage.', e);
           }
         }
       }
@@ -1753,12 +1740,6 @@
       }
 
       function applySearchResult(path, shouldSaveState = true) {
-        // Guard: Don't remove dropdowns if path is empty
-        if (!path || path.length === 0) {
-          console.warn('applySearchResult called with empty path, ignoring to preserve combobox');
-          return;
-        }
-
         removeDropdowns(1);
         let currentDataNode = state.activeData;
         path.forEach((key, index) => {
