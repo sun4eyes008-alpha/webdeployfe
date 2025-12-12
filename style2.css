@@ -54,11 +54,9 @@ body.sidebar-collapsed {
   display: flex;
   align-items: center;
   /* Padding is removed from here and applied to the container */
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--secondary-color)
-  );
+  background: linear-gradient(135deg,
+      var(--primary-color),
+      var(--secondary-color));
   color: white;
   border-bottom: 1px solid #ddd;
   /* Add border instead of shadow */
@@ -170,41 +168,52 @@ body.sidebar-collapsed {
   border-radius: 4px;
   background-color: #fff;
   cursor: pointer;
-  overflow: hidden; /* Attempt to contain the dropdown */
+  overflow: hidden;
+  /* Attempt to contain the dropdown */
 }
 
 #source-switcher {
-  appearance: none; /* Remove default browser styling */
+  appearance: none;
+  /* Remove default browser styling */
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="#4d4d4d" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Custom arrow */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="#4d4d4d" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  /* Custom arrow */
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 6px; /* Slightly more rounded than default filter-select */
-  padding: 10px 30px 10px 10px; /* Adjust padding for custom arrow */
+  border-radius: 6px;
+  /* Slightly more rounded than default filter-select */
+  padding: 10px 30px 10px 10px;
+  /* Adjust padding for custom arrow */
   font-weight: bold;
-  color: #539e22; /* Active tab color */
+  color: #539e22;
+  /* Active tab color */
   background-color: #fff;
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Subtle shadow */
-  outline: none; /* Remove focus outline */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+  outline: none;
+  /* Remove focus outline */
   transition: all 0.2s ease-in-out;
 }
 
 #source-switcher:hover {
-  border-color: #009f52; /* Hover border color */
-  box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+  border-color: #009f52;
+  /* Hover border color */
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
 #source-switcher:focus {
   border-color: #009f52;
-  box-shadow: 0 0 0 2px rgba(0, 159, 82, 0.2); /* Focus ring */
+  box-shadow: 0 0 0 2px rgba(0, 159, 82, 0.2);
+  /* Focus ring */
 }
 
 .filter-select option {
-  white-space: normal; /* Allow text to wrap in options */
+  white-space: normal;
+  /* Allow text to wrap in options */
   word-wrap: break-word;
 }
 
@@ -238,13 +247,10 @@ body.sidebar-collapsed {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   border: 3px solid transparent;
   background: linear-gradient(white, white) padding-box,
-    linear-gradient(
-        90deg,
-        rgba(178, 255, 168, 1) 0%,
-        rgba(95, 250, 160, 1) 41%,
-        rgba(72, 247, 244, 1) 100%
-      )
-      border-box;
+    linear-gradient(90deg,
+      rgba(178, 255, 168, 1) 0%,
+      rgba(95, 250, 160, 1) 41%,
+      rgba(72, 247, 244, 1) 100%) border-box;
 }
 
 #xmtt-box {
@@ -274,7 +280,8 @@ body.sidebar-collapsed {
   flex: 1 1 50%;
   padding: 15px;
   box-sizing: border-box;
-  min-width: 0; /* Add this to allow flex item to shrink */
+  min-width: 0;
+  /* Add this to allow flex item to shrink */
 }
 
 .xmtt-column h5 {
@@ -300,9 +307,12 @@ body.sidebar-collapsed {
   color: #555;
   margin: 0;
   padding: 0;
-  white-space: normal; /* Ensure line breaks are respected */
-  overflow-wrap: break-word; /* Prevents overflow of long words */
-  word-break: break-all; /* Add this for more aggressive breaking */
+  white-space: normal;
+  /* Ensure line breaks are respected */
+  overflow-wrap: break-word;
+  /* Prevents overflow of long words */
+  word-break: break-all;
+  /* Add this for more aggressive breaking */
 }
 
 /* Notes Result - block layout, full width */
@@ -317,7 +327,8 @@ body.sidebar-collapsed {
   color: #555;
   box-sizing: border-box;
   width: 100%;
-  overflow-wrap: break-word; /* Prevents overflow of long words */
+  overflow-wrap: break-word;
+  /* Prevents overflow of long words */
 }
 
 /* New expand button style */
@@ -458,12 +469,10 @@ body.sidebar-collapsed {
 }
 
 .notification-toast {
-  background: linear-gradient(
-    90deg,
-    rgba(252, 176, 69, 1) 0%,
-    rgba(253, 29, 29, 1) 66%,
-    rgba(131, 58, 180, 1) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(252, 176, 69, 1) 0%,
+      rgba(253, 29, 29, 1) 66%,
+      rgba(131, 58, 180, 1) 100%);
   color: white;
   padding: 15px 20px;
   border-radius: 5px;
@@ -583,13 +592,10 @@ body:not(.sidebar-collapsed) #sidebar {
   border-radius: 10px;
   border: 3px solid transparent;
   background: linear-gradient(white, white) padding-box,
-    linear-gradient(
-        90deg,
-        rgba(178, 255, 168, 1) 0%,
-        rgba(95, 250, 160, 1) 41%,
-        rgba(72, 247, 244, 1) 100%
-      )
-      border-box;
+    linear-gradient(90deg,
+      rgba(178, 255, 168, 1) 0%,
+      rgba(95, 250, 160, 1) 41%,
+      rgba(72, 247, 244, 1) 100%) border-box;
 }
 
 .popup-container:not(.hidden) {
@@ -814,65 +820,98 @@ body.landing-page #main-header .sidebar-toggle {
 }
 
 .sidebar-page-title {
-  display: flex; /* Make it a flex container */
-  align-items: center; /* Vertically align icon and text */
-  justify-content: center; /* Horizontally center icon and text */
-  gap: 10px; /* Space between icon and text */
-  font-size: 1.5em; /* Increased font size */
+  display: flex;
+  /* Make it a flex container */
+  align-items: center;
+  /* Vertically align icon and text */
+  justify-content: center;
+  /* Horizontally center icon and text */
+  gap: 10px;
+  /* Space between icon and text */
+  font-size: 1.5em;
+  /* Increased font size */
   font-weight: bold;
   color: var(--secondary-color);
   text-align: center;
-  padding: 4px 0 8px 0; /* Adjusted padding for a balanced look */
+  padding: 4px 0 8px 0;
+  /* Adjusted padding for a balanced look */
   margin-bottom: 0px;
   background-color: #e6ffe6;
-  border-radius: 0 0 15px 15px; /* Increased border radius for bottom corners */
+  border-radius: 0 0 15px 15px;
+  /* Increased border radius for bottom corners */
   letter-spacing: 1px;
   text-transform: uppercase;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin-top: 0;
 }
 
 .sidebar-title-icon {
-  width: 24px; /* Adjust size as needed */
+  width: 24px;
+  /* Adjust size as needed */
   height: 24px;
   fill: var(--secondary-color);
 }
 
 .sidebar-tabs-container {
-  padding: 10px 20px; /* Add padding for the container */
-  border-bottom: 1px solid #dee2e6; /* Keep the separator */
+  display: flex;
+  /* Ensure tabs remain horizontal */
 }
 
-/* Override default filter-group margin-bottom for this specific container */
-.sidebar-tabs-container .filter-group {
-  margin-bottom: 0;
+.sidebar-tab-btn {
+  flex: 1;
+  background-color: #f8f9fa;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #6c757d;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar-tab-btn:hover {
+  background-color: #e9ecef;
+}
+
+.sidebar-tab-btn.active {
+  color: #539e22;
+  background-color: #fff;
+  border-bottom-color: #009f52;
 }
 
 /* --- SCROLL BUTTONS --- */
 .scroll-buttons {
   position: fixed;
   top: 50%;
-  right: 10px; /* Position on the right */
+  right: 10px;
+  /* Position on the right */
   transform: translateY(-50%);
-  z-index: 202; /* Make sure it's above other content */
+  z-index: 202;
+  /* Make sure it's above other content */
   display: flex;
-  flex-direction: column; /* Align buttons vertically */
-  gap: 10px; /* Space between buttons */
+  flex-direction: column;
+  /* Align buttons vertically */
+  gap: 10px;
+  /* Space between buttons */
 }
 
 .scroll-btn {
-  width: 40px;
-  height: 40px;
-  background-color: var(--primary-color); /* Changed to primary color */
+  width: 30px;
+  height: 30px;
+  background-color: var(--primary-color);
+  /* Changed to primary color */
   color: #fff;
   border: none;
-  border-radius: 5px; /* Changed to square with slight round */
+  border-radius: 5px;
+  /* Changed to square with slight round */
   cursor: pointer;
   font-size: 18px;
-  opacity: 0.5; /* 50% opacity */
+  opacity: 0.5;
+  /* 50% opacity */
   transition: opacity 0.2s;
 }
 
 .scroll-btn:hover {
-  opacity: 1; /* Full opacity on hover */
+  opacity: 1;
+  /* Full opacity on hover */
 }
