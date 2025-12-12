@@ -172,6 +172,45 @@ body.sidebar-collapsed {
   /* Attempt to contain the dropdown */
 }
 
+#source-switcher {
+  appearance: none;
+  /* Remove default browser styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="#4d4d4d" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  /* Slightly more rounded than default filter-select */
+  padding: 10px 30px 10px 10px;
+  /* Adjust padding for custom arrow */
+  font-weight: bold;
+  color: #539e22;
+  /* Active tab color */
+  background-color: #fff;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+  outline: none;
+  /* Remove focus outline */
+  transition: all 0.2s ease-in-out;
+}
+
+#source-switcher:hover {
+  border-color: #009f52;
+  /* Hover border color */
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+#source-switcher:focus {
+  border-color: #009f52;
+  box-shadow: 0 0 0 2px rgba(0, 159, 82, 0.2);
+  /* Focus ring */
+}
+
 .filter-select option {
   white-space: normal;
   /* Allow text to wrap in options */
