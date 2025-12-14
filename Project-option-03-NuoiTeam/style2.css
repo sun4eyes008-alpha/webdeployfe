@@ -384,11 +384,12 @@ body.sidebar-collapsed {
 #xmtt-ecom-content p {
   margin: 0;
   padding: 0;
+  color: #000;
 }
 
-/* Modern placeholder style */
-#xmtt-ib-content p:only-child,
-#xmtt-ecom-content p:only-child {
+/* Placeholder style only */
+#xmtt-ib-content p:only-child:empty,
+#xmtt-ecom-content p:only-child:empty {
   color: #94a3b8;
   font-style: normal;
   font-weight: 400;
@@ -402,7 +403,7 @@ body.sidebar-collapsed {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
   line-height: 1.8;
-  color: #334155;
+  color: #000;
   box-sizing: border-box;
   width: calc(100% - 16px);
   overflow-wrap: break-word;
@@ -433,10 +434,12 @@ body.sidebar-collapsed {
 #notes-result p {
   margin: 0;
   padding: 0;
+  color: #000;
 }
 
-/* Modern placeholder */
-#notes-result p:only-child {
+/* Placeholder text only */
+#notes-result p:only-child:empty,
+#notes-result.placeholder p {
   color: #94a3b8;
   font-style: normal;
   font-weight: 400;
@@ -463,7 +466,7 @@ body.sidebar-collapsed {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
   line-height: 1.8;
-  color: #334155;
+  color: #000;
   box-sizing: border-box;
   width: 100%;
   overflow-wrap: break-word;
@@ -494,10 +497,12 @@ body.sidebar-collapsed {
 #dieukien-result p {
   margin: 0;
   padding: 0;
+  color: #000;
 }
 
-/* Modern placeholder */
-#dieukien-result p:only-child {
+/* Placeholder text only - when no real content */
+#dieukien-result p:only-child:empty,
+#dieukien-result.placeholder p {
   color: #94a3b8;
   font-style: normal;
   font-weight: 400;
@@ -783,6 +788,10 @@ body:not(.sidebar-collapsed) #sidebar {
   transform: scale(1);
 }
 
+.popup-container #dieukien-result {
+  box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.15);
+}
+
 /* popup-header-new and popup-title are removed */
 
 #popup-close-btn {
@@ -812,7 +821,8 @@ body:not(.sidebar-collapsed) #sidebar {
 #popup-content {
   flex-grow: 0;
   overflow-y: auto;
-  padding: 0;
+  overflow-x: visible;
+  padding: 8px;
   margin: 0;
 }
 
@@ -834,9 +844,6 @@ body:not(.sidebar-collapsed) #sidebar {
   box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.15);
 }
 
-#popup-content #dieukien-result {
-  box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.15);
-}
 
 
 /* This is a general utility class */
