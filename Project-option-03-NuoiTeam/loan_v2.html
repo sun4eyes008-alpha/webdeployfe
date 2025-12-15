@@ -69,12 +69,42 @@
             </a>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-pdf="THONG BAO.pdf">THÔNG BÁO</button>
-        <button class="tab-btn pdf-link-btn" data-pdf="XMTT.pdf" data-tab="xmtt">XMTT</button>
-        <button class="tab-btn pdf-link-btn" data-pdf="QUY DINH CHUNG.pdf" data-tab="quy-dinh">QUY ĐỊNH CHUNG</button>
-        <button class="tab-btn pdf-link-btn" data-pdf="KHUYEN MAI.pdf" data-tab="khuyen-mai" id="khuyen-mai-btn">
-          KHUYẾN MÃI
-        </button>
+        <button class="tab-btn pdf-link-btn" data-pdf="TIN TUC.pdf">TIN TỨC</button>
+        <div class="dropdown">
+          <button class="tab-btn dropdown-toggle">QUY ĐỊNH CHUNG</button>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="XAC MINH THONG TIN.pdf">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+              </svg>
+              Xác Minh Thông Tin
+            </a>
+            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="TIEP NHAN CUOC GOI.pdf">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+              </svg>
+              Tiếp Nhận Cuộc Gọi
+            </a>
+            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="XU LY LOI ECOM CHAT.pdf">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+              </svg>
+              Xử lý Email/Chat
+            </a>
+            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="HUONG DAN NHAP LIEU.pdf">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z" />
+              </svg>
+              Hướng Dẫn Nhập Liệu
+            </a>
+          </div>
+        </div>
+        <button class="tab-btn pdf-link-btn" data-pdf="TAI LIEU THAM KHAO.pdf">TÀI LIỆU THAM KHẢO</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="HUONG DAN HE THONG.pdf">HƯỚNG DẪN HỆ THỐNG</button>
         <button class="tab-btn pdf-link-btn" data-pdf="CHANGE LOG.pdf" data-tab="change-log" id="change-log-btn">
           CHANGE LOG
         </button>
@@ -107,43 +137,42 @@
 
   <!-- Main Content -->
   <main id="main-content">
+    <!-- Condition Panel (above XMTT) -->
+    <div id="dieukien-panel" class="dieukien-panel hidden">
+      <div class="dieukien-box" id="dieukien-box">
+        <button class="expand-btn" data-target="dieukien-box">⤢</button>
+        <div id="dieukien-result" class="box-content">
+          <p>Điều kiện sẽ hiển thị ở đây khi chọn</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Sub Header -->
     <div id="sub-header">
-      <div class="sub-header-box" id="xmtt-box">
-        <button class="expand-btn" data-target="xmtt-box">⤢</button>
-        <div id="xmtt-result" class="box-content">
-          <div class="xmtt-column xmtt-ib" id="xmtt-ib-column">
-            <div class="column-header">
-              <h5>XÁC MINH THÔNG TIN INBOUND</h5>
-            </div>
-            <div id="xmtt-ib-content">
-              <p>...</p>
-            </div>
-          </div>
-          <div class="xmtt-column xmtt-ecom" id="xmtt-ecom-column">
-            <div class="column-header">
-              <h5>XÁC MINH THÔNG TIN ECOM</h5>
-            </div>
-            <div id="xmtt-ecom-content">
-              <p>...</p>
-            </div>
-          </div>
+      <!-- XMTT IB Box -->
+      <div class="sub-header-box xmtt-ib-box" id="xmtt-ib-box">
+        <button class="expand-btn" data-target="xmtt-ib-box">⤢</button>
+        <div class="column-header">
+          <h5>XÁC MINH THÔNG TIN INBOUND</h5>
+        </div>
+        <div id="xmtt-ib-content" class="box-content">
+          <p>...</p>
+        </div>
+      </div>
+      <!-- XMTT ECOM Box -->
+      <div class="sub-header-box xmtt-ecom-box" id="xmtt-ecom-box">
+        <button class="expand-btn" data-target="xmtt-ecom-box">⤢</button>
+        <div class="column-header">
+          <h5>XÁC MINH THÔNG TIN ECOM</h5>
+        </div>
+        <div id="xmtt-ecom-content" class="box-content">
+          <p>...</p>
         </div>
       </div>
       <div class="sub-header-box" id="notes-box">
         <button class="expand-btn" data-target="notes-box">⤢</button>
         <div id="notes-result" class="box-content">
           <p>Thông báo và lưu ý sẽ hiển thị ở đây</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Condition Panel (separate from sub-header) -->
-    <div id="dieukien-panel" class="dieukien-panel hidden">
-      <div class="dieukien-box" id="dieukien-box">
-        <button class="expand-btn" data-target="dieukien-box">⤢</button>
-        <div id="dieukien-result" class="box-content">
-          <p>Điều kiện sẽ hiển thị ở đây khi chọn</p>
         </div>
       </div>
     </div>
@@ -263,7 +292,21 @@
           "pdf": "Thông tin công ty.pdf",
           "note": "Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>",
           "xmttib": "Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>",
-          "dieukien": "Điều kiện: Không cần XMTT cho việc tra cứu thông tin chung về công ty."
+          "dieukien": `Điều kiện: Không cần XMTT cho việc tra cứu thông tin chung về công ty.
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>
+                        Các thông tin cơ bản về công ty.<br/>`
         },
         "Hợp Tác Kinh Doanh": {
           "displayName": "Hợp Tác Kinh Doanh",
@@ -1917,11 +1960,13 @@
         // Step 3: Create dropdown if there are child nodes
         if (childKeys.length > 0) {
           createDropdown(childKeys, level + 1, selectedNode);
-        } else if (hasContent) {
-          // True leaf node - save state
-          const path = Array.from(document.querySelectorAll(".filter-select"))
-            .map((s) => s.value)
-            .filter(Boolean);
+        }
+
+        // Step 4: Always save state to URL for any selection (not just leaf nodes)
+        const path = Array.from(document.querySelectorAll(".filter-select"))
+          .map((s) => s.value)
+          .filter(Boolean);
+        if (path.length > 0) {
           saveStateToURL(path);
         }
       }
@@ -1985,19 +2030,23 @@
         // Check if popup is currently open
         if (!popup.classList.contains("hidden")) {
           // Find which box is currently displayed in popup by checking content
-          const xmttBox = document.getElementById("xmtt-box");
+          const xmttIbBox = document.getElementById("xmtt-ib-box");
+          const xmttEcomBox = document.getElementById("xmtt-ecom-box");
           const notesBox = document.getElementById("notes-box");
           const dieukienBox = document.getElementById("dieukien-box");
 
           // Determine which box content to clone based on what's in popup
-          // We'll detect by checking if popup has xmtt-result, notes-result, or dieukien-result
-          const popupHasXmtt = popupContent.querySelector("#xmtt-result");
+          // We'll detect by checking if popup has xmtt-ib-content, xmtt-ecom-content, notes-result, or dieukien-result
+          const popupHasXmttIb = popupContent.querySelector("#xmtt-ib-content");
+          const popupHasXmttEcom = popupContent.querySelector("#xmtt-ecom-content");
           const popupHasNotes = popupContent.querySelector("#notes-result");
           const popupHasDieukien = popupContent.querySelector("#dieukien-result");
 
           let sourceBox = null;
-          if (popupHasXmtt) {
-            sourceBox = xmttBox;
+          if (popupHasXmttIb) {
+            sourceBox = xmttIbBox;
+          } else if (popupHasXmttEcom) {
+            sourceBox = xmttEcomBox;
           } else if (popupHasNotes) {
             sourceBox = notesBox;
           } else if (popupHasDieukien) {
@@ -2231,6 +2280,33 @@
 
       // --- START THE APP ---
       initialize();
+    });
+  </script>
+
+  <!-- Initialize OverlayScrollbars for custom scrollbar -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const { OverlayScrollbars } = OverlayScrollbarsGlobal;
+
+      // Apply to body
+      OverlayScrollbars(document.body, {
+        scrollbars: {
+          theme: 'os-theme-dark',
+          autoHide: 'never',
+          visibility: 'visible'
+        }
+      });
+
+      // Apply to all box-content elements
+      document.querySelectorAll('.box-content, #dieukien-result').forEach(el => {
+        OverlayScrollbars(el, {
+          scrollbars: {
+            theme: 'os-theme-dark',
+            autoHide: 'never',
+            visibility: 'visible'
+          }
+        });
+      });
     });
   </script>
 </body>

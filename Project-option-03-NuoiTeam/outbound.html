@@ -69,12 +69,42 @@
             </a>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-pdf="THONG BAO.pdf">THÔNG BÁO</button>
-        <button class="tab-btn pdf-link-btn" data-pdf="XMTT.pdf" data-tab="xmtt">XMTT</button>
-        <button class="tab-btn pdf-link-btn" data-pdf="QUY DINH CHUNG.pdf" data-tab="quy-dinh">QUY ĐỊNH CHUNG</button>
-        <button class="tab-btn pdf-link-btn" data-pdf="KHUYEN MAI.pdf" data-tab="khuyen-mai" id="khuyen-mai-btn">
-          KHUYẾN MÃI
-        </button>
+        <button class="tab-btn pdf-link-btn" data-pdf="TIN TUC.pdf">TIN TỨC</button>
+        <div class="dropdown">
+          <button class="tab-btn dropdown-toggle">QUY ĐỊNH CHUNG</button>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="XAC MINH THONG TIN.pdf">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+              </svg>
+              Xác Minh Thông Tin
+            </a>
+            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="TIEP NHAN CUOC GOI.pdf">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+              </svg>
+              Tiếp Nhận Cuộc Gọi
+            </a>
+            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="XU LY LOI ECOM CHAT.pdf">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+              </svg>
+              Xử lý Email/Chat
+            </a>
+            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="HUONG DAN NHAP LIEU.pdf">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z" />
+              </svg>
+              Hướng Dẫn Nhập Liệu
+            </a>
+          </div>
+        </div>
+        <button class="tab-btn pdf-link-btn" data-pdf="TAI LIEU THAM KHAO.pdf">TÀI LIỆU THAM KHẢO</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="HUONG DAN HE THONG.pdf">HƯỚNG DẪN HỆ THỐNG</button>
         <button class="tab-btn pdf-link-btn" data-pdf="CHANGE LOG.pdf" data-tab="change-log" id="change-log-btn">
           CHANGE LOG
         </button>
@@ -106,36 +136,6 @@
   <!-- Main Content -->
   <main id="main-content">
     <!-- Sub Header -->
-    <div id="sub-header">
-      <div class="sub-header-box" id="xmtt-box">
-        <button class="expand-btn" data-target="xmtt-box">⤢</button>
-        <div id="xmtt-result" class="box-content">
-          <div class="xmtt-column xmtt-ib" id="xmtt-ib-column">
-            <div class="column-header">
-              <h5>XÁC MINH THÔNG TIN INBOUND</h5>
-            </div>
-            <div id="xmtt-ib-content">
-              <p>...</p>
-            </div>
-          </div>
-          <div class="xmtt-column xmtt-ecom" id="xmtt-ecom-column">
-            <div class="column-header">
-              <h5>XÁC MINH THÔNG TIN ECOM</h5>
-            </div>
-            <div id="xmtt-ecom-content">
-              <p>...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="sub-header-box" id="notes-box">
-        <button class="expand-btn" data-target="notes-box">⤢</button>
-        <div id="notes-result" class="box-content">
-          <p>Thông báo và lưu ý sẽ hiển thị ở đây</p>
-        </div>
-      </div>
-    </div>
-
     <!-- Condition Panel (separate from sub-header) -->
     <div id="dieukien-panel" class="dieukien-panel hidden">
       <div class="dieukien-box" id="dieukien-box">
@@ -146,9 +146,41 @@
       </div>
     </div>
 
+    <!-- Sub Header -->
+    <div id="sub-header">
+      <!-- XMTT IB Box -->
+      <div class="sub-header-box xmtt-ib-box" id="xmtt-ib-box">
+        <button class="expand-btn" data-target="xmtt-ib-box">⤢</button>
+        <div class="column-header">
+          <h5>XÁC MINH THÔNG TIN INBOUND</h5>
+        </div>
+        <div id="xmtt-ib-content" class="box-content">
+          <p>...</p>
+        </div>
+      </div>
+      <!-- XMTT ECOM Box -->
+      <div class="sub-header-box xmtt-ecom-box" id="xmtt-ecom-box">
+        <button class="expand-btn" data-target="xmtt-ecom-box">⤢</button>
+        <div class="column-header">
+          <h5>XÁC MINH THÔNG TIN ECOM</h5>
+        </div>
+        <div id="xmtt-ecom-content" class="box-content">
+          <p>...</p>
+        </div>
+      </div>
+      <div class="sub-header-box" id="notes-box">
+        <button class="expand-btn" data-target="notes-box">⤢</button>
+        <div id="notes-result" class="box-content">
+          <p>Thông báo và lưu ý sẽ hiển thị ở đây</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Body Content (PDF Viewer) -->
     <div id="body-proper">
       <iframe id="pdf-viewer" src="" style="width: 100%; height: 100%; border: none"></iframe>
+      <div id="html-viewer"
+        style="width: 100%; height: 100%; overflow: auto; display: none; padding: 20px; background: white;"></div>
     </div>
   </main>
 
@@ -848,16 +880,19 @@
         const selectedNode = parentDataNode[selectedKey];
         if (isLeaf(selectedNode)) {
           displayResult(selectedNode, selectedKey);
-          // Construct the path and save it
-          const path = [];
-          document.querySelectorAll(".filter-select").forEach((select) => {
-            if (select.value) {
-              path.push(select.value);
-            }
-          });
-          saveStateToURL(path);
         } else if (isObject(selectedNode)) {
           createDropdown(Object.keys(selectedNode), level + 1, selectedNode);
+        }
+
+        // Always save state to URL for any selection (not just leaf nodes)
+        const path = [];
+        document.querySelectorAll(".filter-select").forEach((select) => {
+          if (select.value) {
+            path.push(select.value);
+          }
+        });
+        if (path.length > 0) {
+          saveStateToURL(path);
         }
       }
 
@@ -913,17 +948,39 @@
       }
 
       function updatePopupIfOpen() {
+        // Check if popup is currently open
         if (!popup.classList.contains("hidden")) {
-          const xmttBox = document.getElementById("xmtt-box");
+          // Find which box is currently displayed in popup by checking content
+          const xmttIbBox = document.getElementById("xmtt-ib-box");
+          const xmttEcomBox = document.getElementById("xmtt-ecom-box");
           const notesBox = document.getElementById("notes-box");
-          const popupHasXmtt = popupContent.querySelector("#xmtt-result");
+          const dieukienBox = document.getElementById("dieukien-box");
+
+          // Determine which box content to clone based on what's in popup
+          // We'll detect by checking if popup has xmtt-ib-content, xmtt-ecom-content, notes-result, or dieukien-result
+          const popupHasXmttIb = popupContent.querySelector("#xmtt-ib-content");
+          const popupHasXmttEcom = popupContent.querySelector("#xmtt-ecom-content");
           const popupHasNotes = popupContent.querySelector("#notes-result");
-          let sourceBox = popupHasXmtt ? xmttBox : (popupHasNotes ? notesBox : null);
+          const popupHasDieukien = popupContent.querySelector("#dieukien-result");
+
+          let sourceBox = null;
+          if (popupHasXmttIb) {
+            sourceBox = xmttIbBox;
+          } else if (popupHasXmttEcom) {
+            sourceBox = xmttEcomBox;
+          } else if (popupHasNotes) {
+            sourceBox = notesBox;
+          } else if (popupHasDieukien) {
+            sourceBox = dieukienBox;
+          }
+
           if (sourceBox) {
             const sourceContent = sourceBox.querySelector(".box-content");
             if (sourceContent) {
+              // Clear and re-clone the updated content
               popupContent.innerHTML = "";
-              popupContent.appendChild(sourceContent.cloneNode(true));
+              const clonedContent = sourceContent.cloneNode(true);
+              popupContent.appendChild(clonedContent);
             }
           }
         }
@@ -968,25 +1025,18 @@
           restoreStateFromURL();
         });
 
-        const changeLogBtn = document.getElementById("change-log-btn");
-        if (changeLogBtn) {
-          changeLogBtn.addEventListener("click", () => {
-            pdfViewer.src = "./pdfile-outbound/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
-            document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
-            document.getElementById("xmtt-ecom-content").innerHTML = "<p>...</p>";
-            notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
-          });
-        }
-
-        const khuyenMaiBtn = document.getElementById("khuyen-mai-btn");
-        if (khuyenMaiBtn) {
-          khuyenMaiBtn.addEventListener("click", () => {
-            pdfViewer.src = "./pdfile-outbound/DANG_KY_VAY/Vay Sản Phẩm Vay Tiền Mặt.pdf";
-            document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
-            document.getElementById("xmtt-ecom-content").innerHTML = "<p>...</p>";
-            notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
-          });
-        }
+        document.querySelector('.header-tabs').addEventListener('click', (e) => {
+          if (e.target.classList.contains('pdf-link-btn')) {
+            const pdfName = e.target.getAttribute('data-pdf');
+            if (pdfName) {
+              pdfViewer.src = `./pdf-header/${pdfName}`;
+              // Reset other UI elements for clarity
+              resetResults();
+              removeDropdowns(1);
+              history.pushState(null, "", window.location.pathname);
+            }
+          }
+        });
 
         // Popup logic
         document.querySelectorAll(".expand-btn").forEach((btn) => {
@@ -1029,48 +1079,31 @@
       }
 
       // --- UI DISPLAY LOGIC ---
-      function displayResult(resultObject, selectionText) {
-        // New logic for IB/ECOM
+      function displayResult(resultObject) {
         const xmttIbContent = document.getElementById("xmtt-ib-content");
         const xmttEcomContent = document.getElementById("xmtt-ecom-content");
-
-        xmttIbContent.innerHTML = resultObject.xmttib
-          ? `<p>${resultObject.xmttib}</p>`
-          : "<p>...</p>";
-        xmttEcomContent.innerHTML = resultObject.xmttecom
-          ? `<p>${resultObject.xmttecom}</p>`
-          : "<p>...</p>";
-
-        // Handle old 'xmtt' property for backward compatibility
+        xmttIbContent.innerHTML = resultObject.xmttib ? `<p>${resultObject.xmttib}</p>` : "<p>...</p>";
+        if (xmttEcomContent) xmttEcomContent.innerHTML = resultObject.xmttecom ? `<p>${resultObject.xmttecom}</p>` : "<p>...</p>";
         if (resultObject.xmtt) {
           xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
-          xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+          if (xmttEcomContent) xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
         }
-
-        notesResult.innerHTML = resultObject.note
-          ? `<p>${resultObject.note}</p>`
-          : "<p>Không có lưu ý.</p>";
+        notesResult.innerHTML = resultObject.note ? `<p>${resultObject.note}</p>` : "<p>Không có lưu ý.</p>";
 
         if (resultObject.pdf) {
-          const firstLevelSelect = dynamicFiltersContainer.querySelector(
-            'select[data-level="1"]'
-          );
+          const firstLevelSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
           const categoryIndexMatch = firstLevelSelect?.value.match(/^(\d+)/);
-          const folderName = categoryIndexMatch
-            ? FOLDER_MAP[categoryIndexMatch[1]]
-            : null;
-          pdfViewer.src = folderName
-            ? `./pdfile-outbound/${folderName}/${resultObject.pdf}`
-            : `./pdfile-outbound/${resultObject.pdf}`;
+          const folderMap = FOLDER_MAP[state.activeSourceName];
+          const folderName = (categoryIndexMatch && folderMap) ? folderMap[categoryIndexMatch[1]] : null;
+          const baseFolder = state.activeSourceName === 'feedback' ? 'pdfile-outbound-fb' : 'pdfile-outbound';
+
+          pdfViewer.src = folderName ? `./${baseFolder}/${folderName}/${resultObject.pdf}` : `./${baseFolder}/${resultObject.pdf}`;
         } else {
           pdfViewer.src = "";
         }
 
         if (resultObject.alert) {
-          (Array.isArray(resultObject.alert)
-            ? resultObject.alert
-            : [resultObject.alert]
-          ).forEach((msg) => showNotification(msg));
+          (Array.isArray(resultObject.alert) ? resultObject.alert : [resultObject.alert]).forEach((msg) => showNotification(msg));
         }
 
         // Update popup content if it's currently open
@@ -1117,6 +1150,32 @@
   <script>
     // LZ-String compression library for shorter URLs
     var LZString = function () { var r = String.fromCharCode, o = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", n = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$", e = {}; function t(r, o) { if (!e[r]) { e[r] = {}; for (var n = 0; n < r.length; n++)e[r][r.charAt(n)] = n } return e[r][o] } var i = { compressToBase64: function (r) { if (null == r) return ""; var n = i._compress(r, 6, function (r) { return o.charAt(r) }); switch (n.length % 4) { default: case 0: return n; case 1: return n + "==="; case 2: return n + "=="; case 3: return n + "=" } }, decompressFromBase64: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 32, function (n) { return t(o, r.charAt(n)) }) }, compressToUTF16: function (o) { return null == o ? "" : i._compress(o, 15, function (o) { return r(o + 32) }) + " " }, decompressFromUTF16: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 16384, function (o) { return r.charCodeAt(o) - 32 }) }, compressToUint8Array: function (r) { for (var o = i.compress(r), n = new Uint8Array(2 * o.length), e = 0, t = o.length; e < t; e++) { var s = o.charCodeAt(e); n[2 * e] = s >>> 8, n[2 * e + 1] = s % 256 } return n }, decompressFromUint8Array: function (o) { if (null == o) return i.decompress(o); for (var n = new Array(o.length / 2), e = 0, t = n.length; e < t; e++)n[e] = 256 * o[2 * e] + o[2 * e + 1]; var s = []; return n.forEach(function (o) { s.push(r(o)) }), i.decompress(s.join("")) }, compressToEncodedURIComponent: function (r) { return null == r ? "" : i._compress(r, 6, function (r) { return n.charAt(r) }) }, decompressFromEncodedURIComponent: function (r) { return null == r ? "" : "" == r ? null : (r = r.replace(/ /g, "+"), i._decompress(r.length, 32, function (o) { return t(n, r.charAt(o)) })) }, compress: function (o) { return i._compress(o, 16, function (o) { return r(o) }) }, _compress: function (r, o, n) { if (null == r) return ""; var e, t, i, s = {}, u = {}, a = "", p = "", c = "", l = 2, f = 3, h = 2, d = [], m = 0, v = 0; for (i = 0; i < r.length; i += 1)if (a = r.charAt(i), Object.prototype.hasOwnProperty.call(s, a) || (s[a] = f++, u[a] = !0), p = c + a, Object.prototype.hasOwnProperty.call(s, p)) c = p; else { if (Object.prototype.hasOwnProperty.call(u, c)) { if (c.charCodeAt(0) < 256) { for (e = 0; e < h; e++)m <<= 1, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++; for (t = c.charCodeAt(0), e = 0; e < 8; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } else { for (t = 1, e = 0; e < h; e++)m = m << 1 | t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t = 0; for (t = c.charCodeAt(0), e = 0; e < 16; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } 0 == --l && (l = Math.pow(2, h), h++), delete u[c] } else for (t = s[c], e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; 0 == --l && (l = Math.pow(2, h), h++), s[p] = f++, c = String(a) } if ("" !== c) { if (Object.prototype.hasOwnProperty.call(u, c)) { if (c.charCodeAt(0) < 256) { for (e = 0; e < h; e++)m <<= 1, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++; for (t = c.charCodeAt(0), e = 0; e < 8; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } else { for (t = 1, e = 0; e < h; e++)m = m << 1 | t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t = 0; for (t = c.charCodeAt(0), e = 0; e < 16; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } 0 == --l && (l = Math.pow(2, h), h++), delete u[c] } else for (t = s[c], e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; 0 == --l && (l = Math.pow(2, h), h++) } for (t = 2, e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; for (; ;) { if (m <<= 1, v == o - 1) { d.push(n(m)); break } v++ } return d.join("") }, decompress: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 32768, function (o) { return r.charCodeAt(o) }) }, _decompress: function (o, n, e) { var t, i, s, u, a, p, c, l = [], f = 4, h = 4, d = 3, m = "", v = [], g = { val: e(0), position: n, index: 1 }; for (t = 0; t < 3; t += 1)l[t] = t; for (s = 0, a = Math.pow(2, 2), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; switch (s) { case 0: for (s = 0, a = Math.pow(2, 8), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; c = r(s); break; case 1: for (s = 0, a = Math.pow(2, 16), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; c = r(s); break; case 2: return "" }for (l[3] = c, i = c, v.push(c); ;) { if (g.index > o) return ""; for (s = 0, a = Math.pow(2, d), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; switch (c = s) { case 0: for (s = 0, a = Math.pow(2, 8), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; l[h++] = r(s), c = h - 1, f--; break; case 1: for (s = 0, a = Math.pow(2, 16), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; l[h++] = r(s), c = h - 1, f--; break; case 2: return v.join("") }if (0 == f && (f = Math.pow(2, d), d++), l[c]) m = l[c]; else { if (c !== h) return null; m = i + i.charAt(0) } v.push(m), l[h++] = i + m.charAt(0), i = m, 0 == --f && (f = Math.pow(2, d), d++) } } }; return i }();
+  </script>
+  <!-- Initialize OverlayScrollbars for custom scrollbar -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const { OverlayScrollbars } = OverlayScrollbarsGlobal;
+
+      // Apply to body
+      OverlayScrollbars(document.body, {
+        scrollbars: {
+          theme: 'os-theme-dark',
+          autoHide: 'never',
+          visibility: 'visible'
+        }
+      });
+
+      // Apply to all box-content elements
+      document.querySelectorAll('.box-content, #dieukien-result').forEach(el => {
+        OverlayScrollbars(el, {
+          scrollbars: {
+            theme: 'os-theme-dark',
+            autoHide: 'never',
+            visibility: 'visible'
+          }
+        });
+      });
+    });
   </script>
 </body>
 

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Editor - Offline Tool</title>
+    <link rel="stylesheet" href="grapes.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #1a1a2e;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 50px;
+        }
+
+        .app-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e94560, #c23a51);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #eee;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        /* Editor Container */
+        .editor-container {
+            display: flex;
+            height: calc(100vh - 50px);
+        }
+
+        /* Left Panel - Blocks */
+        .panel-left {
+            width: 220px;
+            background: #16213e;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .panel-title {
+            padding: 12px 15px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #blocks {
+            padding: 10px;
+        }
+
+        /* Center - Canvas */
+        #gjs {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Right Panel - Styles */
+        .panel-right {
+            width: 260px;
+            background: #16213e;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        #styles-container,
+        #traits-container,
+        #layers-container {
+            padding: 10px;
+        }
+
+        /* Tab buttons */
+        .panel-tabs {
+            display: flex;
+            background: #0f3460;
+        }
+
+        .panel-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: #888;
+            font-size: 12px;
+            border: none;
+            background: transparent;
+            transition: all 0.2s;
+        }
+
+        .panel-tab:hover {
+            color: #fff;
+        }
+
+        .panel-tab.active {
+            color: #fff;
+            background: rgba(233, 69, 96, 0.3);
+            border-bottom: 2px solid #e94560;
+        }
+
+        /* GrapesJS Overrides */
+        .gjs-one-bg {
+            background-color: #1a1a2e !important;
+        }
+
+        .gjs-two-color {
+            color: #ddd !important;
+        }
+
+        .gjs-three-bg {
+            background-color: #16213e !important;
+        }
+
+        .gjs-four-color,
+        .gjs-four-color-h:hover {
+            color: #e94560 !important;
+        }
+
+        .gjs-cv-canvas {
+            background: #0a0a14 !important;
+        }
+
+        .gjs-frame-wrapper {
+            background: #fff;
+        }
+
+        .gjs-block {
+            width: calc(50% - 10px) !important;
+            min-height: 70px;
+            margin: 5px !important;
+            padding: 10px !important;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            color: #ccc;
+        }
+
+        .gjs-block:hover {
+            background: rgba(233, 69, 96, 0.15);
+            border-color: #e94560;
+        }
+
+        .gjs-block-label {
+            font-size: 11px !important;
+        }
+
+        .gjs-sm-sector-title,
+        .gjs-clm-tags-field,
+        .gjs-clm-sels-info {
+            background: #0f3460 !important;
+            color: #ddd !important;
+        }
+
+        .gjs-sm-property {
+            color: #bbb;
+        }
+
+        .gjs-field {
+            background: rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .gjs-field input,
+        .gjs-field select {
+            color: #ddd !important;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 850px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 28px;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: #e94560;
+        }
+
+        textarea.code-input {
+            width: 100%;
+            height: 350px;
+            background: #0f0f1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #eee;
+            padding: 12px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        /* Popup styles for exported content */
+        .popup-trigger {
+            color: #4a9eff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .popup-content {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            max-width: 500px;
+            min-width: 300px;
+        }
+
+        .popup-content.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-header">
+        <div class="app-title">🎨 HTML Editor Tool</div>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="newProject()">📄 Tạo mới</button>
+            <button class="btn btn-secondary" onclick="showImportModal()">📥 Import</button>
+            <button class="btn btn-primary" onclick="exportHTML()">📤 Export</button>
+        </div>
+    </div>
+
+    <div class="editor-container">
+        <div class="panel-left">
+            <div class="panel-title">📦 Blocks</div>
+            <div id="blocks"></div>
+        </div>
+
+        <div id="gjs"></div>
+
+        <div class="panel-right">
+            <div class="panel-tabs">
+                <button class="panel-tab active" onclick="showPanel('styles')">🎨 Styles</button>
+                <button class="panel-tab" onclick="showPanel('traits')">⚙️ Thuộc tính</button>
+                <button class="panel-tab" onclick="showPanel('layers')">📑 Layers</button>
+            </div>
+            <div id="styles-container"></div>
+            <div id="traits-container" style="display:none;"></div>
+            <div id="layers-container" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="importModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">📥 Import HTML</span>
+                <button class="modal-close" onclick="closeModal('import')">&times;</button>
+            </div>
+            <textarea class="code-input" id="importCode"
+                placeholder="Paste HTML code ở đây hoặc upload file..."></textarea>
+            <div class="modal-actions">
+                <label class="btn btn-secondary" style="cursor:pointer;">
+                    📁 Upload File
+                    <input type="file" accept=".html,.htm" onchange="uploadFile(event)" style="display:none">
+                </label>
+                <button class="btn btn-primary" onclick="importCode()">Import</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="exportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">📤 Export HTML</span>
+                <button class="modal-close" onclick="closeModal('export')">&times;</button>
+            </div>
+            <textarea class="code-input" id="exportCode" readonly></textarea>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="copyCode()">📋 Copy</button>
+                <button class="btn btn-primary" onclick="downloadFile()">💾 Download</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="grapes.min.js"></script>
+    <script>
+        const editor = grapesjs.init({
+            container: '#gjs',
+            fromElement: false,
+            height: '100%',
+            width: 'auto',
+            storageManager: false,
+            panels: { defaults: [] },
+            blockManager: { appendTo: '#blocks' },
+            styleManager: { appendTo: '#styles-container' },
+            traitManager: { appendTo: '#traits-container' },
+            layerManager: { appendTo: '#layers-container' },
+            deviceManager: {
+                devices: [
+                    { name: 'Desktop', width: '' },
+                    { name: 'Tablet', width: '768px' },
+                    { name: 'Mobile', width: '375px' }
+                ]
+            }
+        });
+
+        // Add blocks
+        const bm = editor.BlockManager;
+
+        bm.add('text', { label: '📝 Text', content: '<div data-gjs-type="text">Nhập text...</div>', category: 'Cơ bản' });
+        bm.add('heading', { label: '🔤 Heading', content: '<h2>Tiêu đề</h2>', category: 'Cơ bản' });
+        bm.add('paragraph', { label: '📄 Paragraph', content: '<p>Đoạn văn bản...</p>', category: 'Cơ bản' });
+        bm.add('section', { label: '📦 Section', content: '<section style="padding:40px;min-height:100px;"></section>', category: 'Layout' });
+        bm.add('div', { label: '⬜ Div', content: '<div style="padding:20px;min-height:50px;"></div>', category: 'Layout' });
+        bm.add('2cols', { label: '▥ 2 Cột', content: '<div style="display:flex;gap:20px;"><div style="flex:1;padding:20px;background:#f5f5f5;min-height:80px;"></div><div style="flex:1;padding:20px;background:#f5f5f5;min-height:80px;"></div></div>', category: 'Layout' });
+        bm.add('3cols', { label: '▤ 3 Cột', content: '<div style="display:flex;gap:20px;"><div style="flex:1;padding:20px;background:#f5f5f5;min-height:80px;"></div><div style="flex:1;padding:20px;background:#f5f5f5;min-height:80px;"></div><div style="flex:1;padding:20px;background:#f5f5f5;min-height:80px;"></div></div>', category: 'Layout' });
+        bm.add('image', { label: '🖼️ Image', content: '<img src="https://placehold.co/400x250/e94560/fff?text=Image" style="max-width:100%;"/>', category: 'Media' });
+        bm.add('video', { label: '🎬 Video', content: '<video controls style="width:100%;"><source src="" type="video/mp4">Video</video>', category: 'Media' });
+        bm.add('button', { label: '🔘 Button', content: '<button style="padding:12px 24px;background:#e94560;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;">Button</button>', category: 'Cơ bản' });
+        bm.add('link', { label: '🔗 Link', content: '<a href="#" style="color:#4a9eff;">Link text</a>', category: 'Cơ bản' });
+        bm.add('divider', { label: '➖ Divider', content: '<hr style="border:none;border-top:1px solid #ddd;margin:20px 0;"/>', category: 'Cơ bản' });
+
+        // Enhanced Table block with editable cells
+        bm.add('table', {
+            label: '📊 Table',
+            content: `<table data-gjs-type="custom-table" style="width:100%;border-collapse:collapse;">
+                <tbody>
+                    <tr>
+                        <td data-gjs-type="table-cell" style="border:1px solid #ddd;padding:12px;background:#f0f0f0;font-weight:bold;">Header 1</td>
+                        <td data-gjs-type="table-cell" style="border:1px solid #ddd;padding:12px;background:#f0f0f0;font-weight:bold;">Header 2</td>
+                        <td data-gjs-type="table-cell" style="border:1px solid #ddd;padding:12px;background:#f0f0f0;font-weight:bold;">Header 3</td>
+                    </tr>
+                    <tr>
+                        <td data-gjs-type="table-cell" style="border:1px solid #ddd;padding:12px;">Cell 1</td>
+                        <td data-gjs-type="table-cell" style="border:1px solid #ddd;padding:12px;">Cell 2</td>
+                        <td data-gjs-type="table-cell" style="border:1px solid #ddd;padding:12px;">Cell 3</td>
+                    </tr>
+                    <tr>
+                        <td data-gjs-type="table-cell" style="border:1px solid #ddd;padding:12px;">Cell 4</td>
+                        <td data-gjs-type="table-cell" style="border:1px solid #ddd;padding:12px;">Cell 5</td>
+                        <td data-gjs-type="table-cell" style="border:1px solid #ddd;padding:12px;">Cell 6</td>
+                    </tr>
+                </tbody>
+            </table>`,
+            category: 'Table'
+        });
+
+        // Custom Table Cell Component - EDITABLE
+        // SVG Icons matching GrapesJS default style (simple line icons, 14px)
+        const svgSize = 14;
+        const svgIcons = {
+            // Arrow up - add row above
+            rowAbove: `<svg viewBox="0 0 24 24" width="${svgSize}" height="${svgSize}"><path fill="currentColor" d="M7 14l5-5 5 5H7z"/></svg>`,
+            // Arrow down - add row below  
+            rowBelow: `<svg viewBox="0 0 24 24" width="${svgSize}" height="${svgSize}"><path fill="currentColor" d="M7 10l5 5 5-5H7z"/></svg>`,
+            // Arrow left - add col left
+            colLeft: `<svg viewBox="0 0 24 24" width="${svgSize}" height="${svgSize}"><path fill="currentColor" d="M14 7l-5 5 5 5V7z"/></svg>`,
+            // Arrow right - add col right
+            colRight: `<svg viewBox="0 0 24 24" width="${svgSize}" height="${svgSize}"><path fill="currentColor" d="M10 17l5-5-5-5v10z"/></svg>`,
+            // Trash - delete row
+            deleteRow: `<svg viewBox="0 0 24 24" width="${svgSize}" height="${svgSize}"><path fill="currentColor" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>`,
+            // X - delete col
+            deleteCol: `<svg viewBox="0 0 24 24" width="${svgSize}" height="${svgSize}"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>`,
+            // Merge right
+            mergeRight: `<svg viewBox="0 0 24 24" width="${svgSize}" height="${svgSize}"><path fill="currentColor" d="M8 11h3V8l4 4-4 4v-3H8v-2z"/></svg>`,
+            // Merge down
+            mergeDown: `<svg viewBox="0 0 24 24" width="${svgSize}" height="${svgSize}"><path fill="currentColor" d="M11 8v3H8l4 4 4-4h-3V8h-2z"/></svg>`,
+            // Paint bucket
+            bgcolor: `<svg viewBox="0 0 24 24" width="${svgSize}" height="${svgSize}"><path fill="currentColor" d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15a1.49 1.49 0 0 0 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21zM19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"/></svg>`
+        };
+
+        editor.DomComponents.addType('table-cell', {
+            isComponent: el => el.tagName === 'TD' || el.tagName === 'TH',
+            model: {
+                defaults: {
+                    tagName: 'td',
+                    draggable: false,
+                    droppable: true,
+                    editable: true,
+                    traits: [
+                        { type: 'number', name: 'colspan', label: 'Colspan', default: 1, min: 1 },
+                        { type: 'number', name: 'rowspan', label: 'Rowspan', default: 1, min: 1 },
+                    ],
+                    toolbar: [
+                        { attributes: { title: 'Thêm hàng' }, command: 'table-add-row-below', label: svgIcons.rowBelow },
+                        { attributes: { title: 'Thêm cột' }, command: 'table-add-col-right', label: svgIcons.colRight },
+                        { attributes: { title: 'Xóa hàng' }, command: 'table-delete-row', label: svgIcons.deleteRow },
+                        { attributes: { title: 'Xóa cột' }, command: 'table-delete-col', label: svgIcons.deleteCol },
+                        { attributes: { title: 'Gộp → (ngang)' }, command: 'table-merge-right', label: svgIcons.mergeRight },
+                        { attributes: { title: 'Gộp ↓ (dọc)' }, command: 'table-merge-down', label: svgIcons.mergeDown },
+                        { attributes: { title: 'Màu nền' }, command: 'table-change-bgcolor', label: svgIcons.bgcolor },
+                    ]
+                }
+            },
+            view: {
+                events: {
+                    dblclick: 'onDblClick'
+                },
+                onDblClick() {
+                    this.el.setAttribute('contenteditable', 'true');
+                    this.el.focus();
+                    this.el.addEventListener('blur', () => {
+                        this.el.removeAttribute('contenteditable');
+                        this.model.components(this.el.innerHTML);
+                    }, { once: true });
+                }
+            }
+        });
+
+        // Custom Table Component
+        editor.DomComponents.addType('custom-table', {
+            isComponent: el => el.tagName === 'TABLE',
+            model: {
+                defaults: {
+                    tagName: 'table',
+                    droppable: false,
+                    traits: [],
+                    toolbar: [
+                        { attributes: { class: 'fa fa-plus' }, command: 'table-add-row-end', label: '➕ Thêm hàng' },
+                        { attributes: { class: 'fa fa-columns' }, command: 'table-add-col-end', label: '➕ Thêm cột' },
+                    ]
+                }
+            }
+        });
+
+        // Table Commands
+
+        // Helper: find TR parent
+        function findParentRow(comp) {
+            let c = comp;
+            while (c) {
+                if (c.get && c.get('tagName') === 'TR') return c;
+                c = c.parent();
+            }
+            return null;
+        }
+
+        // Helper: find TABLE
+        function findTable(comp) {
+            let c = comp;
+            while (c) {
+                if (c.get && c.get('tagName') === 'TABLE') return c;
+                c = c.parent();
+            }
+            return null;
+        }
+
+        editor.Commands.add('table-add-row-above', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+                const row = findParentRow(selected);
+                if (!row) return;
+
+                const colCount = row.components().length;
+                const newRow = createTableRow(colCount);
+                const parent = row.parent();
+                const index = parent.components().indexOf(row);
+                parent.components().add(newRow, { at: index });
+            }
+        });
+
+        editor.Commands.add('table-add-row-below', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+                const row = findParentRow(selected);
+                if (!row) return;
+
+                const colCount = row.components().length;
+                const newRow = createTableRow(colCount);
+                const parent = row.parent();
+                const index = parent.components().indexOf(row);
+                parent.components().add(newRow, { at: index + 1 });
+            }
+        });
+
+        editor.Commands.add('table-add-row-end', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+                let table = selected;
+                if (table.get('tagName') !== 'TABLE') {
+                    table = table.closest('table');
+                }
+                if (table) {
+                    const tbody = table.find('tbody')[0] || table;
+                    const lastRow = tbody.components().at(-1);
+                    const colCount = lastRow ? lastRow.components().length : 3;
+                    tbody.components().add(createTableRow(colCount));
+                }
+            }
+        });
+
+        editor.Commands.add('table-add-col-left', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+                addColumnAtIndex(selected, 0);
+            }
+        });
+
+        editor.Commands.add('table-add-col-right', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+                addColumnAtIndex(selected, 1);
+            }
+        });
+
+        editor.Commands.add('table-add-col-end', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+                let table = selected;
+                if (table.get('tagName') !== 'TABLE') {
+                    table = table.closest('table');
+                }
+                if (table) {
+                    const rows = table.find('tr');
+                    rows.forEach((row, i) => {
+                        const isHeader = i === 0;
+                        row.components().add(createTableCell(isHeader));
+                    });
+                }
+            }
+        });
+
+        editor.Commands.add('table-delete-row', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+                const row = findParentRow(selected);
+                if (!row) return;
+
+                const parent = row.parent();
+                if (parent.components().length > 1) {
+                    row.remove();
+                } else {
+                    alert('Không thể xóa hàng cuối cùng!');
+                }
+            }
+        });
+
+        editor.Commands.add('table-delete-col', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+                const row = findParentRow(selected);
+                if (!row) return;
+
+                const cellIndex = row.components().indexOf(selected);
+                const table = findTable(selected);
+                if (!table) return;
+
+                const rows = table.find('tr');
+                if (rows[0] && rows[0].components().length > 1) {
+                    rows.forEach(r => {
+                        const cell = r.components().at(cellIndex);
+                        if (cell) cell.remove();
+                    });
+                } else {
+                    alert('Không thể xóa cột cuối cùng!');
+                }
+            }
+        });
+
+        // Merge right - tăng colspan và xóa cell bên phải
+        editor.Commands.add('table-merge-right', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+
+                const row = selected.parent();
+                const cellIndex = row.components().indexOf(selected);
+                const nextCell = row.components().at(cellIndex + 1);
+
+                if (!nextCell) {
+                    alert('Không có ô bên phải để gộp!');
+                    return;
+                }
+
+                // Get content from next cell
+                const nextText = nextCell.view?.el?.innerText?.trim() || '';
+
+                // Combine content if next cell has content
+                if (nextText && nextText !== 'New' && nextText !== '') {
+                    const currentText = selected.view?.el?.innerText?.trim() || '';
+                    selected.components(currentText + ' ' + nextText);
+                }
+
+                // Increase colspan
+                const currentColspan = parseInt(selected.getAttributes().colspan || 1);
+                selected.addAttributes({ colspan: currentColspan + 1 });
+
+                // Remove next cell
+                nextCell.remove();
+            }
+        });
+
+        // Merge down - tăng rowspan và xóa cell bên dưới
+        editor.Commands.add('table-merge-down', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+
+                const row = selected.parent();
+                const tbody = row.parent();
+                const rows = tbody.components();
+                const rowIndex = rows.indexOf(row);
+                const cellIndex = row.components().indexOf(selected);
+
+                // Find the row below
+                const nextRow = rows.at(rowIndex + 1);
+                if (!nextRow) {
+                    alert('Không có hàng bên dưới để gộp!');
+                    return;
+                }
+
+                // Find cell at same column position in next row
+                const cellBelow = nextRow.components().at(cellIndex);
+                if (!cellBelow) {
+                    alert('Không tìm thấy ô bên dưới!');
+                    return;
+                }
+
+                // Get content from cell below
+                const belowText = cellBelow.view?.el?.innerText?.trim() || '';
+
+                // Combine content
+                if (belowText && belowText !== 'New' && belowText !== '') {
+                    const currentText = selected.view?.el?.innerText?.trim() || '';
+                    selected.components(currentText + '<br>' + belowText);
+                }
+
+                // Increase rowspan
+                const currentRowspan = parseInt(selected.getAttributes().rowspan || 1);
+                selected.addAttributes({ rowspan: currentRowspan + 1 });
+
+                // Remove cell below
+                cellBelow.remove();
+            }
+        });
+
+        // Change cell background color
+        editor.Commands.add('table-change-bgcolor', {
+            run(editor) {
+                const selected = editor.getSelected();
+                if (!selected) return;
+                const currentColor = selected.getStyle()['background-color'] || '#ffffff';
+                const newColor = prompt('Nhập màu nền (hex, rgb, hoặc tên màu):', currentColor);
+                if (newColor) {
+                    selected.addStyle({ 'background-color': newColor });
+                }
+            }
+        });
+
+        function createTableRow(colCount) {
+            const cells = [];
+            for (let i = 0; i < colCount; i++) {
+                cells.push(createTableCell(false));
+            }
+            return {
+                tagName: 'tr',
+                components: cells
+            };
+        }
+
+        function createTableCell(isHeader = false) {
+            return {
+                type: 'table-cell',
+                tagName: 'td',
+                content: 'New',
+                style: {
+                    'border': '1px solid #ddd',
+                    'padding': '12px',
+                    ...(isHeader ? { 'background': '#f0f0f0', 'font-weight': 'bold' } : {})
+                }
+            };
+        }
+
+        function addColumnAtIndex(selected, offset) {
+            const row = findParentRow(selected);
+            if (!row) return;
+
+            const cellIndex = row.components().indexOf(selected);
+            const table = findTable(selected);
+            if (!table) return;
+
+            const rows = table.find('tr');
+            rows.forEach((r, i) => {
+                const isHeader = i === 0;
+                r.components().add(createTableCell(isHeader), { at: cellIndex + offset });
+            });
+        }
+
+        // Popup block
+        const popupId = () => 'popup-' + Date.now();
+        bm.add('popup', {
+            label: '💬 Popup',
+            content: () => {
+                const id = popupId();
+                return `<span class="popup-trigger" data-popup-id="${id}" onclick="togglePopup(this)">Click xem popup</span><div class="popup-content" id="${id}"><p>Nội dung popup...</p><button onclick="this.parentElement.classList.remove('active')" style="margin-top:10px;padding:8px 16px;cursor:pointer;">Đóng</button></div>`;
+            },
+            category: 'Interactive'
+        });
+
+        // Panel switching
+        function showPanel(type) {
+            const tabs = document.querySelectorAll('.panel-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('styles-container').style.display = type === 'styles' ? '' : 'none';
+            document.getElementById('traits-container').style.display = type === 'traits' ? '' : 'none';
+            document.getElementById('layers-container').style.display = type === 'layers' ? '' : 'none';
+        }
+
+        // Modal functions
+        function showImportModal() { document.getElementById('importModal').classList.add('active'); }
+        function closeModal(type) { document.getElementById(type + 'Modal').classList.remove('active'); }
+
+        function uploadFile(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = ev => document.getElementById('importCode').value = ev.target.result;
+                reader.readAsText(file);
+            }
+        }
+
+        function importCode() {
+            const code = document.getElementById('importCode').value;
+            if (code) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(code, 'text/html');
+                editor.setComponents(doc.body.innerHTML);
+                const styles = Array.from(doc.querySelectorAll('style')).map(s => s.textContent).join('\n');
+                if (styles) editor.setStyle(styles);
+                closeModal('import');
+            }
+        }
+
+        function newProject() {
+            if (confirm('Tạo project mới? Dữ liệu hiện tại sẽ mất.')) {
+                editor.setComponents('');
+                editor.setStyle('');
+            }
+        }
+
+        function exportHTML() {
+            const html = editor.getHtml();
+            const css = editor.getCss();
+
+            const fullHtml = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exported Page</title>
+    <style>
+${css}
+.popup-trigger { color: #4a9eff; cursor: pointer; text-decoration: underline; }
+.popup-content { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; color: #333; padding: 20px; border-radius: 8px; box-shadow: 0 10px 50px rgba(0,0,0,0.4); z-index: 999; max-width: 500px; }
+.popup-content.active { display: block; }
+    </style>
+</head>
+<body>
+${html}
+<script>
+function togglePopup(el) {
+    const id = el.getAttribute('data-popup-id');
+    const popup = document.getElementById(id);
+    if (popup) popup.classList.toggle('active');
+}
+<\/script>
+</body>
+</html>`;
+
+            document.getElementById('exportCode').value = fullHtml;
+            document.getElementById('exportModal').classList.add('active');
+        }
+
+        function copyCode() {
+            const el = document.getElementById('exportCode');
+            el.select();
+            document.execCommand('copy');
+            alert('Đã copy!');
+        }
+
+        function downloadFile() {
+            const code = document.getElementById('exportCode').value;
+            const blob = new Blob([code], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'page.html';
+            a.click();
+        }
+
+        window.togglePopup = function (el) {
+            const id = el.getAttribute('data-popup-id');
+            const popup = document.getElementById(id);
+            if (popup) popup.classList.toggle('active');
+        };
+    </script>
+</body>
+
+</html>
