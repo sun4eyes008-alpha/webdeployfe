@@ -1674,6 +1674,22 @@
         const urlParams = new URLSearchParams(window.location.search);
         const compressed = urlParams.get('s');
         const sourceParam = urlParams.get('source');
+        const headerPdf = urlParams.get('pdf');
+
+        // Check for header PDF parameter first
+        if (headerPdf) {
+          // Switch to correct source if provided
+          if (sourceParam && dataSources[sourceParam]) {
+            switchDataSource(sourceParam, true);
+          }
+          // Display the header PDF
+          resetResults();
+          removeDropdowns(1);
+          createFirstLevelDropdown();
+          pdfViewer.src = `./pdf-header/${decodeURIComponent(headerPdf)}`;
+          pdfViewer.style.display = 'block';
+          return true;
+        }
 
         if (compressed) {
           try {
@@ -1945,16 +1961,29 @@
         document.querySelector('.header-tabs').addEventListener('click', (e) => {
           if (e.target.classList.contains('pdf-link-btn')) {
             const pdfName = e.target.getAttribute('data-pdf');
+
             if (pdfName) {
-              pdfViewer.src = `./pdf-header/${pdfName}`;
-              // Reset other UI elements for clarity
-              resetResults();
-              removeDropdowns(1);
-              if (typeof state !== 'undefined' && state.activeSourceName) {
-                history.pushState({ source: state.activeSourceName }, "", `${window.location.pathname}?source=${state.activeSourceName}`);
-              } else {
-                history.pushState(null, "", window.location.pathname);
+              // Reset dropdowns: keep level 1 but reset value, remove level 2+
+              const firstSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
+              if (firstSelect) {
+                firstSelect.value = ""; // Reset to "-- Chọn --"
               }
+              removeDropdowns(2); // Remove level 2 and above
+
+              // Reset sub-header boxes content
+              document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
+              const ecomContent = document.getElementById("xmtt-ecom-content");
+              if (ecomContent) ecomContent.innerHTML = "<p>...</p>";
+              notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
+              const dieukienPanel = document.getElementById("dieukien-panel");
+              if (dieukienPanel) dieukienPanel.classList.add("hidden");
+
+              // Update PDF viewer
+              pdfViewer.src = `./pdf-header/${pdfName}`;
+              pdfViewer.style.display = 'block';
+              htmlViewer.style.display = 'none';
+              // Save to URL with pdf parameter for bookmarking/sharing
+              history.pushState({ source: state.activeSourceName, headerPdf: pdfName }, "", `${window.location.pathname}?source=${state.activeSourceName}&pdf=${encodeURIComponent(pdfName)}`);
             }
           }
         });

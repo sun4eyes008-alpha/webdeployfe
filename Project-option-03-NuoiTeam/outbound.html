@@ -688,6 +688,19 @@
       function restoreStateFromURL() {
         console.log('🔍 Checking URL for state...');
         const hash = window.location.hash;
+        const urlParams = new URLSearchParams(window.location.search);
+        const headerPdf = urlParams.get('pdf');
+
+        // Check for header PDF parameter first
+        if (headerPdf) {
+          console.log('📋 Found header PDF in URL:', headerPdf);
+          // Display the header PDF
+          resetResults();
+          removeDropdowns(1);
+          createFirstLevelDropdown();
+          pdfViewer.src = `./pdf-header/${decodeURIComponent(headerPdf)}`;
+          return true;
+        }
 
         // 1. Try restoring from hash with LZ-String compression (new primary method)
         if (hash && hash.length > 1) {
@@ -725,7 +738,6 @@
         }
 
         // 2. Fallback for old links: Try restoring from query parameter
-        const urlParams = new URLSearchParams(window.location.search);
         const pathParam = urlParams.get('path');
         if (pathParam) {
           console.log('📋 Found legacy query parameter:', pathParam);
@@ -1028,12 +1040,26 @@
         document.querySelector('.header-tabs').addEventListener('click', (e) => {
           if (e.target.classList.contains('pdf-link-btn')) {
             const pdfName = e.target.getAttribute('data-pdf');
+
             if (pdfName) {
+              // Reset dropdowns: keep level 1 but reset value, remove level 2+
+              const firstSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
+              if (firstSelect) {
+                firstSelect.value = ""; // Reset to "-- Chọn --"
+              }
+              removeDropdowns(2); // Remove level 2 and above
+
+              // Reset sub-header boxes content
+              const xmttIbContent = document.getElementById("xmtt-ib-content");
+              const xmttEcomContent = document.getElementById("xmtt-ecom-content");
+              if (xmttIbContent) xmttIbContent.innerHTML = "<p>...</p>";
+              if (xmttEcomContent) xmttEcomContent.innerHTML = "<p>...</p>";
+              notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
+
+              // Update PDF viewer
               pdfViewer.src = `./pdf-header/${pdfName}`;
-              // Reset other UI elements for clarity
-              resetResults();
-              removeDropdowns(1);
-              history.pushState(null, "", window.location.pathname);
+              // Save to URL with pdf parameter for bookmarking/sharing
+              history.pushState({ headerPdf: pdfName }, "", `${window.location.pathname}?pdf=${encodeURIComponent(pdfName)}`);
             }
           }
         });
