@@ -821,6 +821,8 @@
           const level = index + 1;
           const options = Object.keys(currentDataNode);
           createDropdown(options, level, currentDataNode);
+
+          // Update hidden select
           const select = dynamicFiltersContainer.querySelector(
             `select[data-level="${level}"]`
           );
@@ -828,8 +830,23 @@
             select.value = key;
             lastKey = key;
             finalPath.push(key);
-            currentDataNode = currentDataNode[key];
           }
+
+          // Update custom dropdown visual state
+          const customDropdown = dynamicFiltersContainer.querySelector(
+            `.custom-dropdown[data-level="${level}"]`
+          );
+          if (customDropdown) {
+            const dropdownText = customDropdown.querySelector('.dropdown-text');
+            if (dropdownText) dropdownText.textContent = key;
+            const items = customDropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => {
+              item.classList.remove('selected');
+              if (item.dataset.value === key) item.classList.add('selected');
+            });
+          }
+
+          currentDataNode = currentDataNode[key];
         });
 
         finalNode = currentDataNode;
@@ -868,20 +885,88 @@
         label.textContent = labelText;
         filterGroup.appendChild(label);
 
-        const select = document.createElement("select");
-        select.className = "filter-select";
-        select.dataset.level = level;
-        select.innerHTML = '<option value="">-- Chọn --</option>';
-        options.forEach((text) => {
+        // Create custom dropdown instead of native select
+        const customDropdown = document.createElement("div");
+        customDropdown.className = "custom-dropdown";
+        customDropdown.dataset.level = level;
+
+        // Hidden select for form compatibility and state
+        const hiddenSelect = document.createElement("select");
+        hiddenSelect.className = "filter-select";
+        hiddenSelect.dataset.level = level;
+        hiddenSelect.style.display = "none";
+        hiddenSelect.innerHTML = '<option value="">-- Chọn --</option>';
+        options.forEach(text => {
           const option = document.createElement("option");
           option.value = text;
           option.textContent = text;
-          select.appendChild(option);
+          hiddenSelect.appendChild(option);
         });
-        select.addEventListener("change", (e) =>
+
+        // Dropdown header (selected value display)
+        const dropdownHeader = document.createElement("div");
+        dropdownHeader.className = "dropdown-header";
+        dropdownHeader.innerHTML = '<span class="dropdown-text">-- Chọn --</span><span class="dropdown-arrow">▼</span>';
+
+        // Dropdown options list
+        const dropdownList = document.createElement("ul");
+        dropdownList.className = "dropdown-list";
+
+        // Default option
+        const defaultLi = document.createElement("li");
+        defaultLi.className = "dropdown-item";
+        defaultLi.dataset.value = "";
+        defaultLi.textContent = "-- Chọn --";
+        dropdownList.appendChild(defaultLi);
+
+        // Add all options
+        options.forEach(text => {
+          const li = document.createElement("li");
+          li.className = "dropdown-item";
+          li.dataset.value = text;
+          li.textContent = text;
+          dropdownList.appendChild(li);
+        });
+
+        customDropdown.appendChild(hiddenSelect);
+        customDropdown.appendChild(dropdownHeader);
+        customDropdown.appendChild(dropdownList);
+
+        // Toggle dropdown on header click
+        dropdownHeader.addEventListener("click", (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.custom-dropdown.open').forEach(dd => {
+            if (dd !== customDropdown) dd.classList.remove('open');
+          });
+          customDropdown.classList.toggle("open");
+        });
+
+        // Handle option selection
+        dropdownList.addEventListener("click", (e) => {
+          if (e.target.classList.contains("dropdown-item")) {
+            const value = e.target.dataset.value;
+            const text = e.target.textContent;
+            dropdownHeader.querySelector('.dropdown-text').textContent = text;
+            customDropdown.classList.remove("open");
+            dropdownList.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('selected'));
+            e.target.classList.add('selected');
+            hiddenSelect.value = value;
+            const changeEvent = new Event("change", { bubbles: true });
+            hiddenSelect.dispatchEvent(changeEvent);
+          }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", (e) => {
+          if (!customDropdown.contains(e.target)) {
+            customDropdown.classList.remove("open");
+          }
+        });
+
+        hiddenSelect.addEventListener("change", (e) =>
           handleSelection(e, level, dataNode)
         );
-        filterGroup.appendChild(select);
+        filterGroup.appendChild(customDropdown);
         dynamicFiltersContainer.appendChild(filterGroup);
       }
 

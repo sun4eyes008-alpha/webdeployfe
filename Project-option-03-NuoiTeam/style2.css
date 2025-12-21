@@ -189,7 +189,7 @@ body.sidebar-collapsed {
 }
 
 .sidebar-header h5 {
-  color: var(--secondary-color);
+  color: #1f6d00;
   font-size: 1.2em;
   font-weight: 600;
 }
@@ -263,6 +263,151 @@ body.sidebar-collapsed {
   white-space: normal;
   /* Allow text to wrap in options */
   word-wrap: break-word;
+  padding: 8px 10px;
+  background-color: #fff;
+  color: #333;
+}
+
+/* Option khi được chọn (selected) */
+.filter-select option:checked,
+#source-switcher option:checked {
+  background: linear-gradient(0deg, #81c753 0%, #81c753 100%);
+  background-color: #81c753 !important;
+  color: #fff;
+}
+
+/* Option khi hover */
+.filter-select option:hover,
+#source-switcher option:hover {
+  background-color: #ecfae2 !important;
+  color: #333;
+}
+
+/* Firefox specific - dùng accent-color */
+.filter-select,
+#source-switcher {
+  accent-color: #81c753;
+}
+
+/* Webkit (Chrome/Safari) - thử override màu highlight */
+.filter-select:focus option:checked,
+#source-switcher:focus option:checked {
+  background: #81c753 linear-gradient(0deg, #81c753 0%, #81c753 100%);
+  color: #fff;
+}
+
+/* ============================================
+   CUSTOM DROPDOWN COMPONENT
+   Full control over colors for selection/hover
+   ============================================ */
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-header {
+  width: 100%;
+  padding: 10px 35px 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdown-header:hover {
+  border-color: #009f52;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-dropdown.open .dropdown-header {
+  border-color: #009f52;
+  box-shadow: 0 0 0 2px rgba(0, 159, 82, 0.2);
+}
+
+.dropdown-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: #539e22;
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+  color: #666;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+}
+
+.custom-dropdown.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown list */
+.dropdown-list {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  max-height: 300px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.custom-dropdown.open .dropdown-list {
+  display: block;
+}
+
+/* Dropdown items */
+.dropdown-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.15s ease;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+  border-radius: 0 0 6px 6px;
+}
+
+/* Hover state - XÁM NHẠT (màu xanh lá nhạt) */
+.dropdown-item:hover {
+  background-color: #ecfae2 !important;
+  color: #333;
+}
+
+/* Selected state - XANH LÁ */
+.dropdown-item.selected {
+  background-color: #81c753 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* Selected + Hover */
+.dropdown-item.selected:hover {
+  background-color: #6ab343 !important;
+  color: #fff !important;
 }
 
 /* --- MAIN CONTENT --- */
@@ -288,7 +433,7 @@ body.sidebar-collapsed {
 
 /* XMTT IB Box - White card style */
 .xmtt-ib-box {
-  background: #ecfae2;
+  background: #a8ec81;
   grid-column: 1 / 2;
   grid-row: 1;
   min-width: 0;
@@ -298,13 +443,13 @@ body.sidebar-collapsed {
   overflow: hidden;
   padding: 0;
   border-radius: 8px;
-  border: 0px solid #e7e7e7;
+  border: 1px solid #f0f0f0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 /* XMTT ECOM Box - White card style */
 .xmtt-ecom-box {
-  background: #ecfae2;
+  background: #7ae9c8;
   grid-column: 2 / 3;
   grid-row: 1;
   min-width: 0;
@@ -314,6 +459,7 @@ body.sidebar-collapsed {
   overflow: hidden;
   padding: 0;
   border-radius: 8px;
+  border: 1px solid #f0f0f0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
@@ -424,9 +570,14 @@ body.sidebar-collapsed {
   align-items: center;
   gap: 8px;
   margin-bottom: 1px;
-  padding: 10px 0px 0px 10px;
+  padding: 5px 0px 0px 10px;
   font-size: 19px;
-  color: #015c2e;
+  color: #448341;
+}
+
+.column-header h5 {
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .channel-icon {
@@ -611,14 +762,14 @@ body.sidebar-collapsed {
 /* Expand Button - Floating on box */
 .expand-btn {
   position: absolute;
-  top: 6px;
-  right: 10px;
+  top: 4px;
+  right: 4px;
   z-index: 10;
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(226, 232, 240, 0.6);
-  border-radius: 10px;
-  width: 30px;
-  height: 30px;
+  border-radius: 3px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -669,7 +820,7 @@ body.sidebar-collapsed {
   padding: 8px 12px;
   border: 1px solid #dfe1e5;
   /* Subtle border */
-  border-radius: 20px;
+  border-radius: 8px;
   /* Rounded corners */
   box-shadow: none;
   /* No initial shadow */
@@ -706,7 +857,7 @@ body.sidebar-collapsed {
   border: 1px solid #dfe1e5;
   border-top: none;
   /* No top border, blends with input */
-  border-radius: 0 0 8px 8px;
+  border-radius: 8px 8px 8px 8px;
   /* Rounded bottom corners */
   box-shadow: 0 4px 6px rgba(32, 33, 36, 0.28);
   display: none;
@@ -1105,12 +1256,13 @@ body.landing-page #main-header .sidebar-toggle {
   padding: 4px 0 8px 0;
   /* Adjusted padding for a balanced look */
   margin-bottom: 0px;
-  background-color: #e6ffe6;
+  background-color: #ffffff;
   /* Increased border radius for bottom corners */
   letter-spacing: 1px;
   text-transform: uppercase;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin-top: 0;
+  border-radius: 1px solid #bebebe;
 }
 
 .sidebar-title-icon {
