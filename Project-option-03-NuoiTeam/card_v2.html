@@ -879,22 +879,64 @@
         }
       }
 
+      // Xử lý khi người dùng chọn một mục từ dropdown
       function handleSelection(event, level, parentDataNode) {
         const selectedKey = event.target.value;
+
+        // Xóa các dropdown cấp thấp hơn khi chọn lại
         removeDropdowns(level + 1);
         resetResults();
+
+        // Nếu chọn "-- Chọn --" (giá trị rỗng), reset URL
         if (!selectedKey) {
           history.pushState({ source: state.activeSourceName }, "", `${window.location.pathname}?source=${state.activeSourceName}`);
           return;
         }
         const selectedNode = parentDataNode[selectedKey];
+
+        // ============================================
+        // Xử LÝ ẨN/HIỆN SUB-HEADER
+        // Kiểm tra thuộc tính hideSubHeader, hideXmttIb, hideXmttEcom, hideNotes
+        // Áp dụng cho TẤT CẢ node (branch và leaf)
+        // ============================================
+        const subHeader = document.getElementById("sub-header");
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttEcomBox = document.getElementById("xmtt-ecom-box");
+        const notesBox = document.getElementById("notes-box");
+
+        // Nếu hideSubHeader = true, ẩn toàn bộ sub-header
+        if (selectedNode.hideSubHeader === true) {
+          if (subHeader) subHeader.style.display = 'none';
+        } else {
+          // Hiển sub-header và kiểm tra từng box con
+          if (subHeader) subHeader.style.display = '';
+
+          // Xử lý ẩn/hiện từng box riêng lẻ
+          if (selectedNode.hideXmttIb === true) {
+            if (xmttIbBox) xmttIbBox.style.display = 'none';
+          } else {
+            if (xmttIbBox) xmttIbBox.style.display = '';
+          }
+          if (selectedNode.hideXmttEcom === true) {
+            if (xmttEcomBox) xmttEcomBox.style.display = 'none';
+          } else {
+            if (xmttEcomBox) xmttEcomBox.style.display = '';
+          }
+          if (selectedNode.hideNotes === true) {
+            if (notesBox) notesBox.style.display = 'none';
+          } else {
+            if (notesBox) notesBox.style.display = '';
+          }
+        }
+
+        // Kiểm tra và hiển thị nội dung
         if (isLeaf(selectedNode)) {
           displayResult(selectedNode);
         } else if (isObject(selectedNode)) {
           createDropdown(Object.keys(selectedNode), level + 1, selectedNode, selectedNode);
         }
 
-        // Always save state to URL for any selection (not just leaf nodes)
+        // Lưu trạng thái vào URL để có thể chia sẻ link
         const path = Array.from(document.querySelectorAll(".filter-select")).map(s => s.value).filter(Boolean);
         if (path.length > 0) {
           saveStateToURL(path);
