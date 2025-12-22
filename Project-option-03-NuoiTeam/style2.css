@@ -957,13 +957,11 @@ body.sidebar-collapsed {
 }
 
 .notification-toast {
-  background: linear-gradient(90deg,
-      rgba(252, 176, 69, 1) 0%,
-      rgba(253, 29, 29, 1) 66%,
-      rgba(131, 58, 180, 1) 100%);
-  color: white;
-  padding: 15px 20px;
+  background: #ffd1d1;
+  color: rgb(73, 19, 19);
+  padding: 10px 10px 10px 10px;
   border-radius: 5px;
+  border-left: 5px solid #b12d2d;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 
   /* Transition Properties for a fade-in and slide-up effect */

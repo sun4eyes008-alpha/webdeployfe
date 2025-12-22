@@ -574,7 +574,11 @@
       );
       const subHeader = document.getElementById("sub-header");
 
-      // --- CONSTANTS AND STATE VARIABLES ---
+      // ====================================================================
+      // PHẦN 1: HẰNG SỐ VÀ TRẠNG THÁI (CONSTANTS & STATE)
+      // ====================================================================
+
+      // Bản đồ thư mục PDF - ánh xạ số danh mục với tên thư mục chứa file PDF
       const FOLDER_MAP = {
         1: "THONG_TIN_CHUNG",
         2: "THONG_TIN_SAN_PHAM",
@@ -584,6 +588,8 @@
         6: "THANH_TOAN_CIC",
         7: "TEST",
       };
+
+      // Nhãn cho từng cấp dropdown
       const levelLabels = {
         1: "Chọn vấn đề:",
         2: "Chọn chi tiết vấn đề:",
@@ -593,15 +599,21 @@
       };
       let flattenedFlowchartData = []; // For efficient searching
 
-      // --- UTILITY FUNCTIONS ---
+      // ====================================================================
+      // PHẦN 2: HÀM TIỆN ÍCH (UTILITY FUNCTIONS)  
+      // ====================================================================
+
+      // Kiểm tra giá trị có phải là object không
       function isObject(value) {
         return typeof value === "object" && value !== null;
       }
 
+      // Kiểm tra node có phải là leaf node (node cuối cùng, có content) không
       function isLeaf(node) {
         return isObject(node) && node.pdf !== undefined;
       }
 
+      // Loại bỏ dấu tiếng Việt để tìm kiếm không phân biệt dấu
       function removeAccents(str) {
         if (!str) return "";
         return str
@@ -611,6 +623,7 @@
           .replace(/Đ/g, "D");
       }
 
+      // Làm phẳng dữ liệu flowchart thành mảng 1 chiều để hỗ trợ tìm kiếm nhanh
       function flattenFlowchart(node, path = [], breadcrumb = []) {
         Object.keys(node).forEach((key) => {
           const newPath = [...path, key];
@@ -635,7 +648,11 @@
         });
       }
 
-      // --- INITIALIZATION ---
+      // ====================================================================
+      // PHẦN 3: KHỞi TẠO ỨNG DỤNG (INITIALIZATION)
+      // ====================================================================
+
+      // Hàm khởi tạo chính - được gọi khi trang load xong
       function initialize() {
         flattenFlowchart(window.flowchartData);
         createFirstLevelDropdown();
@@ -672,9 +689,14 @@
         }
       }
 
+      // ====================================================================
+      // PHẦN 4: QUẢN LÝ TRẠNG THÁI URL (URL STATE MANAGEMENT)
+      // ====================================================================
+
+      // Lưu trạng thái đường dẫn vào URL (nén bằng LZ-String)
       function saveStateToURL(path) {
         const jsonPath = JSON.stringify(path);
-        // Use LZ-String compression for much shorter URLs (50-70% reduction)
+        // Sử dụng LZ-String để nén dữ liệu (giảm 50-70% độ dài URL)
         const compressed = LZString.compressToEncodedURIComponent(jsonPath);
         const newUrl = window.location.pathname + "#" + compressed;
         history.pushState({ path: path }, "", newUrl);
@@ -685,6 +707,7 @@
         updateLoanLinkWithState();
       }
 
+      // Khôi phục trạng thái từ URL khi load trang
       function restoreStateFromURL() {
         console.log('🔍 Checking URL for state...');
         const hash = window.location.hash;
@@ -777,7 +800,11 @@
         }
       }
 
-      // --- SEARCH FUNCTIONALITY ---
+      // ====================================================================
+      // PHẦN 5: TÌM KIẼM (SEARCH FUNCTIONALITY)
+      // ====================================================================
+
+      // Tìm kiếm trong dữ liệu đã làm phẳng
       function searchFlowchartData(query) {
         if (!query) return [];
         // Normalize the user's query once
@@ -863,7 +890,11 @@
         headerSearch.blur();
       }
 
-      // --- DROPDOWN AND SELECTION LOGIC ---
+      // ====================================================================
+      // PHẦN 6: DROPDOWN (Xử LÝ DROPDOWN LỰA CHỌN)
+      // ====================================================================
+
+      // Tạo dropdown cấp 1 (cấp gốc)
       function createFirstLevelDropdown() {
         dynamicFiltersContainer.innerHTML = "";
         createDropdown(Object.keys(flowchartData), 1, flowchartData);

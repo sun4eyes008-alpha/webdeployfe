@@ -1521,31 +1521,50 @@
       const popupCloseBtn = document.getElementById("popup-close-btn");
       const sidebar = document.getElementById("sidebar");
 
+      // ====================================================================
+      // PHẦN 1: HẰNG SỐ VÀ TRẠNG THÁI (CONSTANTS & STATE)
+      // ====================================================================
+
+      // Bản đồ thư mục PDF - ánh xạ số danh mục với tên thư mục chứa file PDF
       const FOLDER_MAPS = {
         truyvan: { 1: "THONG_TIN_CHUNG", 2: "THONG_TIN_SAN_PHAM", 3: "DANG_KY_VAY", 4: "GIAI_NGAN", 5: "KENH_THANH_TOAN", 6: "THANH_TOAN_CIC" },
         feedback: { 1: "GOP_Y_TICH_CUC", 2: "GOP_Y_TIEU_CUC" }
       };
+
+      // Nhãn cho từng cấp dropdown - tuỳ chỉnh tên hiển thị theo nguồn dữ liệu
       const LEVEL_LABELS = {
         truyvan: { 1: "Chọn vấn đề:", 2: "Chọn chi tiết:", 3: "Chọn loại:", 4: "Chọn kênh:", 5: "Chọn loại đầu vào:" },
         feedback: { 1: "Chọn loại góp ý:", 2: "Chọn chi tiết:" }
       };
 
+      // Đối tượng trạng thái toàn cục của ứng dụng
       const state = {
-        activeData: null,
-        flattenedData: [],
-        activeSourceName: null, // Start with no active source
-        isTabActive: false, // Track if tab is active or inactive
+        activeData: null,           // Dữ liệu flowchart đang hoạt động
+        flattenedData: [],          // Dữ liệu đã làm phẳng cho tìm kiếm
+        activeSourceName: null,     // Tên nguồn dữ liệu đang chọn (truyvan/feedback)
+        isTabActive: false,         // Tab có đang active không
       };
 
+      // Các nguồn dữ liệu flowchart - có thể thêm nguồn mới ở đây
       const dataSources = {
         truyvan: window.flowchartData,
         feedback: window.flowchartDataFeedback,
       };
 
+      // ====================================================================
+      // PHẦN 2: HÀM TIỆN ÍCH (UTILITY FUNCTIONS)  
+      // ====================================================================
+
+      // Kiểm tra giá trị có phải là object không
       const isObject = (value) => typeof value === "object" && value !== null;
+
+      // Kiểm tra node có phải là leaf node (node cuối cùng, có content) không
       const isLeaf = (node) => isObject(node) && node.pdf !== undefined;
+
+      // Loại bỏ dấu tiếng Việt để tìm kiếm không phân biệt dấu
       const removeAccents = (str) => str ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D") : "";
 
+      // Làm phẳng dữ liệu flowchart thành mảng 1 chiều để hỗ trợ tìm kiếm nhanh
       function flattenFlowchart(node, path = [], breadcrumb = []) {
         Object.keys(node).forEach((key) => {
           const newPath = [...path, key];
@@ -1566,12 +1585,16 @@
         });
       }
 
+      // Chuyển đổi nguồn dữ liệu (ví dụ: từ 'truyvan' sang 'feedback')
       function switchDataSource(sourceName, shouldActivate = true) {
         if (!dataSources[sourceName]) return;
+
+        // Cập nhật trạng thái
         state.activeSourceName = sourceName;
         state.activeData = dataSources[sourceName];
         state.isTabActive = shouldActivate;
 
+        // Cập nhật trạng thái visual của các tab button
         document.querySelectorAll('.sidebar-tab-btn').forEach(btn => {
           const isCurrentSource = btn.dataset.source === sourceName;
           btn.classList.toggle('active', isCurrentSource);
@@ -1599,6 +1622,11 @@
         updateLoanLinkWithState();
       }
 
+      // ====================================================================
+      // PHẦN 3: KHỞi TẠO ỨNG DỤNG (INITIALIZATION)
+      // ====================================================================
+
+      // Hàm khởi tạo chính - được gọi khi trang load xong
       function initialize() {
         setupEventListeners();
 
@@ -1659,9 +1687,14 @@
         }
       }
 
+      // ====================================================================
+      // PHẦN 4: QUẢN LÝ TRẠNG THÁI URL (URL STATE MANAGEMENT)
+      // ====================================================================
+
+      // Lưu trạng thái đường dẫn vào URL (nén bằng LZ-String)
       function saveStateToURL(path) {
         const jsonPath = JSON.stringify(path);
-        // Use LZ-String compression for much shorter URLs (50-70% reduction)
+        // Sử dụng LZ-String để nén dữ liệu (giảm 50-70% độ dài URL)
         const compressed = LZString.compressToEncodedURIComponent(jsonPath);
         history.pushState({ path, source: state.activeSourceName }, "", `${window.location.pathname}?source=${state.activeSourceName}&s=${compressed}`);
         // Also save to sessionStorage as a backup with page-specific key
@@ -1670,6 +1703,7 @@
         updateLoanLinkWithState();
       }
 
+      // Khôi phục trạng thái từ URL khi load trang
       function restoreStateFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
         const compressed = urlParams.get('s');
@@ -1737,15 +1771,22 @@
         }
       }
 
+      // ====================================================================
+      // PHẦN 5: TÌM KIẼM (SEARCH FUNCTIONALITY)
+      // ====================================================================
+
+      // Tìm kiếm trong dữ liệu đã làm phẳng
       function searchFlowchartData(query) {
         if (!query) return [];
         const normalizedQuery = removeAccents(query.toLowerCase());
+        // Lọc theo tên hiển thị hoặc tên file PDF
         return state.flattenedData.filter(item =>
           item.normalizedDisplayText.includes(normalizedQuery) ||
           item.normalizedPdfName.includes(normalizedQuery)
         );
       }
 
+      // Hiển thị kết quả tìm kiếm trong dropdown gợi ý
       function displaySearchResults(results) {
         searchResultsContainer.innerHTML = "";
         if (!results.length) {
@@ -1762,10 +1803,11 @@
         searchResultsContainer.classList.add("show");
       }
 
+      // Áp dụng kết quả tìm kiếm - tạo các dropdown theo đường dẫn đã chọn
       function applySearchResult(path, shouldSaveState = true) {
-        // Guard: Don't remove dropdowns if path is empty
+        // Kiểm tra: không xóa dropdown nếu path rỗng
         if (!path || path.length === 0) {
-          console.warn('applySearchResult called with empty path, ignoring to preserve combobox');
+          console.warn('Đường dẫn rỗng, bỏ qua để giữ nguyên combobox');
           return;
         }
 
@@ -1810,6 +1852,11 @@
         headerSearch.blur();
       }
 
+      // ====================================================================
+      // PHẦN 6: DROPDOWN (Xử LÝ DROPDOWN LỰA CHỌN)
+      // ====================================================================
+
+      // Tạo dropdown cấp 1 (cấp gốc)
       function createFirstLevelDropdown() {
         dynamicFiltersContainer.innerHTML = "";
         createDropdown(Object.keys(state.activeData), 1, state.activeData);
@@ -2013,8 +2060,13 @@
         }
       }
 
+      // ====================================================================
+      // PHẦN 7: EVENT LISTENERS (THIẾT LẬP SỰ KIỆN)
+      // ====================================================================
+
+      // Thiết lập các event listener cho ứng dụng
       function setupEventListeners() {
-        // --- SEARCH LISTENERS (Added) ---
+        // Xử lý sự kiện tìm kiếm
         headerSearch.addEventListener("input", (e) => {
           const results = searchFlowchartData(e.target.value);
           displaySearchResults(results);
