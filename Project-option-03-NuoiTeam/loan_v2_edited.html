@@ -265,6 +265,10 @@ const ECLTNSlide11 = `<td style="background-color:white; vertical-align:middle; 
   <strong style="color:red">Email/Chat không post login:</strong> <strong>Không cần XMTT</strong>
 </td>`;
 
+// --- SUBGROUP: Ecom > aa ---
+const asdad2313 = `asdad123123123313`;
+const asdad231323 = `asdaq3f4234b2345hb234242`;
+
 // --- GROUP: Lưu Ý ---
 const LUUYLTNSlide4 = `<td style="background-color:white; line-height:1.4; vertical-align:middle;">
   <strong style="color:red">Fail XMTT nhưng KH gay gắt</strong> yêu cầu cung cấp thông tin chi tiết: 
@@ -290,9 +294,11 @@ window.flowchartData = {
     "Thông Tin Công Ty": {
       "displayName": "Thông Tin Công Ty",
       "pdf": "Thông tin công ty.pdf",
-      "note": "Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>",
-      "xmttib": "Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>",
-      "dieukien": "Điều kiện: Không cần XMTT cho việc tra cứu thông tin chung về công ty.\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>\n                        Các thông tin cơ bản về công ty.<br/>"
+      "note": asdad2313,
+      "xmttib": asdad2313,
+      "dieukien": asdad2313,
+      "tieudeflow": "asdad2313",
+      "xmttecom": "asdad2313"
     },
     "Hợp Tác Kinh Doanh": {
       "displayName": "Hợp Tác Kinh Doanh",
@@ -300,8 +306,7 @@ window.flowchartData = {
       "htmlContent": "<div class=\"modal\" id=\"myModal\">\n        <h2>Xin chào!</h2>\n        <p>Đây là hiệu ứng transition opacity, visibility và transform kết hợp với nhau.</p>\n        <button class=\"close-btn\" onclick=\"toggleModal()\">Đóng lại</button>\n    </div>",
       "htmlUrl": "",
       "note": "Thông tin dành cho đối tác muốn hợp tác kinh doanh.",
-      "xmttib": XMTT_1,
-      "tieudeflow": "ádsadadasdaasdasdad"
+      "xmttib": XMTT_1
     },
     "Xóa Dữ Liệu Cá Nhân": {
       "displayName": "Xóa Dữ Liệu Cá Nhân",
@@ -326,8 +331,7 @@ window.flowchartData = {
       "pdf": "Khuyến Mãi.pdf",
       "note": "N/A",
       "xmttib": XMTT_1
-    },
-    "tieudeflow": "ádasdadasdadweqeqe"
+    }
   },
   "2. THÔNG TIN SẢN PHẨM": {
     "Vay Mua Xe Máy": {
@@ -405,11 +409,11 @@ window.flowchartData = {
     }
   },
   "6. VẤN ĐỀ THANH TOÁN": {
-    "tieudeflow": "112313123",
+    "tieudeflow": "điều kiền 1",
     "Lịch Trả Nợ": {
-      "tieudeflow": "1231313ewqweqwe123123",
+      "tieudeflow": "điều kiền 2",
       "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
-        "tieudeflow": "12312f313f12312f21f312f312f3",
+        "tieudeflow": "điều kiền 1",
         "displayName": "Lịch Trả Nợ HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy",
         "pdf": "PDF_LICH_TRA_NO_FEC.pdf",
         "note": LTNSlide4,
@@ -1850,12 +1854,35 @@ window.flowchartDataFeedback = {
           const level = index + 1;
           const options = Object.keys(currentDataNode);
           createDropdown(options, level, currentDataNode);
+
+          // Update hidden select
           const select = dynamicFiltersContainer.querySelector(
             `select[data-level="${level}"]`
           );
           if (select) {
             select.value = key;
           }
+
+          // Update custom dropdown visual state
+          const customDropdown = dynamicFiltersContainer.querySelector(
+            `.custom-dropdown[data-level="${level}"]`
+          );
+          if (customDropdown) {
+            // Update header text
+            const dropdownText = customDropdown.querySelector('.dropdown-text');
+            if (dropdownText) {
+              dropdownText.textContent = key;
+            }
+            // Update selected state on items
+            const items = customDropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => {
+              item.classList.remove('selected');
+              if (item.dataset.value === key) {
+                item.classList.add('selected');
+              }
+            });
+          }
+
           // Update currentDataNode AFTER setting the value
           // This ensures the next iteration uses the correct parent
           currentDataNode = currentDataNode[key];
@@ -1893,20 +1920,101 @@ window.flowchartDataFeedback = {
         label.textContent = labelText;
         filterGroup.appendChild(label);
 
-        const select = document.createElement("select");
-        select.className = "filter-select";
-        select.dataset.level = level;
-        select.innerHTML = '<option value="">-- Chọn --</option>';
+        // Create custom dropdown instead of native select
+        const customDropdown = document.createElement("div");
+        customDropdown.className = "custom-dropdown";
+        customDropdown.dataset.level = level;
+
+        // Hidden select for form compatibility and state
+        const hiddenSelect = document.createElement("select");
+        hiddenSelect.className = "filter-select";
+        hiddenSelect.dataset.level = level;
+        hiddenSelect.style.display = "none";
+        hiddenSelect.innerHTML = '<option value="">-- Chọn --</option>';
         options.forEach((text) => {
           const option = document.createElement("option");
           option.value = text;
           option.textContent = text;
-          select.appendChild(option);
+          hiddenSelect.appendChild(option);
         });
-        select.addEventListener("change", (e) =>
+
+        // Dropdown header (selected value display)
+        const dropdownHeader = document.createElement("div");
+        dropdownHeader.className = "dropdown-header";
+        dropdownHeader.innerHTML = '<span class="dropdown-text">-- Chọn --</span><span class="dropdown-arrow">▼</span>';
+
+        // Dropdown options list
+        const dropdownList = document.createElement("ul");
+        dropdownList.className = "dropdown-list";
+
+        // Default option
+        const defaultLi = document.createElement("li");
+        defaultLi.className = "dropdown-item";
+        defaultLi.dataset.value = "";
+        defaultLi.textContent = "-- Chọn --";
+        dropdownList.appendChild(defaultLi);
+
+        // Add all options
+        options.forEach((text) => {
+          const li = document.createElement("li");
+          li.className = "dropdown-item";
+          li.dataset.value = text;
+          li.textContent = text;
+          dropdownList.appendChild(li);
+        });
+
+        customDropdown.appendChild(hiddenSelect);
+        customDropdown.appendChild(dropdownHeader);
+        customDropdown.appendChild(dropdownList);
+
+        // Toggle dropdown on header click
+        dropdownHeader.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // Close other dropdowns first
+          document.querySelectorAll('.custom-dropdown.open').forEach(dd => {
+            if (dd !== customDropdown) dd.classList.remove('open');
+          });
+          customDropdown.classList.toggle("open");
+        });
+
+        // Handle option selection
+        dropdownList.addEventListener("click", (e) => {
+          if (e.target.classList.contains("dropdown-item")) {
+            const value = e.target.dataset.value;
+            const text = e.target.textContent;
+
+            // Update visual
+            dropdownHeader.querySelector('.dropdown-text').textContent = text;
+            customDropdown.classList.remove("open");
+
+            // Update selected state
+            dropdownList.querySelectorAll('.dropdown-item').forEach(item => {
+              item.classList.remove('selected');
+            });
+            e.target.classList.add('selected');
+
+            // Update hidden select
+            hiddenSelect.value = value;
+
+            // Trigger change event
+            const changeEvent = new Event("change", { bubbles: true });
+            hiddenSelect.dispatchEvent(changeEvent);
+          }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", (e) => {
+          if (!customDropdown.contains(e.target)) {
+            customDropdown.classList.remove("open");
+          }
+        });
+
+        // Handle selection via hidden select
+        hiddenSelect.addEventListener("change", (e) =>
           handleSelection(e, level, dataNode)
         );
-        filterGroup.appendChild(select);
+
+        filterGroup.appendChild(customDropdown);
         dynamicFiltersContainer.appendChild(filterGroup);
       }
 
