@@ -2059,6 +2059,37 @@
         }
         const selectedNode = parentDataNode[selectedKey];
 
+        // Handle sub-header visibility for ALL nodes (branch and leaf)
+        const subHeader = document.getElementById("sub-header");
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttEcomBox = document.getElementById("xmtt-ecom-box");
+        const notesBox = document.getElementById("notes-box");
+
+        if (selectedNode.hideSubHeader === true) {
+          // Hide entire sub-header
+          if (subHeader) subHeader.style.display = 'none';
+        } else {
+          // Show sub-header
+          if (subHeader) subHeader.style.display = '';
+
+          // Handle individual box visibility
+          if (selectedNode.hideXmttIb === true) {
+            if (xmttIbBox) xmttIbBox.style.display = 'none';
+          } else {
+            if (xmttIbBox) xmttIbBox.style.display = '';
+          }
+          if (selectedNode.hideXmttEcom === true) {
+            if (xmttEcomBox) xmttEcomBox.style.display = 'none';
+          } else {
+            if (xmttEcomBox) xmttEcomBox.style.display = '';
+          }
+          if (selectedNode.hideNotes === true) {
+            if (notesBox) notesBox.style.display = 'none';
+          } else {
+            if (notesBox) notesBox.style.display = '';
+          }
+        }
+
         // Step 1: Display any available content (works for both intermediate and leaf nodes)
         const hasContent = isObject(selectedNode) && (
           selectedNode.pdf !== undefined ||
@@ -2083,7 +2114,7 @@
         }
 
         // Step 2: Check if node has child nodes (non-content properties)
-        const contentKeys = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'note', 'xmttib', 'xmttecom', 'xmtt', 'dieukien', 'displayName', 'alert', 'tieudeflow'];
+        const contentKeys = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'note', 'xmttib', 'xmttecom', 'xmtt', 'dieukien', 'displayName', 'alert', 'tieudeflow', 'hideSubHeader', 'hideXmttIb', 'hideXmttEcom', 'hideNotes'];
         const childKeys = Object.keys(selectedNode).filter(key =>
           !contentKeys.includes(key) && isObject(selectedNode[key])
         );
@@ -2316,24 +2347,60 @@
 
       // --- UI DISPLAY ---
       function displayResult(resultObject) {
+        const subHeader = document.getElementById("sub-header");
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttEcomBox = document.getElementById("xmtt-ecom-box");
+        const notesBox = document.getElementById("notes-box");
         const xmttIbContent = document.getElementById("xmtt-ib-content");
         const xmttEcomContent = document.getElementById("xmtt-ecom-content");
-        xmttIbContent.innerHTML = resultObject.xmttib
-          ? `<p>${resultObject.xmttib}</p>`
-          : "<p>...</p>";
-        if (xmttEcomContent)
-          xmttEcomContent.innerHTML = resultObject.xmttecom
-            ? `<p>${resultObject.xmttecom}</p>`
-            : "<p>...</p>";
-        if (resultObject.xmtt) {
-          // Backward compatibility
-          xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
-          if (xmttEcomContent)
-            xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+
+        // Handle sub-header visibility
+        if (resultObject.hideSubHeader === true) {
+          // Hide entire sub-header
+          if (subHeader) subHeader.style.display = 'none';
+        } else {
+          // Show sub-header
+          if (subHeader) subHeader.style.display = '';
+
+          // Handle individual box visibility
+          // XMTT IB Box
+          if (resultObject.hideXmttIb === true) {
+            if (xmttIbBox) xmttIbBox.style.display = 'none';
+          } else {
+            if (xmttIbBox) xmttIbBox.style.display = '';
+            xmttIbContent.innerHTML = resultObject.xmttib
+              ? `<p>${resultObject.xmttib}</p>`
+              : "<p>...</p>";
+          }
+
+          // XMTT ECOM Box
+          if (resultObject.hideXmttEcom === true) {
+            if (xmttEcomBox) xmttEcomBox.style.display = 'none';
+          } else {
+            if (xmttEcomBox) xmttEcomBox.style.display = '';
+            if (xmttEcomContent)
+              xmttEcomContent.innerHTML = resultObject.xmttecom
+                ? `<p>${resultObject.xmttecom}</p>`
+                : "<p>...</p>";
+          }
+
+          // Notes Box
+          if (resultObject.hideNotes === true) {
+            if (notesBox) notesBox.style.display = 'none';
+          } else {
+            if (notesBox) notesBox.style.display = '';
+            notesResult.innerHTML = resultObject.note
+              ? `\u003cp\u003e${resultObject.note}\u003c/p\u003e`
+              : "\u003cp\u003eKhông có lưu ý.\u003c/p\u003e";
+          }
+
+          // Backward compatibility for xmtt
+          if (resultObject.xmtt) {
+            xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+            if (xmttEcomContent)
+              xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+          }
         }
-        notesResult.innerHTML = resultObject.note
-          ? `\u003cp\u003e${resultObject.note}\u003c/p\u003e`
-          : "\u003cp\u003eKhông có lưu ý.\u003c/p\u003e";
 
         // Display condition info if available (using the function for consistent show/hide)
         displayConditionInfo(resultObject.dieukien);

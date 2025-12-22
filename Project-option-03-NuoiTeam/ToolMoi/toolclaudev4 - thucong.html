@@ -775,6 +775,9 @@
           let dataObjectsContent = "";
           const sortedConsts = Object.entries(flatConstants).sort((a, b) => (b[1] || '').length - (a[1] || '').length);
 
+          // Content fields that are NOT child nodes
+          const contentFieldsForExport = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'hideSubHeader', 'hideXmttIb', 'hideXmttEcom', 'hideNotes'];
+
           Object.entries(dataSources).forEach(([name, data]) => {
             const info = allDataObjectInfo[name];
             if (!info) return;
@@ -782,22 +785,24 @@
             // Deep clone data to avoid mutating state
             const exportData = JSON.parse(JSON.stringify(data));
 
-            // Helper to traverse and mark var refs based on nodeQuoteTypes
+            // Helper to traverse and process nodes for export
             const processExportData = (obj, path = []) => {
               if (!obj || typeof obj !== 'object') return;
 
               Object.keys(obj).forEach(key => {
                 const val = obj[key];
                 const currentPath = [...path, key];
-                // Quote types are stored with dot notation: root.branch.field
                 const pathStr = currentPath.join('.');
 
                 // If user explicitly set this field to 'var' type
-                // We mark it with a wrapper to identify it after stringify
                 if (nodeQuoteTypes[pathStr] === 'var' && typeof val === 'string') {
                   obj[key] = `__VAR_REF__${val}__VAR_REF__`;
-                } else if (typeof val === 'object') {
-                  processExportData(val, currentPath);
+                } else if (typeof val === 'object' && val !== null) {
+                  // Skip content fields - they should not be processed
+                  if (!contentFieldsForExport.includes(key)) {
+                    // Recurse into child nodes
+                    processExportData(val, currentPath);
+                  }
                 }
               });
             };
@@ -1059,7 +1064,7 @@ ${dataObjectsContent}
       // Helper to check if a node has any child nodes (non-content fields)
       const hasChildren = (node) => {
         if (!node || typeof node !== "object") return false;
-        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow'];
+        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'hideSubHeader', 'hideXmttIb', 'hideXmttEcom', 'hideNotes'];
         const keys = Object.keys(node);
         // Check if there are any keys that are NOT content fields
         return keys.some(key => !contentFields.includes(key) && typeof node[key] === 'object');
@@ -2010,6 +2015,104 @@ ${dataObjectsContent}
                         />
                       </div>
                     )}
+                  </div>
+
+                  {/* Visibility Controls Section */}
+                  <div className="row g-3 mb-3 p-3 bg-warning bg-opacity-10 rounded">
+                    <div className="col-12">
+                      <label className="form-label small fw-bold text-warning">
+                        👁️ Cài Đặt Hiển Thị (Visibility Settings)
+                      </label>
+                      <small className="d-block text-muted mb-2">Kiểm soát ẩn/hiện sub-header và các box khi chọn node này.</small>
+                    </div>
+                    <div className="col-md-6 col-lg-3">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="hideSubHeader"
+                          checked={editingNode.node.hideSubHeader === true}
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                hideSubHeader: e.target.checked,
+                              },
+                            })
+                          }
+                        />
+                        <label className="form-check-label small" htmlFor="hideSubHeader">
+                          🚫 Ẩn toàn bộ Sub-header
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-md-6 col-lg-3">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="hideXmttIb"
+                          checked={editingNode.node.hideXmttIb === true}
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                hideXmttIb: e.target.checked,
+                              },
+                            })
+                          }
+                        />
+                        <label className="form-check-label small" htmlFor="hideXmttIb">
+                          Ẩn XMTT Inbound
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-md-6 col-lg-3">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="hideXmttEcom"
+                          checked={editingNode.node.hideXmttEcom === true}
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                hideXmttEcom: e.target.checked,
+                              },
+                            })
+                          }
+                        />
+                        <label className="form-check-label small" htmlFor="hideXmttEcom">
+                          Ẩn XMTT ECOM
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-md-6 col-lg-3">
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="hideNotes"
+                          checked={editingNode.node.hideNotes === true}
+                          onChange={(e) =>
+                            setEditingNode({
+                              ...editingNode,
+                              node: {
+                                ...editingNode.node,
+                                hideNotes: e.target.checked,
+                              },
+                            })
+                          }
+                        />
+                        <label className="form-check-label small" htmlFor="hideNotes">
+                          Ẩn Notes
+                        </label>
+                      </div>
+                    </div>
                   </div>
 
                   {["tieudeflow", "dieukien", "note", "xmttib", "xmttecom", "alert"].map((f) => {
