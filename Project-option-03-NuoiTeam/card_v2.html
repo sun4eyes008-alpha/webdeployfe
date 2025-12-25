@@ -163,18 +163,6 @@
         </div>
         <!-- Resize Handle 1 -->
         <div class="resize-handle" data-resize="1"></div>
-        <!-- XMTT EMAIL Box -->
-        <div class="sub-header-box xmtt-email-box" id="xmtt-email-box">
-          <button class="expand-btn" data-target="xmtt-email-box">⤢</button>
-          <div class="column-header">
-            <h5>XÁC MINH THÔNG TIN EMAIL</h5>
-          </div>
-          <div id="xmtt-email-content" class="box-content">
-            <p>...</p>
-          </div>
-        </div>
-        <!-- Resize Handle 2 -->
-        <div class="resize-handle" data-resize="2"></div>
         <!-- XMTT CHAT Box -->
         <div class="sub-header-box xmtt-chat-box" id="xmtt-chat-box">
           <button class="expand-btn" data-target="xmtt-chat-box">⤢</button>
@@ -182,6 +170,18 @@
             <h5>XÁC MINH THÔNG TIN CHAT</h5>
           </div>
           <div id="xmtt-chat-content" class="box-content">
+            <p>...</p>
+          </div>
+        </div>
+        <!-- Resize Handle 2 -->
+        <div class="resize-handle" data-resize="2"></div>
+        <!-- XMTT EMAIL Box -->
+        <div class="sub-header-box xmtt-email-box" id="xmtt-email-box">
+          <button class="expand-btn" data-target="xmtt-email-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN EMAIL</h5>
+          </div>
+          <div id="xmtt-email-content" class="box-content">
             <p>...</p>
           </div>
         </div>
@@ -1236,6 +1236,242 @@
           }
         });
       });
+    });
+  </script>
+
+  <!-- Resizable XMTT Boxes Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const xmttRow = document.getElementById('xmtt-row');
+      if (!xmttRow) return;
+
+      const boxes = xmttRow.querySelectorAll('.sub-header-box');
+      const handles = xmttRow.querySelectorAll('.resize-handle');
+
+      if (boxes.length !== 3 || handles.length !== 2) return;
+
+      let isResizing = false;
+      let currentHandle = null;
+      let startX = 0;
+      let startFlexValues = [];
+      let visibleBoxes = [];
+      let visibleHandles = [];
+      const minFlex = 0.15; // Minimum flex ratio (15%)
+      const handleWidth = 8; // Width of resize handle
+
+      // Get visible boxes (not display: none)
+      function getVisibleBoxes() {
+        return Array.from(boxes).filter(box => {
+          const style = window.getComputedStyle(box);
+          return style.display !== 'none';
+        });
+      }
+
+      // Get visible handles (handles between visible boxes)
+      function getVisibleHandles() {
+        const visible = [];
+        handles.forEach((handle, index) => {
+          const style = window.getComputedStyle(handle);
+          if (style.display !== 'none') {
+            visible.push({ handle, index });
+          }
+        });
+        return visible;
+      }
+
+      // Get flex values from visible boxes
+      function getFlexValues() {
+        return visibleBoxes.map(box => {
+          const flex = parseFloat(box.style.flexGrow) || 1;
+          return flex;
+        });
+      }
+
+      // Set flex values to visible boxes
+      function setFlexValues(values) {
+        const total = values.reduce((a, b) => a + b, 0);
+        visibleBoxes.forEach((box, i) => {
+          const normalizedFlex = values[i] / total;
+          box.style.flex = `${normalizedFlex} 1 0`;
+        });
+      }
+
+      // Initialize with equal flex for visible boxes
+      function initializeWidths() {
+        visibleBoxes = getVisibleBoxes();
+        if (visibleBoxes.length === 0) return;
+
+        const equalFlex = 1 / visibleBoxes.length;
+        visibleBoxes.forEach(box => {
+          box.style.flex = `${equalFlex} 1 0`;
+        });
+
+        // Update handle visibility after initializing widths
+        updateHandleVisibility();
+      }
+
+      // Update resize handle visibility based on visible boxes
+      function updateHandleVisibility() {
+        const prevVisibleCount = visibleBoxes.length;
+        visibleBoxes = getVisibleBoxes();
+        const currentVisibleCount = visibleBoxes.length;
+
+        // Add/remove class for single box styling
+        if (currentVisibleCount === 1) {
+          xmttRow.classList.add('single-box');
+        } else {
+          xmttRow.classList.remove('single-box');
+        }
+
+        // Only redistribute flex values if the number of visible boxes has changed
+        if (currentVisibleCount !== prevVisibleCount && currentVisibleCount > 0) {
+          const equalFlex = 1 / currentVisibleCount;
+          visibleBoxes.forEach(box => {
+            box.style.flex = `${equalFlex} 1 0`;
+          });
+        }
+
+        // If only 0 or 1 box visible, hide all handles
+        if (visibleBoxes.length < 2) {
+          handles.forEach(handle => {
+            handle.style.display = 'none';
+          });
+          return;
+        }
+
+        // Get indices of visible boxes in the original boxes array
+        const visibleIndices = [];
+        boxes.forEach((box, idx) => {
+          const style = window.getComputedStyle(box);
+          if (style.display !== 'none') {
+            visibleIndices.push(idx);
+          }
+        });
+
+        // Hide all handles first
+        handles.forEach(handle => {
+          handle.style.display = 'none';
+        });
+
+        // Show handles between consecutive visible boxes
+        for (let i = 0; i < visibleIndices.length - 1; i++) {
+          const leftBoxIndex = visibleIndices[i];
+          const rightBoxIndex = visibleIndices[i + 1];
+
+          if (leftBoxIndex === 0 && rightBoxIndex === 1) {
+            handles[0].style.display = '';
+          } else if (leftBoxIndex === 1 && rightBoxIndex === 2) {
+            handles[1].style.display = '';
+          } else if (leftBoxIndex === 0 && rightBoxIndex === 2) {
+            handles[1].style.display = '';
+          }
+        }
+      }
+
+      // Handle drag start
+      handles.forEach((handle, handleIndex) => {
+        handle.addEventListener('mousedown', function (e) {
+          // Update visible boxes and handles
+          visibleBoxes = getVisibleBoxes();
+          visibleHandles = getVisibleHandles();
+
+          if (visibleBoxes.length < 2) return; // Need at least 2 boxes to resize
+
+          // Find which visible handle index this is
+          const visibleHandleIndex = visibleHandles.findIndex(vh => vh.handle === handle);
+          if (visibleHandleIndex === -1) return; // Handle is not visible
+
+          isResizing = true;
+          currentHandle = visibleHandleIndex;
+          startX = e.clientX;
+
+          // Get current widths and convert to flex ratios (only for visible boxes)
+          const totalWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
+          startFlexValues = visibleBoxes.map(box => box.offsetWidth / totalWidth);
+
+          document.body.classList.add('resizing');
+          xmttRow.classList.add('resizing');
+          e.preventDefault();
+        });
+      });
+
+      // Handle drag
+      document.addEventListener('mousemove', function (e) {
+        if (!isResizing) return;
+
+        const containerWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
+        const deltaX = e.clientX - startX;
+        const deltaFlex = deltaX / containerWidth;
+
+        const leftBoxIndex = currentHandle;
+        const rightBoxIndex = currentHandle + 1;
+
+        // Boundary check for visible boxes
+        if (rightBoxIndex >= visibleBoxes.length) return;
+
+        // Calculate new flex values
+        let newLeftFlex = startFlexValues[leftBoxIndex] + deltaFlex;
+        let newRightFlex = startFlexValues[rightBoxIndex] - deltaFlex;
+
+        // Enforce minimum flex
+        if (newLeftFlex < minFlex) {
+          newLeftFlex = minFlex;
+          newRightFlex = startFlexValues[leftBoxIndex] + startFlexValues[rightBoxIndex] - minFlex;
+        }
+        if (newRightFlex < minFlex) {
+          newRightFlex = minFlex;
+          newLeftFlex = startFlexValues[leftBoxIndex] + startFlexValues[rightBoxIndex] - minFlex;
+        }
+
+        // Apply new flex values (only to the two affected visible boxes)
+        const newFlexValues = [...startFlexValues];
+        newFlexValues[leftBoxIndex] = newLeftFlex;
+        newFlexValues[rightBoxIndex] = newRightFlex;
+
+        setFlexValues(newFlexValues);
+      });
+
+      // Handle drag end
+      document.addEventListener('mouseup', function () {
+        if (isResizing) {
+          isResizing = false;
+          currentHandle = null;
+          document.body.classList.remove('resizing');
+          xmttRow.classList.remove('resizing');
+
+          // Save flex ratios to localStorage for persistence (all boxes)
+          const allFlexValues = Array.from(boxes).map(box => parseFloat(box.style.flexGrow) || 1);
+          localStorage.setItem('xmttBoxFlex', JSON.stringify(allFlexValues));
+        }
+      });
+
+      // Restore saved flex values or initialize
+      function restoreWidths() {
+        const savedFlex = localStorage.getItem('xmttBoxFlex');
+        if (savedFlex) {
+          try {
+            const flexValues = JSON.parse(savedFlex);
+            if (flexValues.length === boxes.length) {
+              const total = flexValues.reduce((a, b) => a + b, 0);
+              boxes.forEach((box, i) => {
+                const normalizedFlex = flexValues[i] / total;
+                box.style.flex = `${normalizedFlex} 1 0`;
+              });
+              updateHandleVisibility(); // Update after restoring
+              return;
+            }
+          } catch (e) {
+            console.warn('Could not restore XMTT box flex values');
+          }
+        }
+        initializeWidths();
+      }
+
+      // Initialize on load
+      restoreWidths();
+
+      // Expose updateHandleVisibility globally for use in displayResult
+      window.updateXmttHandleVisibility = updateHandleVisibility;
     });
   </script>
 </body>

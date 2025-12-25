@@ -223,6 +223,86 @@ body.sidebar-collapsed {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+/* --- SEARCH CONTAINER & RESULTS --- */
+.search-container {
+  position: relative;
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
+}
+
+#header-search {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+#header-search:focus {
+  background-color: #fff;
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+#header-search::placeholder {
+  color: #999;
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  display: none;
+}
+
+.search-results.show {
+  display: block;
+}
+
+.search-result-item {
+  padding: 12px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.15s ease;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+/* Hover state - xám nhạt */
+.search-result-item:hover {
+  background-color: #ecfae2;
+}
+
+/* Selected state (keyboard navigation) - XANH LÁ RÕ RÀNG */
+.search-result-item.selected {
+  background-color: #81c753 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* Selected + Hover */
+.search-result-item.selected:hover {
+  background-color: #6ab343 !important;
+}
+
 /* --- SIDEBAR --- */
 #sidebar {
   grid-area: sidebar;
@@ -539,6 +619,48 @@ body.sidebar-collapsed {
   background: transparent;
   border-radius: 12px;
   padding: 0;
+}
+
+/* XMTT Row - Flexbox container for boxes */
+.xmtt-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  width: 100%;
+  padding: 8px 0;
+  box-sizing: border-box;
+}
+
+/* Resize handle between boxes */
+.resize-handle {
+  width: 8px;
+  background: #ddd;
+  cursor: col-resize;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.resize-handle:hover {
+  background: #009f52;
+}
+
+/* When handle is hidden, ensure it takes no space */
+.resize-handle[style*="display: none"],
+.resize-handle[style*="display:none"] {
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  flex: 0 0 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* Ensure single visible box takes full width */
+.xmtt-row.single-box .sub-header-box {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 .sub-header-box {
