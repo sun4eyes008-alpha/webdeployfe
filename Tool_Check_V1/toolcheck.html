@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>Tool Check - Chấm Call</title>
     <link rel="stylesheet" href="style.css">
+    <!-- SheetJS library for Excel export -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     <style>
         .container {
             max-width: 95%;
@@ -102,7 +104,7 @@
 
         .chamcall-modal-content {
             background: white;
-            margin: 10% auto;
+            margin: 3% auto;
             padding: 25px;
             width: 400px;
             border-radius: 12px;
@@ -117,15 +119,32 @@
 
         .row-info {
             background: #f8f9fa;
-            padding: 15px;
+            padding: 10px;
             border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: left;
-            font-size: 13px;
+            margin-bottom: 15px;
+            overflow-x: auto;
         }
 
-        .row-info p {
-            margin: 5px 0;
+        .row-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .row-info-table th {
+            background: #e9ecef;
+            padding: 6px 8px;
+            text-align: center;
+            font-weight: 600;
+            white-space: nowrap;
+            border: 1px solid #ddd;
+        }
+
+        .row-info-table td {
+            padding: 6px 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+            white-space: nowrap;
         }
 
         .btn-modal-close {
@@ -136,6 +155,381 @@
             border-radius: 4px;
             cursor: pointer;
             margin-top: 10px;
+        }
+
+        /* Scoring Modal Styles */
+        .scoring-modal {
+            width: 90%;
+            max-width: 1400px;
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        .scoring-table-wrapper {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .scoring-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .scoring-table th {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            padding: 10px 8px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .scoring-table td {
+            border: 1px solid #e0e0e0;
+            padding: 8px;
+            vertical-align: middle;
+        }
+
+        .col-model {
+            width: 12%;
+        }
+
+        .col-tieuchi {
+            width: 18%;
+            text-align: left;
+        }
+
+        .col-diengiai {
+            width: 35%;
+            text-align: left;
+        }
+
+        .col-input {
+            width: 10%;
+            text-align: center;
+        }
+
+        .col-errors {
+            width: 25%;
+            text-align: center;
+        }
+
+        .diengiai-cell {
+            font-size: 11px;
+            color: #555;
+            text-align: left;
+        }
+
+        .error-cell {
+            text-align: left;
+        }
+
+        .error-select {
+            width: 100%;
+            min-height: 80px;
+            padding: 5px;
+            border: 2px solid #ff9800;
+            border-radius: 6px;
+            font-size: 11px;
+            background: #fff8e1;
+        }
+
+        .error-select option {
+            padding: 5px 3px;
+            cursor: pointer;
+        }
+
+        .error-select option:checked {
+            background: linear-gradient(0deg, #ff9800 0%, #ffb74d 100%);
+            color: white;
+        }
+
+        .error-hint {
+            font-size: 9px;
+            color: #ff9800;
+            font-style: italic;
+            margin-top: 3px;
+        }
+
+        .error-checkboxes {
+            display: none;
+            padding: 8px;
+            background: #fff8e1;
+            border: 2px solid #ff9800;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        .error-checkboxes label {
+            display: block;
+            padding: 4px 0;
+            cursor: pointer;
+        }
+
+        .error-checkboxes label:hover {
+            background: #ffe082;
+            border-radius: 4px;
+            padding-left: 5px;
+        }
+
+        .error-checkboxes input[type="checkbox"] {
+            margin-right: 6px;
+            accent-color: #ff9800;
+        }
+
+        .model-cell {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .model-name {
+            font-size: 13px;
+            color: #1a73e8;
+            margin-bottom: 3px;
+        }
+
+        .model-vn {
+            font-size: 10px;
+            color: #666;
+            font-weight: normal;
+        }
+
+        /* Model Colors */
+        .heart-touching td:first-child,
+        .heart-touching .model-cell {
+            border-left: 4px solid #e91e63;
+        }
+
+        .empathy td:first-child,
+        .empathy .model-cell {
+            border-left: 4px solid #9c27b0;
+        }
+
+        .attractive td:first-child,
+        .attractive .model-cell {
+            border-left: 4px solid #ff9800;
+        }
+
+        .reliable td:first-child,
+        .reliable .model-cell {
+            border-left: 4px solid #4caf50;
+        }
+
+        .thankful td:first-child,
+        .thankful .model-cell {
+            border-left: 4px solid #2196f3;
+        }
+
+        .score-select {
+            width: 100%;
+            padding: 6px 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .score-select:focus {
+            border-color: #1a73e8;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+        }
+
+        .score-select:hover {
+            border-color: #1a73e8;
+        }
+
+        .scoring-summary {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .summary-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .summary-row label {
+            font-weight: bold;
+            min-width: 80px;
+            padding-top: 5px;
+        }
+
+        .summary-row textarea {
+            flex: 1;
+            min-height: 60px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            resize: vertical;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-save {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        /* Bảng kết quả */
+        .results-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-section h3 {
+            margin: 0 0 15px 0;
+            color: #1a73e8;
+        }
+
+        .results-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-clear-results {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-export {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .results-table th {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+            padding: 10px 8px;
+            text-align: left;
+        }
+
+        .results-table td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        .results-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .results-table tr:hover {
+            background: #e9ecef;
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            margin: 1px;
+        }
+
+        .score-Y {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .score-N {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .score-P1 {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .score-P2 {
+            background: #ffe5b4;
+            color: #995c00;
+        }
+
+        .score-NA {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .error-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            background: #ffebee;
+            color: #c62828;
+            border-radius: 4px;
+            font-size: 10px;
+            margin: 1px;
+        }
+
+        .btn-delete-row {
+            padding: 4px 10px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .btn-delete-row:hover {
+            background: #c82333;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            padding: 30px;
         }
     </style>
 </head>
@@ -154,22 +548,312 @@
                 <tbody id="tc-body"></tbody>
             </table>
         </div>
+
+        <!-- Bảng kết quả chấm điểm -->
+        <div class="results-section">
+            <h3>📊 Kết Quả Chấm Điểm</h3>
+            <div class="results-actions">
+                <button class="btn-clear-results" onclick="clearResults()">🗑️ Xóa tất cả</button>
+                <button class="btn-export" onclick="exportResults()">📥 Xuất Excel</button>
+            </div>
+            <div class="table-wrapper">
+                <table class="results-table" id="results-table">
+                    <thead id="results-head">
+                        <tr>
+                            <th>STT</th>
+                            <th>Thời gian</th>
+                            <th>Thông tin cuộc gọi</th>
+                            <th>Điểm</th>
+                            <th>Lỗi vi phạm</th>
+                            <th>Ghi chú</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-body"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!-- Modal Chấm Call -->
     <div id="chamcallModal" class="chamcall-modal">
-        <div class="chamcall-modal-content">
-            <h3>📞 Chấm Call</h3>
+        <div class="chamcall-modal-content scoring-modal">
+            <h3>📞 Chấm Call - HEART Model</h3>
             <div class="row-info" id="modal-row-info">
                 <!-- Thông tin dòng sẽ hiển thị ở đây -->
             </div>
-            <button class="btn-modal-close" onclick="closeChamCallModal()">Đóng</button>
+
+            <!-- Bảng chấm điểm -->
+            <div class="scoring-table-wrapper">
+                <table class="scoring-table">
+                    <thead>
+                        <tr>
+                            <th class="col-model">Model</th>
+                            <th class="col-tieuchi">Tiêu chí</th>
+                            <th class="col-diengiai">Diễn Giải</th>
+                            <th class="col-input">Điểm</th>
+                            <th class="col-errors">Chọn lỗi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Heart Touching - Mở lòng đón - Chạm trái tim -->
+                        <tr class="model-header heart-touching">
+                            <td rowspan="4" class="model-cell">
+                                <div class="model-name">Heart Touching</div>
+                                <div class="model-vn">Mở lòng đón - Chạm trái tim</div>
+                            </td>
+                            <td>1.1. Chào mở đầu</td>
+                            <td class="diengiai-cell">Sử dụng câu chào chuẩn, thái độ thân thiện, niềm nở</td>
+                            <td><select class="score-select" data-criteria="1.1" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="1.1">
+                                    <label><input type="checkbox" value="khong_chao"> Không chào đúng chuẩn</label>
+                                    <label><input type="checkbox" value="giong_moi"> Giọng mệt mỏi</label>
+                                    <label><input type="checkbox" value="thieu_than_thien"> Thiếu thân thiện</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="heart-touching">
+                            <td>1.2. Lắng nghe</td>
+                            <td class="diengiai-cell">Lắng nghe và tiếp nhận xác nhận thông tin KH cung cấp</td>
+                            <td><select class="score-select" data-criteria="1.2" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="1.2">
+                                    <label><input type="checkbox" value="cat_loi"> Cắt lời KH</label>
+                                    <label><input type="checkbox" value="khong_lang_nghe"> Không lắng nghe</label>
+                                    <label><input type="checkbox" value="hieu_sai"> Hiểu sai ý KH</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="heart-touching">
+                            <td>2.1. Ngôn từ</td>
+                            <td class="diengiai-cell">Sử dụng ngôn từ tích cực, dễ hiểu, thể hiện sự kết nối</td>
+                            <td><select class="score-select" data-criteria="2.1" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="2.1">
+                                    <label><input type="checkbox" value="ngon_tu_tieu_cuc"> Ngôn từ tiêu cực</label>
+                                    <label><input type="checkbox" value="kho_hieu"> Khó hiểu</label>
+                                    <label><input type="checkbox" value="chuyen_nganh"> Dùng thuật ngữ chuyên
+                                        ngành</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="heart-touching">
+                            <td>2.2. Ngữ điệu/Giọng nói</td>
+                            <td class="diengiai-cell">Phát âm rõ ràng, tốc độ phù hợp, ngữ điệu đúng</td>
+                            <td><select class="score-select" data-criteria="2.2" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="2.2">
+                                    <label><input type="checkbox" value="noi_nhanh"> Nói quá nhanh</label>
+                                    <label><input type="checkbox" value="noi_cham"> Nói quá chậm</label>
+                                    <label><input type="checkbox" value="giong_buon"> Giọng buồn/mệt</label>
+                                    <label><input type="checkbox" value="phat_am_sai"> Phát âm không rõ</label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Empathy - Nghe từ tâm - Hiểu trọn cảm -->
+                        <tr class="model-header empathy">
+                            <td rowspan="2" class="model-cell">
+                                <div class="model-name">Empathy</div>
+                                <div class="model-vn">Nghe từ tâm - Hiểu trọn cảm</div>
+                            </td>
+                            <td>2.3. Thấu hiểu</td>
+                            <td class="diengiai-cell">Nhận biết và thể hiện sự kết nối phù hợp với tình huống, cảm xúc
+                                của KH</td>
+                            <td><select class="score-select" data-criteria="2.3" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="2.3">
+                                    <label><input type="checkbox" value="thieu_dong_cam"> Thiếu đồng cảm</label>
+                                    <label><input type="checkbox" value="phan_hoi_may_moc"> Phản hồi máy móc</label>
+                                    <label><input type="checkbox" value="khong_thau_hieu"> Không thấu hiểu vấn
+                                        đề</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="empathy">
+                            <td>2.4. Gợi tên KH/ xưng hô phù hợp</td>
+                            <td class="diengiai-cell">Gọi tên KH/ xưng phù hợp trong quá trình giao tiếp</td>
+                            <td><select class="score-select" data-criteria="2.4" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="2.4">
+                                    <label><input type="checkbox" value="khong_goi_ten"> Không gọi tên KH</label>
+                                    <label><input type="checkbox" value="xung_ho_sai"> Xưng hô không phù hợp</label>
+                                    <label><input type="checkbox" value="goi_sai_ten"> Gọi sai tên KH</label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Attractive Actions - Vùng động hành - Giữ tựa tâm -->
+                        <tr class="model-header attractive">
+                            <td rowspan="2" class="model-cell">
+                                <div class="model-name">Attractive Actions</div>
+                                <div class="model-vn">Vùng động hành - Giữ tựa tâm</div>
+                            </td>
+                            <td>3.1. Quản lý cuộc gọi</td>
+                            <td class="diengiai-cell">Chủ động hỗ trợ, giải quyết vấn đề một cách tích cực</td>
+                            <td><select class="score-select" data-criteria="3.1" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="3.1">
+                                    <label><input type="checkbox" value="hold_lau"> Hold quá lâu</label>
+                                    <label><input type="checkbox" value="khong_thong_bao"> Không thông báo khi
+                                        hold</label>
+                                    <label><input type="checkbox" value="chuyen_nhieu_lan"> Chuyển máy nhiều lần</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="attractive">
+                            <td>3.2. Nhập liệu</td>
+                            <td class="diengiai-cell">Nhập lệu không chính xác, nhập lệu trên hệ thống đúng quy định
+                            </td>
+                            <td><select class="score-select" data-criteria="3.2" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="N/A">N/A</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="3.2">
+                                    <label><input type="checkbox" value="nhap_sai"> Nhập liệu sai</label>
+                                    <label><input type="checkbox" value="thieu_thong_tin"> Thiếu thông tin</label>
+                                    <label><input type="checkbox" value="khong_cap_nhat"> Không cập nhật hệ
+                                        thống</label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Reliable Resolution - Trao giải pháp - Nhận tin cậy -->
+                        <tr class="model-header reliable">
+                            <td rowspan="2" class="model-cell">
+                                <div class="model-name">Reliable Resolution</div>
+                                <div class="model-vn">Trao giải pháp - Nhận tin cậy</div>
+                            </td>
+                            <td>4.1. Xác minh thông tin</td>
+                            <td class="diengiai-cell">Xác minh thông tin chính xác theo quy định</td>
+                            <td><select class="score-select" data-criteria="4.1" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="N/A">N/A</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="4.1">
+                                    <label><input type="checkbox" value="khong_xac_minh"> Không xác minh</label>
+                                    <label><input type="checkbox" value="xac_minh_sai"> Xác minh sai quy trình</label>
+                                    <label><input type="checkbox" value="bo_qua_buoc"> Bỏ qua bước xác minh</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="reliable">
+                            <td>4.2. Giải pháp</td>
+                            <td class="diengiai-cell">Cung cấp phương án tối ưu, rõ ràng, triệt để</td>
+                            <td><select class="score-select" data-criteria="4.2" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                    <option value="P1">P1</option>
+                                    <option value="P2">P2</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="4.2">
+                                    <label><input type="checkbox" value="giai_phap_sai"> Giải pháp sai</label>
+                                    <label><input type="checkbox" value="khong_ro_rang"> Không rõ ràng</label>
+                                    <label><input type="checkbox" value="khong_day_du"> Không đầy đủ</label>
+                                    <label><input type="checkbox" value="tu_van_sai"> Tư vấn sai quy trình</label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Thankful Closing - Khép vào đẹp - Mở kết nối -->
+                        <tr class="model-header thankful">
+                            <td rowspan="2" class="model-cell">
+                                <div class="model-name">Thankful Closing</div>
+                                <div class="model-vn">Khép vào đẹp - Mở kết nối</div>
+                            </td>
+                            <td>5.1. Tư vấn khảo sát</td>
+                            <td class="diengiai-cell">Thực hiện tư vấn khảo sát theo quy định</td>
+                            <td><select class="score-select" data-criteria="5.1" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="5.1">
+                                    <label><input type="checkbox" value="khong_khao_sat"> Không thực hiện khảo
+                                        sát</label>
+                                    <label><input type="checkbox" value="khao_sat_sai"> Khảo sát sai quy trình</label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="thankful">
+                            <td>5.2. Chào kết thúc</td>
+                            <td class="diengiai-cell">Kết thúc cuộc gọi cảm ơn, chào thân thiện</td>
+                            <td><select class="score-select" data-criteria="5.2" onchange="toggleErrorSelect(this)">
+                                    <option value="Y" selected>Y</option>
+                                    <option value="N">N</option>
+                                </select></td>
+                            <td class="error-cell">
+                                <div class="error-checkboxes" data-criteria="5.2">
+                                    <label><input type="checkbox" value="khong_chao_ket"> Không chào kết thúc</label>
+                                    <label><input type="checkbox" value="ket_thuc_voi"> Kết thúc vội vàng</label>
+                                    <label><input type="checkbox" value="thieu_cam_on"> Thiếu cảm ơn KH</label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tổng điểm và ghi chú -->
+            <div class="scoring-summary">
+                <div class="summary-row">
+                    <label>Ghi chú:</label>
+                    <textarea id="scoring-note" placeholder="Nhập ghi chú cho cuộc gọi này..."></textarea>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-save" onclick="saveScoring()">💾 Lưu điểm</button>
+                <button class="btn-modal-close" onclick="closeChamCallModal()">Đóng</button>
+            </div>
         </div>
     </div>
 
     <script>
         let tableData = [];
         let tableCols = [];
+        let currentRowIndex = -1;
 
         // Nhận dữ liệu từ sessionStorage
         window.onload = function () {
@@ -183,6 +867,9 @@
             } else {
                 document.getElementById('tc-body').innerHTML = '<tr><td colspan="100%">Không có dữ liệu. Vui lòng quay lại trang chính.</td></tr>';
             }
+
+            // Load kết quả đã lưu
+            renderResultsTable();
         };
 
         function renderTable() {
@@ -201,17 +888,328 @@
         }
 
         function openChamCallModal(rowIndex) {
+            currentRowIndex = rowIndex;
             const row = tableData[rowIndex];
-            let infoHTML = '';
+
+            // Hiển thị thông tin dòng dạng bảng ngang
+            let headerRow = '<tr>';
+            let dataRow = '<tr>';
             tableCols.forEach(col => {
-                infoHTML += `<p><strong>${col}:</strong> ${row[col] || "0"}</p>`;
+                headerRow += `<th>${col}</th>`;
+                dataRow += `<td>${row[col] || "0"}</td>`;
             });
+            headerRow += '</tr>';
+            dataRow += '</tr>';
+
+            const infoHTML = `<table class="row-info-table">${headerRow}${dataRow}</table>`;
             document.getElementById('modal-row-info').innerHTML = infoHTML;
+
+            // Reset tất cả các dropdown về giá trị Y (mặc định)
+            document.querySelectorAll('.score-select').forEach(select => {
+                select.value = 'Y';
+            });
+
+            // Ẩn tất cả error-checkboxes và reset
+            document.querySelectorAll('.error-checkboxes').forEach(container => {
+                container.style.display = 'none';
+                // Reset tất cả checkbox
+                container.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            });
+
+            document.getElementById('scoring-note').value = '';
+
+            // Hiển thị modal
             document.getElementById('chamcallModal').style.display = 'block';
         }
 
         function closeChamCallModal() {
             document.getElementById('chamcallModal').style.display = 'none';
+            currentRowIndex = -1;
+        }
+
+        // Hàm toggle hiển thị error-checkboxes khi điểm không phải Y
+        function toggleErrorSelect(scoreSelect) {
+            const criteria = scoreSelect.dataset.criteria;
+            const errorContainer = document.querySelector(`.error-checkboxes[data-criteria="${criteria}"]`);
+
+            if (scoreSelect.value !== 'Y') {
+                // Hiển thị checkboxes lỗi nếu điểm không phải Y
+                errorContainer.style.display = 'block';
+            } else {
+                // Ẩn và reset nếu điểm là Y
+                errorContainer.style.display = 'none';
+                errorContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            }
+        }
+
+        function saveScoring() {
+            if (currentRowIndex < 0) return;
+
+            // Thu thập điểm từ các dropdown
+            const scores = {};
+            const errors = {};
+            let allFilled = true;
+
+            document.querySelectorAll('.score-select').forEach(select => {
+                const criteria = select.dataset.criteria;
+                const value = select.value;
+                scores[criteria] = value;
+                if (!value) allFilled = false;
+
+                // Thu thập lỗi đã chọn (checkboxes) nếu điểm không phải Y
+                if (value !== 'Y') {
+                    const errorContainer = document.querySelector(`.error-checkboxes[data-criteria="${criteria}"]`);
+                    const checkedErrors = Array.from(errorContainer.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+                    if (checkedErrors.length > 0) {
+                        errors[criteria] = checkedErrors;
+                    }
+                }
+            });
+
+            // Kiểm tra đã chấm đủ điểm chưa
+            if (!allFilled) {
+                if (!confirm('Bạn chưa chấm đủ tất cả các tiêu chí. Vẫn muốn lưu?')) {
+                    return;
+                }
+            }
+
+            // Lấy ghi chú
+            const note = document.getElementById('scoring-note').value;
+
+            // Tạo object kết quả
+            const result = {
+                rowIndex: currentRowIndex,
+                rowData: tableData[currentRowIndex],
+                scores: scores,
+                errors: errors,
+                note: note,
+                timestamp: new Date().toISOString()
+            };
+
+            // Lưu vào localStorage
+            let savedScores = JSON.parse(localStorage.getItem('toolcheckScores') || '[]');
+            savedScores.push(result);
+            localStorage.setItem('toolcheckScores', JSON.stringify(savedScores));
+
+            // Cập nhật bảng kết quả
+            renderResultsTable();
+
+            // Hiển thị thông báo
+            alert('✅ Đã lưu điểm thành công!');
+
+            // Đóng modal
+            closeChamCallModal();
+
+            console.log('Saved scoring:', result);
+        }
+
+        // Render bảng kết quả
+        function renderResultsTable() {
+            const savedScores = JSON.parse(localStorage.getItem('toolcheckScores') || '[]');
+            const tbody = document.getElementById('results-body');
+
+            if (savedScores.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="no-results">Chưa có kết quả chấm điểm nào</td></tr>';
+                return;
+            }
+
+            const errorLabels = {
+                'khong_chao': 'Không chào đúng chuẩn',
+                'giong_moi': 'Giọng mệt mỏi',
+                'thieu_than_thien': 'Thiếu thân thiện',
+                'cat_loi': 'Cắt lời KH',
+                'khong_lang_nghe': 'Không lắng nghe',
+                'hieu_sai': 'Hiểu sai ý KH',
+                'ngon_tu_tieu_cuc': 'Ngôn từ tiêu cực',
+                'kho_hieu': 'Khó hiểu',
+                'chuyen_nganh': 'Dùng thuật ngữ CN',
+                'noi_nhanh': 'Nói quá nhanh',
+                'noi_cham': 'Nói quá chậm',
+                'giong_buon': 'Giọng buồn/mệt',
+                'phat_am_sai': 'Phát âm không rõ',
+                'thieu_dong_cam': 'Thiếu đồng cảm',
+                'phan_hoi_may_moc': 'Phản hồi máy móc',
+                'khong_thau_hieu': 'Không thấu hiểu',
+                'khong_goi_ten': 'Không gọi tên KH',
+                'xung_ho_sai': 'Xưng hô sai',
+                'goi_sai_ten': 'Gọi sai tên',
+                'hold_lau': 'Hold quá lâu',
+                'khong_thong_bao': 'Không thông báo hold',
+                'chuyen_nhieu_lan': 'Chuyển máy nhiều lần',
+                'nhap_sai': 'Nhập liệu sai',
+                'thieu_thong_tin': 'Thiếu thông tin',
+                'khong_cap_nhat': 'Không cập nhật',
+                'khong_xac_minh': 'Không xác minh',
+                'xac_minh_sai': 'Xác minh sai',
+                'bo_qua_buoc': 'Bỏ qua xác minh',
+                'giai_phap_sai': 'Giải pháp sai',
+                'khong_ro_rang': 'Không rõ ràng',
+                'khong_day_du': 'Không đầy đủ',
+                'tu_van_sai': 'Tư vấn sai',
+                'khong_khao_sat': 'Không khảo sát',
+                'khao_sat_sai': 'Khảo sát sai',
+                'khong_chao_ket': 'Không chào kết',
+                'ket_thuc_voi': 'Kết thúc vội',
+                'thieu_cam_on': 'Thiếu cảm ơn'
+            };
+
+            let html = '';
+            savedScores.forEach((item, index) => {
+                // Format thời gian
+                const date = new Date(item.timestamp);
+                const timeStr = date.toLocaleString('vi-VN');
+
+                // Format thông tin cuộc gọi
+                const callInfo = Object.entries(item.rowData || {}).slice(0, 3)
+                    .map(([k, v]) => `<b>${k}:</b> ${v}`).join('<br>');
+
+                // Format điểm
+                const scoresHtml = Object.entries(item.scores || {})
+                    .map(([k, v]) => {
+                        const badgeClass = v === 'N/A' ? 'score-NA' : `score-${v}`;
+                        return `<span class="score-badge ${badgeClass}">${k}: ${v}</span>`;
+                    }).join(' ');
+
+                // Format lỗi
+                let errorsHtml = '';
+                Object.entries(item.errors || {}).forEach(([criteria, errs]) => {
+                    errs.forEach(err => {
+                        const label = errorLabels[err] || err;
+                        errorsHtml += `<span class="error-tag">${criteria}: ${label}</span> `;
+                    });
+                });
+                if (!errorsHtml) errorsHtml = '<span style="color:#28a745;">Không có lỗi</span>';
+
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${timeStr}</td>
+                        <td>${callInfo}</td>
+                        <td>${scoresHtml}</td>
+                        <td>${errorsHtml}</td>
+                        <td>${item.note || '-'}</td>
+                        <td><button class="btn-delete-row" onclick="deleteResult(${index})">Xóa</button></td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // Xóa một kết quả
+        function deleteResult(index) {
+            if (!confirm('Bạn có chắc muốn xóa kết quả này?')) return;
+
+            let savedScores = JSON.parse(localStorage.getItem('toolcheckScores') || '[]');
+            savedScores.splice(index, 1);
+            localStorage.setItem('toolcheckScores', JSON.stringify(savedScores));
+            renderResultsTable();
+        }
+
+        // Xóa tất cả kết quả
+        function clearResults() {
+            if (!confirm('Bạn có chắc muốn xóa TẤT CẢ kết quả?')) return;
+
+            localStorage.removeItem('toolcheckScores');
+            renderResultsTable();
+            alert('✅ Đã xóa tất cả kết quả!');
+        }
+
+        // Xuất kết quả ra Excel (.xlsx)
+        function exportResults() {
+            const savedScores = JSON.parse(localStorage.getItem('toolcheckScores') || '[]');
+            if (savedScores.length === 0) {
+                alert('Không có dữ liệu để xuất!');
+                return;
+            }
+
+            // Lấy tất cả các cột từ rowData, loại bỏ các cột không cần
+            const excludeCols = ['thỏa điều kiện', 'đếm data', 'Chấm', 'Ngày lấy data', 'Date SP1'];
+            const allRowDataKeys = new Set();
+            savedScores.forEach(item => {
+                if (item.rowData) {
+                    Object.keys(item.rowData).forEach(key => {
+                        if (!excludeCols.includes(key)) {
+                            allRowDataKeys.add(key);
+                        }
+                    });
+                }
+            });
+            const rowDataCols = Array.from(allRowDataKeys);
+
+            // Tạo dữ liệu cho Excel
+            const excelData = [];
+
+            // Header row - bao gồm cả thông tin cuộc gọi
+            const headers = [
+                'STT', 'Thời gian',
+                ...rowDataCols,  // Các cột từ toolcheck
+                '1.1 Chào', '1.2 Lắng nghe', '2.1 Ngôn từ', '2.2 Ngữ điệu',
+                '2.3 Thấu hiểu', '2.4 Xưng hô', '3.1 Quản lý', '3.2 Nhập liệu',
+                '4.1 Xác minh', '4.2 Giải pháp', '5.1 Khảo sát', '5.2 Chào kết',
+                'Lỗi vi phạm', 'Ghi chú'
+            ];
+            excelData.push(headers);
+
+            // Data rows
+            savedScores.forEach((item, index) => {
+                const date = new Date(item.timestamp).toLocaleString('vi-VN');
+                const scores = item.scores || {};
+                const rowData = item.rowData || {};
+
+                // Tập hợp lỗi
+                const errorsArr = [];
+                Object.entries(item.errors || {}).forEach(([k, v]) => {
+                    v.forEach(e => errorsArr.push(`${k}: ${e}`));
+                });
+
+                // Tạo row với dữ liệu toolcheck
+                const row = [
+                    index + 1,
+                    date,
+                    ...rowDataCols.map(col => rowData[col] || ''),  // Giá trị từ toolcheck
+                    scores['1.1'] || 'Y',
+                    scores['1.2'] || 'Y',
+                    scores['2.1'] || 'Y',
+                    scores['2.2'] || 'Y',
+                    scores['2.3'] || 'Y',
+                    scores['2.4'] || 'Y',
+                    scores['3.1'] || 'Y',
+                    scores['3.2'] || 'Y',
+                    scores['4.1'] || 'Y',
+                    scores['4.2'] || 'Y',
+                    scores['5.1'] || 'Y',
+                    scores['5.2'] || 'Y',
+                    errorsArr.join('; ') || 'Không có lỗi',
+                    item.note || ''
+                ];
+                excelData.push(row);
+            });
+
+            // Tạo workbook và worksheet
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(excelData);
+
+            // Set column widths động
+            const colWidths = [
+                { wch: 5 },   // STT
+                { wch: 20 },  // Thời gian
+            ];
+            // Thêm width cho các cột rowData
+            rowDataCols.forEach(() => colWidths.push({ wch: 15 }));
+            // Thêm width cho các cột điểm
+            for (let i = 0; i < 12; i++) colWidths.push({ wch: 8 });
+            // Lỗi và Ghi chú
+            colWidths.push({ wch: 40 }, { wch: 30 });
+
+            ws['!cols'] = colWidths;
+
+            // Thêm worksheet vào workbook
+            XLSX.utils.book_append_sheet(wb, ws, 'Kết quả chấm điểm');
+
+            // Xuất file
+            const fileName = 'ket_qua_cham_diem_' + new Date().toISOString().slice(0, 10) + '.xlsx';
+            XLSX.writeFile(wb, fileName);
         }
 
         // Click bên ngoài modal để đóng

@@ -1,270 +1,245 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <title>Hệ Thống Lọc QC SP - Offline</title>
     <script src="xlsx.full.min.js"></script>
-    
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background-color: #f0f2f5; padding: 20px; }
-        .container { max-width: 100%; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { color: #1a73e8; text-align: center; margin-bottom: 20px; text-transform: uppercase; }
-        
-        .filter-grid { 
-            display: grid; 
-            grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr; 
-            gap: 15px; 
-            margin-bottom: 20px; 
-            background: #f8fafc; 
-            padding: 15px; 
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-        
-        .box { display: flex; flex-direction: column; background: white; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
-        label { font-weight: bold; color: #1a73e8; font-size: 12px; margin-bottom: 5px; border-bottom: 1px solid #eee; }
-        
-        .scroll-list { height: 120px; overflow-y: auto; font-size: 13px; }
-        .item { display: block; padding: 2px 0; cursor: pointer; white-space: nowrap; }
-        .item:hover { background: #e8f0fe; }
-
-        .info-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-weight: bold; }
-        
-        .table-area { overflow: auto; max-height: 450px; border: 1px solid #ddd; }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th { background: #1a73e8; color: white; position: sticky; top: 0; padding: 10px; font-size: 12px; z-index: 5; }
-        td { border: 1px solid #eee; padding: 8px; text-align: center; font-size: 11px; }
-        tr:nth-child(even) { background: #f9f9f9; }
-        .bad-qc { background-color: #fff4f4; color: #d32f2f; font-weight: bold; } 
-        
-        .btn-group { display: flex; gap: 10px; }
-        .btn-reset { padding: 8px 15px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        .btn-select { padding: 8px 15px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
-
-        /* Modal chung */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); }
-        .modal-content { background: white; margin: 10% auto; padding: 20px; width: 350px; border-radius: 8px; text-align: center; }
-        
-        /* Popup kết quả (Rộng hơn) */
-        #resultModal .modal-content { width: 90%; max-width: 1000px; margin: 5% auto; }
-        .result-scroll { max-height: 400px; overflow: auto; margin-top: 15px; border: 1px solid #eee; }
-
-        .btn-submit { padding: 8px 20px; background: #1a73e8; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-close-result { padding: 10px 25px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 15px; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Trình Quản Lý Dữ Liệu QC</h2>
+    <div class="container">
+        <h2>Trình Quản Lý Dữ Liệu QC</h2>
 
-    <div class="filter-grid">
-        <div class="box">
-            <label>📁 CHỌN FILE</label>
-            <input type="file" id="file-input" accept=".xlsx, .xls, .csv" />
+        <div class="filter-grid">
+            <div class="box">
+                <label>📁 CHỌN FILE</label>
+                <input type="file" id="file-input" accept=".xlsx, .xls, .csv" />
+            </div>
+            <div class="box">
+                <label>👥 TEAM</label>
+                <div id="team-list" class="scroll-list"></div>
+            </div>
+            <div class="box">
+                <label>👤 USER</label>
+                <div id="user-list" class="scroll-list"></div>
+            </div>
+            <div class="box">
+                <label>📍 CHẤM</label>
+                <div id="cham-list" class="scroll-list"></div>
+            </div>
+            <div class="box">
+                <label>✅ QC SP</label>
+                <div id="qc-list" class="scroll-list"></div>
+            </div>
         </div>
-        <div class="box">
-            <label>👥 TEAM</label>
-            <div id="team-list" class="scroll-list"></div>
-        </div>
-        <div class="box">
-            <label>👤 USER</label>
-            <div id="user-list" class="scroll-list"></div>
-        </div>
-        <div class="box">
-            <label>📍 CHẤM</label>
-            <div id="cham-list" class="scroll-list"></div>
-        </div>
-        <div class="box">
-            <label>✅ QC SP</label>
-            <div id="qc-list" class="scroll-list"></div>
-        </div>
-    </div>
 
-    <div class="info-bar">
-        <span id="stat">Vui lòng chọn file...</span>
-        <div class="btn-group">
-            <button class="btn-select" onclick="openModal()">Chọn</button>
-            <button class="btn-reset" onclick="resetAll()">Xóa lọc</button>
+        <div class="info-bar">
+            <span id="stat">Vui lòng chọn file...</span>
+            <div class="btn-group">
+                <button class="btn-select" onclick="openModal()">Chọn</button>
+                <button class="btn-reset" onclick="resetAll()">Xóa lọc</button>
+            </div>
         </div>
-    </div>
 
-    <div class="table-area">
-        <table id="data-table">
-            <thead id="h-node"></thead>
-            <tbody id="b-node"></tbody>
-        </table>
-    </div>
-</div>
-
-<div id="qcModal" class="modal">
-    <div class="modal-content">
-        <h3>Chọn User QC</h3>
-        <select id="qc-user-select" style="width: 100%; padding: 10px; margin-bottom: 15px;"></select>
-        <button class="btn-submit" onclick="submitQC()">Xác nhận & Lưu</button>
-        <button onclick="closeModal('qcModal')" style="margin-top:10px; background:none; border:none; color:grey; cursor:pointer; display:block; width:100%;">Hủy bỏ</button>
-    </div>
-</div>
-
-<div id="resultModal" class="modal">
-    <div class="modal-content">
-        <h3 style="color: #28a745;">Dữ liệu vừa cập nhật</h3>
-        <div class="result-scroll">
-            <table id="result-table">
-                <thead id="rh-node"></thead>
-                <tbody id="rb-node"></tbody>
+        <div class="table-area">
+            <table id="data-table">
+                <thead id="h-node"></thead>
+                <tbody id="b-node"></tbody>
             </table>
         </div>
-        <button class="btn-close-result" onclick="closeModal('resultModal')">Đóng Popup</button>
     </div>
-</div>
 
-<script>
-    let db = [];
-    let cols = [];
-    let sel = { Team: new Set(), USER: new Set(), "Chấm": new Set(), "QC SP": new Set() };
-    let originalFileName = "Data_QC.xlsx";
-    
-    const listQC = ["QC_Anh_Tuan", "QC_Bao_Ngoc", "QC_Minh_Hoang", "QC_Thanh_Truc"];
+    <div id="qcModal" class="modal">
+        <div class="modal-content">
+            <h3>Chọn User QC</h3>
+            <select id="qc-user-select" style="width: 100%; padding: 10px; margin-bottom: 15px;"></select>
+            <button class="btn-submit" onclick="submitQC()">Xác nhận & Lưu</button>
+            <button onclick="closeModal('qcModal')"
+                style="margin-top:10px; background:none; border:none; color:grey; cursor:pointer; display:block; width:100%;">Hủy
+                bỏ</button>
+        </div>
+    </div>
 
-    document.getElementById('file-input').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if(!file) return;
-        originalFileName = file.name;
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #28a745;">Dữ liệu vừa cập nhật</h3>
+            <div class="result-scroll">
+                <table id="result-table">
+                    <thead id="rh-node"></thead>
+                    <tbody id="rb-node"></tbody>
+                </table>
+            </div>
+            <div class="btn-group-popup">
+                <button class="btn-open-tool" onclick="openTool()">Open Tool</button>
+                <button class="btn-close-result" onclick="closeModal('resultModal')">Đóng Popup</button>
+            </div>
+        </div>
+    </div>
 
-        const rd = new FileReader();
-        rd.onload = function(ex) {
-            const data = new Uint8Array(ex.target.result);
-            const wb = XLSX.read(data, {type: 'array', cellDates: true}); 
-            const ws = wb.Sheets[wb.SheetNames[0]];
-            db = XLSX.utils.sheet_to_json(ws, {defval: ""});
-            
-            if(db.length > 0) {
-                cols = Object.keys(db[0]);
-                db.forEach(row => {
-                    for (let key in row) {
-                        if (row[key] instanceof Date) {
-                            const d = row[key];
-                            row[key] = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+    <script>
+        let db = [];
+        let cols = [];
+        let sel = { Team: new Set(), USER: new Set(), "Chấm": new Set(), "QC SP": new Set() };
+        let originalFileName = "Data_QC.xlsx";
+
+        const listQC = ["em.ha", "diem.nguyen", "van.nguyen", "huong.pham.13", "thanh.nguyen.95", "anh.nguyen.111", "phuoc.vo.2", "diem.dang"];
+
+        document.getElementById('file-input').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            originalFileName = file.name;
+
+            const rd = new FileReader();
+            rd.onload = function (ex) {
+                const data = new Uint8Array(ex.target.result);
+                const wb = XLSX.read(data, { type: 'array', cellDates: true });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                db = XLSX.utils.sheet_to_json(ws, { defval: "" });
+
+                if (db.length > 0) {
+                    cols = Object.keys(db[0]);
+                    db.forEach(row => {
+                        for (let key in row) {
+                            if (row[key] instanceof Date) {
+                                const d = row[key];
+                                row[key] = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+                            }
                         }
-                    }
-                });
-                resetAll(); 
-                sel["QC SP"].add("0"); 
-                refresh();
-            }
-        };
-        rd.readAsArrayBuffer(file);
-    });
-
-    function refresh() {
-        updateList('team-list', 'Team', ['USER', 'Chấm', 'QC SP']);
-        updateList('user-list', 'USER', ['Team', 'Chấm', 'QC SP']);
-        updateList('cham-list', 'Chấm', ['Team', 'USER', 'QC SP']);
-        updateList('qc-list', 'QC SP', ['Team', 'USER', 'Chấm']);
-        showTable();
-    }
-
-    function updateList(id, target, others) {
-        const avail = [...new Set(db.filter(row => {
-            return others.every(key => sel[key].size === 0 || sel[key].has(String(row[key])));
-        }).map(row => String(row[target])))].sort();
-
-        const dom = document.getElementById(id);
-        dom.innerHTML = avail.map(v => `
-            <label class="item">
-                <input type="checkbox" ${sel[target].has(v)?'checked':''} onchange="toggle('${target}','${v}')"> ${v===""?"(Trống)":v}
-            </label>
-        `).join('');
-    }
-
-    function toggle(key, val) {
-        sel[key].has(val) ? sel[key].delete(val) : sel[key].add(val);
-        refresh();
-    }
-
-    function showTable() {
-        const filtered = db.filter(row => {
-            return Object.keys(sel).every(key => sel[key].size === 0 || sel[key].has(String(row[key])));
+                    });
+                    resetAll();
+                    sel["QC SP"].add("0");
+                    refresh();
+                }
+            };
+            rd.readAsArrayBuffer(file);
         });
 
-        document.getElementById('stat').innerText = `Kết quả: ${filtered.length} dòng`;
-        document.getElementById('h-node').innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
-        document.getElementById('b-node').innerHTML = filtered.map(row => `
+        function refresh() {
+            updateList('team-list', 'Team', ['USER', 'Chấm', 'QC SP']);
+            updateList('user-list', 'USER', ['Team', 'Chấm', 'QC SP']);
+            updateList('cham-list', 'Chấm', ['Team', 'USER', 'QC SP']);
+            updateList('qc-list', 'QC SP', ['Team', 'USER', 'Chấm']);
+            showTable();
+        }
+
+        function updateList(id, target, others) {
+            const avail = [...new Set(db.filter(row => {
+                return others.every(key => sel[key].size === 0 || sel[key].has(String(row[key])));
+            }).map(row => String(row[target])))].sort();
+
+            const dom = document.getElementById(id);
+            dom.innerHTML = avail.map(v => `
+            <label class="item">
+                <input type="checkbox" ${sel[target].has(v) ? 'checked' : ''} onchange="toggle('${target}','${v}')"> ${v === "" ? "(Trống)" : v}
+            </label>
+        `).join('');
+        }
+
+        function toggle(key, val) {
+            sel[key].has(val) ? sel[key].delete(val) : sel[key].add(val);
+            refresh();
+        }
+
+        function showTable() {
+            const filtered = db.filter(row => {
+                return Object.keys(sel).every(key => sel[key].size === 0 || sel[key].has(String(row[key])));
+            });
+
+            document.getElementById('stat').innerText = `Kết quả: ${filtered.length} dòng`;
+            document.getElementById('h-node').innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
+            document.getElementById('b-node').innerHTML = filtered.map(row => `
             <tr>${cols.map(c => {
                 const isZero = (row[c] === 0 || row[c] === "0" || row[c] === "");
                 const cls = (c === 'QC SP' && !isZero) ? 'class="bad-qc"' : '';
                 return `<td ${cls}>${isZero ? "0" : row[c]}</td>`;
             }).join('')}</tr>
         `).join('');
-    }
-
-    function resetAll() {
-        Object.keys(sel).forEach(key => sel[key].clear());
-        refresh();
-    }
-
-    function openModal() {
-        const select = document.getElementById('qc-user-select');
-        select.innerHTML = listQC.map(user => `<option value="${user}">${user}</option>`).join('');
-        document.getElementById('qcModal').style.display = 'block';
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
-    }
-
-    function submitQC() {
-        const selectedUser = document.getElementById('qc-user-select').value;
-        const currentFiltered = db.filter(row => {
-            return Object.keys(sel).every(key => sel[key].size === 0 || sel[key].has(String(row[key])));
-        });
-
-        let updatedCount = 0;
-        currentFiltered.forEach(row => {
-            if (String(row["QC SP"]) === "0" || row["QC SP"] === 0 || row["QC SP"] === "") {
-                row["QC SP"] = selectedUser;
-                updatedCount++;
-            }
-        });
-
-        if (updatedCount > 0) {
-            sel["QC SP"].add(selectedUser);
-            
-            // 1. Hiển thị Popup kết quả
-            showResultPopup(currentFiltered);
-
-            // 2. Lưu file full
-            saveFullFile();
-            
-            closeModal('qcModal');
-            refresh(); 
-        } else {
-            alert("Không tìm thấy dòng giá trị '0' để cập nhật.");
         }
-    }
 
-    function showResultPopup(data) {
-        document.getElementById('rh-node').innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
-        document.getElementById('rb-node').innerHTML = data.map(row => `
+        function resetAll() {
+            Object.keys(sel).forEach(key => sel[key].clear());
+            refresh();
+        }
+
+        function openModal() {
+            const select = document.getElementById('qc-user-select');
+            select.innerHTML = listQC.map(user => `<option value="${user}">${user}</option>`).join('');
+            document.getElementById('qcModal').style.display = 'block';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function submitQC() {
+            const selectedUser = document.getElementById('qc-user-select').value;
+            const currentFiltered = db.filter(row => {
+                return Object.keys(sel).every(key => sel[key].size === 0 || sel[key].has(String(row[key])));
+            });
+
+            let updatedCount = 0;
+            currentFiltered.forEach(row => {
+                if (String(row["QC SP"]) === "0" || row["QC SP"] === 0 || row["QC SP"] === "") {
+                    row["QC SP"] = selectedUser;
+                    updatedCount++;
+                }
+            });
+
+            if (updatedCount > 0) {
+                sel["QC SP"].add(selectedUser);
+
+                // 1. Hiển thị Popup kết quả
+                showResultPopup(currentFiltered);
+
+                // 2. Lưu file full
+                saveFullFile();
+
+                closeModal('qcModal');
+                refresh();
+            } else {
+                alert("Không tìm thấy dòng giá trị '0' để cập nhật.");
+            }
+        }
+
+        function showResultPopup(data) {
+            document.getElementById('rh-node').innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
+            document.getElementById('rb-node').innerHTML = data.map(row => `
             <tr>${cols.map(c => `<td>${row[c] || "0"}</td>`).join('')}</tr>
         `).join('');
-        document.getElementById('resultModal').style.display = 'block';
-    }
-
-    function saveFullFile() {
-        const ws = XLSX.utils.json_to_sheet(db);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Updated_Data");
-        XLSX.writeFile(wb, "Updated_" + originalFileName);
-    }
-
-    window.onclick = function(event) {
-        if (event.target.className === 'modal') {
-            event.target.style.display = 'none';
+            document.getElementById('resultModal').style.display = 'block';
         }
-    }
-</script>
+
+        function saveFullFile() {
+            const ws = XLSX.utils.json_to_sheet(db);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Updated_Data");
+            XLSX.writeFile(wb, "Updated_" + originalFileName);
+        }
+
+        function openTool() {
+            // Lấy dữ liệu hiện tại trong popup (currentFiltered đã được lưu)
+            const currentFiltered = db.filter(row => {
+                return Object.keys(sel).every(key => sel[key].size === 0 || sel[key].has(String(row[key])));
+            });
+
+            // Lưu dữ liệu vào sessionStorage để truyền sang trang mới
+            sessionStorage.setItem('toolcheckData', JSON.stringify(currentFiltered));
+            sessionStorage.setItem('toolcheckCols', JSON.stringify(cols));
+
+            // Mở trang toolcheck.html trong tab mới
+            window.open('toolcheck.html', '_blank');
+        }
+
+        window.onclick = function (event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
 
 </body>
+
 </html>
