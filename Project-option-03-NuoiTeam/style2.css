@@ -1739,3 +1739,243 @@ body.resizing {
 body.resizing * {
   cursor: col-resize !important;
 }
+/* ====================EMPTY STATE STYLES ==================== */
+
+.empty-state-container {
+  padding: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.empty-state-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.empty-state-icon {
+  font-size: 60px;
+  margin-bottom: 15px;
+  opacity: 0.4;
+}
+
+.empty-state-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin: 10px 0;
+}
+
+.empty-state-breadcrumb {
+  font-size: 14px;
+  color: #666;
+  padding: 8px 16px;
+  background: #f0f4ff;
+  border-radius: 20px;
+  display: inline-block;
+  border: 1px solid #e0e7ff;
+}
+
+.tree-visualization {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 30px 0;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.tree-visualization h3 {
+  margin: 0 0 20px 0;
+  color: #667eea;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.css-tree {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.tree-node {
+  position: relative;
+  padding-left: 40px;
+  margin: 8px 0;
+}
+
+.tree-node:before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 50%;
+  width: 0;
+  border-left: 2px solid #ddd;
+}
+
+.tree-node:after {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  width: 20px;
+  height: 0;
+  border-top: 2px solid #ddd;
+}
+
+.tree-node:last-child:before {
+  bottom: 50%;
+}
+
+.tree-root > .tree-node:before,
+.tree-root > .tree-node:after {
+  display: none;
+}
+
+.tree-node-content {
+  display: inline-block;
+  padding: 8px 12px;
+  background: #f0f4ff;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.tree-node-content:hover {
+  background: #667eea;
+  color: white;
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.tree-node-content.current-node {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.tree-node-icon {
+  margin-right: 6px;
+}
+
+.children-grid {
+  margin-top: 30px;
+}
+
+.children-grid h3 {
+  color: #667eea;
+  font-size: 18px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.children-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.child-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.child-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.child-card:hover {
+  border-color: #667eea;
+  background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.25);
+}
+
+.child-card:hover::before {
+  transform: scaleY(1);
+}
+
+.child-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.child-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.child-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.child-meta {
+  font-size: 11px;
+  color: #999;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.child-badge {
+  background: #667eea;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.empty-state-hint {
+  text-align: center;
+  margin-top: 30px;
+  padding: 16px;
+  background: #fff8e1;
+  border: 1px solid #ffd54f;
+  border-radius: 8px;
+  color: #f57c00;
+  font-size: 14px;
+}
+
+.no-children-message {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-style: italic;
+}

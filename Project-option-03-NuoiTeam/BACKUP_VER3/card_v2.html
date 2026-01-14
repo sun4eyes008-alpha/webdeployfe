@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -136,7 +136,8 @@
 
   <!-- Main Content -->
   <main id="main-content">
-    <!-- Condition Panel (above XMTT) -->
+    <!-- Sub Header -->
+    <!-- Condition Panel (separate from sub-header) -->
     <div id="dieukien-panel" class="dieukien-panel hidden">
       <div class="dieukien-box" id="dieukien-box">
         <button class="expand-btn" data-target="dieukien-box">⤢</button>
@@ -147,27 +148,45 @@
     </div>
 
     <!-- Sub Header -->
-    <div id="sub-header">
-      <!-- XMTT IB Box -->
-      <div class="sub-header-box xmtt-ib-box" id="xmtt-ib-box">
-        <button class="expand-btn" data-target="xmtt-ib-box">⤢</button>
-        <div class="column-header">
-          <h5>XÁC MINH THÔNG TIN INBOUND</h5>
+    <div id="sub-header" class="resizable">
+      <!-- Row chứa 3 box XMTT có thể resize -->
+      <div class="xmtt-row" id="xmtt-row">
+        <!-- XMTT IB Box -->
+        <div class="sub-header-box xmtt-ib-box" id="xmtt-ib-box">
+          <button class="expand-btn" data-target="xmtt-ib-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN INBOUND</h5>
+          </div>
+          <div id="xmtt-ib-content" class="box-content">
+            <p>...</p>
+          </div>
         </div>
-        <div id="xmtt-ib-content" class="box-content">
-          <p>...</p>
+        <!-- Resize Handle 1 -->
+        <div class="resize-handle" data-resize="1"></div>
+        <!-- XMTT CHAT Box -->
+        <div class="sub-header-box xmtt-chat-box" id="xmtt-chat-box">
+          <button class="expand-btn" data-target="xmtt-chat-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN CHAT</h5>
+          </div>
+          <div id="xmtt-chat-content" class="box-content">
+            <p>...</p>
+          </div>
+        </div>
+        <!-- Resize Handle 2 -->
+        <div class="resize-handle" data-resize="2"></div>
+        <!-- XMTT EMAIL Box -->
+        <div class="sub-header-box xmtt-email-box" id="xmtt-email-box">
+          <button class="expand-btn" data-target="xmtt-email-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN EMAIL</h5>
+          </div>
+          <div id="xmtt-email-content" class="box-content">
+            <p>...</p>
+          </div>
         </div>
       </div>
-      <!-- XMTT ECOM Box -->
-      <div class="sub-header-box xmtt-ecom-box" id="xmtt-ecom-box">
-        <button class="expand-btn" data-target="xmtt-ecom-box">⤢</button>
-        <div class="column-header">
-          <h5>XÁC MINH THÔNG TIN ECOM</h5>
-        </div>
-        <div id="xmtt-ecom-content" class="box-content">
-          <p>...</p>
-        </div>
-      </div>
+      <!-- Notes Box -->
       <div class="sub-header-box" id="notes-box">
         <button class="expand-btn" data-target="notes-box">⤢</button>
         <div id="notes-result" class="box-content">
@@ -179,6 +198,8 @@
     <!-- Body Content (PDF Viewer) -->
     <div id="body-proper">
       <iframe id="pdf-viewer" src="" style="width: 100%; height: 100%; border: none"></iframe>
+      <div id="html-viewer"
+        style="width: 100%; height: 100%; overflow: auto; display: none; padding: 20px; background: white;"></div>
     </div>
   </main>
 
@@ -209,7 +230,7 @@
     const XMTT_1 = `1. Không cần XMTT`;
     const XMTT_2 = `2. CMND/CCCD`;
     const XMTT_3 = `3. CCCD/CMND/SHD`;
-    const XMTT_4 = `4. Đúng SĐT + CMNaaaaaaaaaaaD/CCCD + 1A`;
+    const XMTT_4 = `4. Đúng SĐT + CMND/CCCD + 1A`;
     const XMTT_5 = `5. Đúng SĐT + CMND + Sai 1A`;
     const XMTT_6 = `6. Đúng SĐT + CMND + 1A + 1B`;
     const XMTT_7 = `7. Đúng SĐT update + CMND + 2A + 1B`;
@@ -271,14 +292,14 @@
           "pdf": "",
           "note": "",
           "xmttib": "",
-          "xmttecom": ""
+          "xmttemail": ""
         },
         "Hủy Hồ Sơ Mở Thẻ": {
           "displayName": "Hủy Hồ Sơ Mở Thẻ",
           "pdf": "",
           "note": "",
           "xmttib": "",
-          "xmttecom": ""
+          "xmttemail": ""
         }
       },
       "3. ĐĂNG KÝ VAY": {
@@ -410,31 +431,50 @@
       const popupCloseBtn = document.getElementById("popup-close-btn");
       const sidebar = document.getElementById("sidebar");
 
+      // ====================================================================
+      // PHẦN 1: HẰNG SỐ VÀ TRẠNG THÁI (CONSTANTS & STATE)
+      // ====================================================================
+
+      // Bản đồ thư mục PDF - ánh xạ số danh mục với tên thư mục chứa file PDF
       const FOLDER_MAPS = {
         truyvan: { 1: "THONG_TIN_CHUNG", 2: "THONG_TIN_SAN_PHAM", 3: "DANG_KY_VAY", 4: "GIAI_NGAN", 5: "KENH_THANH_TOAN", 6: "THANH_TOAN_CIC" },
         feedback: { 1: "GOP_Y_TICH_CUC", 2: "GOP_Y_TIEU_CUC" }
       };
+
+      // Nhãn cho từng cấp dropdown - tuỳ chỉnh tên hiển thị theo nguồn dữ liệu
       const LEVEL_LABELS = {
         truyvan: { 1: "Chọn vấn đề:", 2: "Chọn chi tiết:", 3: "Chọn loại HĐ:", 4: "Chọn kênh:", 5: "Chọn loại đầu vào:" },
         feedback: { 1: "Chọn loại góp ý:", 2: "Chọn chi tiết:" }
       };
 
+      // Đối tượng trạng thái toàn cục của ứng dụng
       const state = {
-        activeData: null,
-        flattenedData: [],
-        activeSourceName: null, // Start with no active source
-        isTabActive: false, // Track if tab is active or inactive
+        activeData: null,           // Dữ liệu flowchart đang hoạt động
+        flattenedData: [],          // Dữ liệu đã làm phẳng cho tìm kiếm
+        activeSourceName: null,     // Tên nguồn dữ liệu đang chọn (truyvan/feedback)
+        isTabActive: false,         // Tab có đang active không
       };
 
+      // Các nguồn dữ liệu flowchart - có thể thêm nguồn mới ở đây
       const dataSources = {
         truyvan: window.flowchartData,
         feedback: window.flowchartDataFeedback,
       };
 
+      // ====================================================================
+      // PHẦN 2: HÀM TIỆN ÍCH (UTILITY FUNCTIONS)  
+      // ====================================================================
+
+      // Kiểm tra giá trị có phải là object không
       const isObject = (value) => typeof value === "object" && value !== null;
+
+      // Kiểm tra node có phải là leaf node (node cuối cùng, có content) không
       const isLeaf = (node) => isObject(node) && node.pdf !== undefined;
+
+      // Loại bỏ dấu tiếng Việt để tìm kiếm không phân biệt dấu
       const removeAccents = (str) => str ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D") : "";
 
+      // Làm phẳng dữ liệu flowchart thành mảng 1 chiều để hỗ trợ tìm kiếm nhanh
       function flattenFlowchart(node, path = [], breadcrumb = []) {
         Object.keys(node).forEach((key) => {
           const newPath = [...path, key];
@@ -488,6 +528,11 @@
         updateLoanLinkWithState();
       }
 
+      // ====================================================================
+      // PHẦN 3: KHỞi TẠO ỨNG DỤNG (INITIALIZATION)
+      // ====================================================================
+
+      // Hàm khởi tạo chính - được gọi khi trang load xong
       function initialize() {
         setupEventListeners();
 
@@ -548,9 +593,14 @@
         }
       }
 
+      // ====================================================================
+      // PHẦN 4: QUẢN LÝ TRẠNG THÁI URL (URL STATE MANAGEMENT)
+      // ====================================================================
+
+      // Lưu trạng thái đường dẫn vào URL (nén bằng LZ-String)
       function saveStateToURL(path) {
         const jsonPath = JSON.stringify(path);
-        // Use LZ-String compression for much shorter URLs (50-70% reduction)
+        // Sử dụng LZ-String để nén dữ liệu (giảm 50-70% độ dài URL)
         const compressed = LZString.compressToEncodedURIComponent(jsonPath);
         history.pushState({ path, source: state.activeSourceName }, "", `${window.location.pathname}?source=${state.activeSourceName}&s=${compressed}`);
         // Also save to sessionStorage as a backup with page-specific key
@@ -563,6 +613,21 @@
         const urlParams = new URLSearchParams(window.location.search);
         const compressed = urlParams.get('s');
         const sourceParam = urlParams.get('source');
+        const headerPdf = urlParams.get('pdf');
+
+        // Check for header PDF parameter first
+        if (headerPdf) {
+          // Switch to correct source if provided
+          if (sourceParam && dataSources[sourceParam]) {
+            switchDataSource(sourceParam, true);
+          }
+          // Display the header PDF
+          resetResults();
+          removeDropdowns(1);
+          createFirstLevelDropdown();
+          pdfViewer.src = `./pdf-header/${decodeURIComponent(headerPdf)}`;
+          return true;
+        }
 
         if (compressed) {
           try {
@@ -610,6 +675,11 @@
         }
       }
 
+      // ====================================================================
+      // PHẦN 5: TÌM KIẼM (SEARCH FUNCTIONALITY)
+      // ====================================================================
+
+      // Tìm kiếm trong dữ liệu đã làm phẳng
       function searchFlowchartData(query) {
         if (!query) return [];
         const normalizedQuery = removeAccents(query.toLowerCase());
@@ -650,10 +720,25 @@
           }
           const level = index + 1;
           createDropdown(Object.keys(currentDataNode), level, currentDataNode);
+
+          // Update hidden select
           const select = dynamicFiltersContainer.querySelector(`select[data-level="${level}"]`);
           if (select) {
             select.value = key;
           }
+
+          // Update custom dropdown visual state
+          const customDropdown = dynamicFiltersContainer.querySelector(`.custom-dropdown[data-level="${level}"]`);
+          if (customDropdown) {
+            const dropdownText = customDropdown.querySelector('.dropdown-text');
+            if (dropdownText) dropdownText.textContent = key;
+            const items = customDropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => {
+              item.classList.remove('selected');
+              if (item.dataset.value === key) item.classList.add('selected');
+            });
+          }
+
           // Update currentDataNode AFTER setting the value
           // This ensures the next iteration uses the correct parent
           currentDataNode = currentDataNode[key];
@@ -667,31 +752,112 @@
         headerSearch.blur();
       }
 
+      // ====================================================================
+      // PHẦN 6: DROPDOWN (Xử LÝ DROPDOWN LỰA CHỌN)
+      // ====================================================================
+
+      // Tạo dropdown cấp 1 (cấp gốc)
       function createFirstLevelDropdown() {
         dynamicFiltersContainer.innerHTML = "";
         createDropdown(Object.keys(state.activeData), 1, state.activeData);
       }
 
-      function createDropdown(options, level, dataNode) {
+      // Tạo dropdown cho bất kỳ cấp nào
+      function createDropdown(options, level, dataNode, parentNode = null) {
         const filterGroup = document.createElement("div");
         filterGroup.className = "filter-group";
         const label = document.createElement("label");
         label.className = "filter-label";
-        label.textContent = (LEVEL_LABELS[state.activeSourceName] && LEVEL_LABELS[state.activeSourceName][level]) || `Cấp ${level}:`;
+
+        // Check if parent node (the selected node) has tieudeflow field
+        let labelText = (LEVEL_LABELS[state.activeSourceName] && LEVEL_LABELS[state.activeSourceName][level]) || `Cấp ${level}:`;
+        if (parentNode && parentNode.tieudeflow) {
+          labelText = parentNode.tieudeflow;
+        }
+
+        label.textContent = labelText;
         filterGroup.appendChild(label);
 
-        const select = document.createElement("select");
-        select.className = "filter-select";
-        select.dataset.level = level;
-        select.innerHTML = '<option value="">-- Chọn --</option>';
+        // Create custom dropdown instead of native select
+        const customDropdown = document.createElement("div");
+        customDropdown.className = "custom-dropdown";
+        customDropdown.dataset.level = level;
+
+        // Hidden select for form compatibility and state
+        const hiddenSelect = document.createElement("select");
+        hiddenSelect.className = "filter-select";
+        hiddenSelect.dataset.level = level;
+        hiddenSelect.style.display = "none";
+        hiddenSelect.innerHTML = '<option value="">-- Chọn --</option>';
         options.forEach(text => {
           const option = document.createElement("option");
           option.value = text;
           option.textContent = text;
-          select.appendChild(option);
+          hiddenSelect.appendChild(option);
         });
-        select.addEventListener("change", (e) => handleSelection(e, level, dataNode));
-        filterGroup.appendChild(select);
+
+        // Dropdown header (selected value display)
+        const dropdownHeader = document.createElement("div");
+        dropdownHeader.className = "dropdown-header";
+        dropdownHeader.innerHTML = '<span class="dropdown-text">-- Chọn --</span><span class="dropdown-arrow">▼</span>';
+
+        // Dropdown options list
+        const dropdownList = document.createElement("ul");
+        dropdownList.className = "dropdown-list";
+
+        // Default option
+        const defaultLi = document.createElement("li");
+        defaultLi.className = "dropdown-item";
+        defaultLi.dataset.value = "";
+        defaultLi.textContent = "-- Chọn --";
+        dropdownList.appendChild(defaultLi);
+
+        // Add all options
+        options.forEach(text => {
+          const li = document.createElement("li");
+          li.className = "dropdown-item";
+          li.dataset.value = text;
+          li.textContent = text;
+          dropdownList.appendChild(li);
+        });
+
+        customDropdown.appendChild(hiddenSelect);
+        customDropdown.appendChild(dropdownHeader);
+        customDropdown.appendChild(dropdownList);
+
+        // Toggle dropdown on header click
+        dropdownHeader.addEventListener("click", (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.custom-dropdown.open').forEach(dd => {
+            if (dd !== customDropdown) dd.classList.remove('open');
+          });
+          customDropdown.classList.toggle("open");
+        });
+
+        // Handle option selection
+        dropdownList.addEventListener("click", (e) => {
+          if (e.target.classList.contains("dropdown-item")) {
+            const value = e.target.dataset.value;
+            const text = e.target.textContent;
+            dropdownHeader.querySelector('.dropdown-text').textContent = text;
+            customDropdown.classList.remove("open");
+            dropdownList.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('selected'));
+            e.target.classList.add('selected');
+            hiddenSelect.value = value;
+            const changeEvent = new Event("change", { bubbles: true });
+            hiddenSelect.dispatchEvent(changeEvent);
+          }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", (e) => {
+          if (!customDropdown.contains(e.target)) {
+            customDropdown.classList.remove("open");
+          }
+        });
+
+        hiddenSelect.addEventListener("change", (e) => handleSelection(e, level, dataNode));
+        filterGroup.appendChild(customDropdown);
         dynamicFiltersContainer.appendChild(filterGroup);
       }
 
@@ -737,22 +903,25 @@
         if (!popup.classList.contains("hidden")) {
           // Find which box is currently displayed in popup by checking content
           const xmttIbBox = document.getElementById("xmtt-ib-box");
-          const xmttEcomBox = document.getElementById("xmtt-ecom-box");
+          const xmttEmailBox = document.getElementById("xmtt-email-box");
+          const xmttChatBox = document.getElementById("xmtt-chat-box");
           const notesBox = document.getElementById("notes-box");
           const dieukienBox = document.getElementById("dieukien-box");
 
           // Determine which box content to clone based on what's in popup
-          // We'll detect by checking if popup has xmtt-ib-content, xmtt-ecom-content, notes-result, or dieukien-result
           const popupHasXmttIb = popupContent.querySelector("#xmtt-ib-content");
-          const popupHasXmttEcom = popupContent.querySelector("#xmtt-ecom-content");
+          const popupHasXmttEmail = popupContent.querySelector("#xmtt-email-content");
+          const popupHasXmttChat = popupContent.querySelector("#xmtt-chat-content");
           const popupHasNotes = popupContent.querySelector("#notes-result");
           const popupHasDieukien = popupContent.querySelector("#dieukien-result");
 
           let sourceBox = null;
           if (popupHasXmttIb) {
             sourceBox = xmttIbBox;
-          } else if (popupHasXmttEcom) {
-            sourceBox = xmttEcomBox;
+          } else if (popupHasXmttEmail) {
+            sourceBox = xmttEmailBox;
+          } else if (popupHasXmttChat) {
+            sourceBox = xmttChatBox;
           } else if (popupHasNotes) {
             sourceBox = notesBox;
           } else if (popupHasDieukien) {
@@ -771,21 +940,39 @@
         }
       }
 
+      // Xử lý khi người dùng chọn một mục từ dropdown
       function handleSelection(event, level, parentDataNode) {
         const selectedKey = event.target.value;
+
+        // Xóa các dropdown cấp thấp hơn khi chọn lại
         removeDropdowns(level + 1);
         resetResults();
+
+        // Nếu chọn "-- Chọn --" (giá trị rỗng), reset URL
         if (!selectedKey) {
           history.pushState({ source: state.activeSourceName }, "", `${window.location.pathname}?source=${state.activeSourceName}`);
           return;
         }
         const selectedNode = parentDataNode[selectedKey];
+
+        // ============================================
+        // XỬ LÝ ẨN/HIỆN SUB-HEADER
+        // Chỉ hiện các box khi node là leaf node có nội dung
+        // Nếu chỉ là branch node (có node con), giữ nguyên trạng thái ẩn từ resetResults
+        // Logic hiển thị chi tiết sẽ được xử lý trong displayResult()
+        // ============================================
+
+        // Kiểm tra và hiển thị nội dung
         if (isLeaf(selectedNode)) {
           displayResult(selectedNode);
-          const path = Array.from(document.querySelectorAll(".filter-select")).map(s => s.value).filter(Boolean);
-          saveStateToURL(path);
         } else if (isObject(selectedNode)) {
-          createDropdown(Object.keys(selectedNode), level + 1, selectedNode);
+          createDropdown(Object.keys(selectedNode), level + 1, selectedNode, selectedNode);
+        }
+
+        // Lưu trạng thái vào URL để có thể chia sẻ link
+        const path = Array.from(document.querySelectorAll(".filter-select")).map(s => s.value).filter(Boolean);
+        if (path.length > 0) {
+          saveStateToURL(path);
         }
       }
 
@@ -859,12 +1046,30 @@
         document.querySelector('.header-tabs').addEventListener('click', (e) => {
           if (e.target.classList.contains('pdf-link-btn')) {
             const pdfName = e.target.getAttribute('data-pdf');
+
             if (pdfName) {
+              // Reset dropdowns: keep level 1 but reset value, remove level 2+
+              const firstSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
+              if (firstSelect) {
+                firstSelect.value = ""; // Reset to "-- Chọn --"
+              }
+              removeDropdowns(2); // Remove level 2 and above
+
+              // Reset sub-header boxes content
+              const xmttIbContent = document.getElementById("xmtt-ib-content");
+              const xmttEmailContent = document.getElementById("xmtt-email-content");
+              const xmttChatContent = document.getElementById("xmtt-chat-content");
+              if (xmttIbContent) xmttIbContent.innerHTML = "";
+              if (xmttEmailContent) xmttEmailContent.innerHTML = "";
+              if (xmttChatContent) xmttChatContent.innerHTML = "";
+              notesResult.innerHTML = "";
+              const dieukienPanel = document.getElementById("dieukien-panel");
+              if (dieukienPanel) dieukienPanel.classList.add("hidden");
+
+              // Update PDF viewer
               pdfViewer.src = `./pdf-header/${pdfName}`;
-              // Reset other UI elements for clarity
-              resetResults();
-              removeDropdowns(1);
-              history.pushState({ source: state.activeSourceName }, "", `${window.location.pathname}?source=${state.activeSourceName}`);
+              // Save to URL with pdf parameter for bookmarking/sharing
+              history.pushState({ source: state.activeSourceName, headerPdf: pdfName }, "", `${window.location.pathname}?source=${state.activeSourceName}&pdf=${encodeURIComponent(pdfName)}`);
             }
           }
         });
@@ -888,15 +1093,65 @@
 
       function displayResult(resultObject) {
         const xmttIbContent = document.getElementById("xmtt-ib-content");
-        const xmttEcomContent = document.getElementById("xmtt-ecom-content");
-        xmttIbContent.innerHTML = resultObject.xmttib ? `<p>${resultObject.xmttib}</p>` : "<p>...</p>";
-        if (xmttEcomContent) xmttEcomContent.innerHTML = resultObject.xmttecom ? `<p>${resultObject.xmttecom}</p>` : "<p>...</p>";
-        if (resultObject.xmtt) {
-          xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
-          if (xmttEcomContent) xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
-        }
-        notesResult.innerHTML = resultObject.note ? `<p>${resultObject.note}</p>` : "<p>Không có lưu ý.</p>";
+        const xmttEmailContent = document.getElementById("xmtt-email-content");
+        const xmttChatContent = document.getElementById("xmtt-chat-content");
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttEmailBox = document.getElementById("xmtt-email-box");
+        const xmttChatBox = document.getElementById("xmtt-chat-box");
+        const notesBox = document.getElementById("notes-box");
+        const subHeader = document.getElementById("sub-header");
+        const xmttRow = document.getElementById("xmtt-row");
 
+        // Xử lý hiển thị XMTT theo logic mới
+        let hasXmttIb = false;
+        let hasXmttEmail = false;
+        let hasXmttChat = false;
+        let hasNotes = false;
+
+        // Nếu có xmtt chung thì áp dụng cho cả IB, Email, Chat
+        if (resultObject.xmtt && resultObject.xmtt.trim() !== "" && resultObject.xmtt !== "...") {
+          if (xmttIbContent) xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+          if (xmttEmailContent) xmttEmailContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+          if (xmttChatContent) xmttChatContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+          hasXmttIb = true;
+          hasXmttEmail = true;
+          hasXmttChat = true;
+        } else {
+          // Xử lý từng loại XMTT riêng
+          if (resultObject.xmttib && resultObject.xmttib.trim() !== "" && resultObject.xmttib !== "...") {
+            if (xmttIbContent) xmttIbContent.innerHTML = `<p>${resultObject.xmttib}</p>`;
+            hasXmttIb = true;
+          }
+          if (resultObject.xmttemail && resultObject.xmttemail.trim() !== "" && resultObject.xmttemail !== "...") {
+            if (xmttEmailContent) xmttEmailContent.innerHTML = `<p>${resultObject.xmttemail}</p>`;
+            hasXmttEmail = true;
+          }
+          if (resultObject.xmttchat && resultObject.xmttchat.trim() !== "" && resultObject.xmttchat !== "...") {
+            if (xmttChatContent) xmttChatContent.innerHTML = `<p>${resultObject.xmttchat}</p>`;
+            hasXmttChat = true;
+          }
+        }
+
+        // Xử lý Notes
+        if (resultObject.note && resultObject.note.trim() !== "" && resultObject.note !== "..." && resultObject.note.toLowerCase() !== "n/a") {
+          notesResult.innerHTML = `<p>${resultObject.note}</p>`;
+          hasNotes = true;
+        }
+
+        // Ẩn/hiện các box dựa trên có content hay không
+        if (xmttIbBox) xmttIbBox.style.display = hasXmttIb ? '' : 'none';
+        if (xmttEmailBox) xmttEmailBox.style.display = hasXmttEmail ? '' : 'none';
+        if (xmttChatBox) xmttChatBox.style.display = hasXmttChat ? '' : 'none';
+        if (notesBox) notesBox.style.display = hasNotes ? '' : 'none';
+
+        // Ẩn xmtt-row nếu không có box nào hiển thị
+        const hasAnyXmtt = hasXmttIb || hasXmttEmail || hasXmttChat;
+        if (xmttRow) xmttRow.style.display = hasAnyXmtt ? '' : 'none';
+
+        // Ẩn sub-header nếu không có box nào hiển thị
+        if (subHeader) subHeader.style.display = (hasAnyXmtt || hasNotes) ? '' : 'none';
+
+        // Xử lý PDF
         if (resultObject.pdf) {
           const firstLevelSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
           const categoryIndexMatch = firstLevelSelect?.value.match(/^(\d+)/);
@@ -914,11 +1169,37 @@
       }
 
       function resetResults() {
-        document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
-        const ecomContent = document.getElementById("xmtt-ecom-content");
-        if (ecomContent) ecomContent.innerHTML = "<p>...</p>";
-        notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
+        // Ẩn các box XMTT và Notes khi không có nội dung
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttEmailBox = document.getElementById("xmtt-email-box");
+        const xmttChatBox = document.getElementById("xmtt-chat-box");
+        const notesBox = document.getElementById("notes-box");
+        const subHeader = document.getElementById("sub-header");
+        const xmttRow = document.getElementById("xmtt-row");
+
+        // Ẩn tất cả các box
+        if (xmttIbBox) xmttIbBox.style.display = 'none';
+        if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+        if (xmttChatBox) xmttChatBox.style.display = 'none';
+        if (notesBox) notesBox.style.display = 'none';
+        if (xmttRow) xmttRow.style.display = 'none';
+
+        // Ẩn cả sub-header nếu không có nội dung
+        if (subHeader) subHeader.style.display = 'none';
+
+        // Reset nội dung
+        const xmttIbContent = document.getElementById("xmtt-ib-content");
+        const xmttEmailContent = document.getElementById("xmtt-email-content");
+        const xmttChatContent = document.getElementById("xmtt-chat-content");
+        if (xmttIbContent) xmttIbContent.innerHTML = "";
+        if (xmttEmailContent) xmttEmailContent.innerHTML = "";
+        if (xmttChatContent) xmttChatContent.innerHTML = "";
+        notesResult.innerHTML = "";
         pdfViewer.src = "";
+
+        // Ẩn panel điều kiện khi reset
+        const dieukienPanel = document.getElementById("dieukien-panel");
+        if (dieukienPanel) dieukienPanel.classList.add("hidden");
       }
 
       function removeDropdowns(startLevel) {
@@ -929,6 +1210,268 @@
       }
 
       initialize();
+    });
+  </script>
+  <!-- Initialize OverlayScrollbars for custom scrollbar -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const { OverlayScrollbars } = OverlayScrollbarsGlobal;
+
+      // Apply to body
+      OverlayScrollbars(document.body, {
+        scrollbars: {
+          theme: 'os-theme-dark',
+          autoHide: 'never',
+          visibility: 'visible'
+        }
+      });
+
+      // Apply to all box-content elements
+      document.querySelectorAll('.box-content, #dieukien-result').forEach(el => {
+        OverlayScrollbars(el, {
+          scrollbars: {
+            theme: 'os-theme-dark',
+            autoHide: 'never',
+            visibility: 'visible'
+          }
+        });
+      });
+    });
+  </script>
+
+  <!-- Resizable XMTT Boxes Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const xmttRow = document.getElementById('xmtt-row');
+      if (!xmttRow) return;
+
+      const boxes = xmttRow.querySelectorAll('.sub-header-box');
+      const handles = xmttRow.querySelectorAll('.resize-handle');
+
+      if (boxes.length !== 3 || handles.length !== 2) return;
+
+      let isResizing = false;
+      let currentHandle = null;
+      let startX = 0;
+      let startFlexValues = [];
+      let visibleBoxes = [];
+      let visibleHandles = [];
+      const minFlex = 0.15; // Minimum flex ratio (15%)
+      const handleWidth = 8; // Width of resize handle
+
+      // Get visible boxes (not display: none)
+      function getVisibleBoxes() {
+        return Array.from(boxes).filter(box => {
+          const style = window.getComputedStyle(box);
+          return style.display !== 'none';
+        });
+      }
+
+      // Get visible handles (handles between visible boxes)
+      function getVisibleHandles() {
+        const visible = [];
+        handles.forEach((handle, index) => {
+          const style = window.getComputedStyle(handle);
+          if (style.display !== 'none') {
+            visible.push({ handle, index });
+          }
+        });
+        return visible;
+      }
+
+      // Get flex values from visible boxes
+      function getFlexValues() {
+        return visibleBoxes.map(box => {
+          const flex = parseFloat(box.style.flexGrow) || 1;
+          return flex;
+        });
+      }
+
+      // Set flex values to visible boxes
+      function setFlexValues(values) {
+        const total = values.reduce((a, b) => a + b, 0);
+        visibleBoxes.forEach((box, i) => {
+          const normalizedFlex = values[i] / total;
+          box.style.flex = `${normalizedFlex} 1 0`;
+        });
+      }
+
+      // Initialize with equal flex for visible boxes
+      function initializeWidths() {
+        visibleBoxes = getVisibleBoxes();
+        if (visibleBoxes.length === 0) return;
+
+        const equalFlex = 1 / visibleBoxes.length;
+        visibleBoxes.forEach(box => {
+          box.style.flex = `${equalFlex} 1 0`;
+        });
+
+        // Update handle visibility after initializing widths
+        updateHandleVisibility();
+      }
+
+      // Update resize handle visibility based on visible boxes
+      function updateHandleVisibility() {
+        const prevVisibleCount = visibleBoxes.length;
+        visibleBoxes = getVisibleBoxes();
+        const currentVisibleCount = visibleBoxes.length;
+
+        // Add/remove class for single box styling
+        if (currentVisibleCount === 1) {
+          xmttRow.classList.add('single-box');
+        } else {
+          xmttRow.classList.remove('single-box');
+        }
+
+        // Only redistribute flex values if the number of visible boxes has changed
+        if (currentVisibleCount !== prevVisibleCount && currentVisibleCount > 0) {
+          const equalFlex = 1 / currentVisibleCount;
+          visibleBoxes.forEach(box => {
+            box.style.flex = `${equalFlex} 1 0`;
+          });
+        }
+
+        // If only 0 or 1 box visible, hide all handles
+        if (visibleBoxes.length < 2) {
+          handles.forEach(handle => {
+            handle.style.display = 'none';
+          });
+          return;
+        }
+
+        // Get indices of visible boxes in the original boxes array
+        const visibleIndices = [];
+        boxes.forEach((box, idx) => {
+          const style = window.getComputedStyle(box);
+          if (style.display !== 'none') {
+            visibleIndices.push(idx);
+          }
+        });
+
+        // Hide all handles first
+        handles.forEach(handle => {
+          handle.style.display = 'none';
+        });
+
+        // Show handles between consecutive visible boxes
+        for (let i = 0; i < visibleIndices.length - 1; i++) {
+          const leftBoxIndex = visibleIndices[i];
+          const rightBoxIndex = visibleIndices[i + 1];
+
+          if (leftBoxIndex === 0 && rightBoxIndex === 1) {
+            handles[0].style.display = '';
+          } else if (leftBoxIndex === 1 && rightBoxIndex === 2) {
+            handles[1].style.display = '';
+          } else if (leftBoxIndex === 0 && rightBoxIndex === 2) {
+            handles[1].style.display = '';
+          }
+        }
+      }
+
+      // Handle drag start
+      handles.forEach((handle, handleIndex) => {
+        handle.addEventListener('mousedown', function (e) {
+          // Update visible boxes and handles
+          visibleBoxes = getVisibleBoxes();
+          visibleHandles = getVisibleHandles();
+
+          if (visibleBoxes.length < 2) return; // Need at least 2 boxes to resize
+
+          // Find which visible handle index this is
+          const visibleHandleIndex = visibleHandles.findIndex(vh => vh.handle === handle);
+          if (visibleHandleIndex === -1) return; // Handle is not visible
+
+          isResizing = true;
+          currentHandle = visibleHandleIndex;
+          startX = e.clientX;
+
+          // Get current widths and convert to flex ratios (only for visible boxes)
+          const totalWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
+          startFlexValues = visibleBoxes.map(box => box.offsetWidth / totalWidth);
+
+          document.body.classList.add('resizing');
+          xmttRow.classList.add('resizing');
+          e.preventDefault();
+        });
+      });
+
+      // Handle drag
+      document.addEventListener('mousemove', function (e) {
+        if (!isResizing) return;
+
+        const containerWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
+        const deltaX = e.clientX - startX;
+        const deltaFlex = deltaX / containerWidth;
+
+        const leftBoxIndex = currentHandle;
+        const rightBoxIndex = currentHandle + 1;
+
+        // Boundary check for visible boxes
+        if (rightBoxIndex >= visibleBoxes.length) return;
+
+        // Calculate new flex values
+        let newLeftFlex = startFlexValues[leftBoxIndex] + deltaFlex;
+        let newRightFlex = startFlexValues[rightBoxIndex] - deltaFlex;
+
+        // Enforce minimum flex
+        if (newLeftFlex < minFlex) {
+          newLeftFlex = minFlex;
+          newRightFlex = startFlexValues[leftBoxIndex] + startFlexValues[rightBoxIndex] - minFlex;
+        }
+        if (newRightFlex < minFlex) {
+          newRightFlex = minFlex;
+          newLeftFlex = startFlexValues[leftBoxIndex] + startFlexValues[rightBoxIndex] - minFlex;
+        }
+
+        // Apply new flex values (only to the two affected visible boxes)
+        const newFlexValues = [...startFlexValues];
+        newFlexValues[leftBoxIndex] = newLeftFlex;
+        newFlexValues[rightBoxIndex] = newRightFlex;
+
+        setFlexValues(newFlexValues);
+      });
+
+      // Handle drag end
+      document.addEventListener('mouseup', function () {
+        if (isResizing) {
+          isResizing = false;
+          currentHandle = null;
+          document.body.classList.remove('resizing');
+          xmttRow.classList.remove('resizing');
+
+          // Save flex ratios to localStorage for persistence (all boxes)
+          const allFlexValues = Array.from(boxes).map(box => parseFloat(box.style.flexGrow) || 1);
+          localStorage.setItem('xmttBoxFlex', JSON.stringify(allFlexValues));
+        }
+      });
+
+      // Restore saved flex values or initialize
+      function restoreWidths() {
+        const savedFlex = localStorage.getItem('xmttBoxFlex');
+        if (savedFlex) {
+          try {
+            const flexValues = JSON.parse(savedFlex);
+            if (flexValues.length === boxes.length) {
+              const total = flexValues.reduce((a, b) => a + b, 0);
+              boxes.forEach((box, i) => {
+                const normalizedFlex = flexValues[i] / total;
+                box.style.flex = `${normalizedFlex} 1 0`;
+              });
+              updateHandleVisibility(); // Update after restoring
+              return;
+            }
+          } catch (e) {
+            console.warn('Could not restore XMTT box flex values');
+          }
+        }
+        initializeWidths();
+      }
+
+      // Initialize on load
+      restoreWidths();
+
+      // Expose updateHandleVisibility globally for use in displayResult
+      window.updateXmttHandleVisibility = updateHandleVisibility;
     });
   </script>
 </body>

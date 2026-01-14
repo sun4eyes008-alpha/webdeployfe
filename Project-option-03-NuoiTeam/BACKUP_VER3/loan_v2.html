@@ -44,7 +44,7 @@
               </svg>
               LOAN
             </a>
-            <a href="card_v2.html" class="dropdown-item">
+            <a href="card_v3.html" class="dropdown-item">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
@@ -52,14 +52,14 @@
               </svg>
               CARD
             </a>
-            <a href="outbound.html" class="dropdown-item">
+            <a href="outbound_v3.html" class="dropdown-item">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                   d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z" />
               </svg>
               OUTBOUND
             </a>
-            <a href="ubank_v2.html" class="dropdown-item">
+            <a href="ubank_v3.html" class="dropdown-item">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z" />
@@ -69,7 +69,7 @@
             </a>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-pdf="TIN TUC.pdf">TIN TỨC</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="khuyenmai.pdf">TIN TỨC</button>
         <div class="dropdown">
           <button class="tab-btn dropdown-toggle">QUY ĐỊNH CHUNG</button>
           <div class="dropdown-menu">
@@ -148,27 +148,45 @@
     </div>
 
     <!-- Sub Header -->
-    <div id="sub-header">
-      <!-- XMTT IB Box -->
-      <div class="sub-header-box xmtt-ib-box" id="xmtt-ib-box">
-        <button class="expand-btn" data-target="xmtt-ib-box">⤢</button>
-        <div class="column-header">
-          <h5>XÁC MINH THÔNG TIN INBOUND</h5>
+    <div id="sub-header" class="resizable">
+      <!-- Row chứa 3 box XMTT có thể resize -->
+      <div class="xmtt-row" id="xmtt-row">
+        <!-- XMTT IB Box -->
+        <div class="sub-header-box xmtt-ib-box" id="xmtt-ib-box">
+          <button class="expand-btn" data-target="xmtt-ib-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN INBOUND</h5>
+          </div>
+          <div id="xmtt-ib-content" class="box-content">
+            <p>...</p>
+          </div>
         </div>
-        <div id="xmtt-ib-content" class="box-content">
-          <p>...</p>
+        <!-- Resize Handle 1 -->
+        <div class="resize-handle" data-resize="1"></div>
+        <!-- XMTT CHAT Box -->
+        <div class="sub-header-box xmtt-chat-box" id="xmtt-chat-box">
+          <button class="expand-btn" data-target="xmtt-chat-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN CHAT</h5>
+          </div>
+          <div id="xmtt-chat-content" class="box-content">
+            <p>...</p>
+          </div>
+        </div>
+        <!-- Resize Handle 2 -->
+        <div class="resize-handle" data-resize="2"></div>
+        <!-- XMTT EMAIL Box -->
+        <div class="sub-header-box xmtt-email-box" id="xmtt-email-box">
+          <button class="expand-btn" data-target="xmtt-email-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN EMAIL</h5>
+          </div>
+          <div id="xmtt-email-content" class="box-content">
+            <p>...</p>
+          </div>
         </div>
       </div>
-      <!-- XMTT ECOM Box -->
-      <div class="sub-header-box xmtt-ecom-box" id="xmtt-ecom-box">
-        <button class="expand-btn" data-target="xmtt-ecom-box">⤢</button>
-        <div class="column-header">
-          <h5>XÁC MINH THÔNG TIN ECOM</h5>
-        </div>
-        <div id="xmtt-ecom-content" class="box-content">
-          <p>...</p>
-        </div>
-      </div>
+      <!-- Notes Box -->
       <div class="sub-header-box" id="notes-box">
         <button class="expand-btn" data-target="notes-box">⤢</button>
         <div id="notes-result" class="box-content">
@@ -199,11 +217,6 @@
   </div>
 
   <!-- FLOWCHART_DATA_START -->
-  <script>
-    // LZ-String compression library for shorter URLs
-    var LZString = function () { var r = String.fromCharCode, o = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", n = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$", e = {}; function t(r, o) { if (!e[r]) { e[r] = {}; for (var n = 0; n < r.length; n++)e[r][r.charAt(n)] = n } return e[r][o] } var i = { compressToBase64: function (r) { if (null == r) return ""; var n = i._compress(r, 6, function (r) { return o.charAt(r) }); switch (n.length % 4) { default: case 0: return n; case 1: return n + "==="; case 2: return n + "=="; case 3: return n + "=" } }, decompressFromBase64: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 32, function (n) { return t(o, r.charAt(n)) }) }, compressToUTF16: function (o) { return null == o ? "" : i._compress(o, 15, function (o) { return r(o + 32) }) + " " }, decompressFromUTF16: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 16384, function (o) { return r.charCodeAt(o) - 32 }) }, compressToUint8Array: function (r) { for (var o = i.compress(r), n = new Uint8Array(2 * o.length), e = 0, t = o.length; e < t; e++) { var s = o.charCodeAt(e); n[2 * e] = s >>> 8, n[2 * e + 1] = s % 256 } return n }, decompressFromUint8Array: function (o) { if (null == o) return i.decompress(o); for (var n = new Array(o.length / 2), e = 0, t = n.length; e < t; e++)n[e] = 256 * o[2 * e] + o[2 * e + 1]; var s = []; return n.forEach(function (o) { s.push(r(o)) }), i.decompress(s.join("")) }, compressToEncodedURIComponent: function (r) { return null == r ? "" : i._compress(r, 6, function (r) { return n.charAt(r) }) }, decompressFromEncodedURIComponent: function (r) { return null == r ? "" : "" == r ? null : (r = r.replace(/ /g, "+"), i._decompress(r.length, 32, function (o) { return t(n, r.charAt(o)) })) }, compress: function (o) { return i._compress(o, 16, function (o) { return r(o) }) }, _compress: function (r, o, n) { if (null == r) return ""; var e, t, i, s = {}, u = {}, a = "", p = "", c = "", l = 2, f = 3, h = 2, d = [], m = 0, v = 0; for (i = 0; i < r.length; i += 1)if (a = r.charAt(i), Object.prototype.hasOwnProperty.call(s, a) || (s[a] = f++, u[a] = !0), p = c + a, Object.prototype.hasOwnProperty.call(s, p)) c = p; else { if (Object.prototype.hasOwnProperty.call(u, c)) { if (c.charCodeAt(0) < 256) { for (e = 0; e < h; e++)m <<= 1, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++; for (t = c.charCodeAt(0), e = 0; e < 8; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } else { for (t = 1, e = 0; e < h; e++)m = m << 1 | t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t = 0; for (t = c.charCodeAt(0), e = 0; e < 16; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } 0 == --l && (l = Math.pow(2, h), h++), delete u[c] } else for (t = s[c], e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; 0 == --l && (l = Math.pow(2, h), h++), s[p] = f++, c = String(a) } if ("" !== c) { if (Object.prototype.hasOwnProperty.call(u, c)) { if (c.charCodeAt(0) < 256) { for (e = 0; e < h; e++)m <<= 1, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++; for (t = c.charCodeAt(0), e = 0; e < 8; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } else { for (t = 1, e = 0; e < h; e++)m = m << 1 | t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t = 0; for (t = c.charCodeAt(0), e = 0; e < 16; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } 0 == --l && (l = Math.pow(2, h), h++), delete u[c] } else for (t = s[c], e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; 0 == --l && (l = Math.pow(2, h), h++) } for (t = 2, e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; for (; ;) { if (m <<= 1, v == o - 1) { d.push(n(m)); break } v++ } return d.join("") }, decompress: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 32768, function (o) { return r.charCodeAt(o) }) }, _decompress: function (o, n, e) { var t, i, s, u, a, p, c, l = [], f = 4, h = 4, d = 3, m = "", v = [], g = { val: e(0), position: n, index: 1 }; for (t = 0; t < 3; t += 1)l[t] = t; for (s = 0, a = Math.pow(2, 2), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; switch (s) { case 0: for (s = 0, a = Math.pow(2, 8), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; c = r(s); break; case 1: for (s = 0, a = Math.pow(2, 16), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; c = r(s); break; case 2: return "" }for (l[3] = c, i = c, v.push(c); ;) { if (g.index > o) return ""; for (s = 0, a = Math.pow(2, d), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; switch (c = s) { case 0: for (s = 0, a = Math.pow(2, 8), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; l[h++] = r(s), c = h - 1, f--; break; case 1: for (s = 0, a = Math.pow(2, 16), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; l[h++] = r(s), c = h - 1, f--; break; case 2: return v.join("") }if (0 == f && (f = Math.pow(2, d), d++), l[c]) m = l[c]; else { if (c !== h) return null; m = i + i.charAt(0) } v.push(m), l[h++] = i + m.charAt(0), i = m, 0 == --f && (f = Math.pow(2, d), d++) } } }; return i }();
-  </script>
-
   <script>
     /**
      * GENERATED BY FLOWCHART EDITOR
@@ -241,9 +254,9 @@
   (nếu <strong>sai</strong> <strong style="color:red">1A</strong>, chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
 <br/>
   - <strong>Sai SĐT:</strong>
-
+<br>
     + Không còn HĐ nào active: <strong style="color:red">2A</strong>
-
+<br>
     + Còn HĐ active: <strong style="color:red">1A</strong> 
   (chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
 </td>`;
@@ -256,12 +269,12 @@
   - Chat: <strong>Post Login</strong>
 <br/>
   - Email/Chat không post login: 
-  <a href="file://deltavn.vn/Deltashare/DeptData/_CallCenter/CSPORTAL/Website/uat/UATWEBQC/pdfile/THANH_TOAN_CIC/PDF_HUONG_DAN_TRA_CUU.pdf" style="color:#0070c0; text-decoration:underline;">đây</a>
+  <a href="file://deltavn.vn/Deltashare/DeptData/_CallCenter/CSPORTAL/Website/uat/UATWEBQC/pdfile/THANH_TOAN_CIC/PDF_HUONG_DAN_TRA_CUU.pdf" style="color:#0070c0; text-decoration:underline;">xem tại đây</a>
 </td>
 `;
     const ECLTNSlide11 = `<td style="background-color:white; vertical-align:middle; line-height:1.4;">
   <strong style="color:red">Chat:</strong> <strong>Post login FEOL 2.0</strong>
-
+<br>
   <strong style="color:red">Email/Chat không post login:</strong> <strong>Không cần XMTT</strong>
 </td>`;
 
@@ -278,11 +291,11 @@
   • <strong style="color:red">HĐ bán nợ TOÀN PHẦN, CHỈ CUNG CẤP:</strong> số hợp đồng, thông tin chung công ty, kiểm tra tiền vào hệ thống 
   (ngoại trừ thông tin giao dịch bán nợ – 
   <a href="#" style="color:#0070c0; text-decoration:underline;">xem tại đây</a>)
-
+<br>
   • <strong style="color:red">KHÔNG CHỦ ĐỘNG</strong> cung cấp việc HĐ đã bán nợ; chỉ cung cấp nếu khách hàng hỏi.
-
+<br>
   • Sau thời điểm bán nợ, FE ngừng báo cáo tín dụng; lịch sử tín dụng cập nhật nhóm nợ cao nhất theo lịch sử thanh toán của KH.
-</td>`;
+</td> `;
 
 
     window.flowchartData = {
@@ -290,32 +303,16 @@
         "Thông Tin Công Ty": {
           "displayName": "Thông Tin Công Ty",
           "pdf": "Thông tin công ty.pdf",
-          "note": "Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>",
-          "xmttib": "Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>\n                   Các thông tin cơ bản về công ty.<br/>",
-          "dieukien": `Điều kiện: Không cần XMTT cho việc tra cứu thông tin chung về công ty.
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>
-                        Các thông tin cơ bản về công ty.<br/>`
+          "note": "asdadasd",
+          "xmttib": "asdasdasdasdsddadas",
+          "xmttemail": "asdasdasdasdsddadas",
+          "xmttchat": "asdasdasdasdsddadas",
+          "dieukien": "asdadasd"
         },
         "Hợp Tác Kinh Doanh": {
           "displayName": "Hợp Tác Kinh Doanh",
           "contentType": "htmlUrl",
-          "htmlContent": `<div class="modal" id="myModal">
-        <h2>Xin chào!</h2>
-        <p>Đây là hiệu ứng transition opacity, visibility và transform kết hợp với nhau.</p>
-        <button class="close-btn" onclick="toggleModal()">Đóng lại</button>
-    </div>`,
+          "htmlContent": "<div class=\"modal\" id=\"myModal\">\n        <h2>Xin chào!</h2>\n        <p>Đây là hiệu ứng transition opacity, visibility và transform kết hợp với nhau.</p>\n        <button class=\"close-btn\" onclick=\"toggleModal()\">Đóng lại</button>\n    </div>",
           "htmlUrl": "",
           "note": "Thông tin dành cho đối tác muốn hợp tác kinh doanh.",
           "xmttib": XMTT_1
@@ -424,56 +421,81 @@
         "Lịch Trả Nợ": {
           "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
             "displayName": "Lịch Trả Nợ HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy",
-            "pdf": "PDF_LICH_TRA_NO_FEC.pdf",
-            "note": LTNSlide4,
+            "pdf": "LICH_TRA_NO_FEC.pdf",
+            "note": LUUYLTNSlide4,
             "xmttib": LTNSlide4,
-            "xmttecom": LTNSlide4
+            "xmttemail": ECLTNSlide4,
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": ""
           },
           "HĐ Bán Nợ Toàn Phần Galaxy": {
             "displayName": "Lịch Trả Nợ HĐ Bán Nợ Toàn Phần Galaxy",
-            "pdf": "PDF_BAN_NO_TOAN_PHAN_GALAXY.pdf",
-            "note": LTNSlide4,
+            "pdf": "VĐTT_BAN_NO_TOAN_PHAN_GALAXY.pdf",
+            "note": LUUYLTNSlide11,
             "xmttib": LTNSlide4,
-            "xmttecom": LTNSlide4
+            "xmttemail": ECLTNSlide11,
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": ""
           },
           "HĐ Bán Nợ FC Sold_Azura": {
             "displayName": "Lịch Trả Nợ HĐ bán nợ FC Sold_Azura",
-            "pdf": "PDF_BAN_NO_FC_SOLD_AZURA.pdf",
-            "note": " •HĐ<span style=\"color:red\"><strong> bán nợ</strong></span> <span style=color:red\"></span><span style=\"color:red\"><strong> TOÀN PHẦN, CHỈ CUNG CẤP</strong></span>: số hợp đồng, các thông tin chung về công ty, kiểm tra tiền vào hệ thống chưa (<strong>ngoại</strong> <strong>trừ</strong>: thông tin giao dịch bán nợ- <u><span style=\"color:#0070c0\">xem</span></u><u><span style=\"color:#0070c0\">tại</span></u><u> </u><u><span style=\"color:#0070c0\">đây</span></u>)</br> •<span style=\"color:red\"><strong>KHÔNG CHỦ ĐỘNG</strong></span> cung cấp về việc HĐ đã bán nợ. Nếu KH hỏi, CS vẫn được cung cấp.</br> •Sau thời điểm bán nợ, FE đã ngừng báo cáo thông tin tín dụng. Lịch sử tín dụng của KH sẽ cập nhật nhóm nợ cao nhất, tương ứng với lịch sử thanh toán của KH.",
-            "xmttib": "<td style=\"background-color:white; vertical-align:middle\">\n<span style=\"color:red\"><strong>Đúng</strong></span><span style=\"color:red\"><strong>/ Sai SĐT: </strong></span><strong>1A</strong></td>",
-            "xmttecom": "<td style=\"background-color:white; vertical-align:middle\"><span style=\"color:red\"><strong>Chat: </strong></span><strong>Post login FEOL 2.0</strong> \n<br/>\n<span style=\"color:red\"><strong>Email/ Chat </strong></span><span style=\"color:red\"><strong>không</strong></span><span style=\"color:red\"><strong> post login</strong></span>: <strong>Không</strong> <strong>cần</strong><strong> XMTT</strong> \n</td>"
+            "pdf": "VĐTT_BAN_NO_FC_SOLD_AZURA.pdf",
+            "note": LTNSlide4,
+            "xmttib": LUUYLTNSlide11,
+            "xmttemail": ECLTNSlide11,
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": ""
           },
           "HĐ Bán Nợ Welcome Vina": {
             "displayName": "Lịch Trả Nợ HĐ Bán Nợ Welcome Vina",
-            "pdf": "PDF_BAN_NO_WELCOMEVINA.pdf",
-            "note": "<strong style=\"color:red\">HD bán nợ toàn phần:</strong> chỉ cung cấp số hợp đồng, thông tin chung công ty, kiểm tra tiền vào hệ thống (trừ thông tin giao dịch bán nợ – <a href=\"https://example.com\" style=\"color:#0070c0;\">xem tại đây</a>).\n<strong style=\"color:red\">KHÔNG CHỦ ĐỘNG</strong> thông báo việc HD đã bán nợ; chỉ cung cấp nếu khách hàng hỏi. Sau khi bán nợ, FE ngừng báo cáo tín dụng; lịch sử tín dụng cập nhật theo nhóm nợ cao nhất dựa trên lịch sử thanh toán của khách hàng.\n",
-            "xmttib": "<td style=\"background-color:white; vertical-align:middle\">\n<span style=\"color:red\"><strong>Đúng</strong></span><span style=\"color:red\"><strong>/ Sai SĐT: </strong></span><strong>1A</strong></td>",
-            "xmttecom": "<td style=\"background-color:white; vertical-align:middle\"><span style=\"color:red\"><strong>Chat: </strong></span><strong>Post login FEOL 2.0</strong> \n<br/>\n<span style=\"color:red\"><strong>Email/ Chat </strong></span><span style=\"color:red\"><strong>không</strong></span><span style=\"color:red\"><strong> post login</strong></span>: <strong>Không</strong> <strong>cần</strong><strong> XMTT</strong> \n</td>"
+            "pdf": "VĐTT_BAN_NO_WELCOMEVINA.pdf",
+            "note": LUUYLTNSlide11,
+            "xmttib": LTNSlide11,
+            "xmttemail": ECLTNSlide11,
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": ""
           },
           "HĐ CF/ HĐ FC Sold CF\t": {
             "displayName": "Lịch Trả Nợ HĐ bán nợ CF/ HĐ FC Sold CF",
-            "pdf": "PDF_CF_FC _SOLD_CF.pdf",
-            "note": " •HĐ <span style=\"color:red\"><strong>bán</strong></span> <span style=\"color:red\"><strong>nợ</strong></span><span style=\"color:red\"><strong> TOÀN PHẦN, CHỈ CUNG CẤP</strong></span>: số hợp đồng, các thông tin chung về công ty, kiểm tra tiền vào hệ thống chưa (<strong>ngoại</strong> <strong>trừ</strong>: thông tin giao dịch bán nợ- <u><span style=\"color:#0070c0\">xem</span></u><u> </u><u><span style=\"color:#0070c0\">tại</span></u><u> </u><u><span style=\"color:#0070c0\">đây</span></u>)\n •<span style=\"color:red\"><strong>KHÔNG CHỦ ĐỘNG</strong></span> cung cấp về việc HĐ đã bán nợ. Nếu KH hỏi, CS vẫn được cung cấp.\n •Sau thời điểm bán nợ, FE đã ngừng báo cáo thông tin tín dụng. Lịch sử tín dụng của KH sẽ cập nhật nhóm nợ cao nhất, tương ứng với lịch sử thanh toán của KH. ",
-            "xmttib": "<td style=\"background-color:white; vertical-align:middle\">\n<span style=\"color:red\"><strong>Đúng</strong></span><span style=\"color:red\"><strong>/ Sai SĐT: </strong></span><strong>1A</strong></td>",
-            "xmttecom": "<td style=\"background-color:white; vertical-align:middle\"><span style=\"color:red\"><strong>Chat: </strong></span><strong>Post login FEOL 2.0</strong> \n<br/>\n<span style=\"color:red\"><strong>Email/ Chat </strong></span><span style=\"color:red\"><strong>không</strong></span><span style=\"color:red\"><strong> post login</strong></span>: <strong>Không</strong> <strong>cần</strong><strong> XMTT</strong> \n</td>"
+            "pdf": "VĐTT_CF_FC_SOLD_CF.pdf",
+            "note": LUUYLTNSlide11,
+            "xmttib": LTNSlide11,
+            "xmttemail": ECLTNSlide11,
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "tieudeflow": "__VAR_REF____VAR_REF__"
           },
           "HĐ B2": {
             "displayName": "Lịch Trả HĐ B2",
-            "pdf": "PDF_B2.pdf",
+            "pdf": "VĐTT_B2.pdf",
             "note": " •HĐ được ký trước năm 2014 thuộc phạm vi quản lý chung của VPBank và FE\n •Không hiển thị tkhi search ại mục “sau giải ngân” trên Pega hoặc có hiển thị tại mục B2 Contracts\n •Danh sách hợp đồng <u><strong><a href=\"file://deltavn.vn/DeltaShare/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/DS%20HĐ%20B2.xlsx\">xem tại đây</a></strong></u> ",
-            "xmttib": "CMND/CCCD/SHĐ"
+            "xmttib": "CMND/CCCD/SHĐ",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": ""
           },
           "HĐ Cash 24": {
             "displayName": "Lịch Trả Nợ HĐ Cash 24",
-            "pdf": "PDF_CASH24.pdf",
+            "pdf": "VĐTT_CASH24.pdf",
             "note": " •<strong>Định nghĩa: </strong>Là hợp đồng được cấp bởi đối tác Ideal Tech (CASH24) thông qua nền tảng số\n •<strong>Dấu hiệu nhận biết: </strong>Không thể kiểm tra được trên Pega. Số HĐ gồm 8 số (ví dụ: 00-00-09-27). \n •<strong>KH muốn biết số HĐ: </strong>CS khai thác CMND/CCCD và cung cấp theo <u><span style=\"color:#0070c0\">danh sách</span></u> ",
-            "xmttib": "CMND/CCCD/SHĐ"
+            "xmttib": "CMND/CCCD/SHĐ",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": ""
           },
           "HĐ Kim An": {
             "displayName": "Lịch Trả Nợ Bán Nợ Welcome Vina",
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+            "pdf": "LTN_LSTT_KIM_AN.pdf",
             "note": " •Là hợp đồng được cấp bởi công ty đối tác Kim An\n •Dấu hiệu nhận biết: <strong>FC ROBO KIM AN</strong>\n •Đặc điểm: HĐ thu tiền theo ngày/ tuần và có nv tự liên hệ KH thu tiền ",
-            "xmttib": "CMND/CCCD/SHĐ"
+            "xmttib": "CMND/CCCD/SHĐ",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": ""
           }
         },
         "Lịch Sử Thanh Toán": {
@@ -524,7 +546,7 @@
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           }
         },
         "Thanh lý Hợp Đồng": {
@@ -575,7 +597,7 @@
             "pdf": "PDF_KIM_AN",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           }
         },
         "Thỏa Thuận Khoản Vay": {
@@ -761,7 +783,7 @@
           "pdf": "",
           "note": "",
           "xmttib": "",
-          "xmttecom": ""
+          "xmttemail": ""
         }
       },
       "8. MRC/ YÊU CẦU GIẤY TỜ": {
@@ -771,49 +793,49 @@
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Cash 24": {
             "displayName": "HĐ Cash 24",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Kim An": {
             "displayName": "HĐ Kim An",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Một Phần": {
             "displayName": "HĐ Bán Nợ Một Phần",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Galaxy": {
             "displayName": "HĐ Bán Nợ Galaxy",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ FC SOLD_AZURA": {
             "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ WELCOME VINA": {
             "displayName": "HĐ Bán Nợ WELCOME VINA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           }
         },
         "Giấy Giải Chấp": {
@@ -822,49 +844,49 @@
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Cash 24": {
             "displayName": "HĐ Cash 24",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Kim An": {
             "displayName": "HĐ Kim An",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Một Phần": {
             "displayName": "HĐ Bán Nợ Một Phần",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Galaxy": {
             "displayName": "HĐ Bán Nợ Galaxy",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ FC SOLD_AZURA": {
             "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ WELCOME VINA": {
             "displayName": "HĐ Bán Nợ WELCOME VINA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           }
         },
         "Lịch Thanh Toán": {
@@ -873,49 +895,49 @@
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Cash 24": {
             "displayName": "HĐ Cash 24",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Kim An": {
             "displayName": "HĐ Kim An",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Một Phần": {
             "displayName": "HĐ Bán Nợ Một Phần",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Galaxy": {
             "displayName": "HĐ Bán Nợ Galaxy",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ FC SOLD_AZURA": {
             "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ WELCOME VINA": {
             "displayName": "HĐ Bán Nợ WELCOME VINA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           }
         },
         "Lịch Sử Thanh Toán": {
@@ -924,49 +946,49 @@
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Cash 24": {
             "displayName": "HĐ Cash 24",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Kim An": {
             "displayName": "HĐ Kim An",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Một Phần": {
             "displayName": "HĐ Bán Nợ Một Phần",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Galaxy": {
             "displayName": "HĐ Bán Nợ Galaxy",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ FC SOLD_AZURA": {
             "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ WELCOME VINA": {
             "displayName": "HĐ Bán Nợ WELCOME VINA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           }
         },
         "Giấy Xác Nhận Thanh Lý": {
@@ -975,49 +997,49 @@
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Cash 24": {
             "displayName": "HĐ Cash 24",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Kim An": {
             "displayName": "HĐ Kim An",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Một Phần": {
             "displayName": "HĐ Bán Nợ Một Phần",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ Galaxy": {
             "displayName": "HĐ Bán Nợ Galaxy",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ FC SOLD_AZURA": {
             "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "HĐ Bán Nợ WELCOME VINA": {
             "displayName": "HĐ Bán Nợ WELCOME VINA",
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           }
         }
       },
@@ -1028,7 +1050,7 @@
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": "",
+            "xmttemail": "",
             "type": "leaf"
           },
           "Bảo Hiểm Banca": {
@@ -1036,7 +1058,7 @@
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": "",
+            "xmttemail": "",
             "type": "leaf"
           },
           "Bảo Hiểm Sức Khỏe": {
@@ -1044,7 +1066,7 @@
             "pdf": "",
             "note": "",
             "xmttib": "",
-            "xmttecom": "",
+            "xmttemail": "",
             "type": "leaf"
           }
         },
@@ -1066,25 +1088,10 @@
       "12. KẾT QUẢ XỬ LÝ YÊU CẦU": {},
       "13. TRA CỨU TỰ ĐỘNG": {
         "FE Online 2.0": {
-          "dieukien": `KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>
-                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>`,
+          "dieukien": "KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>",
           "note": "Lưu ý: App FE Online 2.0 hỗ trợ cả iOS và Android. KH cần cập nhật thường xuyên để có trải nghiệm tốt nhất.",
-          "xmttib": "Đúng SĐT: \u003cstrong\u003ePost Login FEOL 2.0\u003c/strong\u003e",
-          "xmttecom": "Chat: \u003cstrong\u003ePost Login FEOL 2.0\u003c/strong\u003e",
+          "xmttib": "Đúng SĐT: <strong>Post Login FEOL 2.0</strong>",
+          "xmttemail": "Chat: <strong>Post Login FEOL 2.0</strong>",
           "pdf": "PDF_BAN_NO_FC_SOLD_AZURA.pdf",
           "displayName": "dieu kien display name",
           "Tính Năng Chung": {
@@ -1093,14 +1100,14 @@
               "pdf": "dangkytaikhoanFEOL2.0.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Xác Thực NFC": {
               "displayName": "Tra Cứu Xác Thực NFC",
               "pdf": "xacthucNFC.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Đăng Ký Vay": {
               "Đăng Ký Mở Thẻ Tín Dụng": {
@@ -1108,28 +1115,28 @@
                 "pdf": "dangkymothetindung.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Đăng Ký Vay Thêm (Topup)": {
                 "displayName": "Tra Cứu Đăng Ký Vay Thêm (Topup)",
                 "pdf": "dangkyvaythem.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Đăng Ký Tiền Mặt Linh Hoạt": {
                 "displayName": "Tra Cứu Đăng Ký Tiền Mặt Linh Hoạt",
                 "pdf": "dangkytienmatlinhhoat.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Đăng Ký FE Paylater": {
                 "displayName": "Tra Cứu Đăng Ký FE Paylater",
                 "pdf": "dangkyFEPaylater.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               }
             },
             "Thanh Toán Qua Ubank": {
@@ -1137,56 +1144,56 @@
               "pdf": "thanhtoanquaUbank.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Quét Mã QR Thanh Toán Cho HĐ": {
               "displayName": "Tra Cứu Quét Mã QR Thanh Toán Cho HĐ",
               "pdf": "quetmaQRthanhtoanchoHD.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Kiểm Tra Giao Dịch KH Vừa Thanh Toán": {
               "displayName": "Tra Cứu Kiểm Tra Giao Dịch KH Vừa Thanh Toán",
               "pdf": "kiemtragiaodichvuathanhtoan.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Cập Nhật Email": {
               "displayName": "Tra Cứu Cập Nhật Email",
               "pdf": "capnhatemail.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Cập Nhật CCCD": {
               "displayName": "Tra Cứu Cập Nhật CCCD",
               "pdf": "capnhatCCCD.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Cập Nhật SĐT": {
               "displayName": "Tra Cứu Cập Nhật SĐT",
               "pdf": "capnhatSDT.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Trung Tâm Hỗ Trợ": {
               "displayName": "Tra Cứu Trung Tâm Hỗ Trợ",
               "pdf": "trungtamhotro.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Tra Cứu Kết Quả Xử Lý": {
               "displayName": "Tra Cứu Tra Cứu Kết Quả Xử Lý",
               "pdf": "tracuuketquaxuly.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             }
           },
           "Quản Lý Khoản Vay": {
@@ -1194,7 +1201,7 @@
             "pdf": "quanlykhoanvay.pdf",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "Quản Lý Thẻ Tín Dụng": {
             "Thông Tin Thẻ": {
@@ -1202,42 +1209,42 @@
               "pdf": "thongtinthe.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Trạng Thái Thẻ - Tình Trạng Giao Phát Thẻ": {
               "displayName": "Tra Cứu Trạng Thái Thẻ - Tình Trạng Giao Phát Thẻ",
               "pdf": "quanlythetindung.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Bản Scan HĐ": {
               "displayName": "Tra Cứu Bản Scan HĐ",
               "pdf": "quanlythetindung.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Thông Tin IPP": {
               "displayName": "Tra Cứu Thông Tin IPP",
               "pdf": "quanlythetindung.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lịch Sử Giao Dịch/Thanh Toán": {
               "displayName": "Tra Cứu Lịch Sử Giao Dịch/Thanh Toán",
               "pdf": "quanlythetindung.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Dư Nợ, Sao Kê": {
               "displayName": "Tra Cứu Dư Nợ, Sao Kê",
               "pdf": "quanlythetindung.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Nghiệp Vụ Thẻ": {
               "Kích Hoạt Thẻ": {
@@ -1245,63 +1252,63 @@
                 "pdf": "kichhoatthe.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Thay Đổi Mã Pin Thẻ ATM": {
                 "displayName": "Tra Cứu Thay Đổi Mã Pin Thẻ ATM",
                 "pdf": "quanlythetindung.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Chuyển Đổi Trả Góp (Retail)": {
                 "displayName": "Tra Cứu Chuyển Đổi Trả Góp (Retail)",
                 "pdf": "chuyendoitragop.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Tra Cứu/Đổi Điểm Thưởng": {
                 "displayName": "Tra Cứu Tra Cứu/Đổi Điểm Thưởng",
                 "pdf": "diemthuong.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Rút Tiền Mặt Từ Thẻ Tín Dụng": {
                 "displayName": "Tra Cứu Rút Tiền Mặt Từ Thẻ Tín Dụng",
                 "pdf": "ruttienmattuthe.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Thanh Toán Trực Tuyến/Thanh Toán Nước Ngoài/Cài Đặt Hạn Mức": {
                 "displayName": "Tra Cứu Thanh Toán Trực Tuyến/Thanh Toán Nước Ngoài/Cài Đặt Hạn Mức",
                 "pdf": "tinhnangthanhtoantructuyen.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "FLEXI BUY - Thanh Toán Linh Hoạt": {
                 "displayName": "Tra Cứu FLEXI BUY - Thanh Toán Linh Hoạt",
                 "pdf": "flexibuy.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Gia Hạn Thẻ": {
                 "displayName": "Tra Cứu Gia Hạn Thẻ",
                 "pdf": "giahanthe.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               },
               "Đóng/Mở Khóa A": {
                 "displayName": "Tra Cứu Đóng/Mở Khóa A",
                 "pdf": "quanlythetindung.pdf",
                 "note": "",
                 "xmttib": "",
-                "xmttecom": ""
+                "xmttemail": ""
               }
             }
           },
@@ -1311,35 +1318,35 @@
               "pdf": "quanlyfleximoney.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Xem Chi Tiết Hợp Đồng": {
               "displayName": "Tra Cứu Xem Chi Tiết Hợp Đồng",
               "pdf": "quanlyfleximoney.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lịch Sử Giao Dịch/Thanh Toán": {
               "displayName": "Tra Cứu Lịch Sử Giao Dịch/Thanh Toán",
               "pdf": "quanlyfleximoney.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Tải Bản Sao Kê": {
               "displayName": "Tra Cứu Tải Bản Sao Kê",
               "pdf": "taibansaoke.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Gia Hạn Thẻ": {
               "displayName": "Tra Cứu Gia Hạn Thẻ",
               "pdf": "giahanthefleximoney.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             }
           },
           "Quản Lý Tài Khoản Ubank": {
@@ -1347,7 +1354,7 @@
             "pdf": "quanlytaikhoanUbank.pdf",
             "note": "",
             "xmttib": "",
-            "xmttecom": ""
+            "xmttemail": ""
           },
           "Quản Lý FE Paylater": {
             "Đăng Ký Tài Khoản": {
@@ -1355,49 +1362,49 @@
               "pdf": "quanlyFEPaylater.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Thanh Toán Hóa Đơn Nước Tại Payoo": {
               "displayName": "Paylater: Thanh Toán Hóa Đơn Nước Tại Payoo",
               "pdf": "thanhtoanhoadon.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Thanh Toán Dư Nợ": {
               "displayName": "Paylater: Thanh Toán Dư Nợ",
               "pdf": "thanhtoanduno.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Kiểm Tra Sao Kê": {
               "displayName": "Paylater: Kiểm Tra Sao Kê",
               "pdf": "saokeFEPaylater.pdf",
               "note": "\n",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lịch Sử Giao Dịch": {
               "displayName": "Paylater: Lịch Sử Giao Dịch",
               "pdf": "lichsugiaodichFEPaylater.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Thông Tin IPP": {
               "displayName": "Thông Tin IPP",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Tính Năng Thanh Toán Linh Hoạt (Flexibuy)": {
               "displayName": "Paylater: Tính Năng Thanh Toán Linh Hoạt (Flexibuy)",
               "pdf": "tinhnangFlexibuy.pdf",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             }
           },
           "Lỗi Ứng Dụng": {
@@ -1406,77 +1413,77 @@
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lỗi Đăng Nhập/Không Liên Kết Tài Khoản Thanh Toán": {
               "displayName": "Lỗi Đăng Nhập/Không Liên Kết Tài Khoản Thanh Toán",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lỗi EKYC/Chụp Hình": {
               "displayName": "Lỗi EKYC/Chụp Hình",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lỗi xác thực NFC": {
               "displayName": "Lỗi xác thực NFC",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lỗi Không Hiển Thị Khoản Vay/Thẻ": {
               "displayName": "Lỗi Không Hiển Thị Khoản Vay/Thẻ",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lỗi Tính Năng Cập Nhật Thông Tin": {
               "displayName": "Lỗi Tính Năng Cập Nhật Thông Tin",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lỗi Bật/Tắt Tính Năng Thanh Toán Trực Tuyến": {
               "displayName": "Lỗi Bật/Tắt Tính Năng Thanh Toán Trực Tuyến",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lỗi Tính Năng TMN": {
               "displayName": "Lỗi Tính Năng TMN",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Yêu Cầu Mở Khóa Thiết Bị": {
               "displayName": "Yêu Cầu Mở Khóa Thiết Bị",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Lỗi Màn Hình Trắng/Văng Khỏi Ứng Dụng/Không Ổn Định": {
               "displayName": "Lỗi Màn Hình Trắng/Văng Khỏi Ứng Dụng/Không Ổn Định",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             },
             "Các Lỗi Khác": {
               "displayName": "Các Lỗi Khác",
               "pdf": "",
               "note": "",
               "xmttib": "",
-              "xmttecom": ""
+              "xmttemail": ""
             }
           }
         },
@@ -1567,7 +1574,11 @@
       const popupCloseBtn = document.getElementById("popup-close-btn");
       const sidebar = document.getElementById("sidebar");
 
-      // --- CONSTANTS AND STATE ---
+      // ====================================================================
+      // PHẦN 1: HẰNG SỐ VÀ TRẠNG THÁI (CONSTANTS & STATE)
+      // ====================================================================
+
+      // Bản đồ thư mục PDF - ánh xạ số danh mục với tên thư mục chứa file PDF
       const FOLDER_MAPS = {
         truyvan: {
           1: "1_THONG_TIN_CHUNG",
@@ -1589,13 +1600,14 @@
           2: "A2_KHIEU_NAI_NGHIEP_VU",
         },
       };
+      // Nhãn cho từng cấp dropdown - tuỳ chỉnh tên hiển thị theo nguồn dữ liệu
       const LEVEL_LABELS = {
         truyvan: {
-          1: "Chọn vấn đề:",
-          2: "Chọn chi tiết vấn đề:",
-          3: "Chọn loại HĐ:",
-          4: "Chọn kênh:",
-          5: "Chọn loại đầu vào:",
+          1: "CHỌN VẤN ĐỀ:",
+          2: "CHỌN CHI TIẾT VẤN ĐỀ:",
+          3: "CHỌN ĐIỀU KIỆN 1:",
+          4: "CHỌN ĐIỀU KIỆN 2:",
+          5: "CHỌN ĐIỀU KIỆN 3:",
         },
         feedback: {
           1: "Chọn loại góp ý:",
@@ -1603,21 +1615,43 @@
         },
       };
 
+      // ====================================================================
+      // CẤU HÌNH NỘI DUNG MẶC ĐỊNH KHI CHƯA CHỌN GÌ
+      // Đặt đường dẫn PDF hoặc HTML để hiển thị khi trang mới load
+      // ====================================================================
+      const DEFAULT_CONTENT = {
+        type: 'pdf',  // 'pdf' hoặc 'html'
+        // Đường dẫn đến file PDF mặc định (đặt trong thư mục pdf-header hoặc tuyệt đối)
+        pdf: './pdfile-default/loan.pdf',
+        // Hoặc nếu dùng HTML: htmlUrl: './welcome.html'
+      };
+
+      // Đối tượng trạng thái toàn cục của ứng dụng
       const state = {
-        activeData: null,
-        flattenedData: [],
-        activeSourceName: null, // Start with no active source
-        isTabActive: false, // Track if tab is active or inactive
+        activeData: null,           // Dữ liệu flowchart đang hoạt động
+        searchSelectedIndex: -1,    // Index của kết quả tìm kiếm đang chọn
+        flattenedData: [],          // Dữ liệu đã làm phẳng cho tìm kiếm
+        activeSourceName: null,     // Tên nguồn dữ liệu đang chọn (truyvan/feedback)
+        isTabActive: false,         // Tab có đang active không
       };
 
+      // Các nguồn dữ liệu flowchart - có thể thêm nguồn mới ở đây
       const dataSources = {
-        truyvan: window.flowchartData,
-        feedback: window.flowchartDataFeedback,
+        truyvan: window.flowchartData,       // Dữ liệu truy vấn chính
+        feedback: window.flowchartDataFeedback,  // Dữ liệu góp ý
       };
 
-      // --- UTILITY FUNCTIONS ---
+      // ====================================================================
+      // PHẦN 2: HÀM TIỆN ÍCH (UTILITY FUNCTIONS)  
+      // ====================================================================
+      // Kiểm tra giá trị có phải là object không
       const isObject = (value) => typeof value === "object" && value !== null;
+
+      // Kiểm tra node có phải là leaf node (node cuối cùng, có content) không
+      // Leaf node là node có ít nhất 1 trong các thuộc tính: pdf, contentType, htmlContent, htmlUrl
       const isLeaf = (node) => isObject(node) && (node.pdf !== undefined || node.contentType !== undefined || node.htmlContent !== undefined || node.htmlUrl !== undefined);
+
+      // Loại bỏ dấu tiếng Việt để tìm kiếm không phân biệt dấu
       const removeAccents = (str) => {
         if (!str) return "";
         return str
@@ -1627,6 +1661,8 @@
           .replace(/Đ/g, "D");
       };
 
+      // Làm phẳng dữ liệu flowchart thành mảng 1 chiều để hỗ trợ tìm kiếm nhanh
+      // Duyệt đệ quy qua tất cả các node và chỉ lấy leaf nodes
       function flattenFlowchart(node, path = [], breadcrumb = []) {
         Object.keys(node).forEach((key) => {
           const newPath = [...path, key];
@@ -1651,89 +1687,98 @@
         });
       }
 
+      // Chuyển đổi nguồn dữ liệu (ví dụ: từ 'truyvan' sang 'feedback')
+      // sourceName: tên nguồn dữ liệu
+      // shouldActivate: có kích hoạt tab không
       function switchDataSource(sourceName, shouldActivate = true) {
         if (!dataSources[sourceName]) {
           console.error(`Data source "${sourceName}" not found.`);
           return;
         }
 
+        // Cập nhật trạng thái
         state.activeSourceName = sourceName;
         state.activeData = dataSources[sourceName];
         state.isTabActive = shouldActivate;
 
 
+        // Cập nhật trạng thái visual của các tab button
         document.querySelectorAll(".sidebar-tab-btn").forEach((btn) => {
           const isCurrentSource = btn.dataset.source === sourceName;
           btn.classList.toggle("active", isCurrentSource);
 
-          // If not activating any tab, show ALL tabs as inactive with pulse icon
+          // Nếu không kích hoạt tab nào, hiển thị tất cả tab như inactive
           if (!shouldActivate) {
             btn.classList.add("inactive");
             if (isCurrentSource) {
               btn.classList.add("active"); // Keep active class for the default source
             }
           } else {
-            // When activating, remove inactive from all tabs
+            // Khi kích hoạt, bỏ class inactive khỏi tất cả tab
             btn.classList.remove("inactive");
           }
         });
 
-
+        // Làm phẳng dữ liệu mới cho tìm kiếm
         state.flattenedData = [];
         flattenFlowchart(state.activeData);
 
-        // Always create the first dropdown to allow immediate interaction
-        // Even when inactive, users should see the combobox to start selecting
+        // Luôn tạo dropdown cấp 1 để người dùng có thể tương tác ngay
         createFirstLevelDropdown();
 
-        resetResults();
+        // Reset kết quả hiển thị và hiện default content vì đây là reset hoàn toàn
+        resetResults(true);
 
-        // Don't add source to URL - keep it simple
+        // Cập nhật link điều hướng
         updateLoanLinkWithState();
       }
 
-      // --- INITIALIZATION ---
+      // ====================================================================
+      // PHẦN 3: KHỞi TẠO ỨNG DỤNG (INITIALIZATION)
+      // ====================================================================
+
+      // Hàm khởi tạo chính - được gọi khi trang load xong
       function initialize() {
         setupEventListeners();
 
-        // Check URL for source parameter first
+        // Kiểm tra tham số source trong URL
         const urlParams = new URLSearchParams(window.location.search);
         const sourceParam = urlParams.get('source');
         const initialSource = (sourceParam && dataSources[sourceParam]) ? sourceParam : 'truyvan';
         const compressed = urlParams.get('s');
 
-        // Clear session storage when PLTT navigation (no params) to prevent old state conflicts
+        // Xóa session storage khi điều hướng từ PLTT (không có tham số) để tránh xung đột state cũ
         if (!sourceParam && !compressed) {
           sessionStorage.removeItem('loanFlowchartState');
           sessionStorage.removeItem('loanSource');
         }
 
-        // Always activate the tab to show combobox
-        // If source in URL: activate that source
-        // If no source (PLTT navigation): activate truyvan with empty combobox
+        // Luôn kích hoạt tab để hiển thị combobox
+        // Nếu có source trong URL: kích hoạt source đó
+        // Nếu không có source (điều hướng từ PLTT): kích hoạt truyvan với combobox rỗng
         switchDataSource(initialSource, true);
 
-        // Try to restore selections from URL
+        // Thử khôi phục lựa chọn từ URL
         if (!restoreStateFromURL()) {
-          // Only restore from session if URL has compressed data (not just source param)
+          // Chỉ khôi phục từ session nếu URL có dữ liệu nén (không chỉ có tham số source)
           if (compressed) {
             restoreStateFromSession();
           }
         }
 
-        // SAFETY NET: Ensure combobox exists after all operations
+        // LƯỚI AN TOÀN: Đảm bảo combobox tồn tại sau tất cả các thao tác
         const hasDropdown = dynamicFiltersContainer.querySelector('select[data-level="1"]');
         if (!hasDropdown) {
-          console.warn('No dropdown detected after initialize, creating fallback combobox');
+          console.warn('Không tìm thấy dropdown sau khi khởi tạo, tạo combobox dự phòng');
           createFirstLevelDropdown();
         }
 
         updateLoanLinkWithState();
       }
 
-      // --- URL STATE MANAGEMENT ---
+      // Cập nhật link LOAN với state hiện tại
       function updateLoanLinkWithState() {
-        // Update the LOAN navigation link to preserve current state
+        // Cập nhật link điều hướng LOAN để giữ nguyên state hiện tại
         const loanLink = document.getElementById('loan-btn');
         if (loanLink) {
           const urlParams = new URLSearchParams(window.location.search);
@@ -1747,108 +1792,174 @@
         }
       }
 
+      // ====================================================================
+      // PHẦN 4: QUẢN LÝ TRẠNG THÁI URL (URL STATE MANAGEMENT)
+      // Lưu và khôi phục lựa chọn của người dùng thông qua URL
+      // ====================================================================
+
+      // Lưu trạng thái đường dẫn vào URL (nén bằng LZ-String)
       function saveStateToURL(path) {
         const jsonPath = JSON.stringify(path);
-        // Use LZ-String compression for much shorter URLs (50-70% reduction)
+        // Sử dụng LZ-String để nén dữ liệu (giảm 50-70% độ dài URL)
         const compressed = LZString.compressToEncodedURIComponent(jsonPath);
-        // Include source in URL so it can be restored correctly
+        // Thêm source vào URL để có thể khôi phục chính xác
         const newUrl = `${window.location.pathname}?source=${state.activeSourceName}&s=${compressed}`;
         history.pushState(
           { path: path, source: state.activeSourceName },
           "",
           newUrl
         );
-        // Also save to sessionStorage as a backup with page-specific key
+        // Đồng thời lưu vào sessionStorage làm backup với key riêng cho trang này
         sessionStorage.setItem('loanFlowchartState', jsonPath);
         sessionStorage.setItem('loanSource', state.activeSourceName);
-        // Update the LOAN link with current state
+        // Cập nhật link LOAN với state mới
         updateLoanLinkWithState();
       }
 
+      // Khôi phục trạng thái từ URL khi load trang
       function restoreStateFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
-        const compressed = urlParams.get('s');
-        const sourceParam = urlParams.get('source');
+        const compressed = urlParams.get('s');      // Dữ liệu đường dẫn đã nén
+        const sourceParam = urlParams.get('source'); // Nguồn dữ liệu
+        const headerPdf = urlParams.get('pdf');      // PDF từ header
+
+        // Kiểm tra nếu đang xem PDF từ header
+        if (headerPdf) {
+          // Chuyển đến nguồn dữ liệu đúng nếu có trong URL
+          if (sourceParam && dataSources[sourceParam]) {
+            switchDataSource(sourceParam, true);
+          }
+          // Hiển thị PDF từ header
+          resetResults();
+          removeDropdowns(1);
+          pdfViewer.src = `./pdf-header/${decodeURIComponent(headerPdf)}`;
+          pdfViewer.style.display = 'block';
+          return true;
+        }
 
         if (compressed) {
           try {
-            // Switch to correct source FIRST if provided in URL
+            // Chuyển đến nguồn dữ liệu đúng TRƯỚC nếu có trong URL
             if (sourceParam && dataSources[sourceParam]) {
               switchDataSource(sourceParam, true);
             }
 
-            // Decompress using LZ-String
+            // Giải nén bằng LZ-String
             const jsonPath = LZString.decompressFromEncodedURIComponent(compressed);
             const path = JSON.parse(jsonPath);
             if (Array.isArray(path)) {
               applySearchResult(path, false);
-              // Also save to session storage in case it came from a direct link with page-specific key
+              // Lưu vào session storage trong trường hợp truy cập từ link trực tiếp
               sessionStorage.setItem('loanFlowchartState', jsonPath);
-              // Save source to sessionStorage for other pages to use
+              // Lưu source vào sessionStorage để các trang khác sử dụng
               sessionStorage.setItem('loanSource', state.activeSourceName);
               updateLoanLinkWithState();
               return true; // Indicate success
             }
           } catch (e) {
-            console.error("Failed to parse compressed state from query parameter.", e);
-            return false; // Indicate failure
+            console.error("Không thể phân tích dữ liệu nén từ URL.", e);
+            return false; // Thất bại
           }
         }
-        return false; // No state found
+        return false; // Không tìm thấy state
       }
 
+      // Khôi phục trạng thái từ Session Storage (backup)
       function restoreStateFromSession() {
         const jsonPath = sessionStorage.getItem('loanFlowchartState');
         if (jsonPath) {
           try {
             const path = JSON.parse(jsonPath);
-            // Validate path is array AND has content
+            // Kiểm tra path là mảng VÀ có nội dung
             if (Array.isArray(path) && path.length > 0) {
-              console.log('Restoring state from session storage.');
+              console.log('Đang khôi phục state từ session storage.');
               applySearchResult(path, true);
             } else if (Array.isArray(path) && path.length === 0) {
-              console.warn('Empty path in session storage, skipping restore');
+              console.warn('Path rỗng trong session storage, bỏ qua khôi phục');
             }
           } catch (e) {
-            console.error('Failed to restore state from session storage, clearing corrupted data:', e);
-            // Clear corrupted data
+            console.error('Không thể khôi phục state từ session storage, xóa dữ liệu bị lỗi:', e);
+            // Xóa dữ liệu bị lỗi
             sessionStorage.removeItem('loanFlowchartState');
             sessionStorage.removeItem('loanSource');
           }
         }
       }
 
-      // --- SEARCH ---
+      // ====================================================================
+      // PHẦN 5: TÌM KIẼM (SEARCH FUNCTIONALITY)
+      // Tìm kiếm nhanh trong dữ liệu flowchart
+      // ====================================================================
+
+      // Tìm kiếm trong dữ liệu đã làm phẳng
+      // Hỗ trợ tìm theo nhiều từ khóa - tất cả từ phải có trong kết quả
       function searchFlowchartData(query) {
         if (!query) return [];
-        const normalizedQuery = removeAccents(query.toLowerCase());
-        return state.flattenedData.filter(
-          (item) =>
-            item.normalizedDisplayText.includes(normalizedQuery) ||
-            item.normalizedPdfName.includes(normalizedQuery)
-        );
+
+        // Tách query thành các từ riêng biệt và chuẩn hóa
+        const queryWords = removeAccents(query.toLowerCase())
+          .split(/\s+/)
+          .filter(word => word.length > 0);
+
+        if (queryWords.length === 0) return [];
+
+        // Lọc theo tên hiển thị hoặc tên file PDF
+        // Tất cả các từ trong query phải có trong kết quả
+        return state.flattenedData.filter((item) => {
+          const searchText = item.normalizedDisplayText + ' ' + item.normalizedPdfName;
+          return queryWords.every(word => searchText.includes(word));
+        });
       }
 
+      // Hiển thị kết quả tìm kiếm trong dropdown gợi ý
       function displaySearchResults(results) {
         searchResultsContainer.innerHTML = "";
+        state.searchSelectedIndex = -1; // Reset selected index
         if (results.length === 0) {
           searchResultsContainer.classList.remove("show");
           return;
         }
-        results.slice(0, 10).forEach((result) => {
+        results.slice(0, 10).forEach((result, index) => {
           const resultItem = document.createElement("div");
           resultItem.className = "search-result-item";
           resultItem.textContent = result.displayText;
           resultItem.dataset.path = JSON.stringify(result.path);
+          resultItem.dataset.index = index; // Store index for keyboard navigation
           searchResultsContainer.appendChild(resultItem);
         });
         searchResultsContainer.classList.add("show");
       }
 
+      // Cập nhật highlight cho kết quả tìm kiếm được chọn
+      function updateSearchHighlight() {
+        const items = searchResultsContainer.querySelectorAll('.search-result-item');
+        items.forEach((item, index) => {
+          if (index === state.searchSelectedIndex) {
+            item.classList.add('selected');
+            // Cuộn để hiển thị item được chọn
+            item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          } else {
+            item.classList.remove('selected');
+          }
+        });
+      }
+
+      // Chọn kết quả tìm kiếm hiện tại
+      function selectCurrentSearchResult() {
+        const items = searchResultsContainer.querySelectorAll('.search-result-item');
+        if (state.searchSelectedIndex >= 0 && state.searchSelectedIndex < items.length) {
+          const selectedItem = items[state.searchSelectedIndex];
+          if (selectedItem?.dataset.path) {
+            applySearchResult(JSON.parse(selectedItem.dataset.path));
+          }
+        }
+      }
+
+      // Áp dụng kết quả tìm kiếm - tạo các dropdown theo đường dẫn đã chọn
       function applySearchResult(path, shouldSaveState = true) {
-        // Guard: Don't remove dropdowns if path is empty
+        // Kiểm tra: không xóa dropdown nếu path rỗng
         if (!path || path.length === 0) {
-          console.warn('applySearchResult called with empty path, ignoring to preserve combobox');
+          console.warn('Đường dẫn rỗng, bỏ qua để giữ nguyên combobox');
           return;
         }
 
@@ -1862,12 +1973,35 @@
           const level = index + 1;
           const options = Object.keys(currentDataNode);
           createDropdown(options, level, currentDataNode);
+
+          // Update hidden select
           const select = dynamicFiltersContainer.querySelector(
             `select[data-level="${level}"]`
           );
           if (select) {
             select.value = key;
           }
+
+          // Update custom dropdown visual state
+          const customDropdown = dynamicFiltersContainer.querySelector(
+            `.custom-dropdown[data-level="${level}"]`
+          );
+          if (customDropdown) {
+            // Update header text
+            const dropdownText = customDropdown.querySelector('.dropdown-text');
+            if (dropdownText) {
+              dropdownText.textContent = key;
+            }
+            // Update selected state on items
+            const items = customDropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => {
+              item.classList.remove('selected');
+              if (item.dataset.value === key) {
+                item.classList.add('selected');
+              }
+            });
+          }
+
           // Update currentDataNode AFTER setting the value
           // This ensures the next iteration uses the correct parent
           currentDataNode = currentDataNode[key];
@@ -1882,42 +2016,148 @@
         headerSearch.blur();
       }
 
-      // --- DROPDOWNS ---
+      // ====================================================================
+      // PHẦN 6: DROPDOWN (Xử LÝ DROPDOWN LỰA CHỌN)
+      // Tạo và quản lý các dropdown theo cấp
+      // ====================================================================
+
+      // Tạo dropdown cấp 1 (cấp gốc)
       function createFirstLevelDropdown() {
         dynamicFiltersContainer.innerHTML = "";
         createDropdown(Object.keys(state.activeData), 1, state.activeData);
       }
 
-      function createDropdown(options, level, dataNode) {
+      // Tạo dropdown tại một cấp cụ thể
+      // options: danh sách các lựa chọn
+      // level: cấp dropdown (1, 2, 3...)
+      // dataNode: node dữ liệu hiện tại
+      // parentNode: node cha (để lấy tieudeflow nếu có)
+      function createDropdown(options, level, dataNode, parentNode = null) {
         const filterGroup = document.createElement("div");
         filterGroup.className = "filter-group";
         const label = document.createElement("label");
         label.className = "filter-label";
-        label.textContent =
-          LEVEL_LABELS[state.activeSourceName][level] || `Cấp ${level}:`;
+
+        // Kiểm tra nếu node cha có trường tieudeflow thì sử dụng làm nhãn
+        let labelText = LEVEL_LABELS[state.activeSourceName][level] || `Cấp ${level}:`;
+        if (parentNode && parentNode.tieudeflow) {
+          labelText = parentNode.tieudeflow;
+        }
+
+        console.log('createDropdown - level:', level, 'labelText:', labelText, 'parentNode:', parentNode);
+
+        label.textContent = labelText;
         filterGroup.appendChild(label);
 
-        const select = document.createElement("select");
-        select.className = "filter-select";
-        select.dataset.level = level;
-        select.innerHTML = '<option value="">-- Chọn --</option>';
+        // Tạo custom dropdown thay vì select native
+        const customDropdown = document.createElement("div");
+        customDropdown.className = "custom-dropdown";
+        customDropdown.dataset.level = level;
+
+        // Select ẩn để tương thích với form và quản lý state
+        const hiddenSelect = document.createElement("select");
+        hiddenSelect.className = "filter-select";
+        hiddenSelect.dataset.level = level;
+        hiddenSelect.style.display = "none";
+        hiddenSelect.innerHTML = '<option value="">-- Chọn --</option>';
         options.forEach((text) => {
           const option = document.createElement("option");
           option.value = text;
           option.textContent = text;
-          select.appendChild(option);
+          hiddenSelect.appendChild(option);
         });
-        select.addEventListener("change", (e) =>
+
+        // Header của dropdown (hiển thị giá trị đã chọn)
+        const dropdownHeader = document.createElement("div");
+        dropdownHeader.className = "dropdown-header";
+        dropdownHeader.innerHTML = '<span class="dropdown-text">-- Chọn --</span><span class="dropdown-arrow">▼</span>';
+
+        // Danh sách các lựa chọn
+        const dropdownList = document.createElement("ul");
+        dropdownList.className = "dropdown-list";
+
+        // Lựa chọn mặc định
+        const defaultLi = document.createElement("li");
+        defaultLi.className = "dropdown-item";
+        defaultLi.dataset.value = "";
+        defaultLi.textContent = "-- Chọn --";
+        dropdownList.appendChild(defaultLi);
+
+        // Thêm tất cả các lựa chọn
+        options.forEach((text) => {
+          const li = document.createElement("li");
+          li.className = "dropdown-item";
+          li.dataset.value = text;
+          li.textContent = text;
+          dropdownList.appendChild(li);
+        });
+
+        customDropdown.appendChild(hiddenSelect);
+        customDropdown.appendChild(dropdownHeader);
+        customDropdown.appendChild(dropdownList);
+
+        // Bật/tắt dropdown khi click vào header
+        dropdownHeader.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // Đóng các dropdown khác trước
+          document.querySelectorAll('.custom-dropdown.open').forEach(dd => {
+            if (dd !== customDropdown) dd.classList.remove('open');
+          });
+          customDropdown.classList.toggle("open");
+        });
+
+        // Xử lý khi chọn một lựa chọn
+        dropdownList.addEventListener("click", (e) => {
+          if (e.target.classList.contains("dropdown-item")) {
+            const value = e.target.dataset.value;
+            const text = e.target.textContent;
+
+            // Cập nhật giao diện
+            dropdownHeader.querySelector('.dropdown-text').textContent = text;
+            customDropdown.classList.remove("open");
+
+            // Cập nhật trạng thái selected
+            dropdownList.querySelectorAll('.dropdown-item').forEach(item => {
+              item.classList.remove('selected');
+            });
+            e.target.classList.add('selected');
+
+            // Cập nhật select ẩn
+            hiddenSelect.value = value;
+
+            // Kích hoạt sự kiện change
+            const changeEvent = new Event("change", { bubbles: true });
+            hiddenSelect.dispatchEvent(changeEvent);
+          }
+        });
+
+        // Đóng dropdown khi click ra ngoài
+        document.addEventListener("click", (e) => {
+          if (!customDropdown.contains(e.target)) {
+            customDropdown.classList.remove("open");
+          }
+        });
+
+        // Xử lý lựa chọn qua select ẩn
+        hiddenSelect.addEventListener("change", (e) =>
           handleSelection(e, level, dataNode)
         );
-        filterGroup.appendChild(select);
+
+        filterGroup.appendChild(customDropdown);
         dynamicFiltersContainer.appendChild(filterGroup);
       }
 
+      // Xử lý khi người dùng chọn một mục từ dropdown
+      // level: cấp dropdown hiện tại
+      // parentDataNode: node cha chứa các lựa chọn
       function handleSelection(event, level, parentDataNode) {
         const selectedKey = event.target.value;
+
+        // Xóa các dropdown cấp thấp hơn khi chọn lại
         removeDropdowns(level + 1);
         resetResults();
+
+        // Nếu chọn "-- Chọn --" (giá trị rỗng), reset URL
         if (!selectedKey) {
           history.pushState(
             { source: state.activeSourceName },
@@ -1928,7 +2168,17 @@
         }
         const selectedNode = parentDataNode[selectedKey];
 
-        // Step 1: Display any available content (works for both intermediate and leaf nodes)
+        // ============================================
+        // XỬ LÝ ẨN/HIỆN SUB-HEADER
+        // Chỉ hiện các box khi node là leaf node có nội dung
+        // Nếu chỉ là branch node (có node con), giữ nguyên trạng thái ẩn từ resetResults
+        // Logic hiển thị chi tiết sẽ được xử lý trong displayResult()
+        // ============================================
+
+        // ============================================
+        // KIỂM TRA VÀ HIỂN THỊ NỘI DUNG
+        // Kiểm tra xem node có chứa content không (pdf, note, xmtt...)
+        // ============================================
         const hasContent = isObject(selectedNode) && (
           selectedNode.pdf !== undefined ||
           selectedNode.contentType !== undefined ||
@@ -1936,57 +2186,79 @@
           selectedNode.htmlUrl !== undefined ||
           selectedNode.note !== undefined ||
           selectedNode.xmttib !== undefined ||
-          selectedNode.xmttecom !== undefined ||
+          selectedNode.xmttemail !== undefined ||
+          selectedNode.xmttchat !== undefined ||
           selectedNode.xmtt !== undefined ||
           selectedNode.dieukien !== undefined
         );
 
-        if (hasContent) {
-          // Display condition info
-          if (typeof selectedNode.dieukien === 'string') {
-            displayConditionInfo(selectedNode.dieukien);
-          }
-
-          // Display other content (PDF, XMTT, Notes, etc.)
-          displayResult(selectedNode);
+        // Hiển thị thông tin điều kiện nếu có
+        if (hasContent && typeof selectedNode.dieukien === 'string') {
+          displayConditionInfo(selectedNode.dieukien);
         }
 
-        // Step 2: Check if node has child nodes (non-content properties)
-        const contentKeys = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'note', 'xmttib', 'xmttecom', 'xmtt', 'dieukien', 'displayName', 'alert'];
+        // ============================================
+        // KIỂM TRA NODE CON
+        // Nếu node có node con (không phải content), tạo dropdown tiếp theo
+        // ============================================
+        // Danh sách các key là content (không phải node con)
+        const contentKeys = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'note', 'xmttib', 'xmttemail', 'xmttchat', 'xmtt', 'dieukien', 'displayName', 'alert', 'tieudeflow'];
+
+        // Lọc ra các key là node con (không nằm trong contentKeys)
         const childKeys = Object.keys(selectedNode).filter(key =>
           !contentKeys.includes(key) && isObject(selectedNode[key])
         );
 
-        // Step 3: Create dropdown if there are child nodes
+        // Nếu có node con, tạo dropdown cấp tiếp theo
         if (childKeys.length > 0) {
-          createDropdown(childKeys, level + 1, selectedNode);
-        } else if (hasContent) {
-          // True leaf node - save state
-          const path = Array.from(document.querySelectorAll(".filter-select"))
-            .map((s) => s.value)
-            .filter(Boolean);
-          saveStateToURL(path);
+          createDropdown(childKeys, level + 1, selectedNode, selectedNode);
         }
+
+        // Lưu trạng thái vào URL và build pathArray để có thể chia sẻ link
+        const path = Array.from(document.querySelectorAll(".filter-select"))
+          .map((s) => s.value)
+          .filter(Boolean);
+
+        if (path.length > 0) {
+          saveStateToURL(path);
+
+          // Check if this is a parent node without PDF/HTML content
+          const hasContentToDisplay = selectedNode.pdf || selectedNode.htmlUrl || selectedNode.htmlContent;
+
+          if (!hasContentToDisplay && childKeys.length > 0) {
+            // Empty - do nothing
+          } else if (typeof displayResult === 'function') {
+            // Has content or displayResult exists - use normal flow
+            displayResult(selectedNode, path);
+          }
+        }
+
       }
 
+      // Hiển thị thông tin điều kiện trong panel riêng
       function displayConditionInfo(conditionText) {
         const dieukienPanel = document.getElementById("dieukien-panel");
         const dieukienResult = document.getElementById("dieukien-result");
 
         if (conditionText) {
-          // Show panel and update content
+          // Hiển panel và cập nhật nội dung
           if (dieukienPanel) dieukienPanel.classList.remove("hidden");
           if (dieukienResult) dieukienResult.innerHTML = `\u003cp\u003e${conditionText}\u003c/p\u003e`;
         } else {
-          // Hide panel when no condition data
+          // Ẩn panel khi không có dữ liệu điều kiện
           if (dieukienPanel) dieukienPanel.classList.add("hidden");
           if (dieukienResult) dieukienResult.innerHTML = "\u003cp\u003eĐiều kiện sẽ hiển thị ở đây khi chọn\u003c/p\u003e";
         }
 
-        // Update popup if it's currently open
+        // Cập nhật popup nếu đang mở
         updatePopupIfOpen();
       }
 
+      // ====================================================================
+      // PHẦN 7: POPUP (Xử LÝ POPUP PHÓNG TO NỘI DUNG)
+      // ====================================================================
+
+      // Đặt lại vị trí popup khi cửa sổ thay đổi kích thước
       function repositionPopup() {
         if (popup.classList.contains("hidden")) {
           return;
@@ -2000,14 +2272,15 @@
         popup.style.top = mainHeaderHeight + "px";
         popup.style.left = sidebarWidth + leftOffset + "px";
         popup.style.width = `calc(100vw - ${sidebarWidth}px - ${totalHorizontalMargin}px)`;
-        // Let CSS control height (fit-content with max-height: 40vh)
+        // Để CSS điều khiển chiều cao (fit-content với max-height: 40vh)
       }
 
+      // Mở popup phóng to nội dung của một box
       function openPopup(targetBoxId) {
         const sourceBox = document.getElementById(targetBoxId);
         const sourceContent = sourceBox.querySelector(".box-content");
         if (!sourceBox || !sourceContent) {
-          console.error("Popup source elements not found!");
+          console.error("Không tìm thấy phần tử nguồn cho popup!");
           return;
         }
         popupContent.innerHTML = "";
@@ -2017,6 +2290,7 @@
         repositionPopup();
       }
 
+      // Đóng popup
       function closePopup() {
         popup.classList.add("hidden");
         setTimeout(() => {
@@ -2024,27 +2298,32 @@
         }, 300);
       }
 
+      // Cập nhật nội dung popup nếu đang mở (khi dữ liệu thay đổi)
       function updatePopupIfOpen() {
-        // Check if popup is currently open
+        // Kiểm tra popup có đang mở không
         if (!popup.classList.contains("hidden")) {
-          // Find which box is currently displayed in popup by checking content
+          // Tìm box nào đang được hiển thị trong popup
           const xmttIbBox = document.getElementById("xmtt-ib-box");
-          const xmttEcomBox = document.getElementById("xmtt-ecom-box");
+          const xmttEmailBox = document.getElementById("xmtt-email-box");
+          const xmttChatBox = document.getElementById("xmtt-chat-box");
           const notesBox = document.getElementById("notes-box");
           const dieukienBox = document.getElementById("dieukien-box");
 
-          // Determine which box content to clone based on what's in popup
-          // We'll detect by checking if popup has xmtt-ib-content, xmtt-ecom-content, notes-result, or dieukien-result
+          // Xác định nội dung box nào cần clone dựa trên nội dung popup
+          // Phát hiện bằng cách kiểm tra xmtt-ib-content, xmtt-email-content, xmtt-chat-content, notes-result, hoặc dieukien-result
           const popupHasXmttIb = popupContent.querySelector("#xmtt-ib-content");
-          const popupHasXmttEcom = popupContent.querySelector("#xmtt-ecom-content");
+          const popupHasXmttEmail = popupContent.querySelector("#xmtt-email-content");
+          const popupHasXmttChat = popupContent.querySelector("#xmtt-chat-content");
           const popupHasNotes = popupContent.querySelector("#notes-result");
           const popupHasDieukien = popupContent.querySelector("#dieukien-result");
 
           let sourceBox = null;
           if (popupHasXmttIb) {
             sourceBox = xmttIbBox;
-          } else if (popupHasXmttEcom) {
-            sourceBox = xmttEcomBox;
+          } else if (popupHasXmttEmail) {
+            sourceBox = xmttEmailBox;
+          } else if (popupHasXmttChat) {
+            sourceBox = xmttChatBox;
           } else if (popupHasNotes) {
             sourceBox = notesBox;
           } else if (popupHasDieukien) {
@@ -2054,7 +2333,7 @@
           if (sourceBox) {
             const sourceContent = sourceBox.querySelector(".box-content");
             if (sourceContent) {
-              // Clear and re-clone the updated content
+              // Xóa và clone lại nội dung đã cập nhật
               popupContent.innerHTML = "";
               const clonedContent = sourceContent.cloneNode(true);
               popupContent.appendChild(clonedContent);
@@ -2063,30 +2342,36 @@
         }
       }
 
+      // ====================================================================
+      // PHẦN 8: EVENT LISTENERS (THIẾT LẬP SỰ KIỆN)
+      // ====================================================================
+
+      // Thiết lập các event listener cho ứng dụng
       function setupEventListeners() {
+        // Xử lý khi click vào các tab trong sidebar
         document.getElementById('sidebar-tabs').addEventListener('click', (e) => {
           const source = e.target.dataset.source;
 
           if (e.target.matches('.sidebar-tab-btn')) {
-            // If clicking a different tab OR inactive tab
+            // Nếu click vào tab khác HOẶC tab không active
             if (source !== state.activeSourceName || !state.isTabActive) {
-              // Clear state BEFORE switching to prevent cross-contamination
+              // Xóa state TRƯỚC khi chuyển để tránh ô nhiễm chéo
               history.pushState(
                 { source: source },
                 "",
                 `${window.location.pathname}?source=${source}`
               );
               sessionStorage.removeItem('loanFlowchartState');
-              // Activate the tab and populate combobox
+              // Kích hoạt tab và hiện thị combobox
               switchDataSource(source, true);
             }
-            // If clicking the SAME active tab - reset to show first dropdown
+            // Nếu click vào tab đang active - reset về dropdown cấp 1
             else if (source === state.activeSourceName && state.isTabActive) {
-              // Reset selections and show first level dropdown
+              // Reset lựa chọn và hiển thị dropdown cấp 1
               removeDropdowns(1);
               createFirstLevelDropdown();
-              resetResults();
-              // Clear URL state
+              resetResults(true);
+              // Xóa state trong URL
               history.pushState(
                 { source: source },
                 "",
@@ -2109,17 +2394,59 @@
           if (e.target.value)
             displaySearchResults(searchFlowchartData(e.target.value));
         });
+
+        // Xử lý keyboard navigation cho search results
+        headerSearch.addEventListener("keydown", (e) => {
+          const items = searchResultsContainer.querySelectorAll('.search-result-item');
+          const isSearchOpen = searchResultsContainer.classList.contains('show');
+
+          if (!isSearchOpen || items.length === 0) return;
+
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            state.searchSelectedIndex = Math.min(state.searchSelectedIndex + 1, items.length - 1);
+            updateSearchHighlight();
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            state.searchSelectedIndex = Math.max(state.searchSelectedIndex - 1, -1);
+            updateSearchHighlight();
+          } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (state.searchSelectedIndex >= 0) {
+              selectCurrentSearchResult();
+            } else if (items.length > 0) {
+              // Nếu chưa chọn item nào, chọn item đầu tiên
+              state.searchSelectedIndex = 0;
+              selectCurrentSearchResult();
+            }
+          } else if (e.key === 'Escape') {
+            searchResultsContainer.classList.remove('show');
+            state.searchSelectedIndex = -1;
+          }
+        });
+
         searchResultsContainer.addEventListener("mousedown", (e) => {
           const item = e.target.closest(".search-result-item");
           if (item?.dataset.path)
             applySearchResult(JSON.parse(item.dataset.path));
         });
+
+        // Cập nhật highlight khi hover chuột
+        searchResultsContainer.addEventListener("mousemove", (e) => {
+          const item = e.target.closest(".search-result-item");
+          if (item && item.dataset.index !== undefined) {
+            state.searchSelectedIndex = parseInt(item.dataset.index);
+            updateSearchHighlight();
+          }
+        });
+
         document.addEventListener("click", (e) => {
           if (
             !headerSearch.contains(e.target) &&
             !searchResultsContainer.contains(e.target)
           ) {
             searchResultsContainer.classList.remove("show");
+            state.searchSelectedIndex = -1;
           }
         });
         window.addEventListener("popstate", () => restoreStateFromURL());
@@ -2137,17 +2464,36 @@
         document.querySelector('.header-tabs').addEventListener('click', (e) => {
           if (e.target.classList.contains('pdf-link-btn')) {
             const pdfName = e.target.getAttribute('data-pdf');
+
             if (pdfName) {
+              // Reset dropdown: giữ cấp 1 nhưng reset giá trị, xóa cấp 2 trở lên
+              const firstSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
+              if (firstSelect) {
+                firstSelect.value = ""; // Reset về "-- Chọn --"
+              }
+              removeDropdowns(2); // Xóa cấp 2 trở lên
+
+              // Reset nội dung các box trong sub-header
+              document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
+              const emailContent = document.getElementById("xmtt-email-content");
+              if (emailContent) emailContent.innerHTML = "<p>...</p>";
+              const chatContent = document.getElementById("xmtt-chat-content");
+              if (chatContent) chatContent.innerHTML = "<p>...</p>";
+              notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
+              const dieukienPanel = document.getElementById("dieukien-panel");
+              if (dieukienPanel) dieukienPanel.classList.add("hidden");
+
+              // Cập nhật PDF viewer
               pdfViewer.src = `./pdf-header/${pdfName}`;
-              // Reset other UI elements for clarity
-              resetResults();
-              removeDropdowns(1);
-              history.pushState({ source: state.activeSourceName }, "", `${window.location.pathname}?source=${state.activeSourceName}`);
+              pdfViewer.style.display = 'block';
+              htmlViewer.style.display = 'none';
+              // Lưu vào URL với tham số pdf để bookmark/chia sẻ
+              history.pushState({ source: state.activeSourceName, headerPdf: pdfName }, "", `${window.location.pathname}?source=${state.activeSourceName}&pdf=${encodeURIComponent(pdfName)}`);
             }
           }
         });
 
-        // Scroll buttons
+        // Các nút cuộn trang
         const scrollToTopBtn = document.getElementById('scroll-to-top');
         const scrollToBottomBtn = document.getElementById('scroll-to-bottom');
 
@@ -2161,55 +2507,114 @@
           });
         }
 
-        // PLTT navigation will reset to default state (no source preservation)
+        // Điều hướng PLTT sẽ reset về state mặc định (không giữ source)
       }
 
-      // --- UI DISPLAY ---
-      function displayResult(resultObject) {
-        const xmttIbContent = document.getElementById("xmtt-ib-content");
-        const xmttEcomContent = document.getElementById("xmtt-ecom-content");
-        xmttIbContent.innerHTML = resultObject.xmttib
-          ? `<p>${resultObject.xmttib}</p>`
-          : "<p>...</p>";
-        if (xmttEcomContent)
-          xmttEcomContent.innerHTML = resultObject.xmttecom
-            ? `<p>${resultObject.xmttecom}</p>`
-            : "<p>...</p>";
-        if (resultObject.xmtt) {
-          // Backward compatibility
-          xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
-          if (xmttEcomContent)
-            xmttEcomContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
-        }
-        notesResult.innerHTML = resultObject.note
-          ? `\u003cp\u003e${resultObject.note}\u003c/p\u003e`
-          : "\u003cp\u003eKhông có lưu ý.\u003c/p\u003e";
+      // ====================================================================
+      // PHẦN 9: HIỂN THỊ KẾT QUẢ (DISPLAY FUNCTIONS)
+      // ====================================================================
 
-        // Display condition info if available (using the function for consistent show/hide)
+      // Hiển thị kết quả khi người dùng chọn một node
+      // resultObject: đối tượng chứa thông tin cần hiển thị (pdf, note, xmtt...)
+      function displayResult(resultObject) {
+        const subHeader = document.getElementById("sub-header");
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttEmailBox = document.getElementById("xmtt-email-box");
+        const xmttChatBox = document.getElementById("xmtt-chat-box");
+        const notesBox = document.getElementById("notes-box");
+        const xmttIbContent = document.getElementById("xmtt-ib-content");
+        const xmttEmailContent = document.getElementById("xmtt-email-content");
+        const xmttChatContent = document.getElementById("xmtt-chat-content");
+
+        // Xử lý ẩn/hiện sub-header theo thuộc tính hideSubHeader
+        if (resultObject.hideSubHeader === true) {
+          // Ẩn toàn bộ sub-header
+          if (subHeader) subHeader.style.display = 'none';
+        } else {
+          // Kiểm tra có nội dung nào không để quyết định hiện sub-header
+          const hasAnyContent = resultObject.xmttib || resultObject.xmttemail ||
+            resultObject.xmttchat || resultObject.note || resultObject.xmtt;
+
+          if (hasAnyContent) {
+            if (subHeader) subHeader.style.display = '';
+          } else {
+            if (subHeader) subHeader.style.display = 'none';
+          }
+
+          // XMTT IB Box - Chỉ hiện khi có nội dung
+          if (resultObject.hideXmttIb === true || !resultObject.xmttib) {
+            if (xmttIbBox) xmttIbBox.style.display = 'none';
+          } else {
+            if (xmttIbBox) xmttIbBox.style.display = '';
+            xmttIbContent.innerHTML = `<p>${resultObject.xmttib}</p>`;
+          }
+
+          // XMTT EMAIL Box - Chỉ hiện khi có nội dung
+          if (resultObject.hideXmttEmail === true || !resultObject.xmttemail) {
+            if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+          } else {
+            if (xmttEmailBox) xmttEmailBox.style.display = '';
+            if (xmttEmailContent)
+              xmttEmailContent.innerHTML = `<p>${resultObject.xmttemail}</p>`;
+          }
+
+          // XMTT CHAT Box - Chỉ hiện khi có nội dung
+          if (resultObject.hideXmttChat === true || !resultObject.xmttchat) {
+            if (xmttChatBox) xmttChatBox.style.display = 'none';
+          } else {
+            if (xmttChatBox) xmttChatBox.style.display = '';
+            if (xmttChatContent)
+              xmttChatContent.innerHTML = `<p>${resultObject.xmttchat}</p>`;
+          }
+
+          // Notes Box - Chỉ hiện khi có nội dung
+          if (resultObject.hideNotes === true || !resultObject.note) {
+            if (notesBox) notesBox.style.display = 'none';
+          } else {
+            if (notesBox) notesBox.style.display = '';
+            notesResult.innerHTML = `<p>${resultObject.note}</p>`;
+          }
+
+          // Tương thích ngược với xmtt (dùng chung cho cả IB, EMAIL và CHAT)
+          if (resultObject.xmtt) {
+            // Hiện các box và set nội dung
+            if (xmttIbBox) xmttIbBox.style.display = '';
+            if (xmttEmailBox) xmttEmailBox.style.display = '';
+            if (xmttChatBox) xmttChatBox.style.display = '';
+            xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+            if (xmttEmailContent)
+              xmttEmailContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+            if (xmttChatContent)
+              xmttChatContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+            if (subHeader) subHeader.style.display = '';
+          }
+        }
+
+        // Hiển thị thông tin điều kiện nếu có (sử dụng hàm chung để ẩn/hiện đồng nhất)
         displayConditionInfo(resultObject.dieukien);
 
-        // Update popup content if it's currently open
+        // Cập nhật popup nếu đang mở
         updatePopupIfOpen();
 
-        // Determine content type: 'html', 'htmlUrl', or 'pdf' (default)
+        // Xác định loại nội dung: 'html', 'htmlUrl', hoặc 'pdf' (mặc định)
         const contentType = resultObject.contentType || (resultObject.pdf ? 'pdf' : null);
 
-        // Reset both viewers
+        // Reset cả hai viewer
         pdfViewer.style.display = 'none';
         htmlViewer.style.display = 'none';
         pdfViewer.src = '';
         htmlViewer.innerHTML = '';
 
         if (contentType === 'html' && resultObject.htmlContent) {
-          // Display inline HTML content
+          // Hiển thị nội dung HTML inline
           htmlViewer.innerHTML = resultObject.htmlContent;
           htmlViewer.style.display = 'block';
         } else if (contentType === 'htmlUrl' && resultObject.htmlUrl) {
-          // Display HTML from URL using iframe
+          // Hiển thị HTML từ URL qua iframe
           pdfViewer.src = resultObject.htmlUrl;
           pdfViewer.style.display = 'block';
         } else if (resultObject.pdf) {
-          // Display PDF
+          // Hiển thị PDF
           const firstLevelSelect = dynamicFiltersContainer.querySelector(
             'select[data-level="1"]'
           );
@@ -2227,7 +2632,7 @@
           if (folderName) {
             pdfViewer.src = `./${baseFolder}/${folderName}/${resultObject.pdf}`;
           } else {
-            // Fallback for items without a numbered category, or if mapping is missing
+            // Dự phòng cho các mục không có danh mục số, hoặc nếu không có ánh xạ
             pdfViewer.src = `./${baseFolder}/${resultObject.pdf}`;
           }
           pdfViewer.style.display = 'block';
@@ -2239,8 +2644,14 @@
             : [resultObject.alert]
           ).forEach((msg) => showNotification(msg));
         }
+
+        // Update resize handle visibility after showing/hiding boxes
+        if (typeof window.updateXmttHandleVisibility === 'function') {
+          window.updateXmttHandleVisibility();
+        }
       }
 
+      // Hiển thị thông báo toast (popup nhỏ góc màn hình)
       function showNotification(message) {
         if (!toastContainer) return;
         const toast = document.createElement("div");
@@ -2253,20 +2664,74 @@
         toastContainer.appendChild(toast);
       }
 
-      function resetResults() {
-        document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
-        const ecomContent = document.getElementById("xmtt-ecom-content");
-        if (ecomContent) ecomContent.innerHTML = "<p>...</p>";
-        notesResult.innerHTML = "\u003cp\u003eThông báo và lưu ý sẽ hiển thị ở đây\u003c/p\u003e";
-        // Hide condition panel when resetting
+      // Reset tất cả kết quả hiển thị về trạng thái ban đầu
+      // showDefault: chỉ hiện nội dung mặc định khi true (khi chưa chọn gì hoặc reset hoàn toàn)
+      function resetResults(showDefault = false) {
+        // Ẩn các box XMTT và Notes khi không có nội dung
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttEmailBox = document.getElementById("xmtt-email-box");
+        const xmttChatBox = document.getElementById("xmtt-chat-box");
+        const notesBox = document.getElementById("notes-box");
+        const subHeader = document.getElementById("sub-header");
+
+        // Ẩn tất cả các box
+        if (xmttIbBox) xmttIbBox.style.display = 'none';
+        if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+        if (xmttChatBox) xmttChatBox.style.display = 'none';
+        if (notesBox) notesBox.style.display = 'none';
+
+        // Ẩn cả sub-header nếu không có nội dung
+        if (subHeader) subHeader.style.display = 'none';
+
+        // Reset nội dung
+        document.getElementById("xmtt-ib-content").innerHTML = "";
+        const emailContent = document.getElementById("xmtt-email-content");
+        if (emailContent) emailContent.innerHTML = "";
+        const chatContent = document.getElementById("xmtt-chat-content");
+        if (chatContent) chatContent.innerHTML = "";
+        notesResult.innerHTML = "";
+
+        // Ẩn panel điều kiện khi reset
         const dieukienPanel = document.getElementById("dieukien-panel");
         if (dieukienPanel) dieukienPanel.classList.add("hidden");
-        pdfViewer.src = "";
-        pdfViewer.style.display = 'none';
-        htmlViewer.innerHTML = "";
-        htmlViewer.style.display = 'none';
+
+        // Chỉ hiển thị nội dung mặc định khi được yêu cầu (khi chưa chọn gì)
+        if (showDefault) {
+          showDefaultContent();
+        } else {
+          // Xóa nội dung viewer khi chọn branch nodes
+          pdfViewer.src = "";
+          pdfViewer.style.display = 'none';
+          htmlViewer.innerHTML = "";
+          htmlViewer.style.display = 'none';
+        }
       }
 
+      // Hiển thị nội dung mặc định khi chưa chọn gì
+      function showDefaultContent() {
+        if (!DEFAULT_CONTENT) return;
+
+        if (DEFAULT_CONTENT.type === 'pdf' && DEFAULT_CONTENT.pdf) {
+          pdfViewer.src = DEFAULT_CONTENT.pdf;
+          pdfViewer.style.display = 'block';
+          htmlViewer.style.display = 'none';
+        } else if (DEFAULT_CONTENT.type === 'html' && DEFAULT_CONTENT.htmlUrl) {
+          pdfViewer.src = DEFAULT_CONTENT.htmlUrl;
+          pdfViewer.style.display = 'block';
+          htmlViewer.style.display = 'none';
+        } else if (DEFAULT_CONTENT.type === 'html' && DEFAULT_CONTENT.htmlContent) {
+          htmlViewer.innerHTML = DEFAULT_CONTENT.htmlContent;
+          htmlViewer.style.display = 'block';
+          pdfViewer.style.display = 'none';
+        } else {
+          pdfViewer.src = "";
+          pdfViewer.style.display = 'none';
+          htmlViewer.innerHTML = "";
+          htmlViewer.style.display = 'none';
+        }
+      }
+
+      // Xóa các dropdown từ một cấp cụ thể trở đi
       function removeDropdowns(startLevel) {
         dynamicFiltersContainer
           .querySelectorAll(".filter-group")
@@ -2276,7 +2741,9 @@
           });
       }
 
-      // --- START THE APP ---
+      // ====================================================================
+      // KHỞI ĐỘNG ỨNG DỤNG
+      // ====================================================================
       initialize();
     });
   </script>
@@ -2307,6 +2774,257 @@
       });
     });
   </script>
+
+  <script>
+    // rút gọn URL
+    var LZString = function () { var r = String.fromCharCode, o = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", n = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$", e = {}; function t(r, o) { if (!e[r]) { e[r] = {}; for (var n = 0; n < r.length; n++)e[r][r.charAt(n)] = n } return e[r][o] } var i = { compressToBase64: function (r) { if (null == r) return ""; var n = i._compress(r, 6, function (r) { return o.charAt(r) }); switch (n.length % 4) { default: case 0: return n; case 1: return n + "==="; case 2: return n + "=="; case 3: return n + "=" } }, decompressFromBase64: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 32, function (n) { return t(o, r.charAt(n)) }) }, compressToUTF16: function (o) { return null == o ? "" : i._compress(o, 15, function (o) { return r(o + 32) }) + " " }, decompressFromUTF16: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 16384, function (o) { return r.charCodeAt(o) - 32 }) }, compressToUint8Array: function (r) { for (var o = i.compress(r), n = new Uint8Array(2 * o.length), e = 0, t = o.length; e < t; e++) { var s = o.charCodeAt(e); n[2 * e] = s >>> 8, n[2 * e + 1] = s % 256 } return n }, decompressFromUint8Array: function (o) { if (null == o) return i.decompress(o); for (var n = new Array(o.length / 2), e = 0, t = n.length; e < t; e++)n[e] = 256 * o[2 * e] + o[2 * e + 1]; var s = []; return n.forEach(function (o) { s.push(r(o)) }), i.decompress(s.join("")) }, compressToEncodedURIComponent: function (r) { return null == r ? "" : i._compress(r, 6, function (r) { return n.charAt(r) }) }, decompressFromEncodedURIComponent: function (r) { return null == r ? "" : "" == r ? null : (r = r.replace(/ /g, "+"), i._decompress(r.length, 32, function (o) { return t(n, r.charAt(o)) })) }, compress: function (o) { return i._compress(o, 16, function (o) { return r(o) }) }, _compress: function (r, o, n) { if (null == r) return ""; var e, t, i, s = {}, u = {}, a = "", p = "", c = "", l = 2, f = 3, h = 2, d = [], m = 0, v = 0; for (i = 0; i < r.length; i += 1)if (a = r.charAt(i), Object.prototype.hasOwnProperty.call(s, a) || (s[a] = f++, u[a] = !0), p = c + a, Object.prototype.hasOwnProperty.call(s, p)) c = p; else { if (Object.prototype.hasOwnProperty.call(u, c)) { if (c.charCodeAt(0) < 256) { for (e = 0; e < h; e++)m <<= 1, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++; for (t = c.charCodeAt(0), e = 0; e < 8; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } else { for (t = 1, e = 0; e < h; e++)m = m << 1 | t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t = 0; for (t = c.charCodeAt(0), e = 0; e < 16; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } 0 == --l && (l = Math.pow(2, h), h++), delete u[c] } else for (t = s[c], e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; 0 == --l && (l = Math.pow(2, h), h++), s[p] = f++, c = String(a) } if ("" !== c) { if (Object.prototype.hasOwnProperty.call(u, c)) { if (c.charCodeAt(0) < 256) { for (e = 0; e < h; e++)m <<= 1, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++; for (t = c.charCodeAt(0), e = 0; e < 8; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } else { for (t = 1, e = 0; e < h; e++)m = m << 1 | t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t = 0; for (t = c.charCodeAt(0), e = 0; e < 16; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } 0 == --l && (l = Math.pow(2, h), h++), delete u[c] } else for (t = s[c], e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; 0 == --l && (l = Math.pow(2, h), h++) } for (t = 2, e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; for (; ;) { if (m <<= 1, v == o - 1) { d.push(n(m)); break } v++ } return d.join("") }, decompress: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 32768, function (o) { return r.charCodeAt(o) }) }, _decompress: function (o, n, e) { var t, i, s, u, a, p, c, l = [], f = 4, h = 4, d = 3, m = "", v = [], g = { val: e(0), position: n, index: 1 }; for (t = 0; t < 3; t += 1)l[t] = t; for (s = 0, a = Math.pow(2, 2), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; switch (s) { case 0: for (s = 0, a = Math.pow(2, 8), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; c = r(s); break; case 1: for (s = 0, a = Math.pow(2, 16), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; c = r(s); break; case 2: return "" }for (l[3] = c, i = c, v.push(c); ;) { if (g.index > o) return ""; for (s = 0, a = Math.pow(2, d), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; switch (c = s) { case 0: for (s = 0, a = Math.pow(2, 8), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; l[h++] = r(s), c = h - 1, f--; break; case 1: for (s = 0, a = Math.pow(2, 16), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; l[h++] = r(s), c = h - 1, f--; break; case 2: return v.join("") }if (0 == f && (f = Math.pow(2, d), d++), l[c]) m = l[c]; else { if (c !== h) return null; m = i + i.charAt(0) } v.push(m), l[h++] = i + m.charAt(0), i = m, 0 == --f && (f = Math.pow(2, d), d++) } } }; return i }();
+  </script>
+
+  <!-- Resizable XMTT Boxes Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const xmttRow = document.getElementById('xmtt-row');
+      if (!xmttRow) return;
+
+      const boxes = xmttRow.querySelectorAll('.sub-header-box');
+      const handles = xmttRow.querySelectorAll('.resize-handle');
+
+      if (boxes.length !== 3 || handles.length !== 2) return;
+
+      let isResizing = false;
+      let currentHandle = null;
+      let startX = 0;
+      let startFlexValues = [];
+      let visibleBoxes = [];
+      let visibleHandles = [];
+      const minFlex = 0.15; // Minimum flex ratio (15%)
+      const handleWidth = 8; // Width of resize handle
+
+      // Get visible boxes (not display: none)
+      function getVisibleBoxes() {
+        return Array.from(boxes).filter(box => {
+          const style = window.getComputedStyle(box);
+          return style.display !== 'none';
+        });
+      }
+
+      // Get visible handles (handles between visible boxes)
+      function getVisibleHandles() {
+        const visible = [];
+        handles.forEach((handle, index) => {
+          const style = window.getComputedStyle(handle);
+          if (style.display !== 'none') {
+            visible.push({ handle, index });
+          }
+        });
+        return visible;
+      }
+
+      // Get flex values from visible boxes
+      function getFlexValues() {
+        return visibleBoxes.map(box => {
+          const flex = parseFloat(box.style.flexGrow) || 1;
+          return flex;
+        });
+      }
+
+      // Set flex values to visible boxes
+      function setFlexValues(values) {
+        const total = values.reduce((a, b) => a + b, 0);
+        visibleBoxes.forEach((box, i) => {
+          const normalizedFlex = values[i] / total;
+          box.style.flex = `${normalizedFlex} 1 0`;
+        });
+      }
+
+      // Initialize with equal flex for visible boxes
+      function initializeWidths() {
+        visibleBoxes = getVisibleBoxes();
+        if (visibleBoxes.length === 0) return;
+
+        const equalFlex = 1 / visibleBoxes.length;
+        visibleBoxes.forEach(box => {
+          box.style.flex = `${equalFlex} 1 0`;
+        });
+
+        // Update handle visibility after initializing widths
+        updateHandleVisibility();
+      }
+
+      // Update resize handle visibility based on visible boxes
+      function updateHandleVisibility() {
+        const prevVisibleCount = visibleBoxes.length;
+        visibleBoxes = getVisibleBoxes();
+        const currentVisibleCount = visibleBoxes.length;
+
+        // Add/remove class for single box styling
+        if (currentVisibleCount === 1) {
+          xmttRow.classList.add('single-box');
+        } else {
+          xmttRow.classList.remove('single-box');
+        }
+
+        // Only redistribute flex values if the number of visible boxes has changed
+        // This preserves user's resize ratios when same boxes remain visible
+        if (currentVisibleCount !== prevVisibleCount && currentVisibleCount > 0) {
+          const equalFlex = 1 / currentVisibleCount;
+          visibleBoxes.forEach(box => {
+            box.style.flex = `${equalFlex} 1 0`;
+          });
+        }
+
+        // If only 0 or 1 box visible, hide all handles
+        if (visibleBoxes.length < 2) {
+          handles.forEach(handle => {
+            handle.style.display = 'none';
+          });
+          return;
+        }
+
+        // Get indices of visible boxes in the original boxes array
+        const visibleIndices = [];
+        boxes.forEach((box, idx) => {
+          const style = window.getComputedStyle(box);
+          if (style.display !== 'none') {
+            visibleIndices.push(idx);
+          }
+        });
+
+        // Hide all handles first
+        handles.forEach(handle => {
+          handle.style.display = 'none';
+        });
+
+        // Show handles between consecutive visible boxes
+        // For each pair of adjacent visible boxes, show the appropriate handle
+        for (let i = 0; i < visibleIndices.length - 1; i++) {
+          const leftBoxIndex = visibleIndices[i];
+          const rightBoxIndex = visibleIndices[i + 1];
+
+          // Determine which handle(s) to show between these boxes
+          // Handle 0 is between box 0 and box 1
+          // Handle 1 is between box 1 and box 2
+
+          if (leftBoxIndex === 0 && rightBoxIndex === 1) {
+            handles[0].style.display = ''; // Show handle 0
+          } else if (leftBoxIndex === 1 && rightBoxIndex === 2) {
+            handles[1].style.display = ''; // Show handle 1
+          } else if (leftBoxIndex === 0 && rightBoxIndex === 2) {
+            // Box 0 and Box 2 visible, Box 1 hidden
+            // Show handle 1 (or handle 0, either works, but handle 1 is closer to middle)
+            handles[1].style.display = '';
+          }
+        }
+      }
+
+
+      // Handle drag start
+      handles.forEach((handle, handleIndex) => {
+        handle.addEventListener('mousedown', function (e) {
+          // Update visible boxes and handles
+          visibleBoxes = getVisibleBoxes();
+          visibleHandles = getVisibleHandles();
+
+          if (visibleBoxes.length < 2) return; // Need at least 2 boxes to resize
+
+          // Find which visible handle index this is
+          const visibleHandleIndex = visibleHandles.findIndex(vh => vh.handle === handle);
+          if (visibleHandleIndex === -1) return; // Handle is not visible
+
+          isResizing = true;
+          currentHandle = visibleHandleIndex;
+          startX = e.clientX;
+
+          // Get current widths and convert to flex ratios (only for visible boxes)
+          const totalWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
+          startFlexValues = visibleBoxes.map(box => box.offsetWidth / totalWidth);
+
+          document.body.classList.add('resizing');
+          xmttRow.classList.add('resizing');
+          e.preventDefault();
+        });
+      });
+
+      // Handle drag
+      document.addEventListener('mousemove', function (e) {
+        if (!isResizing) return;
+
+        const containerWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
+        const deltaX = e.clientX - startX;
+        const deltaFlex = deltaX / containerWidth;
+
+        const leftBoxIndex = currentHandle;
+        const rightBoxIndex = currentHandle + 1;
+
+        // Boundary check for visible boxes
+        if (rightBoxIndex >= visibleBoxes.length) return;
+
+        // Calculate new flex values
+        let newLeftFlex = startFlexValues[leftBoxIndex] + deltaFlex;
+        let newRightFlex = startFlexValues[rightBoxIndex] - deltaFlex;
+
+        // Enforce minimum flex
+        if (newLeftFlex < minFlex) {
+          newLeftFlex = minFlex;
+          newRightFlex = startFlexValues[leftBoxIndex] + startFlexValues[rightBoxIndex] - minFlex;
+        }
+        if (newRightFlex < minFlex) {
+          newRightFlex = minFlex;
+          newLeftFlex = startFlexValues[leftBoxIndex] + startFlexValues[rightBoxIndex] - minFlex;
+        }
+
+        // Apply new flex values (only to the two affected visible boxes)
+        const newFlexValues = [...startFlexValues];
+        newFlexValues[leftBoxIndex] = newLeftFlex;
+        newFlexValues[rightBoxIndex] = newRightFlex;
+
+        setFlexValues(newFlexValues);
+      });
+
+      // Handle drag end
+      document.addEventListener('mouseup', function () {
+        if (isResizing) {
+          isResizing = false;
+          currentHandle = null;
+          document.body.classList.remove('resizing');
+          xmttRow.classList.remove('resizing');
+
+          // Save flex ratios to localStorage for persistence (all boxes)
+          const allFlexValues = Array.from(boxes).map(box => parseFloat(box.style.flexGrow) || 1);
+          localStorage.setItem('xmttBoxFlex', JSON.stringify(allFlexValues));
+        }
+      });
+
+      // Restore saved flex values or initialize
+      function restoreWidths() {
+        const savedFlex = localStorage.getItem('xmttBoxFlex');
+        if (savedFlex) {
+          try {
+            const flexValues = JSON.parse(savedFlex);
+            if (flexValues.length === boxes.length) {
+              const total = flexValues.reduce((a, b) => a + b, 0);
+              boxes.forEach((box, i) => {
+                const normalizedFlex = flexValues[i] / total;
+                box.style.flex = `${normalizedFlex} 1 0`;
+              });
+              updateHandleVisibility(); // Update after restoring
+              return;
+            }
+          } catch (e) {
+            console.warn('Could not restore XMTT box flex values');
+          }
+        }
+        initializeWidths();
+      }
+
+      // Initialize on load
+      restoreWidths();
+
+      // Expose updateHandleVisibility globally for use in displayResult
+      window.updateXmttHandleVisibility = updateHandleVisibility;
+    });
+  </script>
+
 </body>
 
 </html>

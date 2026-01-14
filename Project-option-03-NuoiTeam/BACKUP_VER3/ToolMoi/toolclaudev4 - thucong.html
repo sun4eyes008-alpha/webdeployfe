@@ -12,9 +12,9 @@
     };
   </script>
 
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="react.production.min.js"></script>
+  <script src="react-dom.production.min.js"></script>
+  <script src="babel.min.js"></script>
   <link href="bootstrap.min.css" rel="stylesheet">
   <script src="bootstrap.bundle.min.js"></script>
 
@@ -164,6 +164,19 @@
           <polyline points="19 12 12 19 5 12" />
         </>
       ),
+      Eye: (
+        <>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </>
+      ),
+      FolderPlus: (
+        <>
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+          <line x1="12" y1="11" x2="12" y2="17" />
+          <line x1="9" y1="14" x2="15" y2="14" />
+        </>
+      ),
     };
     const BtnIcon = ({ name, size }) => (
       <Icon path={Icons[name]} size={size} />
@@ -180,9 +193,9 @@
       let processedStr = dataStr;
       const replacements = [];
 
-      // First, detect variable references in node fields (xmttib, xmttecom, note, alert, dieukien)
+      // First, detect variable references in node fields (xmttib, xmttemail, xmttchat, note, alert, dieukien)
       // These are values without quotes that match a constant name
-      const varFields = ['xmttib', 'xmttecom', 'note', 'alert', 'dieukien'];
+      const varFields = ['xmttib', 'xmttemail', 'xmttchat', 'note', 'alert', 'dieukien'];
       const detectedVarRefs = {}; // Track which field values are variable references
 
       varFields.forEach(fieldName => {
@@ -215,6 +228,11 @@
 
         // Skip if this variable is used as a reference in a field
         if (detectedVarRefs[key]) {
+          return;
+        }
+
+        // Skip if value is not a string (e.g., __subgroups__ object)
+        if (typeof value !== 'string') {
           return;
         }
 
@@ -290,7 +308,13 @@
       const [varQuoteTypes, setVarQuoteTypes] = useState({});
       const [nodeQuoteTypes, setNodeQuoteTypes] = useState({});
       const [errorInfo, setErrorInfo] = useState(null);
+      const [previewHtml, setPreviewHtml] = useState(null); // { varName, content } for HTML preview
       const [originalFileContent, setOriginalFileContent] = useState("");
+
+      // State for ConstantsManager - lifted to prevent reset on re-render
+      const [activeConstGroup, setActiveConstGroup] = useState("Chưa phân loại");
+      const [activeConstSubGroup, setActiveConstSubGroup] = useState(null);
+      const [expandedConstGroups, setExpandedConstGroups] = useState(new Set());
 
       // HTML file handling states
       const [isHtmlFile, setIsHtmlFile] = useState(false);
@@ -486,10 +510,22 @@
 
             // 1. Parse constants and their groups (same logic as before)
             const groupRegex = /\/\/\s*---\s*GROUP:\s*(.+?)\s*---/g;
+            // Match both > and &gt; for SUBGROUP delimiter
+            const subgroupRegex = /\/\/\s*---\s*SUBGROUP:\s*(.+?)\s*(?:>|&gt;)\s*(.+?)\s*---/g;
             const groupsFound = [];
+            const subgroupsFound = [];
             let gMatch;
             while ((gMatch = groupRegex.exec(content)) !== null) {
               groupsFound.push({ name: gMatch[1].trim(), index: gMatch.index });
+            }
+            // Parse subgroups
+            let sgMatch;
+            while ((sgMatch = subgroupRegex.exec(content)) !== null) {
+              subgroupsFound.push({
+                parentGroup: sgMatch[1].trim(),
+                name: sgMatch[2].trim(),
+                index: sgMatch.index
+              });
             }
             // Updated regex to match variables with quotes, backticks, OR no quotes (variable references)
             const constRegex = /(?:(?:const|let|var)\s+(\w+)|window\.(\w+))\s*=\s*(?:"([\s\S]*?)"|`([\s\S]*?)`|(\w+));/g;
@@ -532,18 +568,68 @@
             }
             const newGroupedConstants = { "Chưa phân loại": {} };
             groupsFound.forEach(g => { newGroupedConstants[g.name] = {}; });
+
+            // Initialize all found subgroups (even if empty) to preserve structure
+            subgroupsFound.forEach(sg => {
+              if (!newGroupedConstants[sg.parentGroup]) {
+                newGroupedConstants[sg.parentGroup] = {};
+              }
+              if (!newGroupedConstants[sg.parentGroup].__subgroups__) {
+                newGroupedConstants[sg.parentGroup].__subgroups__ = {};
+              }
+              if (!newGroupedConstants[sg.parentGroup].__subgroups__[sg.name]) {
+                newGroupedConstants[sg.parentGroup].__subgroups__[sg.name] = {};
+              }
+            });
+
+            // Process each constant and assign to group or subgroup
             constsFound.forEach(c => {
               let targetGroup = "Chưa phân loại";
-              let maxGroupIndex = -1;
-              for (const g of groupsFound) {
-                if (g.index < c.index && g.index > maxGroupIndex) {
-                  maxGroupIndex = g.index;
-                  targetGroup = g.name;
+              let targetSubGroup = null;
+              let maxIndex = -1;
+
+              // Check subgroups first (they have higher index if after a group)
+              for (const sg of subgroupsFound) {
+                if (sg.index < c.index && sg.index > maxIndex) {
+                  maxIndex = sg.index;
+                  targetGroup = sg.parentGroup;
+                  targetSubGroup = sg.name;
                 }
               }
-              newGroupedConstants[targetGroup][c.key] = c.value;
+
+              // Check groups (only if no subgroup matched or group is closer)
+              for (const g of groupsFound) {
+                if (g.index < c.index && g.index > maxIndex) {
+                  maxIndex = g.index;
+                  targetGroup = g.name;
+                  targetSubGroup = null; // Group overrides subgroup if closer
+                }
+              }
+
+              // Ensure group exists
+              if (!newGroupedConstants[targetGroup]) {
+                newGroupedConstants[targetGroup] = {};
+              }
+
+              if (targetSubGroup) {
+                // Add to subgroup
+                if (!newGroupedConstants[targetGroup].__subgroups__) {
+                  newGroupedConstants[targetGroup].__subgroups__ = {};
+                }
+                if (!newGroupedConstants[targetGroup].__subgroups__[targetSubGroup]) {
+                  newGroupedConstants[targetGroup].__subgroups__[targetSubGroup] = {};
+                }
+                newGroupedConstants[targetGroup].__subgroups__[targetSubGroup][c.key] = c.value;
+              } else {
+                // Add to group directly
+                newGroupedConstants[targetGroup][c.key] = c.value;
+              }
             });
             setGroupedConstants(newGroupedConstants);
+            // Initialize activeConstGroup with first group when importing
+            const firstGroupKey = Object.keys(newGroupedConstants)[0] || "Chưa phân loại";
+            setActiveConstGroup(firstGroupKey);
+            setActiveConstSubGroup(null);
 
             // Debug logging
             console.log("📦 Grouped Constants:", newGroupedConstants);
@@ -554,8 +640,22 @@
             const flatConstants = {};
             Object.values(newGroupedConstants).forEach(group => {
               Object.entries(group).forEach(([key, value]) => {
+                // Skip __subgroups__ - it's an object, not a variable
+                if (key === '__subgroups__') {
+                  // Process subgroup variables
+                  if (value && typeof value === 'object') {
+                    Object.values(value).forEach(subgroup => {
+                      Object.entries(subgroup).forEach(([subKey, subValue]) => {
+                        if (newVarQuoteTypes[subKey] !== 'var' && typeof subValue === 'string') {
+                          flatConstants[subKey] = subValue;
+                        }
+                      });
+                    });
+                  }
+                  return;
+                }
                 // Only add to flatConstants if it's NOT a 'var' type (not a variable reference)
-                if (newVarQuoteTypes[key] !== 'var') {
+                if (newVarQuoteTypes[key] !== 'var' && typeof value === 'string') {
                   flatConstants[key] = value;
                 }
               });
@@ -616,35 +716,67 @@
         }
 
         try {
-          // 1. Build the constants block (same logic as before)
+          // 1. Build the constants block - now handles subgroups
           let constantsContent = "";
           const flatConstants = {};
+
+          // Helper function to process variables (handles both regular vars and subgroup vars)
+          const processVariables = (vars, groupLabel) => {
+            let content = "";
+            Object.entries(vars).forEach(([key, value]) => {
+              // Skip the __subgroups__ key - it's not a variable
+              if (key === '__subgroups__') return;
+
+              // Skip if value is not a string (safety check)
+              if (typeof value !== 'string') return;
+
+              flatConstants[key] = value;
+
+              const quoteType = varQuoteTypes[key] || '`';
+              let constantLine = `const ${key} = `;
+
+              if (quoteType === 'var') {
+                constantLine += `${value};\n`;
+              } else if (quoteType === '`') {
+                const finalValue = value.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\${/g, '\\${');
+                constantLine += `\`${finalValue}\`;\n`;
+              } else {
+                const finalValue = value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+                constantLine += `"${finalValue}";\n`;
+              }
+              content += constantLine;
+            });
+            return content;
+          };
+
           Object.entries(groupedConstants).forEach(([groupName, items]) => {
-            if (Object.keys(items).length > 0) {
+            // Count actual variables (excluding __subgroups__)
+            const varCount = Object.keys(items).filter(k => k !== '__subgroups__').length;
+            const hasSubgroups = items.__subgroups__ && Object.keys(items.__subgroups__).length > 0;
+
+            if (varCount > 0 || hasSubgroups) {
               constantsContent += `\n// --- GROUP: ${groupName} ---\n`;
-              Object.entries(items).forEach(([key, value]) => {
-                flatConstants[key] = value;
 
-                const quoteType = varQuoteTypes[key] || '`';
-                let constantLine = `const ${key} = `;
+              // Process variables at the group level
+              constantsContent += processVariables(items, groupName);
 
-                if (quoteType === 'var') {
-                  constantLine += `${value};\n`;
-                } else if (quoteType === '`') {
-                  const finalValue = value.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\${/g, '\\${');
-                  constantLine += `\`${finalValue}\`;\n`;
-                } else {
-                  const finalValue = value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
-                  constantLine += `"${finalValue}";\n`;
-                }
-                constantsContent += constantLine;
-              });
+              // Process subgroups if they exist
+              if (hasSubgroups) {
+                Object.entries(items.__subgroups__).forEach(([subGroupName, subVars]) => {
+                  // Always export subgroup comment, even if empty (to preserve structure)
+                  constantsContent += `\n// --- SUBGROUP: ${groupName} > ${subGroupName} ---\n`;
+                  constantsContent += processVariables(subVars, `${groupName} > ${subGroupName}`);
+                });
+              }
             }
           });
 
           // 2. Build the data objects string
           let dataObjectsContent = "";
           const sortedConsts = Object.entries(flatConstants).sort((a, b) => (b[1] || '').length - (a[1] || '').length);
+
+          // Content fields that are NOT child nodes
+          const contentFieldsForExport = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow'];
 
           Object.entries(dataSources).forEach(([name, data]) => {
             const info = allDataObjectInfo[name];
@@ -653,22 +785,24 @@
             // Deep clone data to avoid mutating state
             const exportData = JSON.parse(JSON.stringify(data));
 
-            // Helper to traverse and mark var refs based on nodeQuoteTypes
+            // Helper to traverse and process nodes for export
             const processExportData = (obj, path = []) => {
               if (!obj || typeof obj !== 'object') return;
 
               Object.keys(obj).forEach(key => {
                 const val = obj[key];
                 const currentPath = [...path, key];
-                // Quote types are stored with dot notation: root.branch.field
                 const pathStr = currentPath.join('.');
 
                 // If user explicitly set this field to 'var' type
-                // We mark it with a wrapper to identify it after stringify
                 if (nodeQuoteTypes[pathStr] === 'var' && typeof val === 'string') {
                   obj[key] = `__VAR_REF__${val}__VAR_REF__`;
-                } else if (typeof val === 'object') {
-                  processExportData(val, currentPath);
+                } else if (typeof val === 'object' && val !== null) {
+                  // Skip content fields - they should not be processed
+                  if (!contentFieldsForExport.includes(key)) {
+                    // Recurse into child nodes
+                    processExportData(val, currentPath);
+                  }
                 }
               });
             };
@@ -930,7 +1064,7 @@ ${dataObjectsContent}
       // Helper to check if a node has any child nodes (non-content fields)
       const hasChildren = (node) => {
         if (!node || typeof node !== "object") return false;
-        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien'];
+        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow'];
         const keys = Object.keys(node);
         // Check if there are any keys that are NOT content fields
         return keys.some(key => !contentFields.includes(key) && typeof node[key] === 'object');
@@ -986,10 +1120,16 @@ ${dataObjectsContent}
                       <HtmlDisplay content={node.xmttib} />
                     </div>
                   )}
-                  {node.xmttecom && (
+                  {node.xmttemail && (
                     <div className="mt-2">
-                      <label className="small fw-bold text-muted">XMTT ECOM</label>
-                      <HtmlDisplay content={node.xmttecom} />
+                      <label className="small fw-bold text-muted">XMTT EMAIL</label>
+                      <HtmlDisplay content={node.xmttemail} />
+                    </div>
+                  )}
+                  {node.xmttchat && (
+                    <div className="mt-2">
+                      <label className="small fw-bold text-muted">XMTT CHAT</label>
+                      <HtmlDisplay content={node.xmttchat} />
                     </div>
                   )}
                 </div>
@@ -1051,7 +1191,7 @@ ${dataObjectsContent}
         }
 
         // Filter keys to get only CHILD NODES (not content fields)
-        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien'];
+        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow'];
         const allKeys = Object.keys(node || {});
         const keys = allKeys.filter(key => !contentFields.includes(key));
 
@@ -1183,15 +1323,50 @@ ${dataObjectsContent}
       };
 
       const ConstantsManager = () => {
-        const [activeGroup, setActiveGroup] = useState(
-          Object.keys(groupedConstants)[0] || "Chưa phân loại"
-        );
-        const [tempGroups, setTempGroups] = useState(groupedConstants);
-        // varQuoteTypes và setVarQuoteTypes được truyền từ parent FlowchartEditor
+        // Use lifted state from parent to prevent reset on re-render
+        const activeGroup = activeConstGroup;
+        const setActiveGroup = setActiveConstGroup;
+        const activeSubGroup = activeConstSubGroup;
+        const setActiveSubGroup = setActiveConstSubGroup;
+        const expandedGroups = expandedConstGroups;
+        const setExpandedGroups = setExpandedConstGroups;
+
+        const [tempGroups, setTempGroups] = useState(() => groupedConstants);
+
+        // Sync tempGroups with groupedConstants when it changes
+        useEffect(() => {
+          setTempGroups(groupedConstants);
+        }, [groupedConstants]);
+
         const updateMainState = (newGroups) => {
           setTempGroups(newGroups);
           setGroupedConstants(newGroups);
         };
+
+        // Get variables for current view (parent group or subgroup)
+        const getCurrentVariables = () => {
+          const group = tempGroups[activeGroup] || {};
+          if (activeSubGroup && group.__subgroups__ && group.__subgroups__[activeSubGroup]) {
+            return group.__subgroups__[activeSubGroup];
+          }
+          // Return variables excluding __subgroups__ key
+          const vars = { ...group };
+          delete vars.__subgroups__;
+          return vars;
+        };
+
+        // Count only variables (exclude __subgroups__)
+        const countVariables = (groupObj) => {
+          if (!groupObj) return 0;
+          return Object.keys(groupObj).filter(k => k !== '__subgroups__').length;
+        };
+
+        // Count subgroups
+        const countSubgroups = (groupObj) => {
+          if (!groupObj || !groupObj.__subgroups__) return 0;
+          return Object.keys(groupObj.__subgroups__).length;
+        };
+
         const addGroup = () => {
           const name = prompt("Tên nhóm mới:");
           if (!name) return;
@@ -1201,9 +1376,34 @@ ${dataObjectsContent}
           }
           updateMainState({ ...tempGroups, [name]: {} });
           setActiveGroup(name);
+          setActiveSubGroup(null);
         };
 
-        // Đổi tên Nhóm Biến
+        // Add SubGroup
+        const addSubGroup = () => {
+          const name = prompt("Tên nhóm con (subgroup):");
+          if (!name) return;
+          const group = tempGroups[activeGroup] || {};
+          const subgroups = group.__subgroups__ || {};
+          if (subgroups[name]) {
+            alert("Nhóm con đã tồn tại!");
+            return;
+          }
+          const newGroups = JSON.parse(JSON.stringify(tempGroups));
+          newGroups[activeGroup] = {
+            ...newGroups[activeGroup],
+            __subgroups__: { ...subgroups, [name]: {} }
+          };
+
+          // Update state without switching away
+          setTempGroups(newGroups);
+          setGroupedConstants(newGroups);
+
+          // Expand parent group and optionally select new subgroup
+          setExpandedGroups(prev => new Set([...prev, activeGroup]));
+          // Keep current selection - don't auto-select the new subgroup
+        };
+
         const renameGroup = (targetGroup) => {
           const groupToRename = targetGroup || activeGroup;
           const newName = prompt(
@@ -1225,6 +1425,39 @@ ${dataObjectsContent}
           if (activeGroup === groupToRename) setActiveGroup(newName);
         };
 
+        // Rename SubGroup
+        const renameSubGroup = (subgroupName) => {
+          const newName = prompt(`Đổi tên nhóm con "${subgroupName}" thành:`, subgroupName);
+          if (!newName || newName === subgroupName) return;
+          const group = tempGroups[activeGroup];
+          const subgroups = group.__subgroups__ || {};
+          if (subgroups[newName]) {
+            alert("Tên nhóm con đã tồn tại!");
+            return;
+          }
+          const newSubgroups = {};
+          Object.keys(subgroups).forEach(key => {
+            if (key === subgroupName) newSubgroups[newName] = subgroups[subgroupName];
+            else newSubgroups[key] = subgroups[key];
+          });
+          const newGroups = { ...tempGroups };
+          newGroups[activeGroup] = { ...group, __subgroups__: newSubgroups };
+          updateMainState(newGroups);
+          if (activeSubGroup === subgroupName) setActiveSubGroup(newName);
+        };
+
+        // Delete SubGroup
+        const deleteSubGroup = (subgroupName) => {
+          if (!confirm(`Xóa nhóm con "${subgroupName}" và tất cả biến trong đó?`)) return;
+          const group = tempGroups[activeGroup];
+          const newSubgroups = { ...group.__subgroups__ };
+          delete newSubgroups[subgroupName];
+          const newGroups = { ...tempGroups };
+          newGroups[activeGroup] = { ...group, __subgroups__: newSubgroups };
+          updateMainState(newGroups);
+          if (activeSubGroup === subgroupName) setActiveSubGroup(null);
+        };
+
         const deleteGroup = () => {
           if (Object.keys(tempGroups).length <= 1) return;
           if (!confirm(`Xóa group ${activeGroup}?`)) return;
@@ -1232,34 +1465,126 @@ ${dataObjectsContent}
           delete n[activeGroup];
           updateMainState(n);
           setActiveGroup(Object.keys(n)[0]);
+          setActiveSubGroup(null);
         };
+
         const addVar = (e) => {
           e.preventDefault();
           const k = e.target.key.value.trim();
           const v = e.target.val.value;
+          // Check for duplicates across all groups and subgroups
           let exists = false;
           Object.values(tempGroups).forEach((g) => {
-            if (g[k]) exists = true;
+            Object.keys(g).forEach(key => {
+              if (key !== '__subgroups__' && key === k) exists = true;
+            });
+            if (g.__subgroups__) {
+              Object.values(g.__subgroups__).forEach(sub => {
+                if (sub[k]) exists = true;
+              });
+            }
           });
           if (k && v && !exists) {
-            const n = { ...tempGroups };
-            n[activeGroup][k] = v;
-            setTempGroups(n);
+            const newGroups = JSON.parse(JSON.stringify(tempGroups));
+            if (activeSubGroup) {
+              newGroups[activeGroup].__subgroups__[activeSubGroup][k] = v;
+            } else {
+              newGroups[activeGroup][k] = v;
+            }
+            updateMainState(newGroups);
             e.target.reset();
           } else if (exists) alert("Tên biến bị trùng!");
         };
+
         const deleteVar = (key) => {
           if (!confirm("Xóa biến này?")) return;
-          const n = { ...tempGroups };
-          delete n[activeGroup][key];
-          setTempGroups(n);
+          const newGroups = JSON.parse(JSON.stringify(tempGroups));
+          if (activeSubGroup) {
+            delete newGroups[activeGroup].__subgroups__[activeSubGroup][key];
+          } else {
+            delete newGroups[activeGroup][key];
+          }
+          updateMainState(newGroups);
         };
+
         const updateVar = (key, newVal) => {
-          const n = { ...tempGroups };
-          n[activeGroup][key] = newVal;
-          setTempGroups(n);
-          // Chỉ sync với groupedConstants khi người dùng thực sự cần (không phải mỗi keystroke)
+          const newGroups = JSON.parse(JSON.stringify(tempGroups));
+          if (activeSubGroup) {
+            newGroups[activeGroup].__subgroups__[activeSubGroup][key] = newVal;
+          } else {
+            newGroups[activeGroup][key] = newVal;
+          }
+          updateMainState(newGroups);
         };
+
+        // FEATURE 2: Rename Variable
+        const renameVar = (oldKey) => {
+          const newKey = prompt(`Đổi tên biến "${oldKey}" thành:`, oldKey);
+          if (!newKey || newKey === oldKey) return;
+          // Check for duplicates
+          let exists = false;
+          Object.values(tempGroups).forEach((g) => {
+            Object.keys(g).forEach(key => {
+              if (key !== '__subgroups__' && key === newKey) exists = true;
+            });
+            if (g.__subgroups__) {
+              Object.values(g.__subgroups__).forEach(sub => {
+                if (sub[newKey]) exists = true;
+              });
+            }
+          });
+          if (exists) {
+            alert("Tên biến đã tồn tại!");
+            return;
+          }
+          const newGroups = JSON.parse(JSON.stringify(tempGroups));
+          let targetObj;
+          if (activeSubGroup) {
+            targetObj = newGroups[activeGroup].__subgroups__[activeSubGroup];
+          } else {
+            targetObj = newGroups[activeGroup];
+          }
+          // Preserve order by rebuilding object
+          const newObj = {};
+          Object.keys(targetObj).forEach(k => {
+            if (k === oldKey) newObj[newKey] = targetObj[oldKey];
+            else newObj[k] = targetObj[k];
+          });
+          if (activeSubGroup) {
+            newGroups[activeGroup].__subgroups__[activeSubGroup] = newObj;
+          } else {
+            // Preserve __subgroups__ if exists
+            if (newGroups[activeGroup].__subgroups__) {
+              newObj.__subgroups__ = newGroups[activeGroup].__subgroups__;
+            }
+            newGroups[activeGroup] = newObj;
+          }
+          // Update varQuoteTypes
+          if (varQuoteTypes[oldKey]) {
+            setVarQuoteTypes(prev => {
+              const updated = { ...prev };
+              updated[newKey] = updated[oldKey];
+              delete updated[oldKey];
+              return updated;
+            });
+          }
+          updateMainState(newGroups);
+        };
+
+        // Toggle group expansion
+        const toggleGroupExpand = (groupName) => {
+          setExpandedGroups(prev => {
+            const next = new Set(prev);
+            if (next.has(groupName)) next.delete(groupName);
+            else next.add(groupName);
+            return next;
+          });
+        };
+
+        const currentVars = getCurrentVariables();
+        const currentTitle = activeSubGroup
+          ? `${activeGroup} > ${activeSubGroup}`
+          : activeGroup;
 
         return (
           <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
@@ -1269,44 +1594,98 @@ ${dataObjectsContent}
                   <BtnIcon name="FileText" /> Quản lý Biến
                 </h5>
                 <button onClick={() => {
-                  setGroupedConstants(tempGroups); // Lưu thay đổi trước khi đóng
+                  setGroupedConstants(tempGroups);
                   setShowConstModal(false);
                 }} className="btn-close"></button>
               </div>
               <div className="d-flex flex-fill overflow-hidden">
-                <div className="border-end bg-light d-flex flex-column p-2 gap-2 overflow-auto" style={{ width: '25%' }}>
+                {/* LEFT PANEL - Groups & Subgroups Tree */}
+                <div className="border-end bg-light d-flex flex-column p-2 gap-1 overflow-auto" style={{ width: '28%' }}>
                   <button
                     onClick={addGroup}
-                    className="w-100 btn btn-outline-primary btn-sm border-dashed"
+                    className="w-100 btn btn-outline-primary btn-sm border-dashed mb-2"
                   >
                     + Nhóm mới
                   </button>
                   {Object.keys(tempGroups).map((g) => (
-                    <div
-                      key={g}
-                      onClick={() => setActiveGroup(g)}
-                      className={`p-2 rounded small d-flex justify-content-between align-items-center ${activeGroup === g
-                        ? "bg-primary bg-opacity-25 fw-bold text-primary"
-                        : "bg-white"
-                        }`}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <span className="text-truncate flex-fill">{g}</span>
-                      <div className="d-flex align-items-center gap-1">
-                        <span className="badge bg-white text-dark border">
-                          {Object.keys(tempGroups[g]).length}
-                        </span>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            renameGroup(g);
-                          }}
-                          className="btn btn-sm btn-link text-secondary p-1"
-                          title="Đổi tên"
-                        >
-                          <BtnIcon name="Edit2" size={14} />
-                        </button>
+                    <div key={g}>
+                      {/* Parent Group */}
+                      <div
+                        className={`p-2 rounded small d-flex justify-content-between align-items-center ${activeGroup === g && !activeSubGroup
+                          ? "bg-primary bg-opacity-25 fw-bold text-primary"
+                          : "bg-white"
+                          }`}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        <div className="d-flex align-items-center gap-1 flex-fill" onClick={() => { setActiveGroup(g); setActiveSubGroup(null); }}>
+                          {/* Expand/Collapse toggle */}
+                          {countSubgroups(tempGroups[g]) > 0 && (
+                            <button
+                              onClick={(e) => { e.stopPropagation(); toggleGroupExpand(g); }}
+                              className="btn btn-sm btn-link p-0 text-secondary"
+                            >
+                              <BtnIcon name={expandedGroups.has(g) ? "ChevronDown" : "ChevronRight"} size={14} />
+                            </button>
+                          )}
+                          <span className="text-truncate">{g}</span>
+                        </div>
+                        <div className="d-flex align-items-center gap-1">
+                          <span className="badge bg-white text-dark border" title="Số biến">
+                            {countVariables(tempGroups[g])}
+                          </span>
+                          {countSubgroups(tempGroups[g]) > 0 && (
+                            <span className="badge bg-info text-white" title="Số subgroup">
+                              +{countSubgroups(tempGroups[g])}
+                            </span>
+                          )}
+                          <button
+                            onClick={(e) => { e.stopPropagation(); renameGroup(g); }}
+                            className="btn btn-sm btn-link text-secondary p-1"
+                            title="Đổi tên"
+                          >
+                            <BtnIcon name="Edit2" size={12} />
+                          </button>
+                        </div>
                       </div>
+                      {/* Subgroups list */}
+                      {expandedGroups.has(g) && tempGroups[g].__subgroups__ && (
+                        <div className="ms-3 border-start ps-2">
+                          {Object.keys(tempGroups[g].__subgroups__).map(sub => (
+                            <div
+                              key={sub}
+                              onClick={() => { setActiveGroup(g); setActiveSubGroup(sub); }}
+                              className={`p-2 rounded small d-flex justify-content-between align-items-center ${activeGroup === g && activeSubGroup === sub
+                                ? "bg-success bg-opacity-25 fw-bold text-success"
+                                : "bg-light"
+                                }`}
+                              style={{ cursor: 'pointer', marginTop: '2px' }}
+                            >
+                              <span className="text-truncate d-flex align-items-center gap-1">
+                                <BtnIcon name="Folder" size={12} /> {sub}
+                              </span>
+                              <div className="d-flex align-items-center gap-1">
+                                <span className="badge bg-white text-dark border" style={{ fontSize: '10px' }}>
+                                  {Object.keys(tempGroups[g].__subgroups__[sub]).length}
+                                </span>
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); renameSubGroup(sub); }}
+                                  className="btn btn-sm btn-link text-secondary p-0"
+                                  title="Đổi tên subgroup"
+                                >
+                                  <BtnIcon name="Edit2" size={10} />
+                                </button>
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); deleteSubGroup(sub); }}
+                                  className="btn btn-sm btn-link text-danger p-0"
+                                  title="Xóa subgroup"
+                                >
+                                  <BtnIcon name="Trash2" size={10} />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))}
                   <button
@@ -1316,63 +1695,106 @@ ${dataObjectsContent}
                     Xóa Group này
                   </button>
                 </div>
-                <div className="d-flex flex-column bg-white p-3" style={{ width: '75%' }}>
+
+                {/* RIGHT PANEL - Variables */}
+                <div className="d-flex flex-column bg-white p-3" style={{ width: '72%' }}>
                   <div className="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
                     <h5 className="fw-bold text-primary d-flex align-items-center gap-2 mb-0">
-                      <BtnIcon name="Folder" /> {activeGroup}
+                      <BtnIcon name="Folder" /> {currentTitle}
                     </h5>
-                    <button
-                      onClick={() => renameGroup(activeGroup)}
-                      className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
-                    >
-                      <BtnIcon name="Edit2" size={14} /> Đổi tên nhóm
-                    </button>
-                  </div>
-                  <div className="flex-fill overflow-auto mb-3">
-                    {Object.keys(tempGroups[activeGroup] || {}).length ===
-                      0 && (
-                        <div className="text-secondary text-center py-5">
-                          Trống
-                        </div>
+                    <div className="d-flex gap-2">
+                      {/* Add Subgroup button - only for parent groups */}
+                      {!activeSubGroup && (
+                        <button
+                          onClick={addSubGroup}
+                          className="btn btn-sm btn-outline-success d-flex align-items-center gap-1"
+                          title="Thêm nhóm con"
+                        >
+                          <BtnIcon name="FolderPlus" size={14} /> + Subgroup
+                        </button>
                       )}
-                    {Object.entries(tempGroups[activeGroup] || {}).map(
-                      ([k, v]) => (
-                        <div key={k} className="d-flex gap-2 border-bottom pb-2 mb-2 align-items-start">
+                      <button
+                        onClick={() => activeSubGroup ? renameSubGroup(activeSubGroup) : renameGroup(activeGroup)}
+                        className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                      >
+                        <BtnIcon name="Edit2" size={14} /> Đổi tên
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Variables list */}
+                  <div className="flex-fill overflow-auto mb-3">
+                    {Object.keys(currentVars).length === 0 && (
+                      <div className="text-secondary text-center py-5">
+                        Trống
+                      </div>
+                    )}
+                    {Object.entries(currentVars).map(([k, v]) => (
+                      <div key={k} className="d-flex gap-2 border-bottom pb-2 mb-2 align-items-start">
+                        {/* Variable name with rename button */}
+                        <div className="d-flex align-items-center gap-1" style={{ width: '22%' }}>
                           <input
-                            className="form-control form-control-sm font-monospace fw-bold text-primary bg-light"
-                            style={{ width: '20%' }}
+                            className="form-control form-control-sm font-monospace fw-bold text-primary bg-light flex-fill"
                             readOnly
                             value={k}
+                            title={k}
                           />
-                          {/* Dropdown chọn loại quote - MẶC ĐỊNH: backtick (`) */}
-                          <select
-                            className="form-select form-select-sm"
-                            style={{ width: '60px' }}
-                            value={varQuoteTypes[k] || '`'}
-                            onChange={(e) => setVarQuoteTypes({ ...varQuoteTypes, [k]: e.target.value })}
-                            title="Loại quote khi export"
-                          >
-                            <option value="`">`</option>
-                            <option value='"'>"</option>
-                            <option value="var">var</option>
-                          </select>
-                          <textarea
-                            className="form-control form-control-sm code-input"
-                            style={{ width: '55%' }}
-                            rows={Math.max(1, v.split("\n").length)}
-                            value={v}
-                            onChange={(e) => updateVar(k, e.target.value)}
-                          />
+                          {/* FEATURE 2: Rename Variable Button */}
                           <button
-                            onClick={() => deleteVar(k)}
-                            className="btn btn-sm btn-link text-danger"
+                            onClick={() => renameVar(k)}
+                            className="btn btn-sm p-1"
+                            style={{ color: '#9333ea' }}
+                            title="Đổi tên biến"
                           >
-                            <BtnIcon name="Trash2" />
+                            <BtnIcon name="Edit2" size={14} />
                           </button>
                         </div>
-                      )
-                    )}
+                        {/* Quote type dropdown */}
+                        <select
+                          className="form-select form-select-sm"
+                          style={{ width: '55px' }}
+                          value={varQuoteTypes[k] || '`'}
+                          onChange={(e) => setVarQuoteTypes({ ...varQuoteTypes, [k]: e.target.value })}
+                          title="Loại quote"
+                        >
+                          <option value="`">`</option>
+                          <option value='"'>"</option>
+                          <option value="var">var</option>
+                        </select>
+                        {/* Value textarea */}
+                        <textarea
+                          className="form-control form-control-sm code-input"
+                          style={{ width: '48%' }}
+                          rows={Math.max(1, (typeof v === 'string' ? v.split("\n").length : 1))}
+                          defaultValue={v}
+                          key={`${k}-${activeGroup}-${activeSubGroup || ''}`}
+                          onBlur={(e) => updateVar(k, e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && e.ctrlKey) {
+                              e.target.blur();
+                            }
+                          }}
+                        />
+                        {/* FEATURE 3: Preview HTML Button */}
+                        <button
+                          onClick={() => setPreviewHtml({ varName: k, content: v })}
+                          className="btn btn-sm btn-outline-info p-1"
+                          title="Preview HTML"
+                        >
+                          <BtnIcon name="Eye" size={16} />
+                        </button>
+                        {/* Delete button */}
+                        <button
+                          onClick={() => deleteVar(k)}
+                          className="btn btn-sm btn-link text-danger p-1"
+                        >
+                          <BtnIcon name="Trash2" size={16} />
+                        </button>
+                      </div>
+                    ))}
                   </div>
+
+                  {/* Add new variable form */}
                   <form
                     onSubmit={addVar}
                     className="d-flex gap-2 pt-3 border-top bg-light p-2 rounded"
@@ -1388,12 +1810,12 @@ ${dataObjectsContent}
                       name="val"
                       placeholder="Giá trị (VALUE)..."
                       className="form-control form-control-sm"
-                      style={{ width: '65%' }}
+                      style={{ width: '60%' }}
                       rows={1}
                       required
                     />
-                    <button className="btn btn-success fw-bold" style={{ width: '10%' }}>
-                      +
+                    <button className="btn btn-success fw-bold" style={{ width: '15%' }}>
+                      + Thêm
                     </button>
                   </form>
                 </div>
@@ -1408,7 +1830,7 @@ ${dataObjectsContent}
           <div className="container-fluid bg-white rounded shadow border overflow-hidden" style={{ maxWidth: '1400px' }}>
             <div className="bg-dark text-white p-3 d-flex align-items-center justify-content-between">
               <h1 className="h4 fw-bold d-flex align-items-center gap-2 mb-0">
-                ⚡ Flowchart Editor (v6.0 - Hybrid Node Support)
+                Flowchart Editor
               </h1>
               <div className="d-flex gap-2 align-items-center">
                 {isHtmlFile && (
@@ -1439,22 +1861,7 @@ ${dataObjectsContent}
             </div>
 
             {/* Info Banner về tính năng mới */}
-            <div className="alert alert-info border-info m-3 mb-0" role="alert">
-              <div className="d-flex align-items-start gap-2">
-                <div style={{ fontSize: '24px' }}>🎉</div>
-                <div>
-                  <h6 className="fw-bold mb-1">Tính Năng Mới: Hybrid Node & Condition Panel</h6>
-                  <ul className="small mb-0 ps-3">
-                    <li><strong>🎯 Điều Kiện (dieukien):</strong> Panel màu tím hiển thị điều kiện cần thiết</li>
-                    <li><strong>📦 Hybrid Node:</strong> Node có thể vừa hiển thị content (PDF/XMTT/Notes/Điều kiện) VỪA tạo dropdown con</li>
-                    <li><strong>✨ Linh hoạt:</strong> Thêm content vào bất kỳ level nào, không chỉ leaf node</li>
-                  </ul>
-                  <div className="small text-muted mt-2">
-                    📘 Xem hướng dẫn chi ti ết tại: <code>HUONG DAN/huong-dan-cap-nhat-moi.html</code>
-                  </div>
-                </div>
-              </div>
-            </div>
+
 
             <div className="p-3 border-bottom bg-light">
               <label htmlFor="dataSourceSelect" className="form-label fw-bold small mb-1">Chọn Khối Dữ Liệu để Sửa:</label>
@@ -1622,15 +2029,17 @@ ${dataObjectsContent}
                     )}
                   </div>
 
-                  {["dieukien", "note", "xmttib", "xmttecom", "alert"].map((f) => {
+                  {["tieudeflow", "dieukien", "note", "xmttib", "xmttemail", "xmttchat", "alert"].map((f) => {
                     // Unique key for this field in this node
                     const fieldKey = `${editingNode.path.join('.')}.${f}`;
                     // Friendly field names with emojis
                     const fieldLabels = {
+                      tieudeflow: "🏷️ TIÊU ĐỀ FLOW (Label)",
                       dieukien: "🎯 ĐIỀU KIỆN (Condition)",
                       note: "📝 LƯU Ý (Note)",
                       xmttib: "🔵 XMTT INBOUND",
-                      xmttecom: "🔵 XMTT ECOM",
+                      xmttemail: "🟢 XMTT EMAIL",
+                      xmttchat: "🟣 XMTT CHAT",
                       alert: "⚠️ THÔNG BÁO (Alert)"
                     };
                     return (
@@ -1639,11 +2048,11 @@ ${dataObjectsContent}
                           <label className="form-label small fw-medium text-secondary mb-0">
                             {fieldLabels[f] || f} (Hỗ trợ HTML)
                           </label>
-                          {/* Dropdown chọn loại quote - MẶC ĐỊNH: note/xmttib/xmttecom=`, alert=" */}
+                          {/* Dropdown chọn loại quote - MẶC ĐỊNH: note/xmttib/xmttecom=`, alert/tieudeflow=" */}
                           <select
                             className="form-select form-select-sm"
                             style={{ width: '60px' }}
-                            value={nodeQuoteTypes[fieldKey] || (f === 'alert' ? '"' : '`')}
+                            value={nodeQuoteTypes[fieldKey] || (f === 'alert' || f === 'tieudeflow' ? '"' : '`')}
                             onChange={(e) => setNodeQuoteTypes({ ...nodeQuoteTypes, [fieldKey]: e.target.value })}
                             title="Loại quote khi export"
                           >
@@ -1700,6 +2109,41 @@ ${dataObjectsContent}
             </div>
           )}
           {showConstModal && <ConstantsManager />}
+
+          {/* HTML Preview Modal */}
+          {previewHtml && (
+            <div
+              className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4"
+              style={{ backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 1100 }}
+              onClick={() => setPreviewHtml(null)}
+            >
+              <div
+                className="bg-white rounded shadow-lg w-100 d-flex flex-column"
+                style={{ maxWidth: '800px', maxHeight: '80vh' }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-3 border-bottom d-flex justify-content-between align-items-center bg-info text-white rounded-top">
+                  <h5 className="fw-bold mb-0 d-flex align-items-center gap-2">
+                    <BtnIcon name="Eye" size={18} /> Preview: {previewHtml.varName}
+                  </h5>
+                  <button onClick={() => setPreviewHtml(null)} className="btn-close btn-close-white"></button>
+                </div>
+                <div className="p-4 overflow-auto" style={{ maxHeight: '60vh' }}>
+                  {/* Rendered HTML */}
+                  <div
+                    className="border rounded p-3 bg-light"
+                    dangerouslySetInnerHTML={{ __html: previewHtml.content }}
+                  />
+                </div>
+                <div className="p-3 border-top bg-light d-flex justify-content-between align-items-center">
+                  <small className="text-muted">Đây là preview HTML đã render</small>
+                  <button onClick={() => setPreviewHtml(null)} className="btn btn-info">
+                    Đóng
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Error Modal */}
           {errorInfo && (

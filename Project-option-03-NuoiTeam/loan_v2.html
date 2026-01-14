@@ -2192,14 +2192,9 @@
           selectedNode.dieukien !== undefined
         );
 
-        if (hasContent) {
-          // Hiển thị thông tin điều kiện
-          if (typeof selectedNode.dieukien === 'string') {
-            displayConditionInfo(selectedNode.dieukien);
-          }
-
-          // Hiển thị nội dung khác (PDF, XMTT, Notes...)
-          displayResult(selectedNode);
+        // Hiển thị thông tin điều kiện nếu có
+        if (hasContent && typeof selectedNode.dieukien === 'string') {
+          displayConditionInfo(selectedNode.dieukien);
         }
 
         // ============================================
@@ -2219,13 +2214,25 @@
           createDropdown(childKeys, level + 1, selectedNode, selectedNode);
         }
 
-        // Lưu trạng thái vào URL để có thể chia sẻ link
+        // Lưu trạng thái vào URL và build pathArray để có thể chia sẻ link
         const path = Array.from(document.querySelectorAll(".filter-select"))
           .map((s) => s.value)
           .filter(Boolean);
+
         if (path.length > 0) {
           saveStateToURL(path);
+
+          // Check if this is a parent node without PDF/HTML content
+          const hasContentToDisplay = selectedNode.pdf || selectedNode.htmlUrl || selectedNode.htmlContent;
+
+          if (!hasContentToDisplay && childKeys.length > 0) {
+            // Empty - do nothing
+          } else if (typeof displayResult === 'function') {
+            // Has content or displayResult exists - use normal flow
+            displayResult(selectedNode, path);
+          }
         }
+
       }
 
       // Hiển thị thông tin điều kiện trong panel riêng

@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Editor Offline</title>
+    <script src="tinymce/js/tinymce/tinymce.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-header h1 {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .header-btn.primary {
+            background: #3b82f6;
+            border-color: #3b82f6;
+        }
+
+        .header-btn.success {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .editor-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .editor-wrapper {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+        }
+
+        .tips-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .tips-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tips-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .tips-card ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .tips-card li {
+            color: #aaa;
+            font-size: 13px;
+            padding: 5px 0;
+        }
+
+        .tips-card li::before {
+            content: "✓ ";
+            color: #10b981;
+        }
+
+        .info-bar {
+            background: #2d2d44;
+            padding: 15px 25px;
+            text-align: center;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #1e1e2e;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: #2d2d44;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .code-area {
+            flex: 1;
+            background: #0d0d15;
+            color: #a6e22e;
+            border: none;
+            padding: 20px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: none;
+            min-height: 400px;
+        }
+
+        .modal-actions {
+            padding: 15px 20px;
+            background: #2d2d44;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        /* TinyMCE dialogs z-index - must be above popup link modal */
+        .tox-tinymce-aux {
+            z-index: 999999 !important;
+        }
+
+        .tox .tox-dialog-wrap {
+            z-index: 999999 !important;
+        }
+
+        .tox .tox-dialog-wrap__backdrop {
+            z-index: 999998 !important;
+        }
+
+        .tox .tox-menu {
+            z-index: 999999 !important;
+        }
+
+        .tox .tox-collection--toolbar {
+            z-index: 999999 !important;
+        }
+
+        /* Popup Link Modal - Edit popup content */
+        #popupLinkModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 99999;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 10vh;
+        }
+
+        #popupLinkModal .popup-link-content {
+            background: linear-gradient(145deg, #1e1e2e, #252540);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        #popupLinkModal .popup-link-header {
+            padding: 18px 24px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #popupLinkModal .popup-link-header h3 {
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        #popupLinkModal .popup-link-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        #popupLinkModal .popup-link-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        #popupLinkModal .popup-link-body {
+            padding: 20px;
+            flex: 1;
+            overflow: auto;
+        }
+
+        #popupLinkModal .popup-link-footer {
+            padding: 16px 24px;
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        #popupLinkModal .popup-link-footer .left-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        #popupLinkModal .popup-link-footer .right-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .popup-btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .popup-btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+        }
+
+        .popup-btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        .popup-btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+        }
+
+        .popup-btn-delete:hover {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+        }
+
+        .popup-btn-apply {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+        }
+
+        .popup-btn-apply:hover {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        .popup-title-group {
+            margin-bottom: 15px;
+        }
+
+        .popup-title-label {
+            display: block;
+            color: #aaa;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .popup-title-input {
+            width: 100%;
+            background: #0d0d18;
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 15px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .popup-title-input:focus {
+            outline: none;
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+        }
+
+        .popup-title-input::placeholder {
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-header">
+        <h1>HTML Editor Offline</h1>
+        <div class="header-buttons">
+            <button class="header-btn" onclick="loadHTML()">📂 Load</button>
+            <button class="header-btn primary" onclick="viewCode()">👁 Code</button>
+            <button class="header-btn" onclick="viewFormattedCode()" style="background:#8b5cf6;border-color:#8b5cf6;">✨
+                Format</button>
+            <button class="header-btn success" onclick="exportHTML()">💾 Export</button>
+            <button class="header-btn" onclick="clearEditor()">🗑 Clear</button>
+        </div>
+    </div>
+
+    <div class="editor-container">
+        <div class="editor-wrapper">
+            <textarea id="editor">
+
+            </textarea>
+        </div>
+    </div>
+
+    <div class="info-bar">
+
+    </div>
+
+    <div id="codeModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📄 HTML Code</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <textarea id="codeArea" class="code-area"></textarea>
+            <div class="modal-actions">
+                <button class="header-btn" onclick="copyCode()">📋 Copy</button>
+                <button class="header-btn primary" onclick="applyCode()">✅ Apply</button>
+                <button class="header-btn" onclick="closeModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Link Editor Modal -->
+    <div id="popupLinkModal">
+        <div class="popup-link-content">
+            <div class="popup-link-header">
+                <h3>📎 Chỉnh sửa Popup Link</h3>
+                <button class="popup-link-close" onclick="closePopupLinkModal()">&times;</button>
+            </div>
+            <div class="popup-link-body">
+                <div class="popup-title-group">
+                    <label class="popup-title-label">Tiêu đề Popup</label>
+                    <input type="text" id="popupLinkTitle" class="popup-title-input"
+                        placeholder="Nhập tiêu đề hiển thị trên popup...">
+                </div>
+                <label class="popup-title-label">Nội dung Popup</label>
+                <textarea id="popupLinkEditor"></textarea>
+            </div>
+            <div class="popup-link-footer">
+                <div class="left-actions">
+                    <button class="popup-btn popup-btn-delete" onclick="removePopupLink()">🗑 Xóa Popup Link</button>
+                </div>
+                <div class="right-actions">
+                    <button class="popup-btn popup-btn-cancel" onclick="closePopupLinkModal()">Hủy</button>
+                    <button class="popup-btn popup-btn-apply" onclick="applyPopupLink()">✅ Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Popup Link variables
+        var popupLinkEditorInstance = null;
+        var currentPopupLinkElement = null;
+        var isCreatingNew = false;
+
+        // Initialize popup link TinyMCE editor with FULL features
+        function initPopupLinkEditor() {
+            return tinymce.init({
+                selector: '#popupLinkEditor',
+                height: 350,
+                base_url: 'tinymce/js/tinymce',
+                suffix: '.min',
+                promotion: false,
+                license_key: 'gpl',
+                plugins: 'table lists link image code fullscreen searchreplace wordcount',
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table link image | code fullscreen',
+                menubar: 'file edit view insert format tools table',
+                table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | tablemergecells tablesplitcells',
+                table_appearance_options: true,
+                table_advtab: true,
+                table_cell_advtab: true,
+                table_row_advtab: true,
+                content_style: 'body { font-family: Arial, sans-serif; font-size: 14px; padding: 10px; }',
+                setup: function (editor) {
+                    editor.on('init', function () {
+                        popupLinkEditorInstance = editor;
+                    });
+                }
+            });
+        }
+
+        // Open popup link modal for editing
+        function openPopupLinkModal(element, isNew) {
+            isCreatingNew = isNew || false;
+            currentPopupLinkElement = element;
+
+            document.getElementById('popupLinkModal').style.display = 'flex';
+
+            var popupContent = '';
+            var popupTitle = 'Thông tin';
+
+            if (!isNew && element) {
+                popupContent = element.getAttribute('data-popup-content') || '';
+                popupTitle = element.getAttribute('data-popup-title') || 'Thông tin';
+                // Decode HTML entities
+                var temp = document.createElement('div');
+                temp.innerHTML = popupContent;
+                popupContent = temp.innerHTML;
+            }
+
+            // Set title input
+            document.getElementById('popupLinkTitle').value = popupTitle;
+
+            if (!popupLinkEditorInstance) {
+                initPopupLinkEditor().then(function () {
+                    setTimeout(function () {
+                        if (popupLinkEditorInstance) {
+                            popupLinkEditorInstance.setContent(popupContent);
+                            document.getElementById('popupLinkTitle').focus();
+                        }
+                    }, 100);
+                });
+            } else {
+                popupLinkEditorInstance.setContent(popupContent);
+                document.getElementById('popupLinkTitle').focus();
+            }
+        }
+
+        // Close popup link modal
+        function closePopupLinkModal() {
+            document.getElementById('popupLinkModal').style.display = 'none';
+            document.getElementById('popupLinkTitle').value = '';
+            currentPopupLinkElement = null;
+            isCreatingNew = false;
+        }
+
+        // Apply popup link changes
+        function applyPopupLink() {
+            if (!popupLinkEditorInstance) return;
+
+            var popupContent = popupLinkEditorInstance.getContent();
+            var popupTitle = document.getElementById('popupLinkTitle').value || 'Thông tin';
+            var mainEditor = tinymce.get('editor');
+
+            if (isCreatingNew && mainEditor) {
+                // Create new popup link from selection
+                var selectedText = mainEditor.selection.getContent({ format: 'text' });
+                if (!selectedText) selectedText = 'Popup Link';
+
+                // Encode content for attribute
+                var encodedContent = popupContent.replace(/"/g, '&quot;');
+                var encodedTitle = popupTitle.replace(/"/g, '&quot;');
+
+                var html = '<span class="popup-link" data-popup-title="' + encodedTitle + '" data-popup-content="' + encodedContent + '" style="color: #2563eb; cursor: pointer; padding: 2px 4px;">' + selectedText + '</span>';
+                mainEditor.execCommand('mceInsertContent', false, html);
+            } else if (currentPopupLinkElement) {
+                // Update existing popup link
+                var encodedContent = popupContent.replace(/"/g, '&quot;');
+                var encodedTitle = popupTitle.replace(/"/g, '&quot;');
+                currentPopupLinkElement.setAttribute('data-popup-content', encodedContent);
+                currentPopupLinkElement.setAttribute('data-popup-title', encodedTitle);
+            }
+
+            closePopupLinkModal();
+
+            if (mainEditor) {
+                mainEditor.focus();
+            }
+        }
+
+        // Remove popup link - convert back to normal text
+        function removePopupLink() {
+            if (!currentPopupLinkElement) return;
+
+            var mainEditor = tinymce.get('editor');
+            if (mainEditor) {
+                var textContent = currentPopupLinkElement.textContent;
+                var parent = currentPopupLinkElement.parentNode;
+                var textNode = mainEditor.getDoc().createTextNode(textContent);
+                parent.replaceChild(textNode, currentPopupLinkElement);
+            }
+
+            closePopupLinkModal();
+        }
+
+        tinymce.init({
+            selector: '#editor',
+            height: 700,
+            base_url: 'tinymce/js/tinymce',
+            suffix: '.min',
+            promotion: false,
+            license_key: 'gpl',
+            plugins: 'table lists link image code fullscreen searchreplace wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table link image | addpopuplink | code fullscreen',
+            menubar: 'file edit view insert format tools table',
+            table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | tablemergecells tablesplitcells',
+            table_appearance_options: true,
+            table_advtab: true,
+            table_cell_advtab: true,
+            table_row_advtab: true,
+            content_style: `
+                body { font-family: Arial, sans-serif; font-size: 14px; }
+                .popup-link { 
+                    color: #2563eb; 
+                    cursor: pointer; 
+                    padding: 2px 4px;
+                    background: rgba(37, 99, 235, 0.1);
+                    border-radius: 3px;
+                }
+                .popup-link:hover {
+                    background: rgba(37, 99, 235, 0.2);
+                }
+            `,
+            setup: function (editor) {
+                // Register button to add popup link
+                editor.ui.registry.addButton('addpopuplink', {
+                    icon: 'comment-add',
+                    tooltip: 'Thêm Popup Link',
+                    onAction: function () {
+                        var selectedText = editor.selection.getContent({ format: 'text' });
+                        if (!selectedText || selectedText.trim() === '') {
+                            alert('Vui lòng chọn một đoạn văn bản trước!');
+                            return;
+                        }
+                        openPopupLinkModal(null, true);
+                    }
+                });
+
+                // Handle click on popup-link elements
+                editor.on('click', function (e) {
+                    var target = e.target;
+                    // Check if clicked element is a popup-link or inside one
+                    var popupLink = target.closest('.popup-link');
+                    if (popupLink) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openPopupLinkModal(popupLink, false);
+                    }
+                });
+
+                editor.on('init', function () {
+                    console.log('TinyMCE initialized!');
+                    var saved = localStorage.getItem('tinymce-content');
+                    if (saved) {
+                        editor.setContent(saved);
+                    }
+                });
+                editor.on('change', function () {
+                    localStorage.setItem('tinymce-content', editor.getContent());
+                });
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                var modal = document.getElementById('popupLinkModal');
+                if (modal.style.display === 'flex') {
+                    closePopupLinkModal();
+                }
+            }
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('popupLinkModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closePopupLinkModal();
+            }
+        });
+
+        var importedFileName = 'document.html';
+
+        function loadHTML() {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.html,.htm,.txt';
+            input.onchange = function (e) {
+                var file = e.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var content = e.target.result;
+                        var bodyMatch = content.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+                        if (bodyMatch) content = bodyMatch[1];
+                        content = content.replace(/<script[\s\S]*?<\/script>/gi, '');
+                        content = content.replace(/<style[\s\S]*?<\/style>/gi, '');
+                        tinymce.activeEditor.setContent(content);
+                        importedFileName = file.name;
+                        alert('Đã load: ' + file.name);
+                    };
+                    reader.readAsText(file, 'UTF-8');
+                }
+            };
+            input.click();
+        }
+
+        function viewCode() {
+            var html = tinymce.activeEditor.getContent();
+            // Decode all HTML entities
+            var decoded = decodeHtmlEntities(html);
+            document.getElementById('codeArea').value = decoded;
+            document.getElementById('codeModal').style.display = 'flex';
+        }
+
+        function viewFormattedCode() {
+            var html = tinymce.activeEditor.getContent();
+            // Decode all HTML entities
+            var decoded = decodeHtmlEntities(html);
+            // Minify: remove extra whitespace, newlines
+            var minified = decoded.replace(/\s+/g, ' ').replace(/>\s+</g, '><').trim();
+            document.getElementById('codeArea').value = minified;
+            document.getElementById('codeModal').style.display = 'flex';
+        }
+
+        function decodeHtmlEntities(str) {
+            // Use DOMParser to decode HTML entities
+            var doc = new DOMParser().parseFromString(str, 'text/html');
+            var html = doc.body.innerHTML;
+            // Also replace &nbsp; with regular space
+            html = html.replace(/&nbsp;/g, ' ');
+            return html;
+        }
+
+        function beautifyHtml(html) {
+            var indent = 0;
+            var result = '';
+            var tokens = html.replace(/>\s*</g, '>\n<').split('\n');
+
+            var selfClosing = ['br', 'hr', 'img', 'input', 'meta', 'link', 'col', 'area', 'base', 'embed', 'param', 'source', 'track', 'wbr'];
+
+            tokens.forEach(function (token) {
+                token = token.trim();
+                if (!token) return;
+
+                var isClosing = token.match(/^<\/\w/);
+                var isSelfClosing = token.match(/\/>$/) || selfClosing.some(function (tag) {
+                    return token.match(new RegExp('^<' + tag + '[\\s>]', 'i'));
+                });
+                var isOpening = token.match(/^<\w/) && !isClosing && !isSelfClosing;
+
+                if (isClosing) {
+                    indent = Math.max(0, indent - 1);
+                }
+
+                result += '    '.repeat(indent) + token + '\n';
+
+                if (isOpening) {
+                    indent++;
+                }
+            });
+
+            return result.trim();
+        }
+
+        function closeModal() {
+            document.getElementById('codeModal').style.display = 'none';
+        }
+
+        function copyCode() {
+            var area = document.getElementById('codeArea');
+            area.select();
+            document.execCommand('copy');
+            alert('Đã copy!');
+        }
+
+        function applyCode() {
+            tinymce.activeEditor.setContent(document.getElementById('codeArea').value);
+            closeModal();
+        }
+
+        function exportHTML() {
+            var html = tinymce.activeEditor.getContent();
+
+            // CSS for popup links
+            var popupLinkCSS = `
+.popup-link { color: #2563eb; cursor: pointer; padding: 2px 4px; background: rgba(37, 99, 235, 0.1); border-radius: 3px; }
+.popup-link:hover { background: rgba(37, 99, 235, 0.2); }
+.popup-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center; }
+.popup-box { background: #fff; border-radius: 12px; max-width: 600px; width: 90%; max-height: 80vh; overflow: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: popupFadeIn 0.3s ease; }
+.popup-box-header { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+.popup-box-header h4 { margin: 0; font-size: 1rem; }
+.popup-box-close { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; font-size: 18px; }
+.popup-box-body { padding: 20px; }
+@keyframes popupFadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+`;
+
+            // JavaScript for popup links
+            var popupLinkJS = `
+(function() {
+    var overlay = document.createElement('div');
+    overlay.className = 'popup-overlay';
+    overlay.innerHTML = '<div class="popup-box"><div class="popup-box-header"><h4 id="popupBoxTitle">📎 Thông tin</h4><button class="popup-box-close" onclick="closePopupBox()">&times;</button></div><div class="popup-box-body" id="popupBoxContent"></div></div>';
+    document.body.appendChild(overlay);
+    
+    window.openPopupBox = function(title, content) {
+        document.getElementById('popupBoxTitle').innerHTML = '📎 ' + title;
+        document.getElementById('popupBoxContent').innerHTML = content;
+        overlay.style.display = 'flex';
+    };
+    
+    window.closePopupBox = function() {
+        overlay.style.display = 'none';
+    };
+    
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closePopupBox();
+    });
+    
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closePopupBox();
+    });
+    
+    document.querySelectorAll('.popup-link').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            e.preventDefault();
+            var content = this.getAttribute('data-popup-content') || '';
+            var title = this.getAttribute('data-popup-title') || 'Thông tin';
+            // Decode HTML entities
+            var temp = document.createElement('div');
+            temp.innerHTML = content;
+            openPopupBox(title, temp.innerHTML);
+        });
+    });
+})();
+`;
+
+            var full = '<!DOCTYPE html>\\n<html>\\n<head>\\n<meta charset="UTF-8">\\n<title>Document</title>\\n<style>\\nbody{font-family:Arial,sans-serif;padding:20px;}\\ntable{border-collapse:collapse;width:100%;}\\ntd,th{border:1px solid #ccc;padding:8px;}\\n' + popupLinkCSS + '</style>\\n</head>\\n<body>\\n' + html + '\\n<script>' + popupLinkJS + '</' + 'script>\\n</body>\\n</html>';
+            var blob = new Blob([full], { type: 'text/html' });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = importedFileName;
+            a.click();
+        }
+
+        function clearEditor() {
+            if (confirm('Xóa toàn bộ nội dung?')) {
+                tinymce.activeEditor.setContent('<p>Bắt đầu soạn thảo...</p>');
+                localStorage.removeItem('tinymce-content');
+            }
+        }
+    </script>
+</body>
+
+</html>
