@@ -1,0 +1,214 @@
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+    padding: 20px;
+}
+
+.container {
+    max-width: 100%;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #1a73e8;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+    background: #f8fafc;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+label {
+    font-weight: bold;
+    color: #1a73e8;
+    font-size: 12px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.scroll-list {
+    height: 120px;
+    overflow-y: auto;
+    font-size: 13px;
+}
+
+.item {
+    display: block;
+    padding: 2px 0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.item:hover {
+    background: #e8f0fe;
+}
+
+.info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.table-area {
+    overflow: auto;
+    max-height: 450px;
+    border: 1px solid #ddd;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th {
+    background: #1a73e8;
+    color: white;
+    position: sticky;
+    top: 0;
+    padding: 10px;
+    font-size: 12px;
+    z-index: 5;
+}
+
+td {
+    border: 1px solid #eee;
+    padding: 8px;
+    text-align: center;
+    font-size: 11px;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.bad-qc {
+    background-color: #fff4f4;
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-reset {
+    padding: 8px 15px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-select {
+    padding: 8px 15px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Modal chung */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background: white;
+    margin: 10% auto;
+    padding: 20px;
+    width: 350px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Popup kết quả (Rộng hơn) */
+#resultModal .modal-content {
+    width: 90%;
+    max-width: 1000px;
+    margin: 5% auto;
+}
+
+.result-scroll {
+    max-height: 400px;
+    overflow: auto;
+    margin-top: 15px;
+    border: 1px solid #eee;
+}
+
+.btn-submit {
+    padding: 8px 20px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-close-result {
+    padding: 10px 25px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.btn-group-popup {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.btn-open-tool {
+    padding: 10px 25px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.btn-open-tool:hover {
+    background: #1557b0;
+}
