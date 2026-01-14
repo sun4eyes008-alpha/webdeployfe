@@ -73,13 +73,27 @@
         <div class="dropdown">
           <button class="tab-btn dropdown-toggle">QUY ĐỊNH CHUNG</button>
           <div class="dropdown-menu">
-            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="XAC MINH THONG TIN.pdf">
+            <!-- Xác Minh Thông Tin với submenu -->
+            <div class="dropdown-item has-submenu">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
               </svg>
               Xác Minh Thông Tin
-            </a>
+              <div class="dropdown-submenu">
+                <a href="#" class="dropdown-item pdf-link-btn" data-pdf="XMTT_QUY_DINH_CHUNG.pdf">Quy định chung</a>
+                <a href="#" class="dropdown-item pdf-link-btn" data-pdf="XMTT_PHAN_LOAI_RUI_RO.pdf">Phân loại rủi ro</a>
+                <div class="dropdown-item has-submenu">
+                  Câu hỏi xác minh
+                  <div class="dropdown-submenu">
+                    <a href="#" class="dropdown-item pdf-link-btn" data-pdf="XMTT_LEVEL_A.pdf">Level A - Thông tin
+                      KH</a>
+                    <a href="#" class="dropdown-item pdf-link-btn" data-pdf="XMTT_LEVEL_B.pdf">Level B - Thông tin
+                      HĐ</a>
+                  </div>
+                </div>
+              </div>
+            </div>
             <a href="#" class="dropdown-item pdf-link-btn" data-pdf="TIEP NHAN CUOC GOI.pdf">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -101,6 +115,24 @@
               </svg>
               Hướng Dẫn Nhập Liệu
             </a>
+            <!-- Quy định hỗ trợ người thứ 3 với submenu -->
+            <div class="dropdown-item has-submenu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+              </svg>
+              Quy định hỗ trợ người thứ 3
+              <div class="dropdown-submenu">
+                <a href="#" class="dropdown-item pdf-link-btn" data-pdf="HT_NGUOI_THU_3_DU_NO.pdf">Dư nợ/Thỏa thuận
+                  khoản vay</a>
+                <a href="#" class="dropdown-item pdf-link-btn" data-pdf="HT_NGUOI_THU_3_BOI_THUONG.pdf">Bồi thường bảo
+                  hiểm</a>
+                <a href="#" class="dropdown-item pdf-link-btn" data-pdf="HT_NGUOI_THU_3_NGUNG_NHAC_NO.pdf">Ngưng nhắc nợ
+                  dân sự</a>
+                <a href="#" class="dropdown-item pdf-link-btn" data-pdf="HT_NGUOI_THU_3_YEU_CAU_KHAC.pdf">Các yêu cầu
+                  khác</a>
+              </div>
+            </div>
           </div>
         </div>
         <button class="tab-btn pdf-link-btn" data-pdf="TAI LIEU THAM KHAO.pdf">TÀI LIỆU THAM KHẢO</button>
