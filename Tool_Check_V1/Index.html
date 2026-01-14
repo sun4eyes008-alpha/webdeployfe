@@ -148,10 +148,14 @@
                 return Object.keys(sel).every(key => sel[key].size === 0 || sel[key].has(String(row[key])));
             });
 
+            // Các cột cần loại bỏ khỏi hiển thị (chuyển về lowercase để so sánh)
+            const excludeDisplayCols = ['thỏa điều kiện', 'đếm data', 'chấm', 'ngày lấy data', 'date sp1'];
+            const displayCols = cols.filter(c => !excludeDisplayCols.includes(c.toLowerCase().trim()));
+
             document.getElementById('stat').innerText = `Kết quả: ${filtered.length} dòng`;
-            document.getElementById('h-node').innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
+            document.getElementById('h-node').innerHTML = `<tr>${displayCols.map(c => `<th>${c}</th>`).join('')}</tr>`;
             document.getElementById('b-node').innerHTML = filtered.map(row => `
-            <tr>${cols.map(c => {
+            <tr>${displayCols.map(c => {
                 const isZero = (row[c] === 0 || row[c] === "0" || row[c] === "");
                 const cls = (c === 'QC SP' && !isZero) ? 'class="bad-qc"' : '';
                 return `<td ${cls}>${isZero ? "0" : row[c]}</td>`;
@@ -205,9 +209,13 @@
         }
 
         function showResultPopup(data) {
-            document.getElementById('rh-node').innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
+            // Các cột cần loại bỏ khỏi hiển thị (chuyển về lowercase để so sánh)
+            const excludeDisplayCols = ['thỏa điều kiện', 'đếm data', 'chấm', 'ngày lấy data', 'date sp1'];
+            const displayCols = cols.filter(c => !excludeDisplayCols.includes(c.toLowerCase().trim()));
+
+            document.getElementById('rh-node').innerHTML = `<tr>${displayCols.map(c => `<th>${c}</th>`).join('')}</tr>`;
             document.getElementById('rb-node').innerHTML = data.map(row => `
-            <tr>${cols.map(c => `<td>${row[c] || "0"}</td>`).join('')}</tr>
+            <tr>${displayCols.map(c => `<td>${row[c] || "0"}</td>`).join('')}</tr>
         `).join('');
             document.getElementById('resultModal').style.display = 'block';
         }
