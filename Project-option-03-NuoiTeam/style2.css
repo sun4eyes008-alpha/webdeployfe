@@ -506,6 +506,20 @@ body.sidebar-collapsed {
   display: block;
 }
 
+/* Hover to open dropdown (sidebar) - except when just selected */
+.custom-dropdown:not(.just-selected):hover .dropdown-list {
+  display: block;
+}
+
+.custom-dropdown:not(.just-selected):hover .dropdown-header {
+  border-color: #009f52;
+  box-shadow: 0 0 0 2px rgba(0, 159, 82, 0.2);
+}
+
+.custom-dropdown:not(.just-selected):hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
 /* Dropdown items */
 .dropdown-item {
   padding: 10px 12px;

@@ -2147,6 +2147,12 @@
             dropdownHeader.querySelector('.dropdown-text').textContent = text;
             customDropdown.classList.remove("open");
 
+            // Thêm class để tạm thời vô hiệu hóa hover (cho phép đóng dropdown)
+            customDropdown.classList.add("just-selected");
+            setTimeout(() => {
+              customDropdown.classList.remove("just-selected");
+            }, 300);
+
             // Cập nhật trạng thái selected
             dropdownList.querySelectorAll('.dropdown-item').forEach(item => {
               item.classList.remove('selected');
