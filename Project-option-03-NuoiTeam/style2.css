@@ -1297,9 +1297,9 @@ body:not(.sidebar-collapsed) #sidebar {
 .dropdown {
   position: relative;
   display: inline-block;
-  /* Add padding to create an invisible 'bridge' for the cursor */
-  padding-bottom: 10px;
-  margin-bottom: -10px;
+  /* Tạo vùng đệm vô hình để cursor có thể di chuyển thoải mái */
+  padding-bottom: 20px;
+  margin-bottom: -20px;
   /* Counteract the padding to not affect layout */
 }
 
@@ -1309,18 +1309,34 @@ body:not(.sidebar-collapsed) #sidebar {
 }
 
 .dropdown-menu {
-  display: none;
+  /* Đổi từ display sang opacity/visibility để transition hoạt động */
+  opacity: 0;
+  visibility: hidden;
   position: absolute;
   min-width: 200px;
-  /* Widen the menu slightly for icons */
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 101;
   border-radius: 20px;
   overflow: visible;
+  /* PHẢI là visible để hiện submenu! */
   right: 0;
-  /* margin-top is removed to fix the hover bug */
   background: #fff;
-  /* User's request */
+
+  /* QUAN TRỌNG: transition cho cả show và hide */
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+  /* Delay 300ms khi ẩn - cho phép di chuột thoải mái */
+  transition-delay: 0.3s;
+}
+
+/* Tạo pseudo-element để mở rộng vùng hover */
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  z-index: -1;
 }
 
 .dropdown-item {
@@ -1373,8 +1389,12 @@ body:not(.sidebar-collapsed) #sidebar {
 }
 
 .dropdown:hover .dropdown-menu {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+  /* Hiện ngay lập tức */
 }
+
 
 /* ===== NESTED SUBMENU STYLES ===== */
 /* Parent item with submenu */
@@ -1391,7 +1411,9 @@ body:not(.sidebar-collapsed) #sidebar {
 
 /* Nested submenu container */
 .dropdown-submenu {
-  display: none;
+  /* Giống dropdown chính - dùng opacity/visibility cho delay */
+  opacity: 0;
+  visibility: hidden;
   position: absolute;
   left: 100%;
   top: 0;
@@ -1401,11 +1423,18 @@ body:not(.sidebar-collapsed) #sidebar {
   border-radius: 12px;
   z-index: 102;
   overflow: visible;
+
+  /* Transition với delay 300ms khi ẩn */
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+  transition-delay: 0.3s;
 }
 
 /* Show submenu on hover */
 .dropdown-item.has-submenu:hover>.dropdown-submenu {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+  /* Hiện ngay lập tức */
 }
 
 /* Submenu items */
