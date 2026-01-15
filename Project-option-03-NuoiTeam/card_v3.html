@@ -2761,6 +2761,130 @@
         }
       }
 
+      /**
+       * Hiển thị thông tin từ header PDF link vào các box XMTT, Notes, Điều kiện
+       * Hàm này được sử dụng khi click vào các link PDF trong header (có class .pdf-link-btn)
+       * @param {Object} data - Object chứa dieukien, note, xmttib, xmttchat, xmttemail
+       */
+      function showHeaderInfo(data) {
+        const subHeader = document.getElementById('sub-header');
+        const dieukienPanel = document.getElementById('dieukien-panel');
+
+        // Lấy các box elements
+        const xmttIbBox = document.getElementById('xmtt-ib-box');
+        const xmttChatBox = document.getElementById('xmtt-chat-box');
+        const xmttEmailBox = document.getElementById('xmtt-email-box');
+        const notesBox = document.getElementById('notes-box');
+
+        const xmttIbContent = document.getElementById('xmtt-ib-content');
+        const xmttChatContent = document.getElementById('xmtt-chat-content');
+        const xmttEmailContent = document.getElementById('xmtt-email-content');
+        const notesResult = document.getElementById('notes-result');
+        const dieukienResult = document.getElementById('dieukien-result');
+
+        // Reset tất cả box về trạng thái ẩn trước
+        if (xmttIbBox) xmttIbBox.style.display = 'none';
+        if (xmttChatBox) xmttChatBox.style.display = 'none';
+        if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+        if (notesBox) notesBox.style.display = 'none';
+        if (dieukienPanel) dieukienPanel.classList.add('hidden');
+
+        // Biến đếm để kiểm tra có box nào hiển thị không
+        let hasAnyBox = false;
+
+        // Hiển thị XMTT IB nếu có dữ liệu
+        if (data.xmttib) {
+          if (xmttIbBox) xmttIbBox.style.display = '';
+          xmttIbContent.innerHTML = `<p>${data.xmttib}</p>`;
+          hasAnyBox = true;
+        }
+
+        // Hiển thị XMTT CHAT nếu có dữ liệu
+        if (data.xmttchat) {
+          if (xmttChatBox) xmttChatBox.style.display = '';
+          xmttChatContent.innerHTML = `<p>${data.xmttchat}</p>`;
+          hasAnyBox = true;
+        }
+
+        // Hiển thị XMTT EMAIL nếu có dữ liệu
+        if (data.xmttemail) {
+          if (xmttEmailBox) xmttEmailBox.style.display = '';
+          xmttEmailContent.innerHTML = `<p>${data.xmttemail}</p>`;
+          hasAnyBox = true;
+        }
+
+        // Hiển thị Notes nếu có dữ liệu
+        if (data.note) {
+          if (notesBox) notesBox.style.display = '';
+          notesResult.innerHTML = `<p>${data.note}</p>`;
+          hasAnyBox = true;
+        }
+
+        // Hiển thị sub-header nếu có ít nhất 1 box được hiển thị
+        if (subHeader && hasAnyBox) {
+          subHeader.style.display = '';
+        } else if (subHeader) {
+          subHeader.style.display = 'none';
+        }
+
+        // Hiển thị Điều kiện nếu có dữ liệu (panel riêng, không phụ thuộc vào sub-header)
+        if (data.dieukien) {
+          if (dieukienPanel) dieukienPanel.classList.remove('hidden');
+          dieukienResult.innerHTML = `<p>${data.dieukien}</p>`;
+        }
+
+        // Cập nhật resize handle visibility sau khi thay đổi display của các box
+        if (typeof window.updateXmttHandleVisibility === 'function') {
+          window.updateXmttHandleVisibility();
+        }
+      }
+
+      // ====================================================================
+      // XỬ LÝ SỰ KIỆN CLICK CHO HEADER PDF LINKS
+      // ====================================================================
+
+      /**
+       * Xử lý sự kiện click vào PDF link trong header
+       * Đọc data attributes và hiển thị thông tin vào các box tương ứng
+       */
+      document.addEventListener('click', function (e) {
+        // Tìm element .pdf-link-btn gần nhất (hỗ trợ click vào các element con như SVG)
+        const btn = e.target.closest('.pdf-link-btn');
+        if (!btn) return;
+
+        // Chỉ xử lý cho các PDF link trong header (không phải trong sidebar/dropdown)
+        const isInHeader = btn.closest('#main-header');
+        if (!isInHeader) return;
+
+        e.preventDefault();
+
+        // 1. Lấy dữ liệu từ data attributes
+        const pdfName = btn.dataset.pdf;
+        const dieukien = btn.dataset.dieukien || '';
+        const note = btn.dataset.note || '';
+        const xmttib = btn.dataset.xmttib || '';
+        const xmttchat = btn.dataset.xmttchat || '';
+        const xmttemail = btn.dataset.xmttemail || '';
+
+        if (!pdfName) return; // Không có PDF name thì không làm gì
+
+        // 2. Reset sidebar và ẩn flowchart dropdowns
+        removeDropdowns(1);
+        createFirstLevelDropdown();
+
+        // 3. Hiển thị PDF trong viewer
+        pdfViewer.src = `./pdf-header/${pdfName}`;
+        pdfViewer.style.display = 'block';
+        htmlViewer.style.display = 'none';
+
+        // 4. Hiển thị thông tin bổ sung vào các box
+        showHeaderInfo({ dieukien, note, xmttib, xmttchat, xmttemail });
+
+        // 5. Cập nhật URL để có thể share link
+        const newUrl = `${window.location.pathname}?pdf=${encodeURIComponent(pdfName)}`;
+        history.pushState({ pdf: pdfName }, '', newUrl);
+      });
+
       // Xóa các dropdown từ một cấp cụ thể trở đi
       function removeDropdowns(startLevel) {
         dynamicFiltersContainer

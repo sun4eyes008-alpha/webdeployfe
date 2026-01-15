@@ -69,7 +69,9 @@
             </a>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-pdf="khuyenmai.pdf">TIN TỨC</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="khuyenmai.pdf"
+          data-note="<strong>Khuyến mãi mới nhất:</strong><br>- Giảm 10% lãi suất cho vay mua xe máy trong tháng 1/2026<br>- Tặng voucher 500k cho khách hàng mới đăng ký qua app"
+          data-xmttib="1. Không cần XMTT">TIN TỨC</button>
         <div class="dropdown">
           <button class="tab-btn dropdown-toggle">QUY ĐỊNH CHUNG</button>
           <div class="dropdown-menu">
@@ -94,7 +96,9 @@
                 </div>
               </div>
             </div>
-            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="TIEP NHAN CUOC GOI.pdf">
+            <a href="#" class="dropdown-item pdf-link-btn" data-pdf="TIEP NHAN CUOC GOI.pdf"
+              data-note="Quy trình tiếp nhận và xử lý cuộc gọi từ khách hàng. Lưu ý: Luôn chào hỏi và xác nhận thông tin khách hàng trước khi cung cấp dịch vụ."
+              data-xmttib="2. CMND/CCCD" data-dieukien="Áp dụng cho tất cả các cuộc gọi Inbound và Chat">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                   d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
@@ -129,13 +133,16 @@
                   hiểm</a>
                 <a href="#" class="dropdown-item pdf-link-btn" data-pdf="HT_NGUOI_THU_3_NGUNG_NHAC_NO.pdf">Ngưng nhắc nợ
                   dân sự</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-pdf="HT_NGUOI_THU_3_YEU_CAU_KHAC.pdf">Các yêu cầu
+                <a href="#" class="dropdown-item pdf-link-btn" data-pdf="HT_NGUOI_THU_3_YEU_CAU_KHAC.pdf"
+                  data-dieukien="Áp dụng cho tất cả các cuộc gọi Inbound và Chat">Các yêu cầu
                   khác</a>
               </div>
             </div>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-pdf="TAI LIEU THAM KHAO.pdf">TÀI LIỆU THAM KHẢO</button>
+        <button class="tab-btn pdf-link-btn" data-pdf="TAI LIEU THAM KHAO.pdf"
+          data-note="Tài liệu tham khảo các quy định, chính sách và hướng dẫn nghiệp vụ" data-xmttib="1. Không cần XMTT"
+          data-xmttchat="Post Login FEOL 2.0" data-xmttemail="Không cần XMTT cho Email">TÀI LIỆU THAM KHẢO</button>
         <button class="tab-btn pdf-link-btn" data-pdf="HUONG DAN HE THONG.pdf">HƯỚNG DẪN HỆ THỐNG</button>
         <button class="tab-btn pdf-link-btn" data-pdf="CHANGE LOG.pdf" data-tab="change-log" id="change-log-btn">
           CHANGE LOG
@@ -2769,7 +2776,132 @@
         }
       }
 
+      /**
+       * Hiển thị thông tin từ header PDF link vào các box XMTT, Notes, Điều kiện
+       * Hàm này được sử dụng khi click vào các link PDF trong header (có class .pdf-link-btn)
+       * @param {Object} data - Object chứa dieukien, note, xmttib, xmttchat, xmttemail
+       */
+      function showHeaderInfo(data) {
+        const subHeader = document.getElementById('sub-header');
+        const dieukienPanel = document.getElementById('dieukien-panel');
+
+        // Lấy các box elements
+        const xmttIbBox = document.getElementById('xmtt-ib-box');
+        const xmttChatBox = document.getElementById('xmtt-chat-box');
+        const xmttEmailBox = document.getElementById('xmtt-email-box');
+        const notesBox = document.getElementById('notes-box');
+
+        const xmttIbContent = document.getElementById('xmtt-ib-content');
+        const xmttChatContent = document.getElementById('xmtt-chat-content');
+        const xmttEmailContent = document.getElementById('xmtt-email-content');
+        const notesResult = document.getElementById('notes-result');
+        const dieukienResult = document.getElementById('dieukien-result');
+
+        // Reset tất cả box về trạng thái ẩn trước
+        if (xmttIbBox) xmttIbBox.style.display = 'none';
+        if (xmttChatBox) xmttChatBox.style.display = 'none';
+        if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+        if (notesBox) notesBox.style.display = 'none';
+        if (dieukienPanel) dieukienPanel.classList.add('hidden');
+
+        // Biến đếm để kiểm tra có box nào hiển thị không
+        let hasAnyBox = false;
+
+        // Hiển thị XMTT IB nếu có dữ liệu
+        if (data.xmttib) {
+          if (xmttIbBox) xmttIbBox.style.display = '';
+          xmttIbContent.innerHTML = `<p>${data.xmttib}</p>`;
+          hasAnyBox = true;
+        }
+
+        // Hiển thị XMTT CHAT nếu có dữ liệu
+        if (data.xmttchat) {
+          if (xmttChatBox) xmttChatBox.style.display = '';
+          xmttChatContent.innerHTML = `<p>${data.xmttchat}</p>`;
+          hasAnyBox = true;
+        }
+
+        // Hiển thị XMTT EMAIL nếu có dữ liệu
+        if (data.xmttemail) {
+          if (xmttEmailBox) xmttEmailBox.style.display = '';
+          xmttEmailContent.innerHTML = `<p>${data.xmttemail}</p>`;
+          hasAnyBox = true;
+        }
+
+        // Hiển thị Notes nếu có dữ liệu
+        if (data.note) {
+          if (notesBox) notesBox.style.display = '';
+          notesResult.innerHTML = `<p>${data.note}</p>`;
+          hasAnyBox = true;
+        }
+
+        // Hiển thị sub-header nếu có ít nhất 1 box được hiển thị
+        if (subHeader && hasAnyBox) {
+          subHeader.style.display = '';
+        } else if (subHeader) {
+          subHeader.style.display = 'none';
+        }
+
+        // Hiển thị Điều kiện nếu có dữ liệu (panel riêng, không phụ thuộc vào sub-header)
+        if (data.dieukien) {
+          if (dieukienPanel) dieukienPanel.classList.remove('hidden');
+          dieukienResult.innerHTML = `<p>${data.dieukien}</p>`;
+        }
+
+        // Cập nhật resize handle visibility sau khi thay đổi display của các box
+        if (typeof window.updateXmttHandleVisibility === 'function') {
+          window.updateXmttHandleVisibility();
+        }
+      }
+
+      // ====================================================================
+      // XỬ LÝ SỰ KIỆN CLICK CHO HEADER PDF LINKS
+      // ====================================================================
+
+      /**
+       * Xử lý sự kiện click vào PDF link trong header
+       * Đọc data attributes và hiển thị thông tin vào các box tương ứng
+       */
+      document.addEventListener('click', function (e) {
+        // Tìm element .pdf-link-btn gần nhất (hỗ trợ click vào các element con như SVG)
+        const btn = e.target.closest('.pdf-link-btn');
+        if (!btn) return;
+
+        // Chỉ xử lý cho các PDF link trong header (không phải trong sidebar/dropdown)
+        const isInHeader = btn.closest('#main-header');
+        if (!isInHeader) return;
+
+        e.preventDefault();
+
+        // 1. Lấy dữ liệu từ data attributes
+        const pdfName = btn.dataset.pdf;
+        const dieukien = btn.dataset.dieukien || '';
+        const note = btn.dataset.note || '';
+        const xmttib = btn.dataset.xmttib || '';
+        const xmttchat = btn.dataset.xmttchat || '';
+        const xmttemail = btn.dataset.xmttemail || '';
+
+        if (!pdfName) return; // Không có PDF name thì không làm gì
+
+        // 2. Reset sidebar và ẩn flowchart dropdowns
+        removeDropdowns(1);
+        createFirstLevelDropdown();
+
+        // 3. Hiển thị PDF trong viewer
+        pdfViewer.src = `./pdf-header/${pdfName}`;
+        pdfViewer.style.display = 'block';
+        htmlViewer.style.display = 'none';
+
+        // 4. Hiển thị thông tin bổ sung vào các box
+        showHeaderInfo({ dieukien, note, xmttib, xmttchat, xmttemail });
+
+        // 5. Cập nhật URL để có thể share link
+        const newUrl = `${window.location.pathname}?pdf=${encodeURIComponent(pdfName)}`;
+        history.pushState({ pdf: pdfName }, '', newUrl);
+      });
+
       // Xóa các dropdown từ một cấp cụ thể trở đi
+
       function removeDropdowns(startLevel) {
         dynamicFiltersContainer
           .querySelectorAll(".filter-group")
