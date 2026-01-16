@@ -1830,94 +1830,82 @@
       // Lưu trạng thái đường dẫn vào URL (nén bằng LZ-String)
       function saveStateToURL(path) {
         const jsonPath = JSON.stringify(path);
-        // Sử dụng LZ-String để nén dữ liệu (giảm 50-70% độ dài URL)
+        // Sử dụng LZ-String để nén dữ liệu
         const compressed = LZString.compressToEncodedURIComponent(jsonPath);
-        // Thêm source vào URL để có thể khôi phục chính xác
+
+        // ✨ UPDATE: Update state but DO NOT navigate (avoid reload loop)
+        appState.type = 'sidebar';
+        appState.sidebar = { source: state.activeSourceName, path: path };
+
+        // Construct URL manually to ensure it matches
         const newUrl = `${window.location.pathname}#source=${state.activeSourceName}&s=${compressed}`;
-        history.pushState(
-          { path: path, source: state.activeSourceName },
-          "",
-          newUrl
-        );
-        // Đồng thời lưu vào sessionStorage làm backup với key riêng cho trang này
+
+        history.pushState(appState.snapshot(), "", newUrl);
+
+        // Đồng thời lưu vào sessionStorage
         sessionStorage.setItem('loanFlowchartState', jsonPath);
         sessionStorage.setItem('loanSource', state.activeSourceName);
-        // Cập nhật link LOAN với state mới
+
+        // Update Link icon logic (kept for compatibility)
         updateLoanLinkWithState();
       }
 
       // Khôi phục trạng thái từ URL khi load trang
       function restoreStateFromURL() {
         console.log('📍 restoreStateFromURL() called');
-        console.log('   Current URL:', window.location.href);
-        console.log('   Search:', window.location.search);
-        console.log('   Hash:', window.location.hash);
 
-        // ƯU TIÊN ĐỌC TỪ HASH (vì link trong PDF và navigation dùng hash)
-        let urlParams;
-
-        if (window.location.hash && window.location.hash.includes('=')) {
-          // Parse từ hash (format: #source=...&s=...)
-          urlParams = new URLSearchParams(window.location.hash.substring(1));
-          console.log('   📌 Reading from HASH');
-        } else {
-          // Fallback: Parse từ query string (format: ?source=...&s=...)
-          urlParams = new URLSearchParams(window.location.search);
-          console.log('   📌 Reading from QUERY STRING');
+        // Check history state first (most reliable)
+        if (history.state && (history.state.type || history.state.pdf || history.state.path)) {
+          console.log('   Using history.state');
+          restoreState(history.state);
+          return true;
         }
 
-        const compressed = urlParams.get('s');      // Dữ liệu đường dẫn đã nén
-        const sourceParam = urlParams.get('source'); // Nguồn dữ liệu
-        let headerPdf = urlParams.get('pdf');      // PDF từ header
+        // Determine params from hash or search
+        let urlParams;
+        if (window.location.hash && window.location.hash.includes('=')) {
+          urlParams = new URLSearchParams(window.location.hash.substring(1));
+        } else {
+          urlParams = new URLSearchParams(window.location.search);
+        }
 
-        console.log('   Compressed:', compressed ? 'YES' : 'NO');
-        console.log('   Source:', sourceParam);
-        console.log('   PDF:', headerPdf);
+        const headerPdf = urlParams.get('pdf');
+        const compressed = urlParams.get('s');
+        const sourceParam = urlParams.get('source');
 
-        // Kiểm tra nếu đang xem PDF từ header
         if (headerPdf) {
-          console.log('   ✅ Loading header PDF:', headerPdf);
-          // Chuyển đến nguồn dữ liệu đúng nếu có trong URL
-          if (sourceParam && dataSources[sourceParam]) {
-            switchDataSource(sourceParam, true);
+          console.log('   Found PDF in URL');
+          const pdfState = {
+            pdfName: decodeURIComponent(headerPdf),
+            // Info boxes not available from URL alone unless we parse complex state
+            // But usually clicks set these. If direct link, boxes are empty (acceptable)
+          };
+          // Try to restore box data from history state if it matches
+          if (history.state && history.state.headerPdf && history.state.headerPdf.pdfName === pdfState.pdfName) {
+            Object.assign(pdfState, history.state.headerPdf);
           }
-          // Hiển thị PDF từ header
-          resetResults();
-          removeDropdowns(1);
-          pdfViewer.src = `./pdf-header/${decodeURIComponent(headerPdf)}`;
-          pdfViewer.style.display = 'block';
+
+          navigateTo('header-pdf', pdfState, false);
           return true;
         }
 
         if (compressed) {
-          console.log('   ✅ Found compressed data, decompressing...');
+          console.log('   Found compressed state in URL');
           try {
-            // Chuyển đến nguồn dữ liệu đúng TRƯỚC nếu có trong URL
-            if (sourceParam && dataSources[sourceParam]) {
-              switchDataSource(sourceParam, true);
-            }
-
-            // Giải nén bằng LZ-String
             const jsonPath = LZString.decompressFromEncodedURIComponent(compressed);
             const path = JSON.parse(jsonPath);
-            console.log('   ✅ Decompressed path:', path);
             if (Array.isArray(path)) {
-              applySearchResult(path, false);
-              // Lưu vào session storage trong trường hợp truy cập từ link trực tiếp
-              sessionStorage.setItem('loanFlowchartState', jsonPath);
-              // Lưu source vào sessionStorage để các trang khác sử dụng
-              sessionStorage.setItem('loanSource', state.activeSourceName);
-              updateLoanLinkWithState();
-              return true; // Indicate success
+              // Update app state
+              appState.type = 'sidebar';
+              appState.sidebar = { source: sourceParam || state.activeSourceName, path: path };
+              renderState(appState);
+              return true;
             }
-          } catch (e) {
-            console.error("❌ Không thể phân tích dữ liệu nén từ URL.", e);
-            return false; // Thất bại
-          }
+          } catch (e) { console.error('Decompress failed', e); }
         }
 
-        console.log('   ⚠️ No content to restore');
-        return false; // Không tìm thấy state
+        console.log('   No state in URL');
+        return false;
       }
 
       // Khôi phục trạng thái từ Session Storage (backup)
@@ -2221,11 +2209,10 @@
 
         // Nếu chọn "-- Chọn --" (giá trị rỗng), reset URL
         if (!selectedKey) {
-          history.pushState(
-            { source: state.activeSourceName },
-            "",
-            `${window.location.pathname}#source=${state.activeSourceName}`
-          );
+          const path = Array.from(document.querySelectorAll(".filter-select"))
+            .map((s) => s.value)
+            .filter(Boolean);
+          saveStateToURL(path);
           return;
         }
         const selectedNode = parentDataNode[selectedKey];
@@ -2401,47 +2388,288 @@
       // PHẦN 8: EVENT LISTENERS (THIẾT LẬP SỰ KIỆN)
       // ====================================================================
 
+      // ====================================================================
+      // PHẦN 7.5: CENTRALIZED STATE MANAGEMENT (NEW ARCHITECTURE)
+      // ====================================================================
+
+      /**
+       * Centralized application state - Single Source of Truth
+       * Tất cả navigation state được quản lý tại đây
+       */
+      const appState = {
+        type: null,        // 'sidebar' | 'header-pdf'
+
+        sidebar: {
+          source: null,
+          path: []         // Array of selections
+        },
+
+        headerPdf: {
+          pdfName: null,
+          dieukien: '',
+          note: '',
+          xmttib: '',
+          xmttchat: '',
+          xmttemail: ''
+        },
+
+        // Tạo snapshot của state hiện tại để lưu vào history
+        snapshot() {
+          return {
+            type: this.type,
+            sidebar: { ...this.sidebar, path: [...this.sidebar.path] },
+            headerPdf: { ...this.headerPdf }
+          };
+        },
+
+        // Restore state từ snapshot
+        restore(snapshot) {
+          if (!snapshot) return;
+          this.type = snapshot.type;
+          this.sidebar = snapshot.sidebar ? { ...snapshot.sidebar, path: [...(snapshot.sidebar.path || [])] } : { source: null, path: [] };
+          this.headerPdf = snapshot.headerPdf ? { ...snapshot.headerPdf } : { pdfName: null };
+        }
+      };
+
+      /**
+       * Unified Navigation API - Điểm duy nhất để navigate
+       * @param {string} type - 'sidebar' | 'header-pdf'
+       * @param {Object} data - Navigation data
+       * @param {boolean} createHistory - Có tạo history entry không
+       */
+      function navigateTo(type, data, createHistory = true) {
+        console.log(`🚀 navigateTo(${type})`, data);
+
+        // 1. Update app state
+        appState.type = type;
+
+        if (type === 'sidebar') {
+          appState.sidebar = data;
+          appState.headerPdf = { pdfName: null }; // Clear header state
+        } else if (type === 'header-pdf') {
+          appState.headerPdf = data;
+          // Sidebar state giữ nguyên để có context
+        }
+
+        // 2. Render UI based on new state
+        renderState(appState);
+
+        // 3. Update browser history
+        if (createHistory) {
+          const url = buildUrlFromState(appState);
+          const state = appState.snapshot();
+          console.log('  💾 Saving to history:', JSON.stringify(state));
+          history.pushState(state, "", url);
+          console.log('  ✅ Created history entry at:', url);
+        }
+      }
+
+      /**
+       * Restore state và render UI
+       * @param {Object} state - State snapshot từ history
+       */
+      function restoreState(state) {
+        if (!state) {
+          console.log('⚠️ No state to restore');
+          return;
+        }
+
+        console.log('📦 Restoring state:', state);
+
+        // ✨ FIXED: Handle cả OLD format và NEW format cho backward compatibility
+        if (state.type) {
+          // NEW format: { type, sidebar, headerPdf }
+          console.log('  Using NEW format');
+          appState.restore(state);
+          renderState(appState);
+        } else if (state.isHeaderPdf || state.pdf) {
+          // OLD format header: { pdf, isHeaderPdf, ... }
+          console.log('  Using OLD format (header-pdf)');
+          renderHeaderPdfState({
+            pdfName: state.pdf,
+            dieukien: state.dieukien || '',
+            note: state.note || '',
+            xmttib: state.xmttib || '',
+            xmttchat: state.xmttchat || '',
+            xmttemail: state.xmttemail || ''
+          });
+        } else if (state.path && Array.isArray(state.path)) {
+          // OLD format sidebar with path: { path, source }
+          console.log('  Using OLD format (sidebar with path)');
+          if (state.source && dataSources[state.source]) {
+            switchDataSource(state.source, true);
+          }
+          applySearchResult(state.path, false);
+        } else if (state.source) {
+          // OLD format tab only: { source }
+          console.log('  Using OLD format (tab only)');
+          if (dataSources[state.source]) {
+            switchDataSource(state.source, true);
+          }
+        } else {
+          // Fallback: try restoreStateFromURL
+          console.log('  Unknown format, falling back to URL');
+          restoreStateFromURL();
+        }
+      }
+
+      /**
+       * Render UI based on current app state
+       * @param {Object} state - Current app state
+       */
+      function renderState(state) {
+        if (state.type === 'sidebar') {
+          renderSidebarState(state.sidebar);
+        } else if (state.type === 'header-pdf') {
+          renderHeaderPdfState(state.headerPdf);
+        }
+      }
+
+      /**
+       * Render header PDF state
+       */
+      function renderHeaderPdfState(pdfState) {
+        // 1. Reset sidebar về level 1
+        removeDropdowns(1);
+        createFirstLevelDropdown();
+
+        // 2. Load PDF
+        pdfViewer.src = `./pdf-header/${pdfState.pdfName}`;
+        pdfViewer.style.display = 'block';
+        htmlViewer.style.display = 'none';
+
+        // 3. Hiển thị info boxes
+        displayConditionInfo(pdfState.dieukien || '');
+
+        const subHeader = document.getElementById("sub-header");
+        const notesBox = document.getElementById("notes-box");
+        const notesResult = document.getElementById("notes-result");
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttIbContent = document.getElementById("xmtt-ib-content");
+        const xmttEmailBox = document.getElementById("xmtt-email-box");
+        const xmttEmailContent = document.getElementById("xmtt-email-content");
+        const xmttChatBox = document.getElementById("xmtt-chat-box");
+        const xmttChatContent = document.getElementById("xmtt-chat-content");
+
+        // Check nếu có bất kỳ content nào
+        const hasContent = pdfState.note || pdfState.xmttib || pdfState.xmttchat || pdfState.xmttemail;
+
+        if (hasContent) {
+          if (subHeader) subHeader.style.display = '';
+
+          // Notes
+          if (pdfState.note && notesResult) {
+            notesResult.innerHTML = `<p>${pdfState.note}</p>`;
+            if (notesBox) notesBox.style.display = '';
+          } else {
+            if (notesBox) notesBox.style.display = 'none';
+          }
+
+          // XMTT IB
+          if (pdfState.xmttib && xmttIbContent) {
+            xmttIbContent.innerHTML = `<p>${pdfState.xmttib}</p>`;
+            if (xmttIbBox) xmttIbBox.style.display = '';
+          } else {
+            if (xmttIbBox) xmttIbBox.style.display = 'none';
+          }
+
+          // XMTT Chat
+          if (pdfState.xmttchat && xmttChatContent) {
+            xmttChatContent.innerHTML = `<p>${pdfState.xmttchat}</p>`;
+            if (xmttChatBox) xmttChatBox.style.display = '';
+          } else {
+            if (xmttChatBox) xmttChatBox.style.display = 'none';
+          }
+
+          // XMTT Email
+          if (pdfState.xmttemail && xmttEmailContent) {
+            xmttEmailContent.innerHTML = `<p>${pdfState.xmttemail}</p>`;
+            if (xmttEmailBox) xmttEmailBox.style.display = '';
+          } else {
+            if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+          }
+        } else {
+          // Không có content → ẩn tất cả
+          if (subHeader) subHeader.style.display = 'none';
+          if (notesBox) notesBox.style.display = 'none';
+          if (xmttIbBox) xmttIbBox.style.display = 'none';
+          if (xmttChatBox) xmttChatBox.style.display = 'none';
+          if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+        }
+
+        // ✨ NEW: Re-initialize resize logic for XMTT boxes
+        if (window.initXmttResize) {
+          // Use small timeout to ensure DOM update is complete
+          setTimeout(() => window.initXmttResize(true), 10);
+        }
+      }
+
+      /**
+       * Render sidebar state
+       */
+      function renderSidebarState(sidebarState) {
+        if (!sidebarState.path || sidebarState.path.length === 0) {
+          // No path → just switch source
+          if (sidebarState.source && dataSources[sidebarState.source]) {
+            switchDataSource(sidebarState.source, true);
+          }
+          return;
+        }
+
+        // Has path → restore full selection
+        if (sidebarState.source && dataSources[sidebarState.source]) {
+          switchDataSource(sidebarState.source, true);
+        }
+        applySearchResult(sidebarState.path, false);
+      }
+
+      /**
+       * Build URL từ app state
+       */
+      function buildUrlFromState(state) {
+        if (state.type === 'header-pdf') {
+          return `${window.location.pathname}#pdf=${encodeURIComponent(state.headerPdf.pdfName)}`;
+        } else if (state.type === 'sidebar') {
+          const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(state.sidebar.path));
+          return `${window.location.pathname}#source=${state.sidebar.source}&s=${compressed}`;
+        }
+        return window.location.pathname;
+      }
       // Thiết lập các event listener cho ứng dụng
       function setupEventListeners() {
         // Xử lý khi click vào các tab trong sidebar
         document.getElementById('sidebar-tabs').addEventListener('click', (e) => {
-          const source = e.target.dataset.source;
-
           if (e.target.matches('.sidebar-tab-btn')) {
-            // Nếu click vào tab khác HOẶC tab không active
+            const source = e.target.dataset.source;
             if (source !== state.activeSourceName || !state.isTabActive) {
-              // Xóa state TRƯỚC khi chuyển để tránh ô nhiễm chéo
-              history.pushState(
-                { source: source },
-                "",
-                `${window.location.pathname}#source=${source}`
-              );
-              sessionStorage.removeItem('loanFlowchartState');
-              // Kích hoạt tab và hiện thị combobox
+              // Update app state
+              appState.type = 'sidebar';
+              appState.sidebar = { source: source, path: [] };
+
+              // Render UI
               switchDataSource(source, true);
-            }
-            // Nếu click vào tab đang active - reset về dropdown cấp 1
-            else if (source === state.activeSourceName && state.isTabActive) {
-              // Reset lựa chọn và hiển thị dropdown cấp 1
+
+              // Save to URL (no navigateTo to avoid double render/loop)
+              saveStateToURL([]);
+            } else {
+              // Reset
               removeDropdowns(1);
               createFirstLevelDropdown();
               resetResults(true);
-              // Xóa state trong URL
-              history.pushState(
-                { source: source },
-                "",
-                `${window.location.pathname}#source=${source}`
-              );
-              sessionStorage.removeItem('loanFlowchartState');
+
+              appState.sidebar.path = [];
+              saveStateToURL([]);
             }
           }
         });
 
+        // Sidebar toggle
         sidebarToggle.addEventListener("click", () => {
           body.classList.toggle("sidebar-collapsed");
           setTimeout(repositionPopup, 300);
         });
 
+        // Search
         headerSearch.addEventListener("input", (e) =>
           displaySearchResults(searchFlowchartData(e.target.value))
         );
@@ -2450,7 +2678,7 @@
             displaySearchResults(searchFlowchartData(e.target.value));
         });
 
-        // Xử lý keyboard navigation cho search results
+        // Search Keyboard Nav
         headerSearch.addEventListener("keydown", (e) => {
           const items = searchResultsContainer.querySelectorAll('.search-result-item');
           const isSearchOpen = searchResultsContainer.classList.contains('show');
@@ -2470,7 +2698,6 @@
             if (state.searchSelectedIndex >= 0) {
               selectCurrentSearchResult();
             } else if (items.length > 0) {
-              // Nếu chưa chọn item nào, chọn item đầu tiên
               state.searchSelectedIndex = 0;
               selectCurrentSearchResult();
             }
@@ -2504,19 +2731,22 @@
             state.searchSelectedIndex = -1;
           }
         });
-        window.addEventListener("popstate", () => restoreStateFromURL());
 
-        // Xử lý hashchange để đảm bảo nội dung load khi click vào link PDF lần 2
+        // Use centralized restoreState
+        window.addEventListener("popstate", (e) => {
+          restoreState(e.state || history.state);
+        });
+
+        // Simplified hashchange
         window.addEventListener("hashchange", () => {
+          if (history.state && history.state.type) return;
           restoreStateFromURL();
         });
 
-        // QUAN TRỌNG: Xử lý khi click vào link TRONG PDF
-        // GIẢI PHÁP TỐI ƯU: Chỉ poll URL khi PDF đang hiển thị
+        // URL Polling Logic
         window.lastProcessedUrl = window.location.href;
         let urlCheckInterval = null;
 
-        // Helper: Check xem PDF có đang hiển thị không
         function isPdfVisible() {
           const pdfViewer = document.getElementById('pdf-viewer');
           if (!pdfViewer) return false;
@@ -2525,11 +2755,9 @@
         }
 
         function checkUrlChange() {
-          // CHỈ check URL nếu PDF đang hiển thị
-          if (!isPdfVisible()) {
-            console.log('⏭️ Skipping URL check - PDF not visible');
-            return;
-          }
+          if (!isPdfVisible()) return;
+
+          if (history.state && history.state.type) return; // Managed state, skip check
 
           const currentUrl = window.location.href;
           if (currentUrl !== window.lastProcessedUrl) {
@@ -2541,13 +2769,11 @@
 
         function startUrlPolling() {
           if (urlCheckInterval) return;
-          console.log('▶️ Start URL polling');
           urlCheckInterval = setInterval(checkUrlChange, 300);
         }
 
         function stopUrlPolling() {
           if (urlCheckInterval) {
-            console.log('⏸️ Stop URL polling');
             clearInterval(urlCheckInterval);
             urlCheckInterval = null;
           }
@@ -2582,13 +2808,11 @@
           startUrlPolling();
         });
 
-        document.addEventListener('click', (e) => {
-          console.log('👆 Click detected, checking URL...');
+        document.addEventListener('click', () => {
           checkUrlChange();
           startUrlPolling();
         }, true);
 
-        console.log('🚀 Auto-starting URL polling on page load');
         startUrlPolling();
 
         document.querySelectorAll(".expand-btn").forEach((btn) => {
@@ -2601,37 +2825,8 @@
 
         window.addEventListener("resize", repositionPopup);
 
-        document.querySelector('.header-tabs').addEventListener('click', (e) => {
-          if (e.target.classList.contains('pdf-link-btn')) {
-            const pdfName = e.target.getAttribute('data-pdf');
-
-            if (pdfName) {
-              // Reset dropdown: giữ cấp 1 nhưng reset giá trị, xóa cấp 2 trở lên
-              const firstSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
-              if (firstSelect) {
-                firstSelect.value = ""; // Reset về "-- Chọn --"
-              }
-              removeDropdowns(2); // Xóa cấp 2 trở lên
-
-              // Reset nội dung các box trong sub-header
-              document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
-              const emailContent = document.getElementById("xmtt-email-content");
-              if (emailContent) emailContent.innerHTML = "<p>...</p>";
-              const chatContent = document.getElementById("xmtt-chat-content");
-              if (chatContent) chatContent.innerHTML = "<p>...</p>";
-              notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
-              const dieukienPanel = document.getElementById("dieukien-panel");
-              if (dieukienPanel) dieukienPanel.classList.add("hidden");
-
-              // Cập nhật PDF viewer
-              pdfViewer.src = `./pdf-header/${pdfName}`;
-              pdfViewer.style.display = 'block';
-              htmlViewer.style.display = 'none';
-              // Lưu vào URL với tham số pdf để bookmark/chia sẻ
-              history.pushState({ source: state.activeSourceName, headerPdf: pdfName }, "", `${window.location.pathname}?source=${state.activeSourceName}&pdf=${encodeURIComponent(pdfName)}`);
-            }
-          }
-        });
+        popupCloseBtn.addEventListener("click", closePopup);
+        window.addEventListener("resize", repositionPopup);
 
         // Các nút cuộn trang
         const scrollToTopBtn = document.getElementById('scroll-to-top');
@@ -2957,176 +3152,30 @@
        * Xử lý sự kiện click vào PDF link trong header
        * Đọc data attributes và hiển thị thông tin vào các box tương ứng
        */
+      // Xử lý sự kiện click vào PDF link trong header (Updated state logic)
       document.addEventListener('click', function (e) {
-        // Tìm element .pdf-link-btn gần nhất (hỗ trợ click vào các element con như SVG)
         const btn = e.target.closest('.pdf-link-btn');
         if (!btn) return;
-
-        // Chỉ xử lý cho các PDF link trong header (không phải trong sidebar/dropdown)
-        const isInHeader = btn.closest('#main-header');
-        if (!isInHeader) return;
+        if (!btn.closest('#main-header')) return;
 
         e.preventDefault();
 
-        // 1. Lấy dữ liệu từ data attributes
         const pdfName = btn.dataset.pdf;
-        const dieukien = btn.dataset.dieukien || '';
-        const note = btn.dataset.note || '';
-        const xmttib = btn.dataset.xmttib || '';
-        const xmttchat = btn.dataset.xmttchat || '';
-        const xmttemail = btn.dataset.xmttemail || '';
+        if (!pdfName) return;
 
-        if (!pdfName) return; // Không có PDF name thì không làm gì
-
-        // 2. Reset sidebar và ẩn flowchart dropdowns
-        removeDropdowns(1);
-        createFirstLevelDropdown();
-
-        // 3. Hiển thị PDF trong viewer
-        pdfViewer.src = `./pdf-header/${pdfName}`;
-        pdfViewer.style.display = 'block';
-        htmlViewer.style.display = 'none';
-
-        // 4. Hiển thị thông tin bổ sung vào các box
-        showHeaderInfo({ dieukien, note, xmttib, xmttchat, xmttemail });
-
-        // 5. Cập nhật URL để có thể share link (dùng # cho PowerPoint)
-        const newUrl = `${window.location.pathname}#pdf=${encodeURIComponent(pdfName)}`;
-        history.pushState({ pdf: pdfName }, '', newUrl);
+        navigateTo('header-pdf', {
+          pdfName: pdfName,
+          dieukien: btn.dataset.dieukien || '',
+          note: btn.dataset.note || '',
+          xmttib: btn.dataset.xmttib || '',
+          xmttchat: btn.dataset.xmttchat || '',
+          xmttemail: btn.dataset.xmttemail || ''
+        });
       });
 
       // ====================================================================
-      // PDF LINK STATE PRESERVATION (4-LAYER PROTECTION)
-      // ====================================================================
+      // Hash sync logic removed in favor of centralized appState
 
-      /**
-       * APPROACH 3 & 4: Session Storage Sync & Auto-Restore
-       * Liên tục backup state vào sessionStorage và auto-restore khi cần
-       */
-
-      // Hàm sync state hiện tại vào sessionStorage
-      function syncStateToSessionStorage() {
-        try {
-          const state = {
-            url: window.location.href,
-            search: window.location.search,
-            hash: window.location.hash,
-            timestamp: Date.now()
-          };
-          sessionStorage.setItem('appLastState', JSON.stringify(state));
-        } catch (e) {
-          console.warn('Could not sync state to sessionStorage:', e);
-        }
-      }
-
-      // Backup state trước khi navigate away (beforeunload)
-      window.addEventListener('beforeunload', () => {
-        syncStateToSessionStorage();
-      });
-
-      // Sync state mỗi khi URL thay đổi (popstate)
-      window.addEventListener('popstate', () => {
-        syncStateToSessionStorage();
-      });
-
-      // Auto-restore state khi page load từ PDF link
-      (function autoRestoreState() {
-        try {
-          const urlParams = new URLSearchParams(window.location.search);
-          const hasParams = urlParams.toString().length > 0;
-
-          // Nếu không có params nhưng có saved state gần đây (< 5 giây)
-          if (!hasParams) {
-            const savedStateStr = sessionStorage.getItem('appLastState');
-            if (savedStateStr) {
-              const savedState = JSON.parse(savedStateStr);
-              const timeDiff = Date.now() - savedState.timestamp;
-
-              // Chỉ restore nếu < 5 giây (tránh restore state cũ)
-              if (timeDiff < 5000 && savedState.search) {
-                console.log('🔄 Auto-restoring state from PDF navigation');
-                // Replace current URL với saved state
-                window.location.replace(window.location.pathname + savedState.search);
-                return; // Stop execution, page will reload
-              }
-            }
-          }
-
-          // If we have params, sync them to storage
-          if (hasParams) {
-            syncStateToSessionStorage();
-          }
-        } catch (e) {
-          console.warn('Could not auto-restore state:', e);
-        }
-      })();
-
-      /**
-       * APPROACH 2: Hash-Based State Management
-       * Sync current query params vào hash để preserve tốt hơn
-       */
-      function syncStateToHash() {
-        try {
-          const search = window.location.search;
-          if (search) {
-            // Lưu search params vào hash
-            const currentHash = window.location.hash.substring(1);
-            const newHash = `state=${encodeURIComponent(search)}`;
-
-            // Only update if different
-            if (currentHash !== newHash) {
-              history.replaceState(null, '', window.location.pathname + search + '#' + newHash);
-            }
-          }
-        } catch (e) {
-          console.warn('Could not sync state to hash:', e);
-        }
-      }
-
-      // Restore state from hash nếu có
-      function restoreStateFromHash() {
-        try {
-          const hash = window.location.hash.substring(1);
-          if (!hash) return false;
-
-          // FORMAT 1: Encoded state (#state=%3Fsource%3D...)
-          const match = hash.match(/state=([^&]+)/);
-
-          if (match) {
-            const encodedState = match[1];
-            const stateParams = decodeURIComponent(encodedState);
-
-            // Nếu URL không có search params nhưng hash có
-            if (!window.location.search && stateParams) {
-              console.log('🔄 Restoring state from encoded hash');
-              window.location.replace(window.location.pathname + stateParams);
-              return true;
-            }
-          }
-
-          // FORMAT 2: Direct hash parameters (#source=truyvan&s=...)
-          // Dùng cho PowerPoint PDF links (PowerPoint strips query params but keeps hash)
-          if (hash.includes('=') && !window.location.search) {
-            console.log('🔄 Restoring state from direct hash (PowerPoint format)');
-            // Convert hash to query params
-            window.location.replace(window.location.pathname + '?' + hash);
-            return true;
-          }
-
-        } catch (e) {
-          console.warn('Could not restore state from hash:', e);
-        }
-        return false;
-      }
-
-      // Try to restore from hash first
-      if (!restoreStateFromHash()) {
-        // If no hash restore, sync current state to hash
-        syncStateToHash();
-      }
-
-      // Sync to hash on every state change
-      window.addEventListener('popstate', syncStateToHash);
 
       // Xóa các dropdown từ một cấp cụ thể trở đi
       function removeDropdowns(startLevel) {
@@ -3148,27 +3197,37 @@
   <!-- Initialize OverlayScrollbars for custom scrollbar -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const { OverlayScrollbars } = OverlayScrollbarsGlobal;
-
-      // Apply to body
-      OverlayScrollbars(document.body, {
-        scrollbars: {
-          theme: 'os-theme-dark',
-          autoHide: 'never',
-          visibility: 'visible'
+      try {
+        if (typeof OverlayScrollbarsGlobal === 'undefined') {
+          console.warn('OverlayScrollbarsGlobal is not defined');
+          return;
         }
-      });
+        const { OverlayScrollbars } = OverlayScrollbarsGlobal;
 
-      // Apply to all box-content elements
-      document.querySelectorAll('.box-content, #dieukien-result').forEach(el => {
-        OverlayScrollbars(el, {
-          scrollbars: {
-            theme: 'os-theme-dark',
-            autoHide: 'never',
-            visibility: 'visible'
-          }
+        // Apply to body
+        if (document.body) {
+          OverlayScrollbars(document.body, {
+            scrollbars: {
+              theme: 'os-theme-dark',
+              autoHide: 'never',
+              visibility: 'visible'
+            }
+          });
+        }
+
+        // Apply to all box-content elements and dieukien-result
+        document.querySelectorAll('.box-content, #dieukien-result').forEach(el => {
+          OverlayScrollbars(el, {
+            scrollbars: {
+              theme: 'os-theme-dark',
+              autoHide: 'never',
+              visibility: 'visible'
+            }
+          });
         });
-      });
+      } catch (e) {
+        console.warn('OverlayScrollbars init failed:', e);
+      }
     });
   </script>
 
@@ -3179,6 +3238,13 @@
 
   <!-- Resizable XMTT Boxes Script -->
   <script>
+    // Resizable XMTT Boxes Script (GLOBAL FUNCTION)
+    window.initXmttResize = function (forceReset = false) {
+      if (typeof window._internalInitXmttResize === 'function') {
+        window._internalInitXmttResize(forceReset);
+      }
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
       const xmttRow = document.getElementById('xmtt-row');
       if (!xmttRow) return;
@@ -3200,8 +3266,8 @@
       // Get visible boxes (not display: none)
       function getVisibleBoxes() {
         return Array.from(boxes).filter(box => {
-          const style = window.getComputedStyle(box);
-          return style.display !== 'none';
+          // Check inline style first (most reliable for our toggle logic)
+          return box.style.display !== 'none';
         });
       }
 
@@ -3209,21 +3275,22 @@
       function getVisibleHandles() {
         const visible = [];
         handles.forEach((handle, index) => {
-          const style = window.getComputedStyle(handle);
-          if (style.display !== 'none') {
+          // Check inline style
+          if (handle.style.display !== 'none') {
             visible.push({ handle, index });
           }
         });
         return visible;
       }
 
-      // Get flex values from visible boxes
-      function getFlexValues() {
-        return visibleBoxes.map(box => {
-          const flex = parseFloat(box.style.flexGrow) || 1;
-          return flex;
-        });
-      }
+      // Internal init function exposed globally
+      window._internalInitXmttResize = function (forceReset) {
+        // Update visible boxes list directly from DOM state
+        visibleBoxes = getVisibleBoxes();
+
+        // Update handles visibility based on visible boxes
+        updateHandleVisibility(forceReset);
+      };
 
       // Set flex values to visible boxes
       function setFlexValues(values) {
@@ -3234,105 +3301,74 @@
         });
       }
 
-      // Initialize with equal flex for visible boxes
-      function initializeWidths() {
-        visibleBoxes = getVisibleBoxes();
-        if (visibleBoxes.length === 0) return;
-
-        const equalFlex = 1 / visibleBoxes.length;
-        visibleBoxes.forEach(box => {
-          box.style.flex = `${equalFlex} 1 0`;
-        });
-
-        // Update handle visibility after initializing widths
-        updateHandleVisibility();
-      }
-
       // Update resize handle visibility based on visible boxes
-      function updateHandleVisibility() {
-        const prevVisibleCount = visibleBoxes.length;
+      function updateHandleVisibility(forceReset) {
         visibleBoxes = getVisibleBoxes();
         const currentVisibleCount = visibleBoxes.length;
 
         // Add/remove class for single box styling
-        if (currentVisibleCount === 1) {
+        if (currentVisibleCount <= 1) {
           xmttRow.classList.add('single-box');
         } else {
           xmttRow.classList.remove('single-box');
         }
 
-        // Only redistribute flex values if the number of visible boxes has changed
-        // This preserves user's resize ratios when same boxes remain visible
-        if (currentVisibleCount !== prevVisibleCount && currentVisibleCount > 0) {
-          const equalFlex = 1 / currentVisibleCount;
-          visibleBoxes.forEach(box => {
-            box.style.flex = `${equalFlex} 1 0`;
-          });
+        // Reset widths to equal if forced or invalid state
+        // OR if this is first run (no flex set)
+        if (forceReset || currentVisibleCount > 0) {
+          const hasFlexSet = visibleBoxes.every(b => b.style.flexGrow);
+          if (forceReset || !hasFlexSet) {
+            const equalFlex = 1 / Math.max(1, currentVisibleCount);
+            visibleBoxes.forEach(box => {
+              box.style.flex = `${equalFlex} 1 0`;
+            });
+          }
         }
 
-        // If only 0 or 1 box visible, hide all handles
-        if (visibleBoxes.length < 2) {
-          handles.forEach(handle => {
-            handle.style.display = 'none';
-          });
-          return;
-        }
+        // Handle visibility logic
+        // Reset all handles to hidden first
+        handles.forEach(h => h.style.display = 'none');
 
-        // Get indices of visible boxes in the original boxes array
+        if (currentVisibleCount < 2) return;
+
+        // Logic to show handles between visible boxes
+        // Map visible boxes back to original indices to know which handle to show
         const visibleIndices = [];
         boxes.forEach((box, idx) => {
-          const style = window.getComputedStyle(box);
-          if (style.display !== 'none') {
-            visibleIndices.push(idx);
-          }
+          if (box.style.display !== 'none') visibleIndices.push(idx);
         });
 
-        // Hide all handles first
-        handles.forEach(handle => {
-          handle.style.display = 'none';
-        });
-
-        // Show handles between consecutive visible boxes
-        // For each pair of adjacent visible boxes, show the appropriate handle
+        // Loop through pairs of visible boxes
         for (let i = 0; i < visibleIndices.length - 1; i++) {
-          const leftBoxIndex = visibleIndices[i];
-          const rightBoxIndex = visibleIndices[i + 1];
+          const leftIdx = visibleIndices[i];
+          // Correct mapping from HTML structure:
+          // Box 0 | Handle 0 | Box 1 | Handle 1 | Box 2
 
-          // Determine which handle(s) to show between these boxes
-          // Handle 0 is between box 0 and box 1
-          // Handle 1 is between box 1 and box 2
-
-          if (leftBoxIndex === 0 && rightBoxIndex === 1) {
-            handles[0].style.display = ''; // Show handle 0
-          } else if (leftBoxIndex === 1 && rightBoxIndex === 2) {
-            handles[1].style.display = ''; // Show handle 1
-          } else if (leftBoxIndex === 0 && rightBoxIndex === 2) {
-            // Box 0 and Box 2 visible, Box 1 hidden
-            // Show handle 1 (or handle 0, either works, but handle 1 is closer to middle)
-            handles[1].style.display = '';
-          }
+          if (leftIdx === 0) handles[0].style.display = '';
+          else if (leftIdx === 1) handles[1].style.display = '';
         }
       }
-
 
       // Handle drag start
       handles.forEach((handle, handleIndex) => {
         handle.addEventListener('mousedown', function (e) {
-          // Update visible boxes and handles
           visibleBoxes = getVisibleBoxes();
           visibleHandles = getVisibleHandles();
 
-          if (visibleBoxes.length < 2) return; // Need at least 2 boxes to resize
+          if (visibleBoxes.length < 2) return;
 
-          // Find which visible handle index this is
-          const visibleHandleIndex = visibleHandles.findIndex(vh => vh.handle === handle);
-          if (visibleHandleIndex === -1) return; // Handle is not visible
+          // Find logical index of this handle among visible handles
+          const currentVisibleHandleObj = visibleHandles.find(vh => vh.handle === handle);
+          if (!currentVisibleHandleObj) return;
+
+          // Index of this handle in the visibleHandles array corresponds to the gap index
+          const gapIndex = visibleHandles.indexOf(currentVisibleHandleObj);
 
           isResizing = true;
-          currentHandle = visibleHandleIndex;
+          currentHandle = gapIndex; // 0 means gap between visibleBox[0] and visibleBox[1]
           startX = e.clientX;
 
-          // Get current widths and convert to flex ratios (only for visible boxes)
+          // Get current widths
           const totalWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
           startFlexValues = visibleBoxes.map(box => box.offsetWidth / totalWidth);
 
@@ -3342,83 +3378,56 @@
         });
       });
 
-      // Handle drag
-      document.addEventListener('mousemove', function (e) {
-        if (!isResizing) return;
+      window.addEventListener('mousemove', function (e) {
+        if (!isResizing || currentHandle === null) return;
 
-        const containerWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
+        const totalWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
         const deltaX = e.clientX - startX;
-        const deltaFlex = deltaX / containerWidth;
+        const deltaPercent = deltaX / totalWidth;
+
+        // visibleBoxes[currentHandle] is Left Box
+        // visibleBoxes[currentHandle + 1] is Right Box
 
         const leftBoxIndex = currentHandle;
         const rightBoxIndex = currentHandle + 1;
 
-        // Boundary check for visible boxes
-        if (rightBoxIndex >= visibleBoxes.length) return;
+        if (!visibleBoxes[leftBoxIndex] || !visibleBoxes[rightBoxIndex]) return;
 
-        // Calculate new flex values
-        let newLeftFlex = startFlexValues[leftBoxIndex] + deltaFlex;
-        let newRightFlex = startFlexValues[rightBoxIndex] - deltaFlex;
+        const newLeftFlex = startFlexValues[leftBoxIndex] + deltaPercent;
+        const newRightFlex = startFlexValues[rightBoxIndex] - deltaPercent;
 
-        // Enforce minimum flex
-        if (newLeftFlex < minFlex) {
-          newLeftFlex = minFlex;
-          newRightFlex = startFlexValues[leftBoxIndex] + startFlexValues[rightBoxIndex] - minFlex;
+        if (newLeftFlex >= minFlex && newRightFlex >= minFlex) {
+          // We only update these two boxes, keep others as is
+          // But setFlexValues expects array for ALL visible boxes
+          // So constructing full array
+          const newFlexValues = [...startFlexValues];
+          newFlexValues[leftBoxIndex] = newLeftFlex;
+          newFlexValues[rightBoxIndex] = newRightFlex;
+
+          setFlexValues(newFlexValues);
         }
-        if (newRightFlex < minFlex) {
-          newRightFlex = minFlex;
-          newLeftFlex = startFlexValues[leftBoxIndex] + startFlexValues[rightBoxIndex] - minFlex;
-        }
-
-        // Apply new flex values (only to the two affected visible boxes)
-        const newFlexValues = [...startFlexValues];
-        newFlexValues[leftBoxIndex] = newLeftFlex;
-        newFlexValues[rightBoxIndex] = newRightFlex;
-
-        setFlexValues(newFlexValues);
       });
 
-      // Handle drag end
-      document.addEventListener('mouseup', function () {
+      window.addEventListener('mouseup', function () {
         if (isResizing) {
           isResizing = false;
           currentHandle = null;
           document.body.classList.remove('resizing');
           xmttRow.classList.remove('resizing');
-
-          // Save flex ratios to localStorage for persistence (all boxes)
-          const allFlexValues = Array.from(boxes).map(box => parseFloat(box.style.flexGrow) || 1);
-          localStorage.setItem('xmttBoxFlex', JSON.stringify(allFlexValues));
         }
       });
 
-      // Restore saved flex values or initialize
-      function restoreWidths() {
-        const savedFlex = localStorage.getItem('xmttBoxFlex');
-        if (savedFlex) {
-          try {
-            const flexValues = JSON.parse(savedFlex);
-            if (flexValues.length === boxes.length) {
-              const total = flexValues.reduce((a, b) => a + b, 0);
-              boxes.forEach((box, i) => {
-                const normalizedFlex = flexValues[i] / total;
-                box.style.flex = `${normalizedFlex} 1 0`;
-              });
-              updateHandleVisibility(); // Update after restoring
-              return;
-            }
-          } catch (e) {
-            console.warn('Could not restore XMTT box flex values');
-          }
-        }
-        initializeWidths();
-      }
+      // Resize observer to re-calc if valid
+      const resizeObserver = new ResizeObserver(() => {
+        if (!isResizing) window._internalInitXmttResize();
+      });
+      resizeObserver.observe(xmttRow);
 
-      // Initialize on load
-      restoreWidths();
+      // Expose globally
+      window.initXmttResize = window._internalInitXmttResize;
 
-      // Expose updateHandleVisibility globally for use in displayResult
-      window.updateXmttHandleVisibility = updateHandleVisibility;
+      // Initial call
+      window.initXmttResize();
     });
   </script>
 

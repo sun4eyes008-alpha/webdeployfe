@@ -116,7 +116,7 @@
 
 html,
 body {
-  height: 120%;
+  min-height: 100%;
   width: 100%;
   font-size: 13px;
   /* Global base font size */
