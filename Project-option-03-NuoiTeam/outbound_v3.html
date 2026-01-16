@@ -1848,18 +1848,35 @@
 
       // Khôi phục trạng thái từ URL khi load trang
       function restoreStateFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const compressed = urlParams.get('s');      // Dữ liệu đường dẫn đã nén
-        const sourceParam = urlParams.get('source'); // Nguồn dữ liệu
-        const headerPdf = urlParams.get('pdf');      // PDF từ header
+        console.log('📍 restoreStateFromURL() called');
+        console.log('   Current URL:', window.location.href);
+        console.log('   Search:', window.location.search);
+        console.log('   Hash:', window.location.hash);
 
-        // Kiểm tra nếu đang xem PDF từ header
+        // ƯU TIÊN ĐỌC TỪ HASH (vì link trong PDF và navigation dùng hash)
+        let urlParams;
+
+        if (window.location.hash && window.location.hash.includes('=')) {
+          urlParams = new URLSearchParams(window.location.hash.substring(1));
+          console.log('   📌 Reading from HASH');
+        } else {
+          urlParams = new URLSearchParams(window.location.search);
+          console.log('   📌 Reading from QUERY STRING');
+        }
+
+        const compressed = urlParams.get('s');
+        const sourceParam = urlParams.get('source');
+        let headerPdf = urlParams.get('pdf');
+
+        console.log('   Compressed:', compressed ? 'YES' : 'NO');
+        console.log('   Source:', sourceParam);
+        console.log('   PDF:', headerPdf);
+
         if (headerPdf) {
-          // Chuyển đến nguồn dữ liệu đúng nếu có trong URL
+          console.log('   ✅ Loading header PDF:', headerPdf);
           if (sourceParam && dataSources[sourceParam]) {
             switchDataSource(sourceParam, true);
           }
-          // Hiển thị PDF từ header
           resetResults();
           removeDropdowns(1);
           pdfViewer.src = `./pdf-header/${decodeURIComponent(headerPdf)}`;
@@ -1868,15 +1885,15 @@
         }
 
         if (compressed) {
+          console.log('   ✅ Found compressed data, decompressing...');
           try {
-            // Chuyển đến nguồn dữ liệu đúng TRƯỚC nếu có trong URL
             if (sourceParam && dataSources[sourceParam]) {
               switchDataSource(sourceParam, true);
             }
 
-            // Giải nén bằng LZ-String
             const jsonPath = LZString.decompressFromEncodedURIComponent(compressed);
             const path = JSON.parse(jsonPath);
+            console.log('   ✅ Decompressed path:', path);
             if (Array.isArray(path)) {
               applySearchResult(path, false);
               // Lưu vào session storage trong trường hợp truy cập từ link trực tiếp
@@ -1887,11 +1904,13 @@
               return true; // Indicate success
             }
           } catch (e) {
-            console.error("Không thể phân tích dữ liệu nén từ URL.", e);
-            return false; // Thất bại
+            console.error("❌ Không thể phân tích dữ liệu nén từ URL.", e);
+            return false;
           }
         }
-        return false; // Không tìm thấy state
+
+        console.log('   ⚠️ No content to restore');
+        return false;
       }
 
       // Khôi phục trạng thái từ Session Storage (backup)
@@ -2479,6 +2498,87 @@
           }
         });
         window.addEventListener("popstate", () => restoreStateFromURL());
+
+        // Xử lý hashchange để đảm bảo nội dung load khi click vào link PDF lần 2
+        window.addEventListener("hashchange", () => {
+          restoreStateFromURL();
+        });
+
+        // QUAN TRỌNG: Xử lý khi click vào link TRONG PDF  - GIẢI PHÁP TỐI ƯU
+        window.lastProcessedUrl = window.location.href;
+        let urlCheckInterval = null;
+
+        function isPdfVisible() {
+          const pdfViewer = document.getElementById('pdf-viewer');
+          if (!pdfViewer) return false;
+          const style = window.getComputedStyle(pdfViewer);
+          return style.display !== 'none' && pdfViewer.src && pdfViewer.src !== '';
+        }
+
+        function checkUrlChange() {
+          if (!isPdfVisible()) {
+            console.log('⏭️ Skipping URL check - PDF not visible');
+            return;
+          }
+          const currentUrl = window.location.href;
+          if (currentUrl !== window.lastProcessedUrl) {
+            console.log('🔍 Detected URL change:', window.lastProcessedUrl, '→', currentUrl);
+            window.lastProcessedUrl = currentUrl;
+            restoreStateFromURL();
+          }
+        }
+
+        function startUrlPolling() {
+          if (urlCheckInterval) return;
+          console.log('▶️ Start URL polling');
+          urlCheckInterval = setInterval(checkUrlChange, 300);
+        }
+
+        function stopUrlPolling() {
+          if (urlCheckInterval) {
+            console.log('⏸️ Stop URL polling');
+            clearInterval(urlCheckInterval);
+            urlCheckInterval = null;
+          }
+        }
+
+        let pollTimeout = null;
+        document.addEventListener('mousemove', () => {
+          startUrlPolling();
+          checkUrlChange();
+          clearTimeout(pollTimeout);
+          pollTimeout = setTimeout(stopUrlPolling, 5000);
+        });
+
+        window.addEventListener('focus', () => {
+          checkUrlChange();
+          startUrlPolling();
+        });
+
+        window.addEventListener('blur', stopUrlPolling);
+
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) {
+            checkUrlChange();
+            startUrlPolling();
+          } else {
+            stopUrlPolling();
+          }
+        });
+
+        window.addEventListener('pageshow', () => {
+          checkUrlChange();
+          startUrlPolling();
+        });
+
+        document.addEventListener('click', (e) => {
+          console.log('👆 Click detected, checking URL...');
+          checkUrlChange();
+          startUrlPolling();
+        }, true);
+
+        console.log('🚀 Auto-starting URL polling on page load');
+        startUrlPolling();
 
         document.querySelectorAll(".expand-btn").forEach((btn) => {
           btn.addEventListener("click", () => {

@@ -1857,13 +1857,37 @@
 
       // Khôi phục trạng thái từ URL khi load trang
       function restoreStateFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
+        console.log('📍 restoreStateFromURL() called');
+        console.log('   Current URL:', window.location.href);
+        console.log('   Search:', window.location.search);
+        console.log('   Hash:', window.location.hash);
+
+        // ƯU TIÊN ĐỌC TỪ HASH (vì link trong PDF và navigation dùng hash)
+        let urlParams;
+        let isFromHash = false;
+
+        if (window.location.hash && window.location.hash.includes('=')) {
+          // Parse từ hash (format: #source=...&s=...)
+          urlParams = new URLSearchParams(window.location.hash.substring(1));
+          isFromHash = true;
+          console.log('   📌 Reading from HASH');
+        } else {
+          // Fallback: Parse từ query string (format: ?source=...&s=...)
+          urlParams = new URLSearchParams(window.location.search);
+          console.log('   📌 Reading from QUERY STRING');
+        }
+
         const compressed = urlParams.get('s');      // Dữ liệu đường dẫn đã nén
         const sourceParam = urlParams.get('source'); // Nguồn dữ liệu
-        const headerPdf = urlParams.get('pdf');      // PDF từ header
+        let headerPdf = urlParams.get('pdf');      // PDF từ header
+
+        console.log('   Compressed:', compressed ? 'YES' : 'NO');
+        console.log('   Source:', sourceParam);
+        console.log('   PDF:', headerPdf);
 
         // Kiểm tra nếu đang xem PDF từ header
         if (headerPdf) {
+          console.log('   ✅ Loading header PDF:', headerPdf);
           // Chuyển đến nguồn dữ liệu đúng nếu có trong URL
           if (sourceParam && dataSources[sourceParam]) {
             switchDataSource(sourceParam, true);
@@ -1877,6 +1901,7 @@
         }
 
         if (compressed) {
+          console.log('   ✅ Found compressed data, decompressing...');
           try {
             // Chuyển đến nguồn dữ liệu đúng TRƯỚC nếu có trong URL
             if (sourceParam && dataSources[sourceParam]) {
@@ -1886,6 +1911,7 @@
             // Giải nén bằng LZ-String
             const jsonPath = LZString.decompressFromEncodedURIComponent(compressed);
             const path = JSON.parse(jsonPath);
+            console.log('   ✅ Decompressed path:', path);
             if (Array.isArray(path)) {
               applySearchResult(path, false);
               // Lưu vào session storage trong trường hợp truy cập từ link trực tiếp
@@ -1896,10 +1922,12 @@
               return true; // Indicate success
             }
           } catch (e) {
-            console.error("Không thể phân tích dữ liệu nén từ URL.", e);
+            console.error("❌ Không thể phân tích dữ liệu nén từ URL.", e);
             return false; // Thất bại
           }
         }
+
+        console.log('   ⚠️ No content to restore');
         return false; // Không tìm thấy state
       }
 
@@ -2496,6 +2524,110 @@
         });
         window.addEventListener("popstate", () => restoreStateFromURL());
 
+        // Xử lý hashchange để đảm bảo nội dung load khi click vào link PDF lần 2
+        // (khi browser chỉ thay đổi hash mà không trigger popstate)
+        window.addEventListener("hashchange", () => {
+          restoreStateFromURL();
+        });
+
+        // QUAN TRỌNG: Xử lý khi click vào link TRONG PDF
+        // GIẢI PHÁP TỐI ƯU: Chỉ poll URL khi PDF đang hiển thị
+        // Khi sidebar content hiển thị → Không poll → Không conflict!
+        window.lastProcessedUrl = window.location.href;
+        let urlCheckInterval = null;
+
+        // Helper: Check xem PDF có đang hiển thị không
+        function isPdfVisible() {
+          const pdfViewer = document.getElementById('pdf-viewer');
+          if (!pdfViewer) return false;
+          const style = window.getComputedStyle(pdfViewer);
+          return style.display !== 'none' && pdfViewer.src && pdfViewer.src !== '';
+        }
+
+        function checkUrlChange() {
+          // CHỈ check URL nếu PDF đang hiển thị
+          // Nếu đang xem sidebar content → Skip để tránh conflict
+          if (!isPdfVisible()) {
+            console.log('⏭️ Skipping URL check - PDF not visible');
+            return;
+          }
+
+          const currentUrl = window.location.href;
+          if (currentUrl !== window.lastProcessedUrl) {
+            console.log('🔍 Detected URL change:', window.lastProcessedUrl, '→', currentUrl);
+            window.lastProcessedUrl = currentUrl;
+            restoreStateFromURL();
+          }
+        }
+
+        // Bắt đầu polling khi user có thể interact với PDF
+        function startUrlPolling() {
+          // Tránh tạo nhiều interval
+          if (urlCheckInterval) return;
+
+          console.log('▶️ Start URL polling');
+          // Check mỗi 300ms khi user đang interact với page
+          urlCheckInterval = setInterval(checkUrlChange, 300);
+        }
+
+        // Dừng polling khi không cần (optimization)
+        function stopUrlPolling() {
+          if (urlCheckInterval) {
+            console.log('⏸️ Stop URL polling');
+            clearInterval(urlCheckInterval);
+            urlCheckInterval = null;
+          }
+        }
+
+        // Bắt đầu polling khi PDF viewer được hiển thị hoặc user interact
+        // Check khi mouse move trên page (user đang active)
+        let pollTimeout = null;
+        document.addEventListener('mousemove', () => {
+          startUrlPolling();
+          // Check ngay lập tức - isPdfVisible() sẽ tự động skip nếu cần
+          checkUrlChange();
+          // Dừng sau 5 giây không có mouse move (user idle)
+          clearTimeout(pollTimeout);
+          pollTimeout = setTimeout(stopUrlPolling, 5000);
+        });
+
+        // Check URL khi page được focus (user quay lại tab)
+        window.addEventListener('focus', () => {
+          checkUrlChange();
+          startUrlPolling();
+        });
+
+        // Dừng polling khi page bị blur (user rời tab)
+        window.addEventListener('blur', stopUrlPolling);
+
+        // Check URL khi page visibility thay đổi
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) {
+            checkUrlChange();
+            startUrlPolling();
+          } else {
+            stopUrlPolling();
+          }
+        });
+
+        // Check URL khi page được show (bao gồm back/forward navigation)
+        window.addEventListener('pageshow', () => {
+          checkUrlChange();
+          startUrlPolling();
+        });
+
+        // Click handler - Đơn giản, không cần delay logic
+        document.addEventListener('click', (e) => {
+          console.log('👆 Click detected, checking URL...');
+          // isPdfVisible() sẽ tự động skip nếu sidebar content đang hiển thị
+          checkUrlChange();
+          startUrlPolling();
+        }, true);
+
+        // AUTO-START polling ngay khi load page để sẵn sàng
+        console.log('🚀 Auto-starting URL polling on page load');
+        startUrlPolling();
+
         document.querySelectorAll(".expand-btn").forEach((btn) => {
           btn.addEventListener("click", () => {
             openPopup(btn.dataset.target);
@@ -2887,17 +3019,23 @@
         removeDropdowns(1);
         createFirstLevelDropdown();
 
-        // 3. Hiển thị PDF trong viewer
+        // 3. Hiển thị thông tin bổ sung vào các box TRƯỚC khi thay đổi URL
+        // Điều này đảm bảo nội dung hiển thị ngay lập tức
+        showHeaderInfo({ dieukien, note, xmttib, xmttchat, xmttemail });
+
+        // 4. Hiển thị PDF trong viewer
         pdfViewer.src = `./pdf-header/${pdfName}`;
         pdfViewer.style.display = 'block';
         htmlViewer.style.display = 'none';
 
-        // 4. Hiển thị thông tin bổ sung vào các box
-        showHeaderInfo({ dieukien, note, xmttib, xmttchat, xmttemail });
-
         // 5. Cập nhật URL để có thể share link (dùng # cho PowerPoint)
-        const newUrl = `${window.location.pathname}#pdf=${encodeURIComponent(pdfName)}`;
-        history.pushState({ pdf: pdfName }, '', newUrl);
+        // Dùng window.location.hash để trigger hashchange event
+        window.location.hash = `pdf=${encodeURIComponent(pdfName)}`;
+
+        // 6. Update tracking URL để tránh duplicate processing
+        if (typeof window.lastProcessedUrl !== 'undefined') {
+          window.lastProcessedUrl = window.location.href;
+        }
       });
 
       // ====================================================================
