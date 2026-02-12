@@ -4,10 +4,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PLTT LOAN</title>
+  <title>LOAN</title>
+  <link rel="icon" type="image/x-icon" href="./Asset/img-video/fec_logo-1.png">
   <link rel="stylesheet" href="./Asset/style2.css" />
   <link rel="stylesheet" href="./Asset/theme-default.css" />
+
   <link rel="stylesheet" href="./Asset/theme-tet.css" />
+
+  <!--   <link rel="stylesheet" href="./Asset/theme-he.css" /> -->
+  <!--  <link rel="stylesheet" href="./Asset/theme-thu.css" />
+  <link rel="stylesheet" href="./Asset/theme-dong.css" /> -->
+
+  <style>
+    /* Bỏ gạch chân cho các link trong header */
+    a.tab-btn,
+    a.pdf-link-btn,
+    .dropdown-menu a.dropdown-item {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
 </head>
 
 <body>
@@ -71,7 +87,7 @@
             </a>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-preset="TIN_TUC">TIN TỨC</button>
+        <a href="#preset=TIN_TUC" class="tab-btn pdf-link-btn" data-preset="TIN_TUC">TIN TỨC</a>
         <div class="dropdown">
           <button class="tab-btn dropdown-toggle">QUY ĐỊNH CHUNG</button>
           <div class="dropdown-menu">
@@ -83,32 +99,35 @@
               </svg>
               Xác Minh Thông Tin
               <div class="dropdown-submenu">
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="QD_CHUNG">Quy định chung</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="PHAN_LOAI_RUI_RO">Phân loại rủi ro</a>
+                <a href="#preset=QD_CHUNG" class="dropdown-item pdf-link-btn" data-preset="QD_CHUNG">Quy định chung</a>
+                <a href="#preset=PHAN_LOAI_RUI_RO" class="dropdown-item pdf-link-btn"
+                  data-preset="PHAN_LOAI_RUI_RO">Phân loại rủi ro</a>
                 <div class="dropdown-item has-submenu">
                   Câu hỏi xác minh
                   <div class="dropdown-submenu">
-                    <a href="#" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_A">Level A - Thông tin KH</a>
-                    <a href="#" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_B">Level B - Thông tin HĐ</a>
+                    <a href="#preset=XMTT_LEVEL_A" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_A">Level A
+                      - Thông tin KH</a>
+                    <a href="#preset=XMTT_LEVEL_B" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_B">Level B
+                      - Thông tin HĐ</a>
                   </div>
                 </div>
               </div>
             </div>
-            <a href="#" class="dropdown-item pdf-link-btn" data-preset="TIEP_NHAN_CUOC_GOI">
+            <a href="#preset=TIEP_NHAN_CUOC_GOI" class="dropdown-item pdf-link-btn" data-preset="TIEP_NHAN_CUOC_GOI">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                   d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
               </svg>
               Tiếp Nhận Cuộc Gọi
             </a>
-            <a href="#" class="dropdown-item pdf-link-btn" data-preset="XU_LY_EMAIL_CHAT">
+            <a href="#preset=XU_LY_EMAIL_CHAT" class="dropdown-item pdf-link-btn" data-preset="XU_LY_EMAIL_CHAT">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
               </svg>
               Xử lý Email/Chat
             </a>
-            <a href="#" class="dropdown-item pdf-link-btn" data-preset="HUONG_DAN_NHAP_LIEU">
+            <a href="#preset=HUONG_DAN_NHAP_LIEU" class="dropdown-item pdf-link-btn" data-preset="HUONG_DAN_NHAP_LIEU">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z" />
@@ -123,22 +142,29 @@
               </svg>
               Quy định hỗ trợ người thứ 3
               <div class="dropdown-submenu">
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="DU_NO_THOA_THUAN">Dư nợ/Thỏa thuận khoản
+                <a href="#preset=DU_NO_THOA_THUAN" class="dropdown-item pdf-link-btn" data-preset="DU_NO_THOA_THUAN">Dư
+                  nợ/Thỏa thuận khoản
                   vay</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="BOI_THUONG_BAO_HIEM">Bồi thường bảo hiểm</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="NGUNG_NHAC_NO_DAN_SU">Ngưng nhắc nợ dân
+                <a href="#preset=BOI_THUONG_BAO_HIEM" class="dropdown-item pdf-link-btn"
+                  data-preset="BOI_THUONG_BAO_HIEM">Bồi thường bảo hiểm</a>
+                <a href="#preset=NGUNG_NHAC_NO_DAN_SU" class="dropdown-item pdf-link-btn"
+                  data-preset="NGUNG_NHAC_NO_DAN_SU">Ngưng nhắc nợ dân
                   sự</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="HOAN_TIEN">Hoàn tiền</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="CAC_YEU_CAU_KHAC">Các yêu cầu khác</a>
+                <a href="#preset=HOAN_TIEN" class="dropdown-item pdf-link-btn" data-preset="HOAN_TIEN">Hoàn tiền</a>
+                <a href="#preset=CAC_YEU_CAU_KHAC" class="dropdown-item pdf-link-btn" data-preset="CAC_YEU_CAU_KHAC">Các
+                  yêu cầu khác</a>
               </div>
             </div>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-preset="TAI_LIEU_THAM_KHAO">TÀI LIỆU THAM KHẢO</button>
-        <button class="tab-btn pdf-link-btn" data-preset="HUONG_DAN_HE_THONG">HƯỚNG DẪN HỆ THỐNG</button>
-        <button class="tab-btn pdf-link-btn" data-preset="CHANGE_LOG" data-tab="change-log" id="change-log-btn">
+        <a href="#preset=TAI_LIEU_THAM_KHAO" class="tab-btn pdf-link-btn" data-preset="TAI_LIEU_THAM_KHAO">TÀI LIỆU THAM
+          KHẢO</a>
+        <a href="#preset=HUONG_DAN_HE_THONG" class="tab-btn pdf-link-btn" data-preset="HUONG_DAN_HE_THONG">HƯỚNG DẪN HỆ
+          THỐNG</a>
+        <a href="#preset=CHANGE_LOG" class="tab-btn pdf-link-btn" data-preset="CHANGE_LOG" data-tab="change-log"
+          id="change-log-btn">
           CHANGE LOG
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -249,25 +275,25 @@
 
   <!-- FLOWCHART_DATA_START -->
   <script>
-    /**
-     * GENERATED BY FLOWCHART EDITOR
-     */
+/**
+ * GENERATED BY FLOWCHART EDITOR
+ */
 
-    // --- GROUP: Chưa phân loại ---
-    const XMTT_1 = `1. Không cần XMTT`;
-    const XMTT_2 = `2. CMND/CCCD`;
-    const XMTT_3 = `3. CCCD/CMND/SHD`;
-    const XMTT_4 = `4. Đúng SĐT + CMND/CCCD + 1A`;
-    const XMTT_5 = `5. Đúng SĐT + CMND + Sai 1A`;
-    const XMTT_6 = `6. Đúng SĐT + CMND + 1A + 1B`;
-    const XMTT_7 = `7. Đúng SĐT update + CMND + 2A + 1B`;
-    const XMTT_8 = `8. Sai SĐT
+// --- GROUP: Chưa phân loại ---
+const XMTT_1 = `1. Không cần XMTT`;
+const XMTT_2 = `2. CMND/CCCD`;
+const XMTT_3 = `3. CCCD/CMND/SHD`;
+const XMTT_4 = `4. Đúng SĐT + CMND/CCCD + 1A`;
+const XMTT_5 = `5. Đúng SĐT + CMND + Sai 1A`;
+const XMTT_6 = `6. Đúng SĐT + CMND + 1A + 1B`;
+const XMTT_7 = `7. Đúng SĐT update + CMND + 2A + 1B`;
+const XMTT_8 = `8. Sai SĐT
   a. còn dùng SDT cũ: dùng đúng SDT gọi lại
   b. Không còn dùng SDT:
    - HĐ Closed hết: CMND/CCCD + 1A
    - HĐ còn mở: CMND/CCCD + 2A  đồng thời hướng dẫn cập nhật SDT.`;
-    const XMTT_9 = `9. Sai SĐT + CMND + 1A`;
-    const XMTTIB_10 = `<td style="background-color:white; line-height:1.4;">
+const XMTT_9 = `9. Sai SĐT + CMND + 1A`;
+const XMTTIB_10 = `<td style="background-color:white; line-height:1.4;">
   - <strong>Đúng SĐT:</strong> <strong style="color:red">1A</strong> 
   (nếu <strong>sai</strong> <strong style="color:red">1A</strong>, chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
 
@@ -278,7 +304,7 @@
     + Còn HĐ active: <strong style="color:red">1A</strong> 
   (chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
 </td>`;
-    const LTNSlide4 = `<td style="background-color:white; line-height:1.4;">
+const LTNSlide4 = `<td style="background-color:white; line-height:1.4;">
   - <strong>Đúng SĐT:</strong> <strong style="color:red">1A</strong> 
   (nếu <strong>sai</strong> <strong style="color:red">1A</strong>, chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
 <br/>
@@ -289,22 +315,22 @@
     + Còn HĐ active: <strong style="color:red">1A</strong> 
   (chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
 </td>`;
-    const LTNSlide11 = `<td style="background-color:white; vertical-align:middle">
+const LTNSlide11 = `<td style="background-color:white; vertical-align:middle">
   <strong style="color:red">Đúng / Sai SĐT:</strong> <strong>1A</strong>
 </td>`;
-    const ECLTNSlide4 = `<td style="background-color:white; line-height:1.4;">
+const ECLTNSlide4 = `<td style="background-color:white; line-height:1.4;">
   - Chat: <strong>Post Login</strong>
 <br/>
   - Email/Chat không post login: 
   <a href="file://deltavn.vn/Deltashare/DeptData/_CallCenter/CSPORTAL/Website/uat/UATWEBQC/pdfile/THANH_TOAN_CIC/PDF_HUONG_DAN_TRA_CUU.pdf" style="color:#0070c0; text-decoration:underline;">xem tại đây</a>
 </td>
 `;
-    const ECLTNSlide11 = `<td style="background-color:white; vertical-align:middle; line-height:1.4;">
+const ECLTNSlide11 = `<td style="background-color:white; vertical-align:middle; line-height:1.4;">
   <strong style="color:red">Chat:</strong> <strong>Post login FEOL 2.0</strong>
 <br>
   <strong style="color:red">Email/Chat không post login:</strong> <strong>Không cần XMTT</strong>
 </td>`;
-    const LUUYLTNSlide4 = `<td style="background-color:white; line-height:1.4; vertical-align:middle;">
+const LUUYLTNSlide4 = `<td style="background-color:white; line-height:1.4; vertical-align:middle;">
   <strong style="color:red">Fail XMTT nhưng KH gay gắt</strong> yêu cầu cung cấp thông tin chi tiết: 
   CS khai thác <strong>SĐT liên hệ</strong> và <strong>gửi email</strong> đến anh 
   <a href="mailto:tu.tran@fecredit.com.vn" style="color:#0070c0; text-decoration:underline;">
@@ -312,7 +338,7 @@
   </a> để xem xét hỗ trợ
 </td>
 `;
-    const LUUYLTNSlide11 = `<td style="background-color:white; line-height:1.4; vertical-align:top;">
+const LUUYLTNSlide11 = `<td style="background-color:white; line-height:1.4; vertical-align:top;">
   • <strong style="color:red">HĐ bán nợ TOÀN PHẦN, CHỈ CUNG CẤP:</strong> số hợp đồng, thông tin chung công ty, kiểm tra tiền vào hệ thống 
   (ngoại trừ thông tin giao dịch bán nợ – 
   <a href="#" style="color:#0070c0; text-decoration:underline;">xem tại đây</a>)
@@ -322,1585 +348,1966 @@
   • Sau thời điểm bán nợ, FE ngừng báo cáo tín dụng; lịch sử tín dụng cập nhật nhóm nợ cao nhất theo lịch sử thanh toán của KH.
 </td> `;
 
-    // --- GROUP: DIEUKIEN TEMPLATES ---
-    const DIEUKIEN_NGUOI_THU_3 = `<p><strong><span style='color:#ff0000'>Lưu ý:</span> Nếu người thứ 3 báo chủ thẻ đang đi tù/ thẻ bị mất/ nuốt thẻ</strong><br />
-- Thông báo khóa thẻ để tránh rủi ro phát sinh GD (trừ những thẻ Dcard chỉ dùng như kênh giải ngân cho khoản vay.)<br />
-- Hướng dẫn chủ thẻ liên hệ tổng đài để được hỗ trợ mở khóa/ đóng thẻ/ thay thế thẻ mới khi cần<br />
-- Nhập code: Chọn: Card Block / Unblock / PIN Reset => Block A. Nếu thẻ khóa Q trước đó thì chuyển khóa L.</p>`;
+// --- GROUP: Cập nhật thông tin ---
+
+// --- SUBGROUP: Cập nhật thông tin > cập nhật SDT ---
+const Cap_nhat_sdt_feo_khong_thanh_cong = `<p><strong>Lưu &yacute;: </strong>Nếu KH gay gắt kh&ocirc;ng đồng &yacute; thực hiện theo hướng dẫn, CS hỗ trợ theo <a href="file:///T:/DeptData/_CallCenter/CSPORTAL/Website/uat/UATWEBQC/loan_v2.html#source=truyvan&amp;s=NoIgjAzAdABAKgJQIIwMKAu8AqvQD3g0AiAgG3gByA4iADQgBiAojAPIB2ANgJZMCmMATFAAyUQAGUDreGxjomAcxgARQKd4MoagCHAYxhiJAaQAWGkAF0gA&quot;">Lỗi ứng dụng</a></p>`;
 
 
-    window.HEADER_PRESETS = {
-      "TIN_TUC": {
-        "pdf": "khuyenmai.pdf",
-        "note": "<strong>Khuyến mãi mới nhất:</strong><br>- Giảm 10% lãi suất cho vay mua xe máy trong tháng 1/2026<br>- Tặng voucher 500k cho khách hàng mới đăng ký qua app",
-        "xmttib": XMTT_1,
-        "displayName": "Tin Tức Mới"
+window.HEADER_PRESETS = {
+  "TIN_TUC": {
+    "pdf": "khuyenmai.pdf",
+    "xmttib": XMTT_1,
+    "note": "<strong>Khuyến mãi mới nhất:</strong><br>- Giảm 10% lãi suất cho vay mua xe máy trong tháng 1/2026<br>- Tặng voucher 500k cho khách hàng mới đăng ký qua app",
+    "displayName": "Tin Tức Mới"
+  },
+  "QD_CHUNG": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/quydinhchung.pdf",
+    "displayName": "Quy định chung XMTT"
+  },
+  "PHAN_LOAI_RUI_RO": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/phanloairuiroloan.pdf",
+    "displayName": "Phân Loại Rủi Ro XMTT"
+  },
+  "XMTT_LEVEL_A": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/cauhoixmttloan_levela.pdf",
+    "displayName": "Câu hỏi Xác Minh Level A"
+  },
+  "XMTT_LEVEL_B": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/cauhoixmttloan_levelb.pdf",
+    "displayName": "Câu hỏi Xác Minh Level B"
+  },
+  "TIEP_NHAN_CUOC_GOI": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/quydinhtiepnhancuogoi.pdf",
+    "displayName": "Quy Định Tiếp Nhân Cuộc Gọi"
+  },
+  "XU_LY_EMAIL_CHAT": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/quydinhxulyemail_chat.pdf",
+    "displayName": "Quy Định Xử Lý Email/ Chat"
+  },
+  "HUONG_DAN_NHAP_LIEU": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/quydinhnhaplieu.pdf",
+    "displayName": "Hướng Dẫn Nhập Liệu"
+  },
+  "DU_NO_THOA_THUAN": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/dunothoaThuanKhoanVay.pdf",
+    "displayName": "Dư Nợ Thỏa Thuận (Người Thứ 3)",
+    "dieukien": ""
+  },
+  "BOI_THUONG_BAO_HIEM": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/boithuongbaohiem.pdf",
+    "displayName": "Bồi Thường Bảo Hiểm (Người Thứ 3)",
+    "dieukien": ""
+  },
+  "NGUNG_NHAC_NO_DAN_SU": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/ngungnhacnodansu.pdf",
+    "displayName": "Ngưng Nhắc Nợ Dân Sự (Người Thứ 3)",
+    "dieukien": ""
+  },
+  "HOAN_TIEN": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/hoantien.pdf",
+    "displayName": "Hoàn Tiền (Người Thứ 3)",
+    "dieukien": ""
+  },
+  "CAC_YEU_CAU_KHAC": {
+    "pdf": "./QUY_DINH_CHUNG/LOAN/cacyeucaukhac.pdf",
+    "displayName": "Các Yêu Cầu Khác (Người Thứ 3)",
+    "dieukien": ""
+  },
+  "TAI_LIEU_THAM_KHAO": {
+    "pdf": "TAI LIEU THAM KHAO.pdf",
+    "xmttib": XMTT_1,
+    "xmttemail": "Không cần XMTT cho Email",
+    "xmttchat": "Post Login FEOL 2.0",
+    "note": "Tài liệu tham khảo các quy định, chính sách và hướng dẫn nghiệp vụ",
+    "displayName": "Tài Liệu Tham Khảo"
+  },
+  "HUONG_DAN_HE_THONG": {
+    "pdf": "HUONG DAN HE THONG.pdf",
+    "displayName": "Hướng Dẫn Hệ Thống"
+  },
+  "CHANGE_LOG": {
+    "pdf": "CHANGE LOG.pdf",
+    "displayName": "Change Log"
+  }
+};
+
+window.flowchartData = {
+  "1. THÔNG TIN CHUNG": {
+    "Thông Tin Công Ty": {
+      "Thông Tin Công Ty & Thương Hiệu": {
+        "pdf": "1_THONG_TIN_CONG_TY/Thong_tin_cong_ty_thuong_hieu.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Thông tin công ty & thương hiệu",
+        "dieukien": "",
+        "xmttecom": ""
       },
-      "QD_CHUNG": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/quydinhchung.pdf",
-        "displayName": "Quy định chung XMTT"
+      "Các Kênh CSKH": {
+        "pdf": "1_THONG_TIN_CONG_TY/Cac_kenh_CSKH.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Các kênh CSKH",
+        "dieukien": "",
+        "xmttecom": ""
       },
-      "PHAN_LOAI_RUI_RO": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/phanloairuiroloan.pdf",
-        "displayName": "Phân Loại Rủi Ro XMTT"
+      "Công Văn & Thư Tín": {
+        "pdf": "Cong_van_thu_tin.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Công Văn / Thư Tín",
+        "dieukien": "",
+        "xmttecom": ""
       },
-      "XMTT_LEVEL_A": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/cauhoixmttloan_levela.pdf",
-        "displayName": "Câu hỏi Xác Minh Level A"
-      },
-      "XMTT_LEVEL_B": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/cauhoixmttloan_levelb.pdf",
-        "displayName": "Câu hỏi Xác Minh Level B"
-      },
-      "TIEP_NHAN_CUOC_GOI": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/quydinhtiepnhancuogoi.pdf",
-        "displayName": "Quy Định Tiếp Nhân Cuộc Gọi"
-      },
-      "XU_LY_EMAIL_CHAT": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/quydinhxulyemail_chat.pdf",
-        "displayName": "Quy Định Xử Lý Email/ Chat"
-      },
-      "HUONG_DAN_NHAP_LIEU": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/quydinhnhaplieu.pdf",
-        "displayName": "Hướng Dẫn Nhập Liệu"
-      },
-      "DU_NO_THOA_THUAN": {
-        "displayName": "Dư Nợ Thỏa Thuận (Người Thứ 3)",
-        "pdf": "./QUY_DINH_CHUNG/LOAN/dunothoaThuanKhoanVay.pdf",
-        "dieukien": DIEUKIEN_NGUOI_THU_3
-      },
-      "BOI_THUONG_BAO_HIEM": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/boithuongbaohiem.pdf",
-        "dieukien": DIEUKIEN_NGUOI_THU_3,
-        "displayName": "Bồi Thường Bảo Hiểm (Người Thứ 3)"
-      },
-      "NGUNG_NHAC_NO_DAN_SU": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/ngungnhacnodansu.pdf",
-        "dieukien": DIEUKIEN_NGUOI_THU_3,
-        "displayName": "Ngưng Nhắc Nợ Dân Sự (Người Thứ 3)"
-      },
-      "HOAN_TIEN": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/hoantien.pdf",
-        "dieukien": DIEUKIEN_NGUOI_THU_3,
-        "displayName": "Hoàn Tiền (Người Thứ 3)"
-      },
-      "CAC_YEU_CAU_KHAC": {
-        "pdf": "./QUY_DINH_CHUNG/LOAN/cacyeucaukhac.pdf",
-        "dieukien": DIEUKIEN_NGUOI_THU_3,
-        "displayName": "Các Yêu Cầu Khác (Người Thứ 3)"
-      },
-      "TAI_LIEU_THAM_KHAO": {
-        "pdf": "TAI LIEU THAM KHAO.pdf",
-        "note": "Tài liệu tham khảo các quy định, chính sách và hướng dẫn nghiệp vụ",
-        "xmttib": XMTT_1,
-        "xmttchat": "Post Login FEOL 2.0",
-        "xmttemail": "Không cần XMTT cho Email",
-        "displayName": "Tài Liệu Tham Khảo"
-      },
-      "HUONG_DAN_HE_THONG": {
-        "pdf": "HUONG DAN HE THONG.pdf",
-        "displayName": "Hướng Dẫn Hệ Thống"
-      },
-      "CHANGE_LOG": {
-        "pdf": "CHANGE LOG.pdf",
-        "displayName": "Change Log"
+      "Quy Trình Gửi ZNS": {
+        "pdf": "1_THONG_TIN_CONG_TY/Quy_trinh_gui_ZNS.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Quy trình gửi ZNS",
+        "dieukien": "",
+        "xmttecom": ""
       }
-    };
-
-    window.flowchartData = {
-      "1. THÔNG TIN CHUNG": {
-        "Thông Tin Công Ty": {
-          "displayName": "Thông Tin Công Ty",
-          "pdf": "1_THONG_TIN_CONG_TY/Thong_tin_cong_ty_thuong_hieu.pdf",
-          "note": "",
+    },
+    "Hợp Tác Kinh Doanh": {
+      "pdf": "2_HOP_TAC_KINH_DOANH/Hop_tac_kinh_doanh.pdf",
+      "contentType": "",
+      "htmlContent": "",
+      "htmlUrl": "",
+      "xmttib": "",
+      "note": "",
+      "displayName": "Hợp Tác Kinh Doanh",
+      "dieukien": "<p><strong>Điều kiện ghi nhận hợp t&aacute;c:</strong><br>+ Mặt h&agrave;ng KH đang kinh doanh thuộc danh mục được hỗ trợ <a href=\"pdfile-loan\\1_THONG_TIN_CHUNG\\2_HOP_TAC_KINH_DOANH\\Danh_sach_mat_hang_hop_tac_kinh_doanh.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a><br>+ Ng&agrave;y cấp giấy ph&eacute;p kinh doanh &ge; 2 năm</p>",
+      "xmttecom": ""
+    },
+    "Xóa Dữ Liệu Cá Nhân": {
+      "pdf": "3_XOA_DU_LIEU_CA_NHAN/Xoa_du_lieu_ca_nhan.pdf",
+      "contentType": "",
+      "htmlContent": "",
+      "htmlUrl": "",
+      "xmttib": "",
+      "note": "",
+      "displayName": "Xóa Dữ Liệu Cá Nhân",
+      "dieukien": "<p>1. Phiếu y&ecirc;u cầu xử l&yacute; dữ liệu c&aacute; nh&acirc;n: <a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Phieu_yeu_cau_xu_ly_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\">tại đ&acirc;y</a><br>2. Tham khảo nghị định về bảo vệ dữ liệu c&aacute; nh&acirc;n:<a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Tham_khao_nghi_dinh_ve_bao_ve_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\"> tại đ&acirc;y</a></p>",
+      "xmttecom": ""
+    },
+    "Mở Chặn Cuộc Gọi": {
+      "Cuộc Gọi Từ Sale/ UW": {
+        "pdf": "4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Sale_UW.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Cuộc Gọi Từ Sale/ UW",
+        "dieukien": "<p>Kiểm tra ticket RL24/RC24, x&aacute;c định đơn vị đ&atilde; xử l&yacute; y&ecirc;u cầu ngưng mời vay trước đ&oacute;</p>",
+        "xmttecom": ""
+      },
+      "Cuộc Gọi Từ Collx": {
+        "pdf": "4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Collx.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Cuộc Gọi Từ Collx",
+        "dieukien": "",
+        "xmttecom": ""
+      }
+    },
+    "Ngưng Mời Vay & Quảng Cáo": {
+      "KH Chưa Có HĐ/ Thẻ": {
+        "pdf": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "KH Chưa Có HĐ/ Thẻ",
+        "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
+        "xmttecom": ""
+      },
+      "KH Đã Có HĐ/ Thẻ": {
+        "pdf": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "KH Đã Có HĐ/ Thẻ",
+        "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
+        "xmttecom": ""
+      }
+    },
+    "Khuyến Mãi": {
+      "Loan": {
+        "Ưu Đãi Thanh Toán": {
+          "pdf": "",
           "xmttib": "",
-          "xmttemail": "",
-          "xmttchat": "",
+          "note": "",
+          "displayName": "Ưu Đãi Thanh Toán",
           "dieukien": "",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": ""
-        },
-        "Hợp Tác Kinh Doanh": {
-          "displayName": "Hợp Tác Kinh Doanh",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": "",
-          "note": "",
+          "xmttecom": ""
+        }
+      },
+      "Card": {
+        "Ưu Đãi Mua Sắm": {
+          "pdf": "",
           "xmttib": "",
-          "pdf": "2_HOP_TAC_KINH_DOANH/Hop_tac_kinh_doanh.pdf"
+          "note": "",
+          "displayName": "Ưu Đãi Mua Sắm",
+          "dieukien": "",
+          "xmttecom": ""
         },
-        "Xóa Dữ Liệu Cá Nhân": {
-          "displayName": "Xóa Dữ Liệu Cá Nhân",
-          "pdf": "3_XOA_DU_LIEU_CA_NHAN/Xoa_du_lieu_ca_nhan.pdf",
-          "note": "Hướng dẫn thực hiện yêu cầu xóa dữ liệu cá nhân theo quy định.",
-          "xmttib": XMTT_1,
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": ""
+        "Hoàn Tiền": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Hoàn Tiền",
+          "dieukien": "",
+          "xmttecom": ""
         },
-        "Mở Chặn Cuộc Gọi": {
-          "displayName": "Mở Chặn Cuộc Gọi",
-          "pdf": "4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Collx.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1,
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": ""
+        "Ưu Đãi Thanh Toán": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Ưu Đãi Thanh Toán",
+          "dieukien": "",
+          "xmttecom": ""
         },
-        "Ngừng Mời Vay/QC": {
-          "displayName": "Ngừng Mời Vay/QC",
-          "pdf": "Ngừng Mời Vay_QC.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        },
-        "Khuyến Mãi": {
-          "displayName": "Khuyến Mãi",
-          "pdf": "6_KHUYEN_MAI/CHUYEN_KHOAN LIEN TAY - LOC PHAT NHAN HAI.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1,
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": ""
+        "Dành riêng cho NV FEC": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Dành riêng cho NV FEC",
+          "dieukien": "",
+          "xmttecom": ""
         }
+      }
+    },
+    "Nhầm line/ Rớt cuộc/ Mất tín hiệu": {
+      "pdf": "",
+      "xmttib": "",
+      "note": "",
+      "displayName": "Nhầm Line/ Rớt Cuộc/ Mất Tín Hiệu",
+      "dieukien": "",
+      "xmttecom": ""
+    },
+    "Yêu cầu khác": {
+      "pdf": "",
+      "xmttib": "",
+      "note": "",
+      "displayName": "Yêu Cầu Khác",
+      "dieukien": "",
+      "xmttecom": ""
+    }
+  },
+  "2. THÔNG TIN SẢN PHẨM": {
+    "Vay Mua Xe Máy": {
+      "pdf": "Sản Phẩm Vay Mua Xe Máy.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Thông tin sản phẩm > Vay Mua Xe Máy"
+    },
+    "Vay Mua Điện Máy": {
+      "pdf": "Sản Phẩm Vay Mua Điện Máy.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Thông tin sản phẩm > Vay Mua Điện Máy"
+    },
+    "Vay Tiền Mặt": {
+      "pdf": "Sản Phẩm Vay Tiền Mặt.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Thông tin sản phẩm > Vay Tiền Mặt"
+    }
+  },
+  "3. ĐĂNG KÝ VAY": {
+    "Vay Mua Xe Máy": {
+      "pdf": "Vay Sản Phẩm Vay Mua Xe Máy.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Đăng ký vay > Vay Mua Xe Máy"
+    },
+    "Vay Mua Điện Máy": {
+      "pdf": "Vay Sản Phẩm Vay Mua Điện Máy.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Đăng ký vay > Vay Mua Điện Máy"
+    },
+    "Vay Tiền Mặt": {
+      "pdf": "Vay Sản Phẩm Vay Tiền Mặt.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Đăng ký vay > Vay Tiền Mặt"
+    }
+  },
+  "4. GIẢI NGÂN": {
+    "Giải Ngân Tiền Mặt": {
+      "pdf": "Giải Ngân Tiền Mặt.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Giải Ngân Tiền Mặt"
+    }
+  },
+  "5. KÊNH THANH TOÁN": {
+    "Thanh Toán Trực Tuyến": {
+      "pdf": "THANH TOÁN TRỰC TUYẾN.pdf",
+      "xmttib": XMTT_1,
+      "note": "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo.",
+      "alert": "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo",
+      "displayName": "Kênh thanh toán > Thanh Toán Trực Tuyến"
+    },
+    "Thanh Toán Tiền Mặt": {
+      "pdf": "THANH TOÁN TIỀN MẶT.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Kênh Thanh Toán > Thanh Toán Tiền Mặt"
+    },
+    "Thanh Toán Qua ATM/CDM": {
+      "pdf": "THANH TOÁN QUA ATM CDM.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Kênh Thanh Toán > Thanh Toán Qua ATM/CDM"
+    },
+    "Trích Nợ Tự Động": {
+      "pdf": "TRÍCH NỢ TỰ ĐỘNG.pdf",
+      "xmttib": XMTT_1,
+      "note": "N/A",
+      "displayName": "Kênh Thanh Toán > Trích Nợ Tự Động"
+    }
+  },
+  "6. VẤN ĐỀ THANH TOÁN": {
+    "Lịch Trả Nợ": {
+      "HĐ FEC|| HĐ Bán Nợ FC|| HĐ Bán Nợ Một Phần Galaxy": {
+        "pdf": "LICH_TRA_NO_FEC.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": LTNSlide4,
+        "xmttemail": ECLTNSlide4,
+        "note": LUUYLTNSlide4,
+        "displayName": "Lịch Trả Nợ HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy"
       },
-      "2. THÔNG TIN SẢN PHẨM": {
-        "Vay Mua Xe Máy": {
-          "displayName": "Thông tin sản phẩm > Vay Mua Xe Máy",
-          "pdf": "Sản Phẩm Vay Mua Xe Máy.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        },
-        "Vay Mua Điện Máy": {
-          "displayName": "Thông tin sản phẩm > Vay Mua Điện Máy",
-          "pdf": "Sản Phẩm Vay Mua Điện Máy.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        },
-        "Vay Tiền Mặt": {
-          "displayName": "Thông tin sản phẩm > Vay Tiền Mặt",
-          "pdf": "Sản Phẩm Vay Tiền Mặt.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        }
+      "HĐ Bán Nợ Toàn Phần Galaxy": {
+        "pdf": "VĐTT_BAN_NO_TOAN_PHAN_GALAXY.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": LTNSlide4,
+        "xmttemail": ECLTNSlide11,
+        "note": LUUYLTNSlide11,
+        "displayName": "Lịch Trả Nợ HĐ Bán Nợ Toàn Phần Galaxy"
       },
-      "3. ĐĂNG KÝ VAY": {
-        "Vay Mua Xe Máy": {
-          "displayName": "Đăng ký vay > Vay Mua Xe Máy",
-          "pdf": "Vay Sản Phẩm Vay Mua Xe Máy.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        },
-        "Vay Mua Điện Máy": {
-          "displayName": "Đăng ký vay > Vay Mua Điện Máy",
-          "pdf": "Vay Sản Phẩm Vay Mua Điện Máy.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        },
-        "Vay Tiền Mặt": {
-          "pdf": "Vay Sản Phẩm Vay Tiền Mặt.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1,
-          "displayName": "Đăng ký vay > Vay Tiền Mặt"
-        }
+      "HĐ Bán Nợ FC Sold_Azura": {
+        "pdf": "VĐTT_BAN_NO_FC_SOLD_AZURA.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": LUUYLTNSlide11,
+        "xmttemail": ECLTNSlide11,
+        "note": LTNSlide4,
+        "displayName": "Lịch Trả Nợ HĐ bán nợ FC Sold_Azura"
       },
-      "4. GIẢI NGÂN": {
-        "Giải Ngân Tiền Mặt": {
-          "displayName": "Giải Ngân Tiền Mặt",
-          "pdf": "Giải Ngân Tiền Mặt.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        }
+      "HĐ Bán Nợ Welcome Vina": {
+        "pdf": "VĐTT_BAN_NO_WELCOMEVINA.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": LTNSlide11,
+        "xmttemail": ECLTNSlide11,
+        "note": LUUYLTNSlide11,
+        "displayName": "Lịch Trả Nợ HĐ Bán Nợ Welcome Vina"
       },
-      "5. KÊNH THANH TOÁN": {
-        "Thanh Toán Trực Tuyến": {
-          "displayName": "Kênh thanh toán > Thanh Toán Trực Tuyến",
-          "pdf": "THANH TOÁN TRỰC TUYẾN.pdf",
-          "note": "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo.",
-          "xmttib": XMTT_1,
-          "alert": "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo"
-        },
-        "Thanh Toán Tiền Mặt": {
-          "displayName": "Kênh Thanh Toán > Thanh Toán Tiền Mặt",
-          "pdf": "THANH TOÁN TIỀN MẶT.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        },
-        "Thanh Toán Qua ATM/CDM": {
-          "displayName": "Kênh Thanh Toán > Thanh Toán Qua ATM/CDM",
-          "pdf": "THANH TOÁN QUA ATM CDM.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        },
-        "Trích Nợ Tự Động": {
-          "displayName": "Kênh Thanh Toán > Trích Nợ Tự Động",
-          "pdf": "TRÍCH NỢ TỰ ĐỘNG.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
-        }
+      "HĐ CF/ HĐ FC Sold CF\t": {
+        "pdf": "VĐTT_CF_FC_SOLD_CF.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": LTNSlide11,
+        "xmttemail": ECLTNSlide11,
+        "note": LUUYLTNSlide11,
+        "displayName": "Lịch Trả Nợ HĐ bán nợ CF/ HĐ FC Sold CF",
+        "tieudeflow": "__VAR_REF____VAR_REF__"
       },
-      "6. VẤN ĐỀ THANH TOÁN": {
-        "Lịch Trả Nợ": {
-          "HĐ FEC|| HĐ Bán Nợ FC|| HĐ Bán Nợ Một Phần Galaxy": {
-            "displayName": "Lịch Trả Nợ HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy",
-            "pdf": "LICH_TRA_NO_FEC.pdf",
-            "note": LUUYLTNSlide4,
-            "xmttib": LTNSlide4,
-            "xmttemail": ECLTNSlide4,
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "HĐ Bán Nợ Toàn Phần Galaxy": {
-            "displayName": "Lịch Trả Nợ HĐ Bán Nợ Toàn Phần Galaxy",
-            "pdf": "VĐTT_BAN_NO_TOAN_PHAN_GALAXY.pdf",
-            "note": LUUYLTNSlide11,
-            "xmttib": LTNSlide4,
-            "xmttemail": ECLTNSlide11,
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "HĐ Bán Nợ FC Sold_Azura": {
-            "displayName": "Lịch Trả Nợ HĐ bán nợ FC Sold_Azura",
-            "pdf": "VĐTT_BAN_NO_FC_SOLD_AZURA.pdf",
-            "note": LTNSlide4,
-            "xmttib": LUUYLTNSlide11,
-            "xmttemail": ECLTNSlide11,
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "HĐ Bán Nợ Welcome Vina": {
-            "displayName": "Lịch Trả Nợ HĐ Bán Nợ Welcome Vina",
-            "pdf": "VĐTT_BAN_NO_WELCOMEVINA.pdf",
-            "note": LUUYLTNSlide11,
-            "xmttib": LTNSlide11,
-            "xmttemail": ECLTNSlide11,
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "HĐ CF/ HĐ FC Sold CF\t": {
-            "displayName": "Lịch Trả Nợ HĐ bán nợ CF/ HĐ FC Sold CF",
-            "pdf": "VĐTT_CF_FC_SOLD_CF.pdf",
-            "note": LUUYLTNSlide11,
-            "xmttib": LTNSlide11,
-            "xmttemail": ECLTNSlide11,
+      "HĐ B2": {
+        "pdf": "VĐTT_B2.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "CMND/CCCD/SHĐ",
+        "note": " •HĐ được ký trước năm 2014 thuộc phạm vi quản lý chung của VPBank và FE\n •Không hiển thị tkhi search ại mục “sau giải ngân” trên Pega hoặc có hiển thị tại mục B2 Contracts\n •Danh sách hợp đồng <u><strong><a href=\"file://deltavn.vn/DeltaShare/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/DS%20HĐ%20B2.xlsx\">xem tại đây</a></strong></u> ",
+        "displayName": "Lịch Trả HĐ B2"
+      },
+      "HĐ Cash 24": {
+        "pdf": "VĐTT_CASH24.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "CMND/CCCD/SHĐ",
+        "note": " •<strong>Định nghĩa: </strong>Là hợp đồng được cấp bởi đối tác Ideal Tech (CASH24) thông qua nền tảng số\n •<strong>Dấu hiệu nhận biết: </strong>Không thể kiểm tra được trên Pega. Số HĐ gồm 8 số (ví dụ: 00-00-09-27). \n •<strong>KH muốn biết số HĐ: </strong>CS khai thác CMND/CCCD và cung cấp theo <u><span style=\"color:#0070c0\">danh sách</span></u> ",
+        "displayName": "Lịch Trả Nợ HĐ Cash 24"
+      },
+      "HĐ Kim An": {
+        "pdf": "LTN_LSTT_KIM_AN.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "CMND/CCCD/SHĐ",
+        "note": " •Là hợp đồng được cấp bởi công ty đối tác Kim An\n •Dấu hiệu nhận biết: <strong>FC ROBO KIM AN</strong>\n •Đặc điểm: HĐ thu tiền theo ngày/ tuần và có nv tự liên hệ KH thu tiền ",
+        "displayName": "Lịch Trả Nợ Bán Nợ Welcome Vina"
+      }
+    },
+    "Lịch Sử Thanh Toán": {
+      "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
+        "pdf": "IB Dung SDT.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Lịch Sử TT HĐ FEC"
+      },
+      "HĐ Bán Nợ Toàn Phần Galaxy": {
+        "pdf": "PDF_LICH_SU_THANH_TOAN_FEC.pdf",
+        "xmttib": XMTT_1,
+        "note": "N/A",
+        "displayName": "Lịch Sử Thanh Toán HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy"
+      },
+      "HĐ Bán Nợ FC Sold_Azura": {
+        "pdf": "HĐ Kim An.pdf",
+        "xmtt": XMTT_2,
+        "note": "Lưu ý cho hợp đồng Kim An.",
+        "displayName": "Lịch Sử TT Kim An"
+      },
+      "HĐ Bán Nợ Welcome Vina": {
+        "pdf": "HĐ Bán Nợ Một Phần.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Lịch Sử TT Bán Nợ Một Phần"
+      },
+      "HĐ CF/ HĐ FC Sold CF": {
+        "pdf": "HĐ Bán Nợ Galaxy.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Lịch Sử TT Bán Nợ Galaxy"
+      },
+      "HĐ B2": {
+        "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Lịch Sử Thanh Toán HĐ B2"
+      },
+      "HĐ Cash 24": {
+        "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Lịch Sử Thanh Toán Bán Nợ Welcome Vina"
+      },
+      "HĐ Kim An": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "Lịch Sử Thanh Toán HĐ Kim An"
+      }
+    },
+    "Thanh lý Hợp Đồng": {
+      "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
+        "pdf": "PDF_TLHD_FEC.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Thanh Lý HĐ FEC"
+      },
+      "HĐ Bán Nợ Toàn Phần Galaxy": {
+        "pdf": "PDF_BAN_NO_TOAN_PHAN_GALAXY.pdf",
+        "xmttib": XMTT_1,
+        "note": "N/A",
+        "displayName": "Thanh Lý HĐ HĐ Bán Nợ Toàn Phần Galaxy"
+      },
+      "HĐ Bán Nợ FC Sold_Azura": {
+        "pdf": "PDF_BAN_NO_FC_SOLD_AZURA.pdf",
+        "xmtt": XMTT_2,
+        "note": "Lưu ý cho hợp đồng Kim An.",
+        "displayName": "Thanh Lý HĐ HĐ Bán Nợ FC Sold_Azura"
+      },
+      "HĐ Bán Nợ Welcome Vina": {
+        "pdf": "PDF_BAN_NO_WELCOMEVINA.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Thanh Lý HĐ Bán Nợ HĐ Bán Nợ Welcome Vina"
+      },
+      "HĐ CF/ HĐ FC Sold CF": {
+        "pdf": "PDF_CF_FC _SOLD_CF.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Thanh Lý HĐ HĐ CF/ HĐ FC Sold CF"
+      },
+      "HĐ B2": {
+        "pdf": "PDF_B2.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Thanh Lý HĐ HĐ B2"
+      },
+      "HĐ Cash 24": {
+        "pdf": "PDF_CASH24.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Thanh Lý HĐ HĐ Cash 24"
+      },
+      "HĐ Kim An": {
+        "pdf": "PDF_KIM_AN",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "Thanh lý Hợp Đồng HĐ Kim An"
+      }
+    },
+    "Thỏa Thuận Khoản Vay": {
+      "HĐ FEC": {
+        "pdf": "IB Dung SDT.pdf",
+        "xmttib": XMTT_8,
+        "note": "N/A",
+        "displayName": "Thỏa Thuận KV HĐ FEC"
+      },
+      "Cash 24": {
+        "pdf": "HD Cash 24.pdf",
+        "xmttib": XMTT_1,
+        "note": "N/A",
+        "displayName": "Thỏa Thuận KV Cash 24"
+      },
+      "Kim An": {
+        "pdf": "HĐ Kim An.pdf",
+        "xmtt": XMTT_2,
+        "note": "Lưu ý cho hợp đồng Kim An.",
+        "displayName": "Thỏa Thuận KV Kim An"
+      },
+      "Bán Nợ Một Phần": {
+        "pdf": "HĐ Bán Nợ Một Phần.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Thỏa Thuận KV Bán Nợ Một Phần"
+      },
+      "Bán Nợ Galaxy": {
+        "pdf": "HĐ Bán Nợ Galaxy.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Thỏa Thuận KV Bán Nợ Galaxy"
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Thỏa Thuận KV Bán Nợ Fc Sold_Azura"
+      },
+      "Bán Nợ Welcome Vina": {
+        "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Thỏa Thuận KV Bán Nợ Welcome Vina"
+      }
+    },
+    "Tình Trạng Hợp Đồng": {
+      "HĐ FEC": {
+        "pdf": "IB Dung SDT.pdf",
+        "xmttib": XMTT_8,
+        "note": "N/A",
+        "displayName": "Tình Trạng HĐ FEC"
+      },
+      "Cash 24": {
+        "pdf": "HD Cash 24.pdf",
+        "xmttib": XMTT_1,
+        "note": "N/A",
+        "displayName": "Tình Trạng HĐ Cash 24"
+      },
+      "Kim An": {
+        "pdf": "HĐ Kim An.pdf",
+        "xmtt": XMTT_2,
+        "note": "Lưu ý cho hợp đồng Kim An.",
+        "displayName": "Tình Trạng HĐ Kim An"
+      },
+      "Bán Nợ Một Phần": {
+        "pdf": "HĐ Bán Nợ Một Phần.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Tình Trạng HĐ Bán Nợ Một Phần"
+      },
+      "Bán Nợ Galaxy": {
+        "pdf": "HĐ Bán Nợ Galaxy.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Tình Trạng HĐ Bán Nợ Galaxy"
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Tình Trạng HĐ Bán Nợ Fc Sold_Azura"
+      },
+      "Bán Nợ Welcome Vina": {
+        "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Tình Trạng HĐ Bán Nợ Welcome Vina"
+      }
+    },
+    "Đóng Hợp Đồng": {
+      "HĐ FEC": {
+        "pdf": "IB Dung SDT.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Đóng HĐ FEC"
+      },
+      "Cash 24": {
+        "pdf": "HD Cash 24.pdf",
+        "xmttib": XMTT_1,
+        "note": "N/A",
+        "displayName": "Đóng HĐ Cash 24"
+      },
+      "Kim An": {
+        "pdf": "HĐ Kim An.pdf",
+        "xmtt": XMTT_2,
+        "note": "Lưu ý cho hợp đồng Kim An.",
+        "displayName": "Đóng HĐ Kim An"
+      },
+      "Bán Nợ Một Phần": {
+        "pdf": "HĐ Bán Nợ Một Phần.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Đóng HĐ Bán Nợ Một Phần"
+      },
+      "Bán Nợ Galaxy": {
+        "pdf": "HĐ Bán Nợ Galaxy.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Đóng HĐ Bán Nợ Galaxy"
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Đóng HĐ Bán Nợ Fc Sold_Azura"
+      },
+      "Bán Nợ Welcome Vina": {
+        "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "Đóng HĐ Bán Nợ Welcome Vina"
+      }
+    },
+    "Lãi/Phí Phát Sinh Sai": {
+      "HĐ FEC": {
+        "pdf": "IB Dung SDT.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "CIC HĐ FEC"
+      },
+      "Cash 24": {
+        "pdf": "HD Cash 24.pdf",
+        "xmttib": XMTT_1,
+        "note": "N/A",
+        "displayName": "CIC Cash 24"
+      },
+      "Kim An": {
+        "pdf": "HĐ Kim An.pdf",
+        "xmtt": XMTT_2,
+        "note": "Lưu ý cho hợp đồng Kim An.",
+        "displayName": "CIC Kim An"
+      },
+      "Bán Nợ Một Phần": {
+        "pdf": "HĐ Bán Nợ Một Phần.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "CIC Bán Nợ Một Phần"
+      },
+      "Bán Nợ Galaxy": {
+        "pdf": "HĐ Bán Nợ Galaxy.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "CIC Bán Nợ Galaxy"
+      },
+      "Bán Nợ Fc Sold_Azura": {
+        "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "CIC Bán Nợ Fc Sold_Azura"
+      },
+      "Bán Nợ Welcome Vina": {
+        "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+        "xmttib": XMTT_4,
+        "note": "N/A",
+        "displayName": "CIC Bán Nợ Welcome Vina"
+      }
+    }
+  },
+  "7. NHẮC NỢ": {
+    "Nhắc Nợ trước hạn": {
+      "pdf": "NHAC_NO_TRUOC_HAN.PDF",
+      "contentType": "",
+      "htmlContent": "",
+      "htmlUrl": "",
+      "xmttib": "CCCD",
+      "xmttemail": "CCCD",
+      "xmttchat": "CCCD",
+      "note": "",
+      "displayName": "Nhắc Nợ Trước Hạn"
+    },
+    "Nhắc Nợ Nhiều Lần/ Quá 7h-21h/ Nhá Máy": {
+      "pdf": "NHAC_NO_NHIEU_LAN.PDF",
+      "contentType": "",
+      "htmlContent": "",
+      "htmlUrl": "",
+      "xmttib": "- Đúng SĐT + CCCD + 1A <br>\n- XM không thành công: CCCD/SHĐ/ Điện thoại đăng ký và ghi nhận khiếu nại không cung cấp chi tiết hợp đồng",
+      "xmttemail": "N/A",
+      "xmttchat": "N/A",
+      "note": "",
+      "displayName": "Nhắc Nợ Nhiều Lần/ Quá 7h-21h/ Nhá Máy",
+      "dieukien": "",
+      "xmttecom": ""
+    },
+    "Yêu Cầu Ngưng Nhắc Nợ": {
+      "Số Chính Chủ Đăng Ký HĐ FE CREDIT": {
+        "pdf": "NGUNG_NHAC_NO_CHINH_CHU.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "N/A",
+        "xmttemail": "N/A",
+        "xmttchat": "N/A",
+        "note": "",
+        "displayName": "Nhắc Nợ Số Chính Chủ Đăng Ký HĐ FE CREDIT",
+        "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
+        "xmttecom": ""
+      },
+      "Số Tham Chiếu/ Không Có Thông Tin HĐ": {
+        "pdf": "NGUNG_NHAC_NO_THAM_CHIEU.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "N/A",
+        "xmttemail": "N/A",
+        "xmttchat": "N/A",
+        "note": "",
+        "displayName": "Nhắc Nợ Số Tham Chiếu/ Không Có Thông Tin HĐ",
+        "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
+        "xmttecom": ""
+      },
+      "Khách Hàng Đã Thanh Toán": {
+        "pdf": "NGUNG_NHAC_NO_DA_THANH_TOAN.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "Đúng SĐT + CMND/ CCCD + 1A",
+        "xmttemail": "N/A",
+        "xmttchat": "N/A",
+        "note": "",
+        "displayName": "Khách Hàng Đã Thanh Toán Vẫn Bị Nhắc Nợ",
+        "dieukien": "",
+        "xmttecom": ""
+      },
+      "Đang Trong Quá Trình Xử Lý": {
+        "pdf": "NGUNG_NHAC_NO_DANG_XU_LY.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "Đúng chủ HĐ + CCCD/ SHĐ + 1A",
+        "xmttemail": "N/A",
+        "xmttchat": "N/A",
+        "note": "",
+        "displayName": "Đang Trong Quá Trình Xử Lý Nhắc Nợ",
+        "dieukien": "<p>Kiểm tra ticket đ&atilde; ghi nhận trước đ&oacute;, bao gồm c&aacute;c code sau: <a href=\"pdfile-loan/7_NHAC_NO/Code_Can_Kiem_Tra.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>",
+        "xmttecom": ""
+      }
+    }
+  },
+  "8. MRC/ YÊU CẦU GIẤY TỜ": {
+    "MRC": {
+      "HĐ FEC": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ FEC"
+      },
+      "HĐ Cash 24": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Cash 24"
+      },
+      "HĐ Kim An": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Kim An"
+      },
+      "HĐ Bán Nợ Một Phần": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Một Phần"
+      },
+      "HĐ Bán Nợ Galaxy": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Galaxy"
+      },
+      "HĐ Bán Nợ FC SOLD_AZURA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ FC SOLD_AZURA"
+      },
+      "HĐ Bán Nợ WELCOME VINA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ WELCOME VINA"
+      }
+    },
+    "Giấy Giải Chấp": {
+      "HĐ FEC": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ FEC"
+      },
+      "HĐ Cash 24": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Cash 24"
+      },
+      "HĐ Kim An": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Kim An"
+      },
+      "HĐ Bán Nợ Một Phần": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Một Phần"
+      },
+      "HĐ Bán Nợ Galaxy": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Galaxy"
+      },
+      "HĐ Bán Nợ FC SOLD_AZURA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ FC SOLD_AZURA"
+      },
+      "HĐ Bán Nợ WELCOME VINA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ WELCOME VINA"
+      }
+    },
+    "Lịch Thanh Toán": {
+      "HĐ FEC": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ FEC"
+      },
+      "HĐ Cash 24": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Cash 24"
+      },
+      "HĐ Kim An": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Kim An"
+      },
+      "HĐ Bán Nợ Một Phần": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Một Phần"
+      },
+      "HĐ Bán Nợ Galaxy": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Galaxy"
+      },
+      "HĐ Bán Nợ FC SOLD_AZURA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ FC SOLD_AZURA"
+      },
+      "HĐ Bán Nợ WELCOME VINA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ WELCOME VINA"
+      }
+    },
+    "Lịch Sử Thanh Toán": {
+      "HĐ FEC": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ FEC"
+      },
+      "HĐ Cash 24": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Cash 24"
+      },
+      "HĐ Kim An": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Kim An"
+      },
+      "HĐ Bán Nợ Một Phần": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Một Phần"
+      },
+      "HĐ Bán Nợ Galaxy": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Galaxy"
+      },
+      "HĐ Bán Nợ FC SOLD_AZURA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ FC SOLD_AZURA"
+      },
+      "HĐ Bán Nợ WELCOME VINA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ WELCOME VINA"
+      }
+    },
+    "Giấy Xác Nhận Thanh Lý": {
+      "HĐ FEC": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ FEC"
+      },
+      "HĐ Cash 24": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Cash 24"
+      },
+      "HĐ Kim An": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Kim An"
+      },
+      "HĐ Bán Nợ Một Phần": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Một Phần"
+      },
+      "HĐ Bán Nợ Galaxy": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ Galaxy"
+      },
+      "HĐ Bán Nợ FC SOLD_AZURA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ FC SOLD_AZURA"
+      },
+      "HĐ Bán Nợ WELCOME VINA": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "HĐ Bán Nợ WELCOME VINA"
+      }
+    }
+  },
+  "9. BẢO HIỂM": {
+    "Phí BH": {
+      "Bảo Hiểm Khoản Vay": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "Bảo Hiểm Khoản Vay"
+      },
+      "Bảo Hiểm Banca": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "Bảo Hiểm Banca"
+      },
+      "Bảo Hiểm Sức Khỏe": {
+        "pdf": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "Bảo Hiểm Sức Khỏe"
+      }
+    },
+    "Quyền lợi": {},
+    "Thủ tục bồi thường": {},
+    "Đăng ký/ tái tục": {}
+  },
+  "10. HOÀN TIỀN, ĐIỀU CHỈNH THANH TOÁN": {
+    "Kiểm Tra Tiền Dư": {},
+    "Hoàn Tiền": {},
+    "Điều Chỉnh Thanh Toán": {}
+  },
+  "11. CẬP NHẬT THÔNG TIN": {
+    "Cập Nhật SĐT": {
+      "Đã Có Hợp Đồng Vay": {
+        "Chưa Cập Nhật Trên FEOL 2.0": {
+          "Chưa Có Tài Khoản": {
+            "pdf": "CAP_NHAT_SDT/CHUA_CO_TAI_KHOAN_FEOL_2.0.pdf",
             "contentType": "",
             "htmlContent": "",
             "htmlUrl": "",
-            "tieudeflow": "__VAR_REF____VAR_REF__"
-          },
-          "HĐ B2": {
-            "displayName": "Lịch Trả HĐ B2",
-            "pdf": "VĐTT_B2.pdf",
-            "note": " •HĐ được ký trước năm 2014 thuộc phạm vi quản lý chung của VPBank và FE\n •Không hiển thị tkhi search ại mục “sau giải ngân” trên Pega hoặc có hiển thị tại mục B2 Contracts\n •Danh sách hợp đồng <u><strong><a href=\"file://deltavn.vn/DeltaShare/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/DS%20HĐ%20B2.xlsx\">xem tại đây</a></strong></u> ",
-            "xmttib": "CMND/CCCD/SHĐ",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "HĐ Cash 24": {
-            "displayName": "Lịch Trả Nợ HĐ Cash 24",
-            "pdf": "VĐTT_CASH24.pdf",
-            "note": " •<strong>Định nghĩa: </strong>Là hợp đồng được cấp bởi đối tác Ideal Tech (CASH24) thông qua nền tảng số\n •<strong>Dấu hiệu nhận biết: </strong>Không thể kiểm tra được trên Pega. Số HĐ gồm 8 số (ví dụ: 00-00-09-27). \n •<strong>KH muốn biết số HĐ: </strong>CS khai thác CMND/CCCD và cung cấp theo <u><span style=\"color:#0070c0\">danh sách</span></u> ",
-            "xmttib": "CMND/CCCD/SHĐ",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "HĐ Kim An": {
-            "displayName": "Lịch Trả Nợ Bán Nợ Welcome Vina",
-            "pdf": "LTN_LSTT_KIM_AN.pdf",
-            "note": " •Là hợp đồng được cấp bởi công ty đối tác Kim An\n •Dấu hiệu nhận biết: <strong>FC ROBO KIM AN</strong>\n •Đặc điểm: HĐ thu tiền theo ngày/ tuần và có nv tự liên hệ KH thu tiền ",
-            "xmttib": "CMND/CCCD/SHĐ",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          }
-        },
-        "Lịch Sử Thanh Toán": {
-          "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
-            "displayName": "Lịch Sử TT HĐ FEC",
-            "pdf": "IB Dung SDT.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "HĐ Bán Nợ Toàn Phần Galaxy": {
-            "displayName": "Lịch Sử Thanh Toán HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy",
-            "pdf": "PDF_LICH_SU_THANH_TOAN_FEC.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_1
-          },
-          "HĐ Bán Nợ FC Sold_Azura": {
-            "displayName": "Lịch Sử TT Kim An",
-            "pdf": "HĐ Kim An.pdf",
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "xmtt": XMTT_2
-          },
-          "HĐ Bán Nợ Welcome Vina": {
-            "displayName": "Lịch Sử TT Bán Nợ Một Phần",
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "HĐ CF/ HĐ FC Sold CF": {
-            "displayName": "Lịch Sử TT Bán Nợ Galaxy",
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "HĐ B2": {
-            "displayName": "Lịch Sử Thanh Toán HĐ B2",
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "HĐ Cash 24": {
-            "displayName": "Lịch Sử Thanh Toán Bán Nợ Welcome Vina",
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "HĐ Kim An": {
-            "displayName": "Lịch Sử Thanh Toán HĐ Kim An",
-            "pdf": "",
+            "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
             "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          }
-        },
-        "Thanh lý Hợp Đồng": {
-          "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
-            "displayName": "Thanh Lý HĐ FEC",
-            "pdf": "PDF_TLHD_FEC.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
+            "displayName": "Chưa Có Tài Khoản",
+            "dieukien": "<p><strong>Lưu &yacute;:&nbsp;</strong><br>- Nếu c&oacute; cả Loan v&agrave; Card th&igrave; hỗ trợ theo Card<br>- Kh&ocirc;ng hỗ trợ cập nhật th&ocirc;ng tin cho HĐ b&aacute;n nợ to&agrave;n phần&nbsp;</p>",
+            "xmttecom": ""
           },
-          "HĐ Bán Nợ Toàn Phần Galaxy": {
-            "displayName": "Thanh Lý HĐ HĐ Bán Nợ Toàn Phần Galaxy",
-            "pdf": "PDF_BAN_NO_TOAN_PHAN_GALAXY.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_1
-          },
-          "HĐ Bán Nợ FC Sold_Azura": {
-            "displayName": "Thanh Lý HĐ HĐ Bán Nợ FC Sold_Azura",
-            "pdf": "PDF_BAN_NO_FC_SOLD_AZURA.pdf",
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "xmtt": XMTT_2
-          },
-          "HĐ Bán Nợ Welcome Vina": {
-            "displayName": "Thanh Lý HĐ Bán Nợ HĐ Bán Nợ Welcome Vina",
-            "pdf": "PDF_BAN_NO_WELCOMEVINA.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "HĐ CF/ HĐ FC Sold CF": {
-            "displayName": "Thanh Lý HĐ HĐ CF/ HĐ FC Sold CF",
-            "pdf": "PDF_CF_FC _SOLD_CF.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "HĐ B2": {
-            "displayName": "Thanh Lý HĐ HĐ B2",
-            "pdf": "PDF_B2.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "HĐ Cash 24": {
-            "displayName": "Thanh Lý HĐ HĐ Cash 24",
-            "pdf": "PDF_CASH24.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "HĐ Kim An": {
-            "displayName": "Thanh lý Hợp Đồng HĐ Kim An",
-            "pdf": "PDF_KIM_AN",
+          "Đã Có Tài Khoản": {
+            "pdf": "CAP_NHAT_SDT/DA_CO_TAI_KHOAN_FEOL_2.0.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Hướng dẫn thao t&aacute;c qua FE Online 2.0: Kh&ocirc;ng XMTT<br>C&aacute;c TH c&ograve;n lại: CCCD + 2A + 1B</p>",
             "note": "",
-            "xmttib": "",
-            "xmttemail": ""
+            "displayName": "Cập Nhật SDT Đã Có Tài Khoản FEO 2.0",
+            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ:</strong> KH cần d&ugrave;ng đ&uacute;ng SĐT cần cập nhật li&ecirc;n hệ tổng đ&agrave;i để XMTT. &nbsp;Nếu HĐ closed: KH cần cung cấp th&ecirc;m th&ocirc;ng tin v&agrave; h&igrave;nh ảnh<br><strong>Lưu &yacute;:</strong><br>- Nếu c&oacute; cả Loan v&agrave; Card th&igrave; hỗ trợ theo Card<br>- Kh&ocirc;ng hỗ trợ cập nhật th&ocirc;ng tin cho HĐ b&aacute;n nợ to&agrave;n phần&nbsp;<br>- Inbound: Nếu qu&aacute; 5 ng&agrave;y l&agrave;m việc kể từ thời điểm nhận ticket XMTT th&agrave;nh c&ocirc;ng gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu&nbsp;<br>- Ecom: kiểm tra ticket XMTT th&agrave;nh c&ocirc;ng của IB trong v&ograve;ng 4 tuần.</p>",
+            "xmttecom": ""
           }
         },
-        "Thỏa Thuận Khoản Vay": {
-          "HĐ FEC": {
-            "displayName": "Thỏa Thuận KV HĐ FEC",
-            "pdf": "IB Dung SDT.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_8
+        "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Thành Công": {
+          "Thẻ Tín Dụng Chưa Được Kích Hoạt": {
+            "pdf": "CAP_NHAT_SDT/THE_TIN_DUNG_CHUA_DUOC_KICH_HOAT.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "note": "",
+            "displayName": "Thẻ Tín Dụng Chưa Được Kích Hoạt",
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+            "xmttecom": ""
           },
-          "Cash 24": {
-            "displayName": "Thỏa Thuận KV Cash 24",
-            "pdf": "HD Cash 24.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_1
+          "Thẻ Tín Dụng Đang Còn Dư Nợ": {
+            "pdf": "CAP_NHAT_SDT/THE_TIN_DUNG_DANG_CON_DU_NO.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "note": "",
+            "displayName": "Thẻ Tín Dụng Đang Còn Dư Nợ",
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+            "xmttecom": ""
           },
-          "Kim An": {
-            "displayName": "Thỏa Thuận KV Kim An",
-            "pdf": "HĐ Kim An.pdf",
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "xmtt": XMTT_2
+          "Thẻ Tín Dụng Đang Bị Khóa": {
+            "pdf": "CAP_NHAT_SDT/THE_TIN_DUNG_DANG_BI_KHOA.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "note": "",
+            "displayName": "Thẻ Tín Dụng Đang Bị Khóa",
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+            "xmttecom": ""
           },
-          "Bán Nợ Một Phần": {
-            "displayName": "Thỏa Thuận KV Bán Nợ Một Phần",
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
+          "Chức Năng Cập Nhật SĐT Không Khả Dụng": {
+            "pdf": "CAP_NHAT_SDT/CHUC_NANG_CAP_NHAT_SDT_KHONG_KHA_DUNG.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "note": "",
+            "displayName": "Chức Năng Cập Nhật SĐT Không Khả Dụng",
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+            "xmttecom": ""
           },
-          "Bán Nợ Galaxy": {
-            "displayName": "Thỏa Thuận KV Bán Nợ Galaxy",
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
+          "Rất Tiếc Đã Xảy Ra Lỗi": {
+            "pdf": "CAP_NHAT_SDT/RAT_TIEC_DA_XAY_RA_LOI.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "note": "",
+            "displayName": "Rất Tiếc Đã Xảy Ra Lỗi",
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+            "xmttecom": ""
           },
-          "Bán Nợ Fc Sold_Azura": {
-            "displayName": "Thỏa Thuận KV Bán Nợ Fc Sold_Azura",
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
+          "Tính Năng Này Đã Tạm Thời Bị Khóa": {
+            "pdf": "CAP_NHAT_SDT/TINH_NANG_TAM_THOI_BI_KHOA.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "note": "",
+            "displayName": "Tính Năng Này Đã Tạm Thời Bị Khóa",
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+            "xmttecom": ""
           },
-          "Bán Nợ Welcome Vina": {
-            "displayName": "Thỏa Thuận KV Bán Nợ Welcome Vina",
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
+          "Yêu Cầu Của Bạn Không Được Tiếp Tục": {
+            "pdf": "CAP_NHAT_SDT/YEU_CAU_CUA_BAN_KHONG_DUOC_TIEP_TUC.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CCCD + 2A + 1B&nbsp;</p>",
+            "note": "",
+            "displayName": "Yêu Cầu Của Bạn Không Được Tiếp Tục",
+            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ:</strong> KH d&ugrave;ng đ&uacute;ng SĐT tr&ecirc;n Pega hoặc SĐT muốn cập nhật gọi l&ecirc;n tổng đ&agrave;i để XMTT. &nbsp;Nếu HĐ closed: KH cần cung cấp th&ecirc;m h&igrave;nh ảnh/ chứng từ<br><strong>Lưu &yacute;:</strong><br>- Inbound: Nếu qu&aacute; 5 ng&agrave;y l&agrave;m việc kể từ thời điểm nhận ticket XMTT th&agrave;nh c&ocirc;ng gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu.&nbsp;<br>- Ecom: Kiểm tra ticket XMTT th&agrave;nh c&ocirc;ng của IB trong v&ograve;ng 4 tuần.</p>",
+            "xmttecom": ""
+          },
+          "Không Thuộc Các Lỗi Trên": {
+            "pdf": "CAP_NHAT_SDT/KHONG_THUOC_CAC_LOI_TREN.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD + 2A + 1B</p>",
+            "note": "",
+            "displayName": "Không Thuộc Các Lỗi Trên",
+            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ: </strong>KH cần d&ugrave;ng đ&uacute;ng SĐT cần cập nhật li&ecirc;n hệ tổng đ&agrave;i để XMTT. &nbsp;<br><strong>Lưu &yacute;:</strong><br>- Inbound: Nếu qu&aacute; 5 ng&agrave;y l&agrave;m việc kể từ thời điểm nhận ticket XMTT th&agrave;nh c&ocirc;ng gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu.&nbsp;<br>- Ecom: kiểm tra ticket XMTT th&agrave;nh c&ocirc;ng của IB trong v&ograve;ng 4 tuần.</p>",
+            "xmttecom": ""
           }
         },
-        "Tình Trạng Hợp Đồng": {
-          "HĐ FEC": {
-            "displayName": "Tình Trạng HĐ FEC",
-            "pdf": "IB Dung SDT.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_8
-          },
-          "Cash 24": {
-            "displayName": "Tình Trạng HĐ Cash 24",
-            "pdf": "HD Cash 24.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_1
-          },
-          "Kim An": {
-            "displayName": "Tình Trạng HĐ Kim An",
-            "pdf": "HĐ Kim An.pdf",
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "xmtt": XMTT_2
-          },
-          "Bán Nợ Một Phần": {
-            "displayName": "Tình Trạng HĐ Bán Nợ Một Phần",
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Bán Nợ Galaxy": {
-            "displayName": "Tình Trạng HĐ Bán Nợ Galaxy",
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            "displayName": "Tình Trạng HĐ Bán Nợ Fc Sold_Azura",
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Bán Nợ Welcome Vina": {
-            "displayName": "Tình Trạng HĐ Bán Nợ Welcome Vina",
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          }
-        },
-        "Đóng Hợp Đồng": {
-          "HĐ FEC": {
-            "displayName": "Đóng HĐ FEC",
-            "pdf": "IB Dung SDT.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Cash 24": {
-            "displayName": "Đóng HĐ Cash 24",
-            "pdf": "HD Cash 24.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_1
-          },
-          "Kim An": {
-            "displayName": "Đóng HĐ Kim An",
-            "pdf": "HĐ Kim An.pdf",
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "xmtt": XMTT_2
-          },
-          "Bán Nợ Một Phần": {
-            "displayName": "Đóng HĐ Bán Nợ Một Phần",
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Bán Nợ Galaxy": {
-            "displayName": "Đóng HĐ Bán Nợ Galaxy",
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            "displayName": "Đóng HĐ Bán Nợ Fc Sold_Azura",
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Bán Nợ Welcome Vina": {
-            "displayName": "Đóng HĐ Bán Nợ Welcome Vina",
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          }
-        },
-        "Lãi/Phí Phát Sinh Sai": {
-          "HĐ FEC": {
-            "displayName": "CIC HĐ FEC",
-            "pdf": "IB Dung SDT.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Cash 24": {
-            "displayName": "CIC Cash 24",
-            "pdf": "HD Cash 24.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_1
-          },
-          "Kim An": {
-            "displayName": "CIC Kim An",
-            "pdf": "HĐ Kim An.pdf",
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "xmtt": XMTT_2
-          },
-          "Bán Nợ Một Phần": {
-            "displayName": "CIC Bán Nợ Một Phần",
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Bán Nợ Galaxy": {
-            "displayName": "CIC Bán Nợ Galaxy",
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            "displayName": "CIC Bán Nợ Fc Sold_Azura",
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          },
-          "Bán Nợ Welcome Vina": {
-            "displayName": "CIC Bán Nợ Welcome Vina",
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "note": "N/A",
-            "xmttib": XMTT_4
-          }
-        }
-      },
-      "7. NHẮC NỢ": {
-        "Nhắc Nợ trước hạn": {
-          "displayName": "Nhắc Nợ Trước Hạn",
-          "pdf": "NHAC_NO_TRUOC_HAN.PDF",
-          "note": "",
-          "xmttib": "CCCD",
-          "xmttemail": "CCCD",
+        "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Đồng Bộ": {
+          "pdf": "CAP_NHAT_SDT/DA_CAP_NHAT_TREN_FEOL_2.0_NHUNG_KHONG_DONG_BO.pdf",
           "contentType": "",
           "htmlContent": "",
           "htmlUrl": "",
-          "xmttchat": "CCCD"
-        },
-        "Nhắc Nợ Nhiều Lần/ Quá 7h-21h/ Nhá Máy": {
-          "displayName": "Nhắc Nợ Nhiều Lần/ Quá 7h-21h/ Nhá Máy",
-          "pdf": "NHAC_NO_NHIEU_LAN.PDF",
+          "xmttib": "",
           "note": "",
-          "xmttib": "- Đúng SĐT + CCCD + 1A <br>\n- XM không thành công: CCCD/SHĐ/ Điện thoại đăng ký và ghi nhận khiếu nại không cung cấp chi tiết hợp đồng",
-          "xmttecom": "",
+          "displayName": "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Đồng Bộ",
           "dieukien": "",
+          "xmttecom": ""
+        }
+      },
+      "Chưa Có Hợp Đồng Vay": {
+        "pdf": "CAP_NHAT_SDT/CHUA_CO_HOP_DONG_VAY.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "<p><strong>TH từ App về Pega:</strong> CCCD + 2A + 1B&nbsp;<br><strong>TH từ Pega về App:</strong> SĐT đ&uacute;ng tr&ecirc;n PEGA</p>",
+        "note": "",
+        "displayName": "Chưa Có Hợp Đồng Vay",
+        "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ:&nbsp;</strong><br>- TH từ App về Pega: KH cần d&ugrave;ng đ&uacute;ng SĐT cần cập nhật li&ecirc;n hệ tổng đ&agrave;i để XMTT<br>- TH từ Pega về App: KH cần d&ugrave;ng đ&uacute;ng SĐT tr&ecirc;n Pega li&ecirc;n hệ tổng đ&agrave;i để y&ecirc;u cầu hỗ trợ.</p>",
+        "xmttecom": ""
+      }
+    },
+    "Cập Nhật Email": {
+      "Chưa Cập Nhật Trên FEOL 2.0": {
+        "pdf": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Chưa Cập Nhật Trên FEOL 2.0",
+        "dieukien": "",
+        "xmttecom": ""
+      },
+      "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Thành Công": {
+        "Lỗi “Email này trùng với email hiện tại”": {
+          "Ký HĐ trước ngày 21/07/2025": {
+            "pdf": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Ký HĐ trước ngày 21/07/2025",
+            "dieukien": "",
+            "xmttecom": ""
+          },
+          "Ký HĐ từ ngày 21/07/2025 về sau": {
+            "pdf": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Ký HĐ từ ngày 21/07/2025 về sau",
+            "dieukien": "",
+            "xmttecom": ""
+          }
+        },
+        "Các Lỗi Khác": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Các Lỗi Khác",
+          "dieukien": "",
+          "xmttecom": ""
+        }
+      },
+      "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Đồng Bộ": {
+        "pdf": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Đồng Bộ",
+        "dieukien": "",
+        "xmttecom": ""
+      }
+    },
+    "Cập Nhật Địa Chỉ": {
+      "pdf": "",
+      "xmttib": "",
+      "note": "",
+      "displayName": "Cập Nhật Địa Chỉ",
+      "dieukien": "",
+      "xmttecom": ""
+    },
+    "Cập Nhật CMND/ CCCD": {
+      "Chưa Cập Nhật Trên FEOL 2.0": {
+        "pdf": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Chưa Cập Nhật Trên FEOL 2.0",
+        "dieukien": "",
+        "xmttecom": ""
+      },
+      "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Thành Công": {
+        "Lỗi Xác Minh Thất Bại": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Lỗi Xác Minh Thất Bại",
+          "dieukien": "",
+          "xmttecom": ""
+        },
+        "Lỗi Chưa Đủ Tuổi Mở Tài Khoản": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Lỗi Chưa Đủ Tuổi Mở Tài Khoản",
+          "dieukien": "",
+          "xmttecom": ""
+        },
+        "Lỗi Chụp Ảnh Chưa Đạt Yêu Cầu": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Lỗi Chụp Ảnh Chưa Đạt Yêu Cầu",
+          "dieukien": "",
+          "xmttecom": ""
+        },
+        "Lỗi CCCD Hết Hạn": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Lỗi CCCD Hết Hạn",
+          "dieukien": "",
+          "xmttecom": ""
+        },
+        "Lỗi Quá Số Lần Thử Lại": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Lỗi Quá Số Lần Thử Lại",
+          "dieukien": "",
+          "xmttecom": ""
+        },
+        "Lỗi Khác": {
+          "pdf": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Lỗi Khác",
+          "dieukien": "",
+          "xmttecom": ""
+        }
+      }
+    }
+  },
+  "12. KẾT QUẢ XỬ LÝ YÊU CẦU": {},
+  "13. TRA CỨU TỰ ĐỘNG": {
+    "FE Online 2.0": {
+      "Tính Năng Chung": {
+        "Đăng Ký - Đăng Nhập": {
+          "pdf": "FEONLINE2.0/dangkytaikhoanFEOL2.0.pdf",
           "contentType": "",
           "htmlContent": "",
           "htmlUrl": "",
-          "xmttemail": "N/A",
-          "xmttchat": "N/A"
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Đăng Ký - Đăng Nhập"
         },
-        "Yêu Cầu Ngưng Nhắc Nợ": {
-          "Số Chính Chủ Đăng Ký HĐ FE CREDIT": {
-            "displayName": "Nhắc Nợ Số Chính Chủ Đăng Ký HĐ FE CREDIT",
-            "pdf": "NGUNG_NHAC_NO_CHINH_CHU.pdf",
-            "note": "",
-            "xmttib": "N/A",
-            "xmttecom": "",
-            "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
-            "xmttemail": "N/A",
-            "xmttchat": "N/A",
+        "Xác Thực NFC": {
+          "pdf": "FEONLINE2.0/xacthucNFC.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Xác Thực NFC"
+        },
+        "Đăng Ký Vay": {
+          "Đăng Ký Mở Thẻ Tín Dụng": {
+            "pdf": "FEONLINE2.0/dangkymothetindung.pdf",
             "contentType": "",
             "htmlContent": "",
-            "htmlUrl": ""
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Đăng Ký Mở Thẻ Tín Dụng"
           },
-          "Số Tham Chiếu/ Không Có Thông Tin HĐ": {
-            "displayName": "Nhắc Nợ Số Tham Chiếu/ Không Có Thông Tin HĐ",
-            "pdf": "NGUNG_NHAC_NO_THAM_CHIEU.pdf",
-            "note": "",
-            "xmttib": "N/A",
-            "xmttecom": "",
-            "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
-            "xmttemail": "N/A",
-            "xmttchat": "N/A",
+          "Đăng Ký Vay Thêm (Topup)": {
+            "pdf": "FEONLINE2.0/dangkyvaythem.pdf",
             "contentType": "",
             "htmlContent": "",
-            "htmlUrl": ""
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Đăng Ký Vay Thêm (Topup)"
           },
-          "Khách Hàng Đã Thanh Toán": {
-            "displayName": "Khách Hàng Đã Thanh Toán Vẫn Bị Nhắc Nợ",
-            "pdf": "NGUNG_NHAC_NO_DA_THANH_TOAN.pdf",
-            "note": "",
-            "xmttib": "Đúng SĐT + CMND/ CCCD + 1A",
-            "xmttecom": "",
-            "dieukien": "",
-            "xmttemail": "N/A",
-            "xmttchat": "N/A",
+          "Đăng Ký Tiền Mặt Linh Hoạt": {
+            "pdf": "FEONLINE2.0/dangkytienmatlinhhoat.pdf",
             "contentType": "",
             "htmlContent": "",
-            "htmlUrl": ""
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Đăng Ký Tiền Mặt Linh Hoạt"
           },
-          "Đang Trong Quá Trình Xử Lý": {
-            "displayName": "Đang Trong Quá Trình Xử Lý Nhắc Nợ",
-            "pdf": "NGUNG_NHAC_NO_DANG_XU_LY.pdf",
-            "note": "",
-            "xmttib": "Đúng chủ HĐ + CCCD/ SHĐ + 1A",
-            "xmttecom": "",
-            "dieukien": "<p>Kiểm tra ticket đ&atilde; ghi nhận trước đ&oacute;, bao gồm c&aacute;c code sau: <a href=\"pdfile-loan/7_NHAC_NO/Code_Can_Kiem_Tra.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>",
-            "xmttemail": "N/A",
-            "xmttchat": "N/A",
+          "Đăng Ký FE Paylater": {
+            "pdf": "FEONLINE2.0/dangkyFEPaylater.pdf",
             "contentType": "",
             "htmlContent": "",
-            "htmlUrl": ""
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Đăng Ký FE Paylater"
+          }
+        },
+        "Thanh Toán Qua Ubank": {
+          "pdf": "FEONLINE2.0/thanhtoanquaUbank.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Thanh Toán Qua Ubank"
+        },
+        "Quét Mã QR Thanh Toán Cho HĐ": {
+          "pdf": "FEONLINE2.0/quetmaQRthanhtoanchoHD.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Quét Mã QR Thanh Toán Cho HĐ"
+        },
+        "Kiểm Tra Giao Dịch KH Vừa Thanh Toán": {
+          "pdf": "FEONLINE2.0/kiemtragiaodichvuathanhtoan.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Kiểm Tra Giao Dịch KH Vừa Thanh Toán"
+        },
+        "Cập Nhật Email": {
+          "pdf": "FEONLINE2.0/capnhatemail.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Cập Nhật Email"
+        },
+        "Cập Nhật CCCD": {
+          "pdf": "FEONLINE2.0/capnhatCCCD.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Cập Nhật CCCD"
+        },
+        "Cập Nhật SĐT": {
+          "pdf": "FEONLINE2.0/capnhatSDT.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Cập Nhật SĐT"
+        },
+        "Trung Tâm Hỗ Trợ": {
+          "pdf": "FEONLINE2.0/trungtamhotro.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Trung Tâm Hỗ Trợ"
+        },
+        "Tra Cứu Kết Quả Xử Lý": {
+          "pdf": "FEONLINE2.0/tracuuketquaxuly.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Tra Cứu Kết Quả Xử Lý"
+        }
+      },
+      "Quản Lý Khoản Vay": {
+        "pdf": "FEONLINE2.0/quanlykhoanvay.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "FE Online 2.0: Tra Cứu Quản Lý Khoản Vay"
+      },
+      "Quản Lý Thẻ Tín Dụng": {
+        "Thông Tin Thẻ": {
+          "pdf": "FEONLINE2.0/thongtinthe.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Thông Tin Thẻ"
+        },
+        "Trạng Thái Thẻ|| Tình Trạng Giao Phát Thẻ": {
+          "pdf": "FEONLINE2.0/quanlythetindung.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Trạng Thái Thẻ - Tình Trạng Giao Phát Thẻ"
+        },
+        "Bản Scan HĐ": {
+          "pdf": "FEONLINE2.0/quanlythetindung.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Bản Scan HĐ"
+        },
+        "Thông Tin IPP": {
+          "pdf": "FEONLINE2.0/quanlythetindung.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Thông Tin IPP"
+        },
+        "Lịch Sử Giao Dịch/Thanh Toán": {
+          "pdf": "FEONLINE2.0/quanlythetindung.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Lịch Sử Giao Dịch/Thanh Toán"
+        },
+        "Dư Nợ, Sao Kê": {
+          "pdf": "FEONLINE2.0/quanlythetindung.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Dư Nợ, Sao Kê"
+        },
+        "Nghiệp Vụ Thẻ": {
+          "Kích Hoạt Thẻ": {
+            "pdf": "FEONLINE2.0/kichhoatthe.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Kích Hoạt Thẻ"
+          },
+          "Thay Đổi Mã Pin Thẻ ATM": {
+            "pdf": "FEONLINE2.0/quanlythetindung.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Thay Đổi Mã Pin Thẻ ATM"
+          },
+          "Chuyển Đổi Trả Góp (Retail)": {
+            "pdf": "FEONLINE2.0/chuyendoitragop.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Chuyển Đổi Trả Góp (Retail)"
+          },
+          "Tra Cứu/Đổi Điểm Thưởng": {
+            "pdf": "diemthuong.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Tra Cứu/Đổi Điểm Thưởng"
+          },
+          "Rút Tiền Mặt Từ Thẻ Tín Dụng": {
+            "pdf": "ruttienmattuthe.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Rút Tiền Mặt Từ Thẻ Tín Dụng"
+          },
+          "Thanh Toán Trực Tuyến/Thanh Toán Nước Ngoài/Cài Đặt Hạn Mức": {
+            "pdf": "tinhnangthanhtoantructuyen.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Thanh Toán Trực Tuyến/Thanh Toán Nước Ngoài/Cài Đặt Hạn Mức"
+          },
+          "FLEXI BUY - Thanh Toán Linh Hoạt": {
+            "pdf": "flexibuy.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "Tra Cứu FLEXI BUY - Thanh Toán Linh Hoạt"
+          },
+          "Gia Hạn Thẻ": {
+            "pdf": "giahanthe.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Gia Hạn Thẻ"
+          },
+          "Đóng/Mở Khóa A": {
+            "pdf": "quanlythetindung.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": "",
+            "displayName": "FE Online 2.0: Tra Cứu Đóng/Mở Khóa A"
           }
         }
       },
-      "8. MRC/ YÊU CẦU GIẤY TỜ": {
-        "MRC": {
-          "HĐ FEC": {
-            "displayName": "HĐ FEC",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Cash 24": {
-            "displayName": "HĐ Cash 24",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Kim An": {
-            "displayName": "HĐ Kim An",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Một Phần": {
-            "displayName": "HĐ Bán Nợ Một Phần",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Galaxy": {
-            "displayName": "HĐ Bán Nợ Galaxy",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ FC SOLD_AZURA": {
-            "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ WELCOME VINA": {
-            "displayName": "HĐ Bán Nợ WELCOME VINA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          }
+      "Quản Lý  Sản Phẩm Tiền Mặt Linh Hoạt (FlexiMoney)": {
+        "Thông Tin IPP": {
+          "pdf": "FEONLINE2.0/quanlyfleximoney.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Thông Tin IPP (FlexiMoney)"
         },
-        "Giấy Giải Chấp": {
-          "HĐ FEC": {
-            "displayName": "HĐ FEC",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Cash 24": {
-            "displayName": "HĐ Cash 24",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Kim An": {
-            "displayName": "HĐ Kim An",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Một Phần": {
-            "displayName": "HĐ Bán Nợ Một Phần",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Galaxy": {
-            "displayName": "HĐ Bán Nợ Galaxy",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ FC SOLD_AZURA": {
-            "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ WELCOME VINA": {
-            "displayName": "HĐ Bán Nợ WELCOME VINA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          }
+        "Xem Chi Tiết Hợp Đồng": {
+          "pdf": "FEONLINE2.0/quanlyfleximoney.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Xem Chi Tiết Hợp Đồng (FlexiMoney)"
         },
-        "Lịch Thanh Toán": {
-          "HĐ FEC": {
-            "displayName": "HĐ FEC",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Cash 24": {
-            "displayName": "HĐ Cash 24",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Kim An": {
-            "displayName": "HĐ Kim An",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Một Phần": {
-            "displayName": "HĐ Bán Nợ Một Phần",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Galaxy": {
-            "displayName": "HĐ Bán Nợ Galaxy",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ FC SOLD_AZURA": {
-            "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ WELCOME VINA": {
-            "displayName": "HĐ Bán Nợ WELCOME VINA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          }
+        "Lịch Sử Giao Dịch/Thanh Toán": {
+          "pdf": "FEONLINE2.0/quanlyfleximoney.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Tra Cứu Lịch Sử Giao Dịch/Thanh Toán"
         },
-        "Lịch Sử Thanh Toán": {
-          "HĐ FEC": {
-            "displayName": "HĐ FEC",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Cash 24": {
-            "displayName": "HĐ Cash 24",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Kim An": {
-            "displayName": "HĐ Kim An",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Một Phần": {
-            "displayName": "HĐ Bán Nợ Một Phần",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Galaxy": {
-            "displayName": "HĐ Bán Nợ Galaxy",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ FC SOLD_AZURA": {
-            "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ WELCOME VINA": {
-            "displayName": "HĐ Bán Nợ WELCOME VINA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          }
+        "Tải Bản Sao Kê": {
+          "pdf": "FEONLINE2.0/taibansaoke.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Tải Bản Sao Kê (FlexiMoney)"
         },
-        "Giấy Xác Nhận Thanh Lý": {
-          "HĐ FEC": {
-            "displayName": "HĐ FEC",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Cash 24": {
-            "displayName": "HĐ Cash 24",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Kim An": {
-            "displayName": "HĐ Kim An",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Một Phần": {
-            "displayName": "HĐ Bán Nợ Một Phần",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ Galaxy": {
-            "displayName": "HĐ Bán Nợ Galaxy",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ FC SOLD_AZURA": {
-            "displayName": "HĐ Bán Nợ FC SOLD_AZURA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "HĐ Bán Nợ WELCOME VINA": {
-            "displayName": "HĐ Bán Nợ WELCOME VINA",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          }
+        "Gia Hạn Thẻ": {
+          "pdf": "FEONLINE2.0/giahanthefleximoney.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "FE Online 2.0: Tra Cứu Gia Hạn Thẻ (FlexiMoney)"
         }
       },
-      "9. BẢO HIỂM": {
-        "Phí BH": {
-          "Bảo Hiểm Khoản Vay": {
-            "displayName": "Bảo Hiểm Khoản Vay",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "Bảo Hiểm Banca": {
-            "displayName": "Bảo Hiểm Banca",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          },
-          "Bảo Hiểm Sức Khỏe": {
-            "displayName": "Bảo Hiểm Sức Khỏe",
-            "pdf": "",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": ""
-          }
-        },
-        "Quyền lợi": {},
-        "Thủ tục bồi thường": {},
-        "Đăng ký/ tái tục": {}
+      "Quản Lý Tài Khoản Ubank": {
+        "pdf": "FEONLINE2.0/quanlytaikhoanUbank.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": "",
+        "displayName": "Tra Cứu Quản Lý Tài Khoản Ubank"
       },
-      "10. HOÀN TIỀN, ĐIỀU CHỈNH THANH TOÁN": {
-        "Kiểm Tra Tiền Dư": {},
-        "Hoàn Tiền": {},
-        "Điều Chỉnh Thanh Toán": {}
+      "Quản Lý FE Paylater": {
+        "Đăng Ký Tài Khoản": {
+          "pdf": "FEONLINE2.0/quanlyFEPaylater.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Paylater Đăng Ký Tài Khoản"
+        },
+        "Thanh Toán Hóa Đơn Nước Tại Payoo": {
+          "pdf": "FEONLINE2.0/thanhtoanhoadon.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Paylater Thanh Toán Hóa Đơn Nước Tại Payoo"
+        },
+        "Thanh Toán Dư Nợ": {
+          "pdf": "FEONLINE2.0/thanhtoanduno.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Paylater Thanh Toán Dư Nợ"
+        },
+        "Kiểm Tra Sao Kê": {
+          "pdf": "FEONLINE2.0/saokeFEPaylater.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "\n",
+          "displayName": "Paylater: Kiểm Tra Sao Kê"
+        },
+        "Lịch Sử Giao Dịch": {
+          "pdf": "FEONLINE2.0/lichsugiaodichFEPaylater.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Paylater: Lịch Sử Giao Dịch"
+        },
+        "Thông Tin IPP": {
+          "pdf": "FEONLINE2.0/lichsugiaodichFEPaylater.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Thông Tin IPP"
+        },
+        "Tính Năng Thanh Toán Linh Hoạt (Flexibuy)": {
+          "pdf": "FEONLINE2.0/tinhnangFlexibuy.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Paylater: Tính Năng Thanh Toán Linh Hoạt (Flexibuy)"
+        }
       },
-      "11. CẬP NHẬT THÔNG TIN": {
-        "Cập Nhật SĐT": {},
-        "Cập Nhật Địa Chỉ": {},
-        "Cập Nhật Email": {},
-        "Cập Nhật CMND/ CCCD": {}
-      },
-      "12. KẾT QUẢ XỬ LÝ YÊU CẦU": {},
-      "13. TRA CỨU TỰ ĐỘNG": {
-        "FE Online 2.0": {
-          "Tính Năng Chung": {
-            "Đăng Ký - Đăng Nhập": {
-              "displayName": "FE Online 2.0: Tra Cứu Đăng Ký - Đăng Nhập",
-              "pdf": "FEONLINE2.0/dangkytaikhoanFEOL2.0.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Xác Thực NFC": {
-              "displayName": "FE Online 2.0: Tra Cứu Xác Thực NFC",
-              "pdf": "FEONLINE2.0/xacthucNFC.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Đăng Ký Vay": {
-              "Đăng Ký Mở Thẻ Tín Dụng": {
-                "displayName": "FE Online 2.0: Tra Cứu Đăng Ký Mở Thẻ Tín Dụng",
-                "pdf": "FEONLINE2.0/dangkymothetindung.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": "",
-                "contentType": "",
-                "htmlContent": "",
-                "htmlUrl": ""
-              },
-              "Đăng Ký Vay Thêm (Topup)": {
-                "displayName": "FE Online 2.0: Tra Cứu Đăng Ký Vay Thêm (Topup)",
-                "pdf": "FEONLINE2.0/dangkyvaythem.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": "",
-                "contentType": "",
-                "htmlContent": "",
-                "htmlUrl": ""
-              },
-              "Đăng Ký Tiền Mặt Linh Hoạt": {
-                "displayName": "FE Online 2.0: Tra Cứu Đăng Ký Tiền Mặt Linh Hoạt",
-                "pdf": "FEONLINE2.0/dangkytienmatlinhhoat.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": "",
-                "contentType": "",
-                "htmlContent": "",
-                "htmlUrl": ""
-              },
-              "Đăng Ký FE Paylater": {
-                "displayName": "FE Online 2.0: Tra Cứu Đăng Ký FE Paylater",
-                "pdf": "FEONLINE2.0/dangkyFEPaylater.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": "",
-                "contentType": "",
-                "htmlContent": "",
-                "htmlUrl": ""
-              }
-            },
-            "Thanh Toán Qua Ubank": {
-              "displayName": "FE Online 2.0: Tra Cứu Thanh Toán Qua Ubank",
-              "pdf": "FEONLINE2.0/thanhtoanquaUbank.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Quét Mã QR Thanh Toán Cho HĐ": {
-              "displayName": "FE Online 2.0: Tra Cứu Quét Mã QR Thanh Toán Cho HĐ",
-              "pdf": "FEONLINE2.0/quetmaQRthanhtoanchoHD.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Kiểm Tra Giao Dịch KH Vừa Thanh Toán": {
-              "displayName": "FE Online 2.0: Tra Cứu Kiểm Tra Giao Dịch KH Vừa Thanh Toán",
-              "pdf": "FEONLINE2.0/kiemtragiaodichvuathanhtoan.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Cập Nhật Email": {
-              "displayName": "FE Online 2.0: Tra Cứu Cập Nhật Email",
-              "pdf": "FEONLINE2.0/capnhatemail.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Cập Nhật CCCD": {
-              "displayName": "FE Online 2.0: Tra Cứu Cập Nhật CCCD",
-              "pdf": "FEONLINE2.0/capnhatCCCD.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Cập Nhật SĐT": {
-              "displayName": "FE Online 2.0: Tra Cứu Cập Nhật SĐT",
-              "pdf": "FEONLINE2.0/capnhatSDT.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Trung Tâm Hỗ Trợ": {
-              "displayName": "FE Online 2.0: Tra Cứu Trung Tâm Hỗ Trợ",
-              "pdf": "FEONLINE2.0/trungtamhotro.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Tra Cứu Kết Quả Xử Lý": {
-              "displayName": "FE Online 2.0: Tra Cứu Tra Cứu Kết Quả Xử Lý",
-              "pdf": "FEONLINE2.0/tracuuketquaxuly.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            }
-          },
-          "Quản Lý Khoản Vay": {
-            "displayName": "FE Online 2.0: Tra Cứu Quản Lý Khoản Vay",
-            "pdf": "FEONLINE2.0/quanlykhoanvay.pdf",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": "",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "Quản Lý Thẻ Tín Dụng": {
-            "Thông Tin Thẻ": {
-              "displayName": "FE Online 2.0: Tra Cứu Thông Tin Thẻ",
-              "pdf": "FEONLINE2.0/thongtinthe.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Trạng Thái Thẻ|| Tình Trạng Giao Phát Thẻ": {
-              "displayName": "FE Online 2.0: Tra Cứu Trạng Thái Thẻ - Tình Trạng Giao Phát Thẻ",
-              "pdf": "FEONLINE2.0/quanlythetindung.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Bản Scan HĐ": {
-              "displayName": "FE Online 2.0: Tra Cứu Bản Scan HĐ",
-              "pdf": "FEONLINE2.0/quanlythetindung.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Thông Tin IPP": {
-              "displayName": "FE Online 2.0: Tra Cứu Thông Tin IPP",
-              "pdf": "FEONLINE2.0/quanlythetindung.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lịch Sử Giao Dịch/Thanh Toán": {
-              "displayName": "FE Online 2.0: Tra Cứu Lịch Sử Giao Dịch/Thanh Toán",
-              "pdf": "FEONLINE2.0/quanlythetindung.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Dư Nợ, Sao Kê": {
-              "displayName": "FE Online 2.0: Tra Cứu Dư Nợ, Sao Kê",
-              "pdf": "FEONLINE2.0/quanlythetindung.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Nghiệp Vụ Thẻ": {
-              "Kích Hoạt Thẻ": {
-                "displayName": "FE Online 2.0: Tra Cứu Kích Hoạt Thẻ",
-                "pdf": "FEONLINE2.0/kichhoatthe.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": "",
-                "contentType": "",
-                "htmlContent": "",
-                "htmlUrl": ""
-              },
-              "Thay Đổi Mã Pin Thẻ ATM": {
-                "displayName": "FE Online 2.0: Tra Cứu Thay Đổi Mã Pin Thẻ ATM",
-                "pdf": "FEONLINE2.0/quanlythetindung.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": "",
-                "contentType": "",
-                "htmlContent": "",
-                "htmlUrl": ""
-              },
-              "Chuyển Đổi Trả Góp (Retail)": {
-                "displayName": "FE Online 2.0: Tra Cứu Chuyển Đổi Trả Góp (Retail)",
-                "pdf": "FEONLINE2.0/chuyendoitragop.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": "",
-                "contentType": "",
-                "htmlContent": "",
-                "htmlUrl": ""
-              },
-              "Tra Cứu/Đổi Điểm Thưởng": {
-                "displayName": "FE Online 2.0: Tra Cứu Tra Cứu/Đổi Điểm Thưởng",
-                "pdf": "diemthuong.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": ""
-              },
-              "Rút Tiền Mặt Từ Thẻ Tín Dụng": {
-                "displayName": "FE Online 2.0: Tra Cứu Rút Tiền Mặt Từ Thẻ Tín Dụng",
-                "pdf": "ruttienmattuthe.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": ""
-              },
-              "Thanh Toán Trực Tuyến/Thanh Toán Nước Ngoài/Cài Đặt Hạn Mức": {
-                "displayName": "FE Online 2.0: Tra Cứu Thanh Toán Trực Tuyến/Thanh Toán Nước Ngoài/Cài Đặt Hạn Mức",
-                "pdf": "tinhnangthanhtoantructuyen.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": ""
-              },
-              "FLEXI BUY - Thanh Toán Linh Hoạt": {
-                "displayName": "Tra Cứu FLEXI BUY - Thanh Toán Linh Hoạt",
-                "pdf": "flexibuy.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": ""
-              },
-              "Gia Hạn Thẻ": {
-                "displayName": "FE Online 2.0: Tra Cứu Gia Hạn Thẻ",
-                "pdf": "giahanthe.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": ""
-              },
-              "Đóng/Mở Khóa A": {
-                "displayName": "FE Online 2.0: Tra Cứu Đóng/Mở Khóa A",
-                "pdf": "quanlythetindung.pdf",
-                "note": "",
-                "xmttib": "",
-                "xmttemail": ""
-              }
-            }
-          },
-          "Quản Lý  Sản Phẩm Tiền Mặt Linh Hoạt (FlexiMoney)": {
-            "Thông Tin IPP": {
-              "displayName": "FE Online 2.0: Tra Cứu Thông Tin IPP (FlexiMoney)",
-              "pdf": "FEONLINE2.0/quanlyfleximoney.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Xem Chi Tiết Hợp Đồng": {
-              "displayName": "FE Online 2.0: Tra Cứu Xem Chi Tiết Hợp Đồng (FlexiMoney)",
-              "pdf": "FEONLINE2.0/quanlyfleximoney.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lịch Sử Giao Dịch/Thanh Toán": {
-              "displayName": "Tra Cứu Lịch Sử Giao Dịch/Thanh Toán",
-              "pdf": "FEONLINE2.0/quanlyfleximoney.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Tải Bản Sao Kê": {
-              "displayName": "FE Online 2.0: Tra Cứu Tải Bản Sao Kê (FlexiMoney)",
-              "pdf": "FEONLINE2.0/taibansaoke.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Gia Hạn Thẻ": {
-              "displayName": "FE Online 2.0: Tra Cứu Gia Hạn Thẻ (FlexiMoney)",
-              "pdf": "FEONLINE2.0/giahanthefleximoney.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            }
-          },
-          "Quản Lý Tài Khoản Ubank": {
-            "displayName": "Tra Cứu Quản Lý Tài Khoản Ubank",
-            "pdf": "FEONLINE2.0/quanlytaikhoanUbank.pdf",
-            "note": "",
-            "xmttib": "",
-            "xmttemail": "",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "Quản Lý FE Paylater": {
-            "Đăng Ký Tài Khoản": {
-              "displayName": "Paylater Đăng Ký Tài Khoản",
-              "pdf": "FEONLINE2.0/quanlyFEPaylater.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Thanh Toán Hóa Đơn Nước Tại Payoo": {
-              "displayName": "Paylater Thanh Toán Hóa Đơn Nước Tại Payoo",
-              "pdf": "FEONLINE2.0/thanhtoanhoadon.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Thanh Toán Dư Nợ": {
-              "displayName": "Paylater Thanh Toán Dư Nợ",
-              "pdf": "FEONLINE2.0/thanhtoanduno.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Kiểm Tra Sao Kê": {
-              "displayName": "Paylater: Kiểm Tra Sao Kê",
-              "pdf": "FEONLINE2.0/saokeFEPaylater.pdf",
-              "note": "\n",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lịch Sử Giao Dịch": {
-              "displayName": "Paylater: Lịch Sử Giao Dịch",
-              "pdf": "FEONLINE2.0/lichsugiaodichFEPaylater.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Thông Tin IPP": {
-              "displayName": "Thông Tin IPP",
-              "pdf": "FEONLINE2.0/lichsugiaodichFEPaylater.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Tính Năng Thanh Toán Linh Hoạt (Flexibuy)": {
-              "displayName": "Paylater: Tính Năng Thanh Toán Linh Hoạt (Flexibuy)",
-              "pdf": "FEONLINE2.0/tinhnangFlexibuy.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            }
-          },
-          "Lỗi Ứng Dụng": {
-            "Lỗi Đăng Ký Tài Khoản": {
-              "displayName": "Lỗi Đăng Ký Tài Khoản",
-              "pdf": "FEONLINE2.0/loidangkytaikhoan.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lỗi Đăng Nhập/Không Liên Kết Tài Khoản Thanh Toán": {
-              "displayName": "Lỗi Đăng Nhập/Không Liên Kết Tài Khoản Thanh Toán",
-              "pdf": "FEONLINE2.0/loidangnhap.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lỗi EKYC/Chụp Hình": {
-              "displayName": "Lỗi EKYC/Chụp Hình",
-              "pdf": "FEONLINE2.0/loiEYKC.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lỗi xác thực NFC": {
-              "displayName": "Lỗi xác thực NFC",
-              "pdf": "FEONLINE2.0/loixacthucNFC.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lỗi Không Hiển Thị Khoản Vay/Thẻ": {
-              "displayName": "Lỗi Không Hiển Thị Khoản Vay/Thẻ",
-              "pdf": "FEONLINE2.0/loikohienthikhoanvay.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lỗi Tính Năng Cập Nhật Thông Tin": {
-              "displayName": "Lỗi Tính Năng Cập Nhật Thông Tin",
-              "pdf": "FEONLINE2.0/loitinhnangcapnhatthongtin.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lỗi Bật/Tắt Tính Năng Thanh Toán Trực Tuyến": {
-              "displayName": "Lỗi Bật/Tắt Tính Năng Thanh Toán Trực Tuyến",
-              "pdf": "FEONLINE2.0/loitinhnangthanhtoantructuyen.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lỗi Tính Năng TMN": {
-              "displayName": "Lỗi Tính Năng TMN",
-              "pdf": "FEONLINE2.0/loitinhnangTMN.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Yêu Cầu Mở Khóa Thiết Bị": {
-              "displayName": "Yêu Cầu Mở Khóa Thiết Bị",
-              "pdf": "FEONLINE2.0/loitinhnangTMN.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Lỗi Màn Hình Trắng/Văng Khỏi Ứng Dụng/Không Ổn Định": {
-              "displayName": "Lỗi Màn Hình Trắng/Văng Khỏi Ứng Dụng/Không Ổn Định",
-              "pdf": "FEONLINE2.0/loimanhinhtrang.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            },
-            "Các Lỗi Khác": {
-              "displayName": "Các Lỗi Khác",
-              "pdf": "FEONLINE2.0/xulyloiungdung.pdf",
-              "note": "",
-              "xmttib": "",
-              "xmttemail": "",
-              "contentType": "",
-              "htmlContent": "",
-              "htmlUrl": ""
-            }
-          },
+      "Lỗi Ứng Dụng": {
+        "Lỗi Đăng Ký Tài Khoản": {
+          "pdf": "FEONLINE2.0/loidangkytaikhoan.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Lỗi Đăng Ký Tài Khoản"
         },
-        "Zalo (Chatbot)": {
-          "Tính Năng Chung": {
-            "displayName": "Zalo: Tính Năng Chung",
-            "pdf": "ZALO_CHATBOT/tinhnangchung.pdf",
-            "note": "",
-            "xmttib": "",
-            "xmttecom": "",
-            "dieukien": "",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "Quản Lý Khoản Vay": {
-            "displayName": "Zalo: Quản Lý Khoản Vay",
-            "pdf": "ZALO_CHATBOT/quanlykhoanvay.pdf",
-            "note": "",
-            "xmttib": "",
-            "xmttecom": "",
-            "dieukien": "",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          },
-          "Quản Lý Thẻ Tín Dụng": {
-            "displayName": "Zalo: Quản Lý Thẻ Tín Dụng",
-            "pdf": "ZALO_CHATBOT/quanlythe.pdf",
-            "note": "",
-            "xmttib": "",
-            "xmttecom": "",
-            "dieukien": "",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          }
+        "Lỗi Đăng Nhập/Không Liên Kết Tài Khoản Thanh Toán": {
+          "pdf": "FEONLINE2.0/loidangnhap.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Lỗi Đăng Nhập/Không Liên Kết Tài Khoản Thanh Toán"
         },
-        "Website": {
-          "Quản Lý Khoản Vay": {},
-          "Quản Lý Thẻ Tín Dụng": {},
-          "Lỗi Website": {}
+        "Lỗi EKYC/Chụp Hình": {
+          "pdf": "FEONLINE2.0/loiEYKC.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Lỗi EKYC/Chụp Hình"
         },
-        "SMS": {
-          "Tra Cứu Thẻ Tín Dụng": {
-            "displayName": "SMS: Tra Cứu Thẻ Tín Dụng",
-            "pdf": "tracuuthe.pdf",
-            "note": "",
-            "xmttib": "",
-            "xmttecom": "",
-            "dieukien": "",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": ""
-          }
+        "Lỗi xác thực NFC": {
+          "pdf": "FEONLINE2.0/loixacthucNFC.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Lỗi xác thực NFC"
+        },
+        "Lỗi Không Hiển Thị Khoản Vay/Thẻ": {
+          "pdf": "FEONLINE2.0/loikohienthikhoanvay.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Lỗi Không Hiển Thị Khoản Vay/Thẻ"
+        },
+        "Lỗi Tính Năng Cập Nhật Thông Tin": {
+          "pdf": "FEONLINE2.0/loitinhnangcapnhatthongtin.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Lỗi Tính Năng Cập Nhật Thông Tin"
+        },
+        "Lỗi Bật/Tắt Tính Năng Thanh Toán Trực Tuyến": {
+          "pdf": "FEONLINE2.0/loitinhnangthanhtoantructuyen.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Lỗi Bật/Tắt Tính Năng Thanh Toán Trực Tuyến"
+        },
+        "Lỗi Tính Năng TMN": {
+          "pdf": "FEONLINE2.0/loitinhnangTMN.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Lỗi Tính Năng TMN"
+        },
+        "Yêu Cầu Mở Khóa Thiết Bị": {
+          "pdf": "FEONLINE2.0/loitinhnangTMN.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Yêu Cầu Mở Khóa Thiết Bị"
+        },
+        "Lỗi Màn Hình Trắng/Văng Khỏi Ứng Dụng/Không Ổn Định": {
+          "pdf": "FEONLINE2.0/loimanhinhtrang.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Lỗi Màn Hình Trắng/Văng Khỏi Ứng Dụng/Không Ổn Định"
+        },
+        "Các Lỗi Khác": {
+          "pdf": "FEONLINE2.0/xulyloiungdung.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "",
+          "displayName": "Các Lỗi Khác"
         }
       }
-    };
+    },
+    "Zalo (Chatbot)": {
+      "Tính Năng Chung": {
+        "pdf": "ZALO_CHATBOT/tinhnangchung.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Zalo: Tính Năng Chung",
+        "dieukien": "",
+        "xmttecom": ""
+      },
+      "Quản Lý Khoản Vay": {
+        "pdf": "ZALO_CHATBOT/quanlykhoanvay.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Zalo: Quản Lý Khoản Vay",
+        "dieukien": "",
+        "xmttecom": ""
+      },
+      "Quản Lý Thẻ Tín Dụng": {
+        "pdf": "ZALO_CHATBOT/quanlythe.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "Zalo: Quản Lý Thẻ Tín Dụng",
+        "dieukien": "",
+        "xmttecom": ""
+      }
+    },
+    "Website": {
+      "Quản Lý Khoản Vay": {},
+      "Quản Lý Thẻ Tín Dụng": {},
+      "Lỗi Website": {}
+    },
+    "SMS": {
+      "Tra Cứu Thẻ Tín Dụng": {
+        "pdf": "tracuuthe.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "note": "",
+        "displayName": "SMS: Tra Cứu Thẻ Tín Dụng",
+        "dieukien": "",
+        "xmttecom": ""
+      }
+    }
+  }
+};
 
-    window.flowchartDataFeedback = {
-      "1. THÁI ĐỘ NHÂN VIÊN": {
-        "Thái Độ Nhân Viên Qua Cuộc Gọi": {
-          "displayName": "Thái Độ Nhân Viên Qua Cuộc Gọi",
-          "pdf": "",
-          "note": "Ghi nhận góp ý tích cực về Dịch vụ khách hàng của sản phẩm thẻ.",
-          "xmttib": XMTT_1
-        },
-        "Thái Độ Nhân Viên SMS/Zalo": {
-          "displayName": "Thái Độ Nhân Viên SMS/Zalo",
-          "pdf": "",
-          "note": "Ghi nhận góp ý tích cực về tính năng sản phẩm thẻ.",
-          "xmttib": XMTT_1
-        }
-      },
-      "2. NGHIỆP VỤ": {
-        "Nghiệp Vụ Nhân Viên Sale": {
-          "displayName": "Nghiệp Vụ Nhân Viên Sale",
-          "pdf": "",
-          "note": "Ghi nhận góp ý tiêu cực về Dịch vụ khách hàng của sản phẩm thẻ.",
-          "xmttib": XMTT_1
-        },
-        "Nghiệp Vụ Nhân Viên DVKH": {
-          "displayName": "Nghiệp Vụ Nhân Viên DVKH",
-          "pdf": "",
-          "note": "Ghi nhận góp ý tiêu cực về tính năng sản phẩm thẻ.",
-          "xmttib": XMTT_1
-        }
-      }
-    };
+window.flowchartDataFeedback = {
+  "1. THÁI ĐỘ NHÂN VIÊN": {
+    "Thái Độ Nhân Viên Qua Cuộc Gọi": {
+      "pdf": "",
+      "xmttib": XMTT_1,
+      "note": "Ghi nhận góp ý tích cực về Dịch vụ khách hàng của sản phẩm thẻ.",
+      "displayName": "Thái Độ Nhân Viên Qua Cuộc Gọi"
+    },
+    "Thái Độ Nhân Viên SMS/Zalo": {
+      "pdf": "",
+      "xmttib": XMTT_1,
+      "note": "Ghi nhận góp ý tích cực về tính năng sản phẩm thẻ.",
+      "displayName": "Thái Độ Nhân Viên SMS/Zalo"
+    }
+  },
+  "2. NGHIỆP VỤ": {
+    "Nghiệp Vụ Nhân Viên Sale": {
+      "pdf": "",
+      "xmttib": XMTT_1,
+      "note": "Ghi nhận góp ý tiêu cực về Dịch vụ khách hàng của sản phẩm thẻ.",
+      "displayName": "Nghiệp Vụ Nhân Viên Sale"
+    },
+    "Nghiệp Vụ Nhân Viên DVKH": {
+      "pdf": "",
+      "xmttib": XMTT_1,
+      "note": "Ghi nhận góp ý tiêu cực về tính năng sản phẩm thẻ.",
+      "displayName": "Nghiệp Vụ Nhân Viên DVKH"
+    }
+  }
+};
 
 
   </script>
@@ -1983,7 +2390,7 @@
       const PAGE_CONFIG = {
         productName: 'LOAN',                    // Tên sản phẩm: LOAN, CARD, OUTBOUND, UBANK
         defaultPdf: './pdfile-loan/loan.pdf', // PDF mặc định khi load trang
-        pageTitle: 'PLTT LOAN v2',               // Tiêu đề trang
+        pageTitle: 'LOAN',               // Tiêu đề trang
         sessionPrefix: 'loan',                   // Prefix cho sessionStorage keys
 
         // Icon SVG cho sidebar header (copy từ dropdown menu)
@@ -2262,10 +2669,24 @@
         const compressed = urlParams.get('s');      // Dữ liệu đường dẫn đã nén
         const sourceParam = urlParams.get('source'); // Nguồn dữ liệu
         let headerPdf = urlParams.get('pdf');      // PDF từ header
+        const presetParam = urlParams.get('preset'); // Preset từ header (hỗ trợ open new tab)
 
-
-
-
+        // Xử lý preset param - cho phép open new tab từ header links
+        if (presetParam && window.HEADER_PRESETS && window.HEADER_PRESETS[presetParam]) {
+          const preset = window.HEADER_PRESETS[presetParam];
+          if (preset.pdf) {
+            navigateTo('header-pdf', {
+              pdfName: preset.pdf,
+              dieukien: preset.dieukien || '',
+              note: preset.note || '',
+              xmttib: preset.xmttib || '',
+              xmttchat: preset.xmttchat || '',
+              xmttemail: preset.xmttemail || '',
+              displayName: preset.displayName || ''
+            }, false);
+            return true;
+          }
+        }
 
         if (headerPdf) {
 
@@ -2545,6 +2966,19 @@
         const dropdownList = document.createElement("ul");
         dropdownList.className = "dropdown-list";
 
+        // Hàm helper để build path từ các select hiện tại
+        const getCurrentPath = () => {
+          return Array.from(document.querySelectorAll('.filter-select'))
+            .map(s => s.value)
+            .filter(Boolean);
+        };
+
+        // Hàm helper để build URL từ path
+        const buildSidebarUrl = (path) => {
+          const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(path));
+          return `${window.location.pathname}#source=${state.activeSourceName}&s=${compressed}`;
+        };
+
         const defaultLi = document.createElement("li");
         defaultLi.className = "dropdown-item";
         defaultLi.dataset.value = "";
@@ -2552,10 +2986,17 @@
         dropdownList.appendChild(defaultLi);
 
         options.forEach((text) => {
-          const li = document.createElement("li");
+          // Dùng a thay vì li để hỗ trợ open new tab
+          const li = document.createElement("a");
           li.className = "dropdown-item";
           li.dataset.value = text;
           li.innerHTML = formatDisplayText(text);
+
+          // Tạo href động cho open new tab
+          const currentPath = getCurrentPath();
+          const newPath = [...currentPath.slice(0, level - 1), text];
+          li.href = buildSidebarUrl(newPath);
+
           dropdownList.appendChild(li);
         });
 
@@ -2573,6 +3014,8 @@
         });
 
         dropdownList.addEventListener("click", (e) => {
+          // Ngăn navigate khi click thường (chỉ open new tab khi chuột phải)
+          e.preventDefault();
           if (e.target.classList.contains("dropdown-item")) {
             const value = e.target.dataset.value;
             const text = e.target.textContent;
@@ -2786,7 +3229,8 @@
           note: '',
           xmttib: '',
           xmttchat: '',
-          xmttemail: ''
+          xmttemail: '',
+          displayName: '' // Tên hiển thị trên title
         },
 
         snapshot() {
@@ -2861,7 +3305,8 @@
             note: state.note || '',
             xmttib: state.xmttib || '',
             xmttchat: state.xmttchat || '',
-            xmttemail: state.xmttemail || ''
+            xmttemail: state.xmttemail || '',
+            displayName: state.displayName || '' // Thêm displayName khi restore
           });
         } else if (state.path && Array.isArray(state.path)) {
 
@@ -2902,6 +3347,13 @@
 
         removeDropdowns(1);
         createFirstLevelDropdown();
+
+        // Cập nhật title theo displayName
+        if (pdfState.displayName) {
+          document.title = 'LOAN - ' + pdfState.displayName;
+        } else {
+          document.title = 'LOAN';
+        }
 
         pdfViewer.src = `./pdfile-loan/${pdfState.pdfName}`;
         pdfViewer.style.display = 'block';
@@ -3261,6 +3713,13 @@
       }
 
       function displayResult(resultObject) {
+        // Cập nhật title theo displayName của kết quả được chọn
+        if (resultObject.displayName) {
+          document.title = 'LOAN - ' + resultObject.displayName;
+        } else {
+          document.title = 'LOAN';
+        }
+
         const subHeader = document.getElementById("sub-header");
         const xmttIbBox = document.getElementById("xmtt-ib-box");
         const xmttEmailBox = document.getElementById("xmtt-email-box");
@@ -3408,6 +3867,8 @@
       }
 
       function resetResults(showDefault = false) {
+        // Reset title về mặc định khi không có kết quả
+        document.title = 'LOAN';
 
         const xmttIbBox = document.getElementById("xmtt-ib-box");
         const xmttEmailBox = document.getElementById("xmtt-email-box");
@@ -3548,12 +4009,27 @@
 
         e.preventDefault();
 
-        const pdfName = btn.dataset.pdf;
-        const dieukien = btn.dataset.dieukien || '';
-        const note = btn.dataset.note || '';
-        const xmttib = btn.dataset.xmttib || '';
-        const xmttchat = btn.dataset.xmttchat || '';
-        const xmttemail = btn.dataset.xmttemail || '';
+        // Lấy preset key từ data-preset
+        const presetKey = btn.dataset.preset;
+        let pdfName = btn.dataset.pdf;
+        let dieukien = btn.dataset.dieukien || '';
+        let note = btn.dataset.note || '';
+        let xmttib = btn.dataset.xmttib || '';
+        let xmttchat = btn.dataset.xmttchat || '';
+        let xmttemail = btn.dataset.xmttemail || '';
+        let displayName = '';
+
+        // Nếu có preset key, lấy thông tin từ HEADER_PRESETS
+        if (presetKey && window.HEADER_PRESETS && window.HEADER_PRESETS[presetKey]) {
+          const preset = window.HEADER_PRESETS[presetKey];
+          pdfName = preset.pdf || pdfName;
+          dieukien = preset.dieukien || dieukien;
+          note = preset.note || note;
+          xmttib = preset.xmttib || xmttib;
+          xmttchat = preset.xmttchat || xmttchat;
+          xmttemail = preset.xmttemail || xmttemail;
+          displayName = preset.displayName || '';
+        }
 
         if (!pdfName) return; // Không có PDF name thì không làm gì
 
@@ -3563,7 +4039,8 @@
           note: note,
           xmttib: xmttib,
           xmttchat: xmttchat,
-          xmttemail: xmttemail
+          xmttemail: xmttemail,
+          displayName: displayName // Truyền displayName để cập nhật title
         });
 
         if (typeof window.lastProcessedUrl !== 'undefined') {

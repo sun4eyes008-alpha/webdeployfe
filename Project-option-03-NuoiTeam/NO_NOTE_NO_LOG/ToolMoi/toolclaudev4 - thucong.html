@@ -32,7 +32,8 @@
       padding: 8px;
       border-radius: 4px;
       border: 1px solid #e2e8f0;
-      max-height: 150px;
+      max-height: 200px;
+      width: 100%;
       overflow-y: auto;
     }
 
@@ -60,6 +61,55 @@
       border-left: 4px solid #2563eb;
       color: #1e40af;
       font-weight: 600;
+    }
+
+    /* Sticky Header cho Flowchart Editor */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    /* Thêm margin-top cho phần nội dung bên dưới header */
+    .content-below-header {
+      margin-top: 58px;
+    }
+
+    /* Màu sắc phân biệt các cấp tree */
+    .tree-level-1 {
+      border-color: #3B82F6 !important;
+      background-color: rgba(59, 130, 246, 0.12) !important;
+    }
+
+    .tree-level-2 {
+      border-color: #10B981 !important;
+      background-color: rgba(16, 185, 129, 0.12) !important;
+    }
+
+    .tree-level-3 {
+      border-color: #F59E0B !important;
+      background-color: rgba(245, 158, 11, 0.12) !important;
+    }
+
+    .tree-level-4 {
+      border-color: #8B5CF6 !important;
+      background-color: rgba(139, 92, 246, 0.12) !important;
+    }
+
+    .tree-level-5 {
+      border-color: #EC4899 !important;
+      background-color: rgba(236, 72, 153, 0.12) !important;
+    }
+
+    .tree-root {
+      background: #EEF2FF !important;
+      border-radius: 8px;
+      padding: 8px !important;
+    }
+
+    .tree-branch {
+      border-radius: 4px;
+      padding: 4px 0 4px 8px;
     }
 
     .animate-fade-in {
@@ -373,9 +423,9 @@
           license_key: 'gpl',  // GPL license - free to use
           base_url: './tinymce',
           suffix: '.min',
-          height: 600,
+          min_height: 300, max_height: 600, autoresize_bottom_margin: 20,
           menubar: false,
-          plugins: 'lists link code table image media hr charmap fullscreen preview searchreplace emoticons autolink',
+          plugins: 'lists link code table image media hr charmap fullscreen preview searchreplace emoticons autolink autoresize',
           toolbar: [
             'undo redo | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright',
             'bullist numlist | table hr charmap emoticons | image media link createpopup | fullscreen preview code'
@@ -498,7 +548,7 @@
           ) : (
             <textarea
               className="form-control code-input"
-              rows={5}
+              rows={12} style={{ minHeight: "300px" }}
               value={value || ''}
               onChange={(e) => onChange(e.target.value)}
               placeholder={placeholder}
@@ -527,7 +577,7 @@
               <h5 className="fw-bold mb-0">Soạn thảo nội dung Popup (Rich Text)</h5>
               <button onClick={onClose} className="btn-close"></button>
             </div>
-            <div className="flex-fill p-2 overflow-hidden d-flex flex-column bg-light">
+            <div className="flex-fill p-2  d-flex flex-column bg-light">
               <div className="flex-fill bg-white border rounded">
                 {/* TinyEditor instance for Popup Content */}
                 <TinyEditor
@@ -559,6 +609,14 @@
       nodeQuoteTypes, setNodeQuoteTypes
     }) => {
       const [tempGroups, setTempGroups] = React.useState(() => groupedConstants);
+
+      // Lock body scroll when modal is open
+      React.useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        return () => {
+          document.body.style.overflow = '';
+        };
+      }, []);
 
       // Sync tempGroups with groupedConstants when it changes
       React.useEffect(() => {
@@ -846,7 +904,7 @@
 
       return (
         <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
-          <div className="bg-white rounded shadow-lg w-100 d-flex flex-column overflow-hidden" style={{ maxWidth: '95vw', height: '85vh' }}>
+          <div className="bg-white rounded shadow-lg w-100 d-flex flex-column " style={{ maxWidth: '95vw', height: '85vh' }}>
             <div className="p-3 border-bottom d-flex justify-content-between bg-light">
               <h5 className="fw-bold d-flex align-items-center gap-2 mb-0">
                 <BtnIcon name="FileText" /> Quản lý Biến
@@ -1038,14 +1096,7 @@
                           }}
                         />
                       )}
-                      {/* FEATURE 3: Preview HTML Button */}
-                      <button
-                        onClick={() => setPreviewHtml({ varName: k, content: v })}
-                        className="btn btn-sm btn-outline-info p-1"
-                        title="Preview HTML"
-                      >
-                        <BtnIcon name="Eye" size={16} />
-                      </button>
+
                       {/* Delete button */}
                       <button
                         onClick={() => deleteVar(k)}
@@ -1557,9 +1608,72 @@
         reader.readAsText(file);
       };
 
+      // === VALIDATION: Kiểm tra biến chưa khai báo ===
+      const validateUndeclaredVariables = () => {
+        const undeclaredVars = [];
+
+        // Lấy tất cả tên biến đã khai báo
+        const declaredVars = new Set();
+        Object.values(groupedConstants).forEach(group => {
+          Object.keys(group).forEach(key => {
+            if (key !== '__subgroups__') declaredVars.add(key);
+          });
+          if (group.__subgroups__) {
+            Object.values(group.__subgroups__).forEach(subVars => {
+              Object.keys(subVars).forEach(key => declaredVars.add(key));
+            });
+          }
+        });
+
+        // Quét tất cả dataSources để tìm biến chưa khai báo
+        const scanForVars = (obj, path = []) => {
+          if (!obj || typeof obj !== 'object') return;
+
+          const varFields = ['xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'dieukien'];
+
+          Object.entries(obj).forEach(([key, value]) => {
+            const currentPath = [...path, key].join(' > ');
+
+            if (varFields.includes(key) && typeof value === 'string' && value.trim()) {
+              // Kiểm tra xem có phải variable reference không (nodeQuoteTypes)
+              const pathStr = [...path, key].join('.');
+              if (nodeQuoteTypes[pathStr] === 'var') {
+                // Đây là biến reference - kiểm tra xem có khai báo chưa
+                if (!declaredVars.has(value)) {
+                  undeclaredVars.push({
+                    varName: value,
+                    field: key,
+                    location: currentPath
+                  });
+                }
+              }
+            } else if (typeof value === 'object') {
+              scanForVars(value, [...path, key]);
+            }
+          });
+        };
+
+        Object.entries(dataSources).forEach(([dataName, data]) => {
+          scanForVars(data, [dataName]);
+        });
+
+        return undeclaredVars;
+      };
+
       const handleDownload = () => {
         if (Object.keys(dataSources).length === 0) {
           alert("Lỗi: Không có dữ liệu để lưu.");
+          return;
+        }
+
+        const undeclared = validateUndeclaredVariables();
+        if (undeclared.length > 0) {
+          let message = "❌ Lỗi: Có biến chưa được khai báo trong flowchart của bạn!\n\n";
+          undeclared.forEach(v => {
+            message += `- Biến: "${v.varName}" tại trường "${v.field}" trong "${v.location}"\n`;
+          });
+          message += "\nVui lòng khai báo các biến này trong phần Constants hoặc sửa lại tham chiếu.";
+          setErrorInfo({ title: "❌ Lỗi Validation", message: message });
           return;
         }
 
@@ -2079,10 +2193,9 @@ ${dataObjectsContent}
         return (
           <div
             key={pathStr}
-            className={`mt-2 ${path.length ? "ms-4 border-start border-2 ps-2" : ""
-              }`}
+            className={`mt-2 ${path.length ? `ms-4 border-start border-2 ps-2 tree-level-${Math.min(path.length, 5)} tree-branch` : "tree-root"}`}
           >
-            <div className="d-flex align-items-center gap-2 py-1 bg-light bg-opacity-50 rounded pe-2">
+            <div className="d-flex align-items-center gap-2 py-1 rounded pe-2">
               <button
                 onClick={() => {
                   const next = new Set(expandedNodes);
@@ -2500,7 +2613,7 @@ ${dataObjectsContent}
 
         return (
           <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
-            <div className="bg-white rounded shadow-lg w-100 d-flex flex-column overflow-hidden" style={{ maxWidth: '95vw', height: '85vh' }}>
+            <div className="bg-white rounded shadow-lg w-100 d-flex flex-column " style={{ maxWidth: '95vw', height: '85vh' }}>
               <div className="p-3 border-bottom d-flex justify-content-between bg-light">
                 <h5 className="fw-bold d-flex align-items-center gap-2 mb-0">
                   <BtnIcon name="FileText" /> Quản lý Biến
@@ -2510,7 +2623,7 @@ ${dataObjectsContent}
                   setShowConstModal(false);
                 }} className="btn-close"></button>
               </div>
-              <div className="d-flex flex-fill overflow-hidden">
+              <div className="d-flex flex-fill ">
                 {/* LEFT PANEL - Groups & Subgroups Tree */}
                 <div className="border-end bg-light d-flex flex-column p-2 gap-1 overflow-auto" style={{ width: '28%' }}>
                   <button
@@ -2744,8 +2857,8 @@ ${dataObjectsContent}
 
       return (
         <div className="min-vh-100 bg-light p-4">
-          <div className="container-fluid bg-white rounded shadow border overflow-hidden" style={{ maxWidth: '1400px' }}>
-            <div className="bg-dark text-white p-3 d-flex align-items-center justify-content-between">
+          <div className="container-fluid bg-white rounded shadow border " style={{ maxWidth: '1400px' }}>
+            <div className="bg-dark text-white p-3 d-flex align-items-center justify-content-between sticky-header">
               <h1 className="h4 fw-bold d-flex align-items-center gap-2 mb-0">
                 Flowchart Editor
               </h1>

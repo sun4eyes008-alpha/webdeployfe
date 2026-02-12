@@ -5,9 +5,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PLTT UBANK</title>
+  <link rel="icon" type="image/x-icon" href="./Asset/img-video/fec_logo-1.png">
   <link rel="stylesheet" href="./Asset/style2.css" />
   <link rel="stylesheet" href="./Asset/theme-default.css" />
+  <!--   
+  <link rel="stylesheet" href="./Asset/theme-tet.css" />
+  
+  <link rel="stylesheet" href="./Asset/theme-he.css" />
+  
+ <link rel="stylesheet" href="./Asset/theme-thu.css" /> -->
   <link rel="stylesheet" href="./Asset/theme-dong.css" />
+
+  <style>
+    /* Bỏ gạch chân cho các link trong header */
+    a.tab-btn,
+    a.pdf-link-btn,
+    .dropdown-menu a.dropdown-item {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -71,7 +89,7 @@
             </a>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-preset="TIN_TUC">TIN TỨC</button>
+        <a href="#preset=TIN_TUC" class="tab-btn pdf-link-btn" data-preset="TIN_TUC">TIN TỨC</a>
         <div class="dropdown">
           <button class="tab-btn dropdown-toggle">QUY ĐỊNH CHUNG</button>
           <div class="dropdown-menu">
@@ -83,32 +101,35 @@
               </svg>
               Xác Minh Thông Tin
               <div class="dropdown-submenu">
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="QD_CHUNG">Quy định chung</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="PHAN_LOAI_RUI_RO">Phân loại rủi ro</a>
+                <a href="#preset=QD_CHUNG" class="dropdown-item pdf-link-btn" data-preset="QD_CHUNG">Quy định chung</a>
+                <a href="#preset=PHAN_LOAI_RUI_RO" class="dropdown-item pdf-link-btn"
+                  data-preset="PHAN_LOAI_RUI_RO">Phân loại rủi ro</a>
                 <div class="dropdown-item has-submenu">
                   Câu hỏi xác minh
                   <div class="dropdown-submenu">
-                    <a href="#" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_A">Level A - Thông tin KH</a>
-                    <a href="#" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_B">Level B - Thông tin HĐ</a>
+                    <a href="#preset=XMTT_LEVEL_A" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_A">Level A
+                      - Thông tin KH</a>
+                    <a href="#preset=XMTT_LEVEL_B" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_B">Level B
+                      - Thông tin HĐ</a>
                   </div>
                 </div>
               </div>
             </div>
-            <a href="#" class="dropdown-item pdf-link-btn" data-preset="TIEP_NHAN_CUOC_GOI">
+            <a href="#preset=TIEP_NHAN_CUOC_GOI" class="dropdown-item pdf-link-btn" data-preset="TIEP_NHAN_CUOC_GOI">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                   d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
               </svg>
               Tiếp Nhận Cuộc Gọi
             </a>
-            <a href="#" class="dropdown-item pdf-link-btn" data-preset="XU_LY_EMAIL_CHAT">
+            <a href="#preset=XU_LY_EMAIL_CHAT" class="dropdown-item pdf-link-btn" data-preset="XU_LY_EMAIL_CHAT">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
               </svg>
               Xử lý Email/Chat
             </a>
-            <a href="#" class="dropdown-item pdf-link-btn" data-preset="HUONG_DAN_NHAP_LIEU">
+            <a href="#preset=HUONG_DAN_NHAP_LIEU" class="dropdown-item pdf-link-btn" data-preset="HUONG_DAN_NHAP_LIEU">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z" />
@@ -123,22 +144,29 @@
               </svg>
               Quy định hỗ trợ người thứ 3
               <div class="dropdown-submenu">
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="DU_NO_THOA_THUAN">Dư nợ/Thỏa thuận khoản
+                <a href="#preset=DU_NO_THOA_THUAN" class="dropdown-item pdf-link-btn" data-preset="DU_NO_THOA_THUAN">Dư
+                  nợ/Thỏa thuận khoản
                   vay</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="BOI_THUONG_BAO_HIEM">Bồi thường bảo hiểm</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="NGUNG_NHAC_NO_DAN_SU">Ngưng nhắc nợ dân
+                <a href="#preset=BOI_THUONG_BAO_HIEM" class="dropdown-item pdf-link-btn"
+                  data-preset="BOI_THUONG_BAO_HIEM">Bồi thường bảo hiểm</a>
+                <a href="#preset=NGUNG_NHAC_NO_DAN_SU" class="dropdown-item pdf-link-btn"
+                  data-preset="NGUNG_NHAC_NO_DAN_SU">Ngưng nhắc nợ dân
                   sự</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="HOAN_TIEN">Hoàn tiền</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="CAC_YEU_CAU_KHAC">Các yêu cầu khác</a>
+                <a href="#preset=HOAN_TIEN" class="dropdown-item pdf-link-btn" data-preset="HOAN_TIEN">Hoàn tiền</a>
+                <a href="#preset=CAC_YEU_CAU_KHAC" class="dropdown-item pdf-link-btn" data-preset="CAC_YEU_CAU_KHAC">Các
+                  yêu cầu khác</a>
               </div>
             </div>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-preset="TAI_LIEU_THAM_KHAO">TÀI LIỆU THAM KHẢO</button>
-        <button class="tab-btn pdf-link-btn" data-preset="HUONG_DAN_HE_THONG">HƯỚNG DẪN HỆ THỐNG</button>
-        <button class="tab-btn pdf-link-btn" data-preset="CHANGE_LOG" data-tab="change-log" id="change-log-btn">
+        <a href="#preset=TAI_LIEU_THAM_KHAO" class="tab-btn pdf-link-btn" data-preset="TAI_LIEU_THAM_KHAO">TÀI LIỆU THAM
+          KHẢO</a>
+        <a href="#preset=HUONG_DAN_HE_THONG" class="tab-btn pdf-link-btn" data-preset="HUONG_DAN_HE_THONG">HƯỚNG DẪN HỆ
+          THỐNG</a>
+        <a href="#preset=CHANGE_LOG" class="tab-btn pdf-link-btn" data-preset="CHANGE_LOG" data-tab="change-log"
+          id="change-log-btn">
           CHANGE LOG
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -2062,10 +2090,24 @@
         const compressed = urlParams.get('s');      // Dữ liệu đường dẫn đã nén
         const sourceParam = urlParams.get('source'); // Nguồn dữ liệu
         let headerPdf = urlParams.get('pdf');      // PDF từ header
+        const presetParam = urlParams.get('preset'); // Preset từ header (hỗ trợ open new tab)
 
-
-
-
+        // Xử lý preset param - cho phép open new tab từ header links
+        if (presetParam && window.HEADER_PRESETS && window.HEADER_PRESETS[presetParam]) {
+          const preset = window.HEADER_PRESETS[presetParam];
+          if (preset.pdf) {
+            navigateTo('header-pdf', {
+              pdfName: preset.pdf,
+              dieukien: preset.dieukien || '',
+              note: preset.note || '',
+              xmttib: preset.xmttib || '',
+              xmttchat: preset.xmttchat || '',
+              xmttemail: preset.xmttemail || '',
+              displayName: preset.displayName || ''
+            }, false);
+            return true;
+          }
+        }
 
         if (headerPdf) {
 
@@ -2579,7 +2621,8 @@
           note: '',
           xmttib: '',
           xmttchat: '',
-          xmttemail: ''
+          xmttemail: '',
+          displayName: '' // Tên hiển thị trên title
         },
 
         snapshot() {
@@ -2692,6 +2735,12 @@
        * Render header PDF state
        */
       function renderHeaderPdfState(pdfState) {
+        // Cập nhật title theo displayName
+        if (pdfState.displayName) {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName + ' - ' + pdfState.displayName;
+        } else {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName;
+        }
 
         removeDropdowns(1);
         createFirstLevelDropdown();
@@ -3054,6 +3103,13 @@
       }
 
       function displayResult(resultObject) {
+        // Cập nhật title theo displayName của kết quả được chọn
+        if (resultObject.displayName) {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName + ' - ' + resultObject.displayName;
+        } else {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName;
+        }
+
         const subHeader = document.getElementById("sub-header");
         const xmttIbBox = document.getElementById("xmtt-ib-box");
         const xmttEmailBox = document.getElementById("xmtt-email-box");
@@ -3062,6 +3118,7 @@
         const xmttIbContent = document.getElementById("xmtt-ib-content");
         const xmttEmailContent = document.getElementById("xmtt-email-content");
         const xmttChatContent = document.getElementById("xmtt-chat-content");
+
 
         if (resultObject.hideSubHeader === true) {
 
@@ -3201,6 +3258,9 @@
       }
 
       function resetResults(showDefault = false) {
+        // Reset title về mặc định khi không có kết quả
+        document.title = 'PLTT ' + PAGE_CONFIG.productName;
+
 
         const xmttIbBox = document.getElementById("xmtt-ib-box");
         const xmttEmailBox = document.getElementById("xmtt-email-box");

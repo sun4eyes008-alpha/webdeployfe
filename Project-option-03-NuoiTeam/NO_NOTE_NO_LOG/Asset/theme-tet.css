@@ -148,3 +148,46 @@
     border-radius: 6px;
     background-color: rgba(255, 255, 255, 0.2);
 }
+
+/* ===== DROPDOWN MENU MÀU ĐỎ TẾT ===== */
+/* Override màu hover và selected của dropdown items */
+
+/* Màu chữ mặc định - đậm để đọc được trên nền trắng */
+.dropdown-item {
+    color: #4d4d4d !important;
+    /* Xám đậm - dễ đọc */
+}
+
+.dropdown-item:hover {
+    background-color: var(--hover-bg) !important;
+    /* Hồng nhạt */
+    color: var(--primary-color) !important;
+    /* Đỏ */
+}
+
+.dropdown-item:hover svg {
+    background-color: var(--primary-color) !important;
+    /* Đỏ */
+    fill: var(--hover-bg) !important;
+    /* Hồng nhạt */
+}
+
+.dropdown-item svg {
+    background-color: var(--hover-bg) !important;
+    /* Hồng nhạt */
+    fill: var(--primary-color) !important;
+    /* Đỏ */
+}
+
+/* Selected state - dropdown sidebar */
+.dropdown-item.selected {
+    background-color: var(--selected-bg) !important;
+    /* Đỏ */
+    color: var(--text-on-primary) !important;
+    /* Trắng */
+}
+
+.dropdown-item.selected:hover {
+    background-color: var(--selected-hover) !important;
+    /* Đỏ đậm */
+}

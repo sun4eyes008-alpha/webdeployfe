@@ -62,6 +62,18 @@
       font-weight: 600;
     }
 
+    /* Sticky Header cho Flowchart Editor */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+          }
+
+    /* Thêm margin-top cho phần nội dung bên dưới header */
+    .content-below-header {
+      margin-top: 58px;
+    }
+
     .animate-fade-in {
       animation: fadeIn 0.2s ease-in;
     }
@@ -351,6 +363,12 @@
       const [isVisual, setIsVisual] = React.useState(true); // true = WYSIWYG, false = code
       const textareaId = `tiny-${id}`;
 
+      // Fix: Use ref to store latest onChange handler to avoid stale closures
+      const onChangeRef = React.useRef(onChange);
+      React.useEffect(() => {
+        onChangeRef.current = onChange;
+      }, [onChange]);
+
       React.useEffect(() => {
         if (!isVisual) return; // Không init khi ở code mode
 
@@ -367,9 +385,9 @@
           license_key: 'gpl',  // GPL license - free to use
           base_url: './tinymce',
           suffix: '.min',
-          height: 600,
+          min_height: 300, max_height: 600, autoresize_bottom_margin: 20,
           menubar: false,
-          plugins: 'lists link code table image media hr charmap fullscreen preview searchreplace emoticons autolink',
+          plugins: 'lists link code table image media hr charmap fullscreen preview searchreplace emoticons autolink autoresize',
           toolbar: [
             'undo redo | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright',
             'bullist numlist | table hr charmap emoticons | image media link createpopup | fullscreen preview code'
@@ -433,7 +451,10 @@
 
             editorRef.current = editor;
             editor.on('change keyup', () => {
-              onChange(editor.getContent());
+              // Fix: Call latest onChange from ref
+              if (onChangeRef.current) {
+                onChangeRef.current(editor.getContent());
+              }
             });
           },
           init_instance_callback: (editor) => {
@@ -518,7 +539,7 @@
               <h5 className="fw-bold mb-0">Soạn thảo nội dung Popup (Rich Text)</h5>
               <button onClick={onClose} className="btn-close"></button>
             </div>
-            <div className="flex-fill p-2 overflow-hidden d-flex flex-column bg-light">
+            <div className="flex-fill p-2  d-flex flex-column bg-light">
               <div className="flex-fill bg-white border rounded">
                 {/* TinyEditor instance for Popup Content */}
                 <TinyEditor
@@ -837,7 +858,7 @@
 
       return (
         <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
-          <div className="bg-white rounded shadow-lg w-100 d-flex flex-column overflow-hidden" style={{ maxWidth: '95vw', height: '85vh' }}>
+          <div className="bg-white rounded shadow-lg w-100 d-flex flex-column " style={{ maxWidth: '95vw', height: '85vh' }}>
             <div className="p-3 border-bottom d-flex justify-content-between bg-light">
               <h5 className="fw-bold d-flex align-items-center gap-2 mb-0">
                 <BtnIcon name="FileText" /> Quản lý Biến
@@ -847,7 +868,7 @@
                 onClose();
               }} className="btn-close"></button>
             </div>
-            <div className="d-flex flex-fill overflow-hidden">
+            <div className="d-flex flex-fill ">
               {/* LEFT PANEL - Groups & Subgroups Tree */}
               <div className="border-end bg-light d-flex flex-column p-2 gap-1 overflow-auto" style={{ width: '28%' }}>
                 <button
@@ -2491,7 +2512,7 @@ ${dataObjectsContent}
 
         return (
           <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
-            <div className="bg-white rounded shadow-lg w-100 d-flex flex-column overflow-hidden" style={{ maxWidth: '95vw', height: '85vh' }}>
+            <div className="bg-white rounded shadow-lg w-100 d-flex flex-column " style={{ maxWidth: '95vw', height: '85vh' }}>
               <div className="p-3 border-bottom d-flex justify-content-between bg-light">
                 <h5 className="fw-bold d-flex align-items-center gap-2 mb-0">
                   <BtnIcon name="FileText" /> Quản lý Biến
@@ -2501,7 +2522,7 @@ ${dataObjectsContent}
                   setShowConstModal(false);
                 }} className="btn-close"></button>
               </div>
-              <div className="d-flex flex-fill overflow-hidden">
+              <div className="d-flex flex-fill ">
                 {/* LEFT PANEL - Groups & Subgroups Tree */}
                 <div className="border-end bg-light d-flex flex-column p-2 gap-1 overflow-auto" style={{ width: '28%' }}>
                   <button
@@ -2735,8 +2756,8 @@ ${dataObjectsContent}
 
       return (
         <div className="min-vh-100 bg-light p-4">
-          <div className="container-fluid bg-white rounded shadow border overflow-hidden" style={{ maxWidth: '1400px' }}>
-            <div className="bg-dark text-white p-3 d-flex align-items-center justify-content-between">
+          <div className="container-fluid bg-white rounded shadow border " style={{ maxWidth: '1400px' }}>
+            <div className="bg-dark text-white p-3 d-flex align-items-center justify-content-between sticky-header">
               <h1 className="h4 fw-bold d-flex align-items-center gap-2 mb-0">
                 Flowchart Editor
               </h1>
@@ -3375,3 +3396,7 @@ ${dataObjectsContent}
 </body>
 
 </html>
+
+
+
+
