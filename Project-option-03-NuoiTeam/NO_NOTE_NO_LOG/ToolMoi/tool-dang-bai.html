@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tool Đăng Bài Truyền Thông Nội Bộ</title>
+
+    <script src="react.production.min.js"></script>
+    <script src="react-dom.production.min.js"></script>
+    <script src="babel.min.js"></script>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <script src="tinymce/tinymce.min.js"></script>
+    <script src="bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, #81c753, #009f52);
+            color: #fff;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .app-header .subtitle {
+            font-size: 12px;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            padding: 16px 28px;
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .toolbar .btn-tool {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toolbar .btn-tool:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+
+        .toolbar .btn-tool.primary {
+            background: linear-gradient(135deg, #81c753, #009f52);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .toolbar .btn-tool.primary:hover {
+            box-shadow: 0 2px 8px rgba(129, 199, 83, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .toolbar .btn-tool.danger {
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .toolbar .btn-tool.danger:hover {
+            background: #fef2f2;
+        }
+
+        .toolbar .file-info {
+            font-size: 12px;
+            color: #6b7280;
+            margin-left: auto;
+        }
+
+        .main-content {
+            display: flex;
+            height: calc(100vh - 118px);
+        }
+
+        /* --- Danh sách bài viết (bên trái) --- */
+        .posts-list-panel {
+            width: 380px;
+            min-width: 300px;
+            background: #fff;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .posts-list-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .posts-list-header h3 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .posts-count {
+            font-size: 12px;
+            color: #9ca3af;
+            background: #f3f4f6;
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+
+        .posts-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .post-list-item {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f9fafb;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+
+        .post-list-item:hover {
+            background: #f9fafb;
+        }
+
+        .post-list-item.active {
+            background: #ecfae2;
+            border-left: 3px solid #81c753;
+        }
+
+        .post-list-item.pinned-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            width: 14px;
+            height: 14px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='%23ef4444'%3E%3Cpath d='M16 12V4h1V2H7v2h1v8l-2 2v2h5v6h2v-6h5v-2l-2-2z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .post-list-item .item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .post-list-item .item-meta {
+            display: flex;
+            gap: 8px;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .post-list-item .item-cat {
+            padding: 1px 8px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            font-weight: 500;
+        }
+
+        /* --- Editor (bên phải) --- */
+        .editor-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 32px;
+            background: #f8f9fa;
+        }
+
+        .editor-card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            padding: 28px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .editor-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #81c753;
+            box-shadow: 0 0 0 3px rgba(129, 199, 83, 0.15);
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #81c753;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn-save-post {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #81c753, #009f52);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-save-post:hover {
+            box-shadow: 0 4px 16px rgba(129, 199, 83, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .btn-delete-post {
+            padding: 12px 20px;
+            background: #fff;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-delete-post:hover {
+            background: #fef2f2;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        /* Preview nội dung HTML */
+        .html-preview {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #fafafa;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #374151;
+        }
+
+        .html-preview p {
+            margin-bottom: 8px;
+        }
+
+        .html-preview ul,
+        .html-preview ol {
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .html-preview li {
+            margin-bottom: 4px;
+        }
+
+        .html-preview strong {
+            color: #1f2937;
+        }
+
+        .preview-toggle {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 8px;
+        }
+
+        .preview-toggle button {
+            padding: 6px 14px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .preview-toggle button:first-child {
+            border-radius: 6px 0 0 6px;
+        }
+
+        .preview-toggle button:last-child {
+            border-radius: 0 6px 6px 0;
+        }
+
+        .preview-toggle button.active {
+            background: #81c753;
+            color: #fff;
+            border-color: #81c753;
+        }
+
+        /* Empty state */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #9ca3af;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .empty-state .icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            max-width: 360px;
+        }
+
+        /* Animations */
+        .animate-in {
+            animation: slideIn 0.2s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Move buttons */
+        .move-btns {
+            display: flex;
+            gap: 4px;
+        }
+
+        .move-btns button {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .move-btns button:hover {
+            background: #f3f4f6;
+        }
+
+        /* TinyMCE z-index fixes */
+        .tox-tinymce-aux {
+            z-index: 999999 !important;
+        }
+
+        .tox .tox-dialog-wrap {
+            z-index: 999999 !important;
+        }
+
+        .tox .tox-dialog-wrap__backdrop {
+            z-index: 999998 !important;
+        }
+
+        .tox .tox-menu {
+            z-index: 999999 !important;
+        }
+
+        .tox-tinymce {
+            border-radius: 8px !important;
+            border: 1px solid #d1d5db !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // === SVG Icon Component (filled monochrome) ===
+        const Icon = ({ name, size = 16, color = 'currentColor', style = {} }) => {
+            const icons = {
+                pencil: <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />,
+                folder: <path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z" />,
+                save: <path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm3-10H5V5h10v4z" />,
+                plus: <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />,
+                pin: <path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5v6h2v-6h5v-2l-2-2z" />,
+                trash: <path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />,
+                file: <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z" />,
+                image: <path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z" />,
+                chevron_up: <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />,
+                chevron_down: <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z" />,
+                clipboard: <path d="M19 2h-4.18C14.4.84 13.3 0 12 0S9.6.84 9.18 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 18H5V4h2v3h10V4h2v16z" />,
+                refresh: <path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 8 8h-2a6 6 0 1 1-1.76-4.24L14 10h7V3l-3.35 3.35z" />,
+                check_circle: <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />,
+                mail_empty: <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />,
+            };
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill={color} style={{ display: 'inline-block', verticalAlign: 'middle', flexShrink: 0, ...style }}>
+                    {icons[name]}
+                </svg>
+            );
+        };
+
+        // === CATEGORY presets ===
+        const CATEGORIES = ['Thông báo', 'Quy trình', 'Sự kiện', 'Đào tạo', 'Khác'];
+        const SUB_CATEGORIES = ['Card IB', 'Loan IB', 'Card Ecom', 'Loan Ecom', 'Ubank', 'Outbound'];
+
+        // === Main App ===
+        const PostEditorApp = () => {
+            const [posts, setPosts] = useState([]);
+            const [carouselImages, setCarouselImages] = useState([]);
+            const [activeTab, setActiveTab] = useState('posts'); // 'posts' | 'carousel'
+            const [activeId, setActiveId] = useState(null);
+            const [fileName, setFileName] = useState('');
+            const [loaded, setLoaded] = useState(false);
+            const [htmlBefore, setHtmlBefore] = useState('');
+            const [htmlAfter, setHtmlAfter] = useState('');
+            const [isHtmlMode, setIsHtmlMode] = useState(false);
+            const fileInputRef = useRef(null);
+
+            // Active post
+            const activePost = posts.find(p => p.id === activeId) || null;
+
+            // === IMPORT file (hỗ trợ cả .html và .js) ===
+            const handleImport = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const content = ev.target.result;
+                        const isHtml = file.name.endsWith('.html') || file.name.endsWith('.htm');
+
+                        // Tìm window.postsData = [...];
+                        const match = content.match(/window\.postsData\s*=\s*(\[[\s\S]*?\]);/);
+                        if (!match) {
+                            alert('❌ Không tìm thấy window.postsData trong file!');
+                            return;
+                        }
+                        const data = new Function('return ' + match[1])();
+                        if (!Array.isArray(data)) {
+                            alert('❌ Dữ liệu không phải là mảng!');
+                            return;
+                        }
+
+                        // Tìm window.carouselImages = [...];
+                        const carouselMatch = content.match(/window\.carouselImages\s*=\s*(\[[\s\S]*?\]);/);
+                        let carouselData = [];
+                        if (carouselMatch) {
+                            try {
+                                carouselData = new Function('return ' + carouselMatch[1])();
+                                if (!Array.isArray(carouselData)) carouselData = [];
+                            } catch (e) { carouselData = []; }
+                        }
+
+                        // Nếu là HTML: lưu phần trước và sau data để export lại
+                        if (isHtml) {
+                            // Tìm block chứa cả carouselImages + postsData
+                            // Lưu htmlBefore = trước carouselImages (hoặc postsData nếu không có carousel)
+                            // Lưu htmlAfter = sau postsData
+                            const firstBlock = carouselMatch ? carouselMatch[0] : null;
+                            const postsBlock = match[0];
+
+                            if (firstBlock) {
+                                const startIdx = content.indexOf(firstBlock);
+                                const postsEndIdx = content.indexOf(postsBlock) + postsBlock.length;
+                                setHtmlBefore(content.substring(0, startIdx));
+                                setHtmlAfter(content.substring(postsEndIdx));
+                            } else {
+                                const startIdx = content.indexOf(postsBlock);
+                                const endIdx = startIdx + postsBlock.length;
+                                setHtmlBefore(content.substring(0, startIdx));
+                                setHtmlAfter(content.substring(endIdx));
+                            }
+                            setIsHtmlMode(true);
+                        } else {
+                            setHtmlBefore('');
+                            setHtmlAfter('');
+                            setIsHtmlMode(false);
+                        }
+
+                        setPosts(data);
+                        setCarouselImages(carouselData);
+                        setFileName(file.name);
+                        setLoaded(true);
+                        setActiveId(data.length > 0 ? data[0].id : null);
+                        alert('✅ Import thành công! Tìm thấy ' + data.length + ' bài viết, ' + carouselData.length + ' ảnh carousel.' + (isHtml ? '\n📄 Chế độ HTML - Export sẽ trả về file HTML hoàn chỉnh.' : ''));
+                    } catch (err) {
+                        alert('❌ Lỗi đọc file: ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+                e.target.value = '';
+            };
+
+            // === EXPORT file (HTML hoặc JS) ===
+            const handleExport = () => {
+                if (posts.length === 0 && carouselImages.length === 0) {
+                    alert('Không có dữ liệu để xuất!');
+                    return;
+                }
+
+                const postsJson = JSON.stringify(posts, null, 6).replace(/^/gm, '    ').trim();
+                const carouselJson = JSON.stringify(carouselImages, null, 6).replace(/^/gm, '    ').trim();
+                let finalContent, downloadName, mimeType;
+
+                if (isHtmlMode && htmlBefore) {
+                    // Export HTML hoàn chỉnh: ghép trước + carouselImages + postsData + sau
+                    const newDataBlock = 'window.carouselImages = ' + carouselJson + ';\n    window.postsData = ' + postsJson + ';';
+                    finalContent = htmlBefore + newDataBlock + htmlAfter;
+                    downloadName = fileName || 'index.html';
+                    mimeType = 'text/html;charset=utf-8';
+                } else {
+                    // Export JS thuần
+                    finalContent = `/**\n * DỮ LIỆU TRANG TRUYỀN THÔNG NỘI BỘ\n * File này được tạo/chỉnh sửa bằng Tool Đăng Bài\n */\nwindow.carouselImages = ${JSON.stringify(carouselImages, null, 2)};\nwindow.postsData = ${JSON.stringify(posts, null, 2)};\n`;
+                    downloadName = fileName || 'posts-data.js';
+                    mimeType = 'text/javascript;charset=utf-8';
+                }
+
+                const blob = new Blob([finalContent], { type: mimeType });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = downloadName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            };
+
+            // === Thêm bài mới ===
+            const handleAddPost = () => {
+                const newId = posts.length > 0 ? Math.max(...posts.map(p => p.id)) + 1 : 1;
+                const today = new Date().toISOString().split('T')[0];
+                const newPost = {
+                    id: newId,
+                    title: 'Bài viết mới #' + newId,
+                    content: '<p>Nhập nội dung bài viết tại đây...</p>',
+                    category: 'Thông báo',
+                    subCategory: '',
+                    date: today,
+                    updateDate: '',
+                    effectiveDate: '',
+                    author: '',
+                    pinned: false,
+                    image: ''
+                };
+                setPosts(prev => [newPost, ...prev]);
+                setActiveId(newId);
+                if (!loaded) setLoaded(true);
+            };
+
+            // === Xóa bài ===
+            const handleDeletePost = (id) => {
+                if (!confirm('Bạn có chắc muốn xóa bài viết này?')) return;
+                setPosts(prev => prev.filter(p => p.id !== id));
+                if (activeId === id) {
+                    const remaining = posts.filter(p => p.id !== id);
+                    setActiveId(remaining.length > 0 ? remaining[0].id : null);
+                }
+            };
+
+            // === Cập nhật bài ===
+            const handleUpdatePost = (id, field, value) => {
+                setPosts(prev => prev.map(p => p.id === id ? { ...p, [field]: value } : p));
+            };
+
+            // === Di chuyển bài ===
+            const handleMovePost = (id, direction) => {
+                const idx = posts.findIndex(p => p.id === id);
+                if (idx === -1) return;
+                if (direction === 'up' && idx === 0) return;
+                if (direction === 'down' && idx === posts.length - 1) return;
+                const newPosts = [...posts];
+                const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+                [newPosts[idx], newPosts[swapIdx]] = [newPosts[swapIdx], newPosts[idx]];
+                setPosts(newPosts);
+            };
+
+            return (
+                <div>
+                    {/* Header */}
+                    <div className="app-header">
+                        <div>
+                            <h1><Icon name="pencil" size={22} color="#fff" style={{ marginRight: 8 }} /> Tool Đăng Bài Truyền Thông Nội Bộ</h1>
+                            <div className="subtitle">Upload file index.html → Chỉnh sửa bài viết → Download HTML</div>
+                        </div>
+                    </div>
+
+                    {/* Toolbar */}
+                    <div className="toolbar">
+                        <input
+                            type="file"
+                            accept=".html,.htm,.js"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleImport}
+                        />
+                        <button className="btn-tool" onClick={() => fileInputRef.current.click()}>
+                            <Icon name="folder" size={14} /> Import File
+                        </button>
+                        <button className="btn-tool" onClick={handleExport} disabled={posts.length === 0 && carouselImages.length === 0}>
+                            <Icon name="save" size={14} /> Export File
+                        </button>
+                        {fileName && (
+                            <span className="file-info">
+                                <Icon name="file" size={13} /> {fileName} • {posts.length} bài viết • {carouselImages.length} ảnh
+                                {isHtmlMode && <span style={{ marginLeft: 8, padding: '2px 8px', background: '#ecfae2', borderRadius: 8, fontSize: 11, color: '#2e7d32', fontWeight: 600 }}>HTML MODE</span>}
+                            </span>
+                        )}
+                    </div>
+
+                    {/* Tab switching */}
+                    <div style={{ display: 'flex', gap: 0, padding: '0 16px', background: '#fff', borderBottom: '2px solid #e5e7eb' }}>
+                        <button
+                            onClick={() => setActiveTab('posts')}
+                            style={{
+                                padding: '10px 24px', border: 'none', cursor: 'pointer',
+                                fontWeight: 600, fontSize: 14, borderRadius: '8px 8px 0 0',
+                                background: activeTab === 'posts' ? '#e8f5e0' : 'transparent',
+                                color: activeTab === 'posts' ? '#2e7d32' : '#888',
+                                borderBottom: activeTab === 'posts' ? '3px solid #4caf50' : '3px solid transparent',
+                                display: 'flex', alignItems: 'center', gap: 6
+                            }}
+                        >
+                            <Icon name="pencil" size={15} /> Bài viết ({posts.length})
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('carousel')}
+                            style={{
+                                padding: '10px 24px', border: 'none', cursor: 'pointer',
+                                fontWeight: 600, fontSize: 14, borderRadius: '8px 8px 0 0',
+                                background: activeTab === 'carousel' ? '#e0f2fe' : 'transparent',
+                                color: activeTab === 'carousel' ? '#0277bd' : '#888',
+                                borderBottom: activeTab === 'carousel' ? '3px solid #0288d1' : '3px solid transparent',
+                                display: 'flex', alignItems: 'center', gap: 6
+                            }}
+                        >
+                            <Icon name="image" size={15} /> Carousel ({carouselImages.length})
+                        </button>
+                    </div>
+
+                    {/* Main area */}
+                    {activeTab === 'posts' ? (
+                        <div className="main-content">
+                            {/* Toolbar bài viết */}
+                            <div style={{ padding: '8px 16px', background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                                <button className="btn-tool primary" onClick={handleAddPost}>
+                                    <Icon name="plus" size={14} color="#fff" /> Thêm bài mới
+                                </button>
+                            </div>
+                            {/* Left panel - Post list */}
+                            <div className="posts-list-panel">
+                                <div className="posts-list-header">
+                                    <h3>Danh sách bài viết</h3>
+                                    <span className="posts-count">{posts.length}</span>
+                                </div>
+                                <div className="posts-list">
+                                    {posts.length === 0 ? (
+                                        <div className="empty-state" style={{ height: 'auto', padding: '40px 20px' }}>
+                                            <div className="icon"><Icon name="mail_empty" size={48} color="#d1d5db" /></div>
+                                            <p>Chưa có bài viết. Import file hoặc thêm bài mới.</p>
+                                        </div>
+                                    ) : (
+                                        posts.map((post, idx) => (
+                                            <div
+                                                key={post.id}
+                                                className={`post-list-item ${activeId === post.id ? 'active' : ''} ${post.pinned ? 'pinned-item' : ''}`}
+                                                onClick={() => setActiveId(post.id)}
+                                            >
+                                                <div className="item-title">{post.title}</div>
+                                                <div className="item-meta">
+                                                    <span className="item-cat">{post.category}</span>
+                                                    {post.subCategory && <span className="item-cat" style={{ background: '#eff6ff', color: '#2563eb' }}>{post.subCategory}</span>}
+                                                    <span>{post.date}</span>
+                                                    <span>{post.author}</span>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Right panel - Editor */}
+                            <div className="editor-panel">
+                                {!activePost ? (
+                                    <div className="empty-state">
+                                        <div className="icon"><Icon name="pencil" size={48} color="#d1d5db" /></div>
+                                        <h3>Chọn bài viết để chỉnh sửa</h3>
+                                        <p>Chọn một bài viết từ danh sách bên trái, hoặc thêm bài mới để bắt đầu.</p>
+                                    </div>
+                                ) : (
+                                    <PostEditor
+                                        key={activePost.id}
+                                        post={activePost}
+                                        onUpdate={handleUpdatePost}
+                                        onDelete={handleDeletePost}
+                                        onMove={handleMovePost}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <CarouselManager
+                            images={carouselImages}
+                            setImages={setCarouselImages}
+                        />
+                    )}
+                </div>
+            );
+        };
+
+        // === Carousel Manager Component ===
+        const CarouselManager = ({ images, setImages }) => {
+            const handleAdd = () => {
+                const newId = images.length > 0 ? Math.max(...images.map(i => i.id)) + 1 : 1;
+                setImages(prev => [...prev, { id: newId, src: '', alt: 'Banner ' + newId }]);
+            };
+
+            const handleDelete = (id) => {
+                if (!confirm('Xóa ảnh này khỏi carousel?')) return;
+                setImages(prev => prev.filter(i => i.id !== id));
+            };
+
+            const handleUpdate = (id, field, value) => {
+                setImages(prev => prev.map(i => i.id === id ? { ...i, [field]: value } : i));
+            };
+
+            const handleMove = (id, direction) => {
+                const idx = images.findIndex(i => i.id === id);
+                if (idx === -1) return;
+                if (direction === 'up' && idx === 0) return;
+                if (direction === 'down' && idx === images.length - 1) return;
+                const newImages = [...images];
+                const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+                [newImages[idx], newImages[swapIdx]] = [newImages[swapIdx], newImages[idx]];
+                setImages(newImages);
+            };
+
+            return (
+                <div style={{ padding: 20 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                        <h3 style={{ margin: 0, color: '#0277bd' }}><Icon name="image" size={18} color="#0277bd" /> Quản lý Carousel Hình Ảnh</h3>
+                        <button className="btn-tool primary" onClick={handleAdd}>
+                            <Icon name="plus" size={14} color="#fff" /> Thêm ảnh
+                        </button>
+                    </div>
+
+                    {images.length === 0 ? (
+                        <div className="empty-state" style={{ height: 'auto', padding: '50px 20px' }}>
+                            <div className="icon"><Icon name="image" size={48} color="#d1d5db" /></div>
+                            <h3>Chưa có ảnh carousel</h3>
+                            <p>Thêm ảnh để hiển thị trên carousel trang chủ.</p>
+                        </div>
+                    ) : (
+                        <div>
+                            {/* Preview */}
+                            <div style={{
+                                display: 'flex', gap: 12, overflowX: 'auto', padding: '12px 0', marginBottom: 16,
+                                background: '#f8f9fa', borderRadius: 12, paddingLeft: 12, paddingRight: 12
+                            }}>
+                                {images.map(img => (
+                                    <div key={img.id} style={{
+                                        flexShrink: 0, width: 160, height: 90, borderRadius: 8, overflow: 'hidden',
+                                        background: '#e5e7eb', border: '2px solid #d1d5db'
+                                    }}>
+                                        {img.src ? (
+                                            <img src={img.src} alt={img.alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                                onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                                            />
+                                        ) : null}
+                                        <div style={{
+                                            display: img.src ? 'none' : 'flex', alignItems: 'center', justifyContent: 'center',
+                                            height: '100%', color: '#999', fontSize: 12
+                                        }}>No image</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* List */}
+                            {images.map((img, idx) => (
+                                <div key={img.id} style={{
+                                    background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10,
+                                    padding: 16, marginBottom: 10, display: 'flex', gap: 12, alignItems: 'center'
+                                }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                                        <button onClick={() => handleMove(img.id, 'up')} style={{
+                                            border: '1px solid #ddd', background: '#f9f9f9', borderRadius: 4,
+                                            cursor: 'pointer', padding: '2px 6px', fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                        }}><Icon name="chevron_up" size={14} /></button>
+                                        <button onClick={() => handleMove(img.id, 'down')} style={{
+                                            border: '1px solid #ddd', background: '#f9f9f9', borderRadius: 4,
+                                            cursor: 'pointer', padding: '2px 6px', fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center'
+                                        }}><Icon name="chevron_down" size={14} /></button>
+                                    </div>
+                                    <span style={{ fontWeight: 600, color: '#666', fontSize: 13, minWidth: 24 }}>#{idx + 1}</span>
+                                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                        <input
+                                            type="text"
+                                            value={img.src}
+                                            onChange={(e) => handleUpdate(img.id, 'src', e.target.value)}
+                                            placeholder="Đường dẫn ảnh (VD: ./Asset/img-video/slide1.jpg)"
+                                            style={{
+                                                padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: 6,
+                                                fontSize: 13, width: '100%'
+                                            }}
+                                        />
+                                        <input
+                                            type="text"
+                                            value={img.alt}
+                                            onChange={(e) => handleUpdate(img.id, 'alt', e.target.value)}
+                                            placeholder="Mô tả ảnh (alt text)"
+                                            style={{
+                                                padding: '6px 12px', border: '1px solid #e5e7eb', borderRadius: 6,
+                                                fontSize: 12, width: '100%', color: '#666'
+                                            }}
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => handleDelete(img.id)}
+                                        style={{
+                                            background: '#fee2e2', border: '1px solid #fca5a5', borderRadius: 6,
+                                            color: '#dc2626', cursor: 'pointer', padding: '6px 12px', fontSize: 12, fontWeight: 600
+                                        }}
+                                    ><Icon name="trash" size={12} /></button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // === TinyMCE Editor Component ===
+        const TinyMCEEditor = ({ postId, content, onContentChange }) => {
+            const editorRef = useRef(null);
+            const editorIdRef = useRef('tinymce-editor-' + postId);
+
+            useEffect(() => {
+                const editorId = editorIdRef.current;
+
+                // Clean up trước khi init (phòng trường hợp editor cũ còn)
+                const existing = tinymce.get(editorId);
+                if (existing) existing.remove();
+
+                // Đặt nội dung ban đầu vào textarea
+                const el = document.getElementById(editorId);
+                if (el) el.value = content;
+
+                tinymce.init({
+                    selector: '#' + editorId,
+                    height: 350,
+                    base_url: 'tinymce',
+                    suffix: '.min',
+                    promotion: false,
+                    license_key: 'gpl',
+                    plugins: 'table lists link image code fullscreen searchreplace wordcount',
+                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright | bullist numlist outdent indent | table link image | code fullscreen',
+                    menubar: 'edit view insert format tools table',
+                    table_appearance_options: true,
+                    content_style: 'body { font-family: Arial, sans-serif; font-size: 14px; padding: 8px; }',
+                    setup: (editor) => {
+                        editor.on('init', () => {
+                            editor.setContent(content);
+                        });
+                        editor.on('change keyup', () => {
+                            onContentChange(editor.getContent());
+                        });
+                    }
+                });
+
+                return () => {
+                    const inst = tinymce.get(editorId);
+                    if (inst) inst.remove();
+                };
+            }, [postId]);
+
+            return <textarea id={editorIdRef.current} />;
+        };
+
+        // === Post Editor Component ===
+        const PostEditor = ({ post, onUpdate, onDelete, onMove }) => {
+
+            return (
+                <div className="editor-card animate-in">
+                    <div className="editor-title">
+                        <Icon name="pencil" size={18} color="#2e7d32" /> Chỉnh sửa bài viết
+                        <div style={{ marginLeft: 'auto' }}>
+                            <div className="move-btns">
+                                <button onClick={() => onMove(post.id, 'up')} title="Lên"><Icon name="chevron_up" size={16} /></button>
+                                <button onClick={() => onMove(post.id, 'down')} title="Xuống"><Icon name="chevron_down" size={16} /></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Tiêu đề */}
+                    <div className="form-group">
+                        <label>Tiêu đề bài viết</label>
+                        <input
+                            type="text"
+                            value={post.title}
+                            onChange={(e) => onUpdate(post.id, 'title', e.target.value)}
+                            placeholder="Nhập tiêu đề..."
+                        />
+                    </div>
+
+                    {/* Danh mục + Ngày + Tác giả */}
+                    <div className="form-row-3">
+                        <div className="form-group">
+                            <label>Danh mục</label>
+                            <select
+                                value={post.category}
+                                onChange={(e) => {
+                                    onUpdate(post.id, 'category', e.target.value);
+                                    if (e.target.value !== 'Quy trình') {
+                                        onUpdate(post.id, 'subCategory', '');
+                                        onUpdate(post.id, 'updateDate', '');
+                                        onUpdate(post.id, 'effectiveDate', '');
+                                    }
+                                }}
+                            >
+                                {CATEGORIES.map(cat => (
+                                    <option key={cat} value={cat}>{cat}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label>Ngày đăng</label>
+                            <input
+                                type="date"
+                                value={post.date}
+                                onChange={(e) => onUpdate(post.id, 'date', e.target.value)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Tác giả</label>
+                            <input
+                                type="text"
+                                value={post.author}
+                                onChange={(e) => onUpdate(post.id, 'author', e.target.value)}
+                                placeholder="VD: Admin, HR..."
+                            />
+                        </div>
+                    </div>
+
+                    {/* --- Fields riêng cho Quy trình --- */}
+                    {post.category === 'Quy trình' && (
+                        <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: 16, marginBottom: 20 }}>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: '#166534', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
+                                <Icon name="clipboard" size={15} color="#166534" /> Thông tin Quy trình
+                            </div>
+                            <div className="form-row-3">
+                                <div className="form-group">
+                                    <label>Loại quy trình</label>
+                                    <select
+                                        value={post.subCategory || ''}
+                                        onChange={(e) => onUpdate(post.id, 'subCategory', e.target.value)}
+                                    >
+                                        <option value="">-- Chọn loại --</option>
+                                        {SUB_CATEGORIES.map(sub => (
+                                            <option key={sub} value={sub}>{sub}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label><Icon name="refresh" size={13} color="#2563eb" style={{ marginRight: 4 }} /> Ngày cập nhật</label>
+                                    <input
+                                        type="date"
+                                        value={post.updateDate || ''}
+                                        onChange={(e) => onUpdate(post.id, 'updateDate', e.target.value)}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label><Icon name="check_circle" size={13} color="#16a34a" style={{ marginRight: 4 }} /> Ngày áp dụng</label>
+                                    <input
+                                        type="date"
+                                        value={post.effectiveDate || ''}
+                                        onChange={(e) => onUpdate(post.id, 'effectiveDate', e.target.value)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Ảnh */}
+                    <div className="form-group">
+                        <label>URL Ảnh đại diện (tùy chọn)</label>
+                        <input
+                            type="text"
+                            value={post.image}
+                            onChange={(e) => onUpdate(post.id, 'image', e.target.value)}
+                            placeholder="VD: images/banner.jpg"
+                        />
+                    </div>
+
+                    {/* Ghim */}
+                    <div className="checkbox-group">
+                        <input
+                            type="checkbox"
+                            id={`pin-${post.id}`}
+                            checked={post.pinned}
+                            onChange={(e) => onUpdate(post.id, 'pinned', e.target.checked)}
+                        />
+                        <label htmlFor={`pin-${post.id}`}><Icon name="pin" size={14} style={{ marginRight: 4 }} /> Ghim bài viết lên đầu</label>
+                    </div>
+
+                    {/* Nội dung - TinyMCE */}
+                    <div className="form-group">
+                        <label>Nội dung bài viết</label>
+                        <TinyMCEEditor
+                            postId={post.id}
+                            content={post.content}
+                            onContentChange={(html) => onUpdate(post.id, 'content', html)}
+                        />
+                    </div>
+
+                    {/* Actions */}
+                    <div className="editor-actions">
+                        <button className="btn-save-post" onClick={() => alert('✅ Đã lưu! Nhớ Export file để tải về.')}>
+                            <Icon name="save" size={16} color="#fff" /> Lưu thay đổi
+                        </button>
+                        <button className="btn-delete-post" onClick={() => onDelete(post.id)}>
+                            <Icon name="trash" size={15} color="#dc2626" /> Xóa bài viết
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        // === Render ===
+        ReactDOM.render(<PostEditorApp />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>
