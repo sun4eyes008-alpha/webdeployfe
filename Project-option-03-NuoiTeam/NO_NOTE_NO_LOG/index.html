@@ -30,6 +30,7 @@
       </div>
 
       <div class="header-tabs">
+        <button class="tab-btn thongbao-header-btn active" id="thongbao-header-btn">Thông báo</button>
         <div class="dropdown">
           <button class="tab-btn dropdown-toggle">PLTT</button>
           <div class="dropdown-menu">
@@ -222,10 +223,19 @@
         </h2>
       </div>
 
-      <!-- Sub-filter bar + Date filter (ẩn khi không ở Quy trình) -->
+      <!-- Sub-filter bar + Date filter + Search (ẩn khi không ở Change Log) -->
       <div class="sub-filter-toolbar" id="sub-filter-toolbar" style="display: none;">
         <div class="sub-filter-bar" id="sub-filter-bar">
           <!-- JS render sub-category buttons -->
+        </div>
+        <div class="changelog-search-bar" id="changelog-search-bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"
+            style="vertical-align:-2px; margin-right:4px;">
+            <path
+              d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+          </svg>
+          <input type="text" class="changelog-search-input" id="changelog-search-input"
+            placeholder="Tìm kiếm Change Log..." />
         </div>
         <div class="date-filter-bar">
           <label class="date-filter-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"
@@ -243,6 +253,21 @@
       <!-- Grid bài viết -->
       <div class="posts-grid" id="posts-grid">
         <!-- Cards sẽ được JS render -->
+      </div>
+
+      <!-- Hướng dẫn hội nhập section (ẩn mặc định) -->
+      <div class="onboarding-section" id="onboarding-section" style="display: none;">
+        <div class="onboarding-grid" id="onboarding-grid">
+          <!-- JS render department cards -->
+        </div>
+      </div>
+
+      <!-- Onboarding modal (xem chi tiết bộ phận) -->
+      <div class="onboarding-modal-overlay" id="onboarding-modal-overlay" style="display: none;">
+        <div class="onboarding-modal">
+          <button class="onboarding-modal-close" id="onboarding-modal-close" title="Đóng">✕</button>
+          <div id="onboarding-modal-content"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -263,9 +288,21 @@
   <!-- DỮ LIỆU - được quản lý bởi Tool Đăng Bài (ToolMoi/tool-dang-bai.html) -->
   <script>
     window.carouselImages = [
-      { "id": 1, "src": "./Asset/img-video/bannerIndex/slide1.jpg", "alt": "Banner 1" },
-      { "id": 2, "src": "./Asset/img-video/bannerIndex/slide2.jpg", "alt": "Banner 2" },
-      { "id": 3, "src": "./Asset/img-video/bannerIndex/slide3.jpg", "alt": "Banner 3" }
+      {
+        "id": 1,
+        "src": "./Asset/img-video/bannerIndex/slide1.jpg",
+        "alt": "Banner 1"
+      },
+      {
+        "id": 2,
+        "src": "./Asset/img-video/bannerIndex/slide2.jpg",
+        "alt": "Banner 2"
+      },
+      {
+        "id": 3,
+        "src": "./Asset/img-video/bannerIndex/slide3.jpg",
+        "alt": "Banner 3"
+      }
     ];
     window.postsData = [
       {
@@ -281,7 +318,7 @@
       {
         "id": 2,
         "title": "Quy trình làm việc mới - Q1/2026",
-        "content": "<p>Để nâng cao hiệu suất làm việc, team sẽ áp dụng quy trình mới từ ngày <strong>15/02/2026</strong>:</p><ol><li>Họp standup hàng ngày lúc 9:00 AM</li><li>Review tiến độ mỗi thứ 6</li><li>Báo cáo tổng kết cuối tháng</li></ol><p>Mọi thắc mắc vui lòng liên hệ Team Lead.</p>",
+        "content": "<p>Để n&acirc;ng cao hiệu suất l&agrave;m việc, team sẽ &aacute;p dụng quy tr&igrave;nh mới từ ng&agrave;y <strong>15/02/2026</strong>:</p>\n<ol>\n<li>Họp standup h&agrave;ng ng&agrave;y l&uacute;c 9:00 AM</li>\n<li>Review tiến độ mỗi thứ 6</li>\n<li>B&aacute;o c&aacute;o tổng kết cuối th&aacute;ng</li>\n</ol>",
         "category": "Quy trình",
         "date": "2026-02-12",
         "author": "Team Lead",
@@ -299,19 +336,10 @@
         "image": ""
       },
       {
-        "id": 4,
-        "title": "📚 Tài liệu đào tạo mới đã cập nhật",
-        "content": "<p>Các tài liệu đào tạo cho nghiệp vụ mới đã được cập nhật trên hệ thống. Vui lòng kiểm tra và hoàn thành trước ngày <strong>28/02/2026</strong>.</p><p>Danh sách tài liệu:</p><ul><li>Hướng dẫn xử lý case mới</li><li>Cập nhật chính sách 2026</li><li>Kỹ năng giao tiếp nâng cao</li></ul>",
-        "category": "Đào tạo",
-        "date": "2026-02-08",
-        "author": "Training Team",
-        "pinned": false,
-        "image": ""
-      },
-      {
         "id": 5,
         "title": "Quy trình Card IB (Inbound)",
         "content": "<p>Quy trình xử lý cuộc gọi <strong>Card Inbound</strong> - hỗ trợ khách hàng về thẻ tín dụng:</p><ol><li>Tiếp nhận và xác minh thông tin khách hàng</li><li>Xác định nhu cầu: kích hoạt thẻ, tra cứu sao kê, khiếu nại giao dịch</li><li>Xử lý yêu cầu theo đúng SLA</li><li>Xác nhận kết quả và ghi nhận feedback</li></ol>",
+        "oldContent": "<p>Quy trình xử lý cuộc gọi <strong>Card Inbound</strong>:</p><ol><li>Tiếp nhận cuộc gọi</li><li>Xác minh thông tin khách hàng</li><li>Xử lý yêu cầu</li></ol>",
         "category": "Quy trình",
         "subCategory": "Card IB",
         "date": "2026-02-13",
@@ -324,7 +352,8 @@
       {
         "id": 6,
         "title": "Quy trình Loan IB (Inbound)",
-        "content": "<p>Quy trình xử lý cuộc gọi <strong>Loan Inbound</strong> - hỗ trợ khách hàng về khoản vay:</p><ol><li>Tiếp nhận cuộc gọi và xác minh danh tính</li><li>Tra cứu thông tin khoản vay, lịch thanh toán</li><li>Hướng dẫn thanh toán, tất toán, cơ cấu nợ</li><li>Ghi nhận yêu cầu và chuyển bộ phận liên quan nếu cần</li></ol>",
+        "content": "<p>Quy tr&igrave;nh xử l&yacute; cuộc gọi <strong>Loan Inbound</strong> - hỗ trợ kh&aacute;ch h&agrave;ng về khoản vay:</p>\n<ol>\n<li>Tiếp nhận cuộc gọi v&agrave; x&aacute;c minh</li>\n<li>Tra cứu th&ocirc;ng tin khoản vay, lịch thanh to&aacute;n</li>\n<li>Hướng dẫn thanh to&aacute;n, tất to&aacute;n</li>\n<li>Ghi nhận y&ecirc;u cầu v&agrave; chuyển bộ phận li&ecirc;n quan nếu cần</li>\n</ol>",
+        "oldContent": "<p>Quy tr&igrave;nh xử l&yacute; cuộc gọi <strong>Loan Inbound</strong>:</p>\n<ol>\n<li>Tiếp nhận cuộc gọi</li>\n<li>Tra cứu th&ocirc;ng tin khoản vay</li>\n<li>Xử l&yacute; y&ecirc;u cầu</li>\n</ol>",
         "category": "Quy trình",
         "subCategory": "Loan IB",
         "date": "2026-02-13",
@@ -337,7 +366,7 @@
       {
         "id": 7,
         "title": "Quy trình Card Ecom",
-        "content": "<p>Quy trình xử lý <strong>Card Ecommerce</strong> - hỗ trợ giao dịch thẻ trực tuyến:</p><ol><li>Tiếp nhận yêu cầu liên quan đến giao dịch online</li><li>Kiểm tra trạng thái giao dịch, mã OTP, giới hạn thanh toán</li><li>Hỗ trợ khiếu nại giao dịch Ecom, tra soát</li><li>Hướng dẫn bảo mật thẻ khi giao dịch trực tuyến</li></ol>",
+        "content": "<p>Quy tr&igrave;nh xử l&yacute; <strong>Card Ecom:</strong></p>\n<ol>\n<li>Hỗ trợ k&ecirc;nh chat</li>\n</ol>",
         "category": "Quy trình",
         "subCategory": "Card Ecom",
         "date": "2026-02-13",
@@ -350,7 +379,7 @@
       {
         "id": 8,
         "title": "Quy trình Loan Ecom",
-        "content": "<p>Quy trình xử lý <strong>Loan Ecommerce</strong> - hỗ trợ khoản vay qua kênh online:</p><ol><li>Tiếp nhận yêu cầu về khoản vay online</li><li>Hướng dẫn đăng ký vay trực tuyến, kiểm tra hồ sơ</li><li>Xử lý khiếu nại giải ngân, phí, lãi suất</li><li>Theo dõi trạng thái hồ sơ và phản hồi khách hàng</li></ol>",
+        "content": "<p>Quy tr&igrave;nh xử l&yacute; <strong>Loan Ecom:</strong></p>\n<ol>\n<li>Hỗ trợ k&ecirc;nh chat</li>\n</ol>",
         "category": "Quy trình",
         "subCategory": "Loan Ecom",
         "date": "2026-02-13",
@@ -363,7 +392,7 @@
       {
         "id": 9,
         "title": "Quy trình Ubank",
-        "content": "<p>Quy trình hỗ trợ khách hàng sử dụng <strong>Ubank</strong> - ứng dụng ngân hàng số:</p><ol><li>Hướng dẫn tải, cài đặt và đăng ký tài khoản Ubank</li><li>Hỗ trợ sự cố đăng nhập, xác thực eKYC</li><li>Hướng dẫn sử dụng tính năng: chuyển tiền, thanh toán, quản lý thẻ</li><li>Xử lý khiếu nại giao dịch trên Ubank</li></ol>",
+        "content": "<p>Quy tr&igrave;nh hỗ trợ kh&aacute;ch h&agrave;ng sử dụng <strong>Ubank</strong> - ứng dụng ng&acirc;n h&agrave;ng số:</p>\n<ol>\n<li>Hướng dẫn tải, c&agrave;i đặt v&agrave; đăng k&yacute; t&agrave;i khoản Ubank</li>\n<li>Hỗ trợ sự cố đăng nhập, x&aacute;c thực eKYC</li>\n<li>Hướng dẫn sử dụng t&iacute;nh năng: chuyển tiền, thanh to&aacute;n</li>\n</ol>",
         "category": "Quy trình",
         "subCategory": "Ubank",
         "date": "2026-02-13",
@@ -376,7 +405,7 @@
       {
         "id": 10,
         "title": "Quy trình Outbound",
-        "content": "<p>Quy trình thực hiện cuộc gọi <strong>Outbound</strong> - chủ động liên hệ khách hàng:</p><ol><li>Chuẩn bị data khách hàng và kịch bản cuộc gọi</li><li>Gọi ra theo lịch trình, đảm bảo đúng đối tượng</li><li>Tư vấn sản phẩm/dịch vụ, xử lý từ chối</li><li>Ghi nhận kết quả cuộc gọi và cập nhật CRM</li></ol>",
+        "content": "<p>Quy tr&igrave;nh thực hiện cuộc gọi <strong>Outbound</strong> - chủ động li&ecirc;n hệ kh&aacute;ch h&agrave;ng:</p>\n<ol>\n<li>Chuẩn bị data kh&aacute;ch h&agrave;ng v&agrave; kịch bản cuộc gọi</li>\n<li>Gọi ra theo lịch tr&igrave;nh, đảm bảo đ&uacute;ng đối tượng</li>\n<li>Tư vấn sản phẩm/dịch vụ, xử l&yacute; từ chối</li>\n</ol>",
         "category": "Quy trình",
         "subCategory": "Outbound",
         "date": "2026-02-13",
@@ -443,12 +472,10 @@
         dots[currentSlide].classList.remove('active');
         currentSlide = ((index % slides.length) + slides.length) % slides.length;
         slides[currentSlide].classList.add('active');
-        // Mark dots: done for past, active for current, reset for future
         dots.forEach(function (d, i) {
           d.classList.remove('done', 'active');
           if (i < currentSlide) d.classList.add('done');
         });
-        // Restart CSS animation by forcing reflow
         var activeDot = dots[currentSlide];
         activeDot.classList.add('active');
         activeDot.style.animation = 'none';
@@ -460,7 +487,6 @@
       function prevSlide() { goToSlide(currentSlide - 1); }
 
       function startTimer() {
-
         slideTimer = setInterval(nextSlide, SLIDE_INTERVAL);
       }
 
@@ -470,13 +496,42 @@
       }
 
       renderHeroCarousel();
+
       // --- Helpers ---
       var categoryTagMap = {
         'Thông báo': 'tag-thongbao',
         'Quy trình': 'tag-quytrinh',
         'Sự kiện': 'tag-sukien',
-        'Đào tạo': 'tag-daotao'
+        'Đào tạo': 'tag-daotao',
+        'Hướng dẫn hội nhập': 'tag-hoinhap'
       };
+
+      // Display name mapping: internal category -> display label
+      var categoryDisplayName = {
+        'Quy trình': 'Change Log'
+      };
+      function getDisplayName(cat) {
+        return categoryDisplayName[cat] || cat;
+      }
+
+      // Desired order of categories in header
+      var categoryOrder = ['Thông báo', 'Quy trình', 'Sự kiện', 'Đào tạo', 'Hướng dẫn hội nhập'];
+
+      // Vietnamese diacritics removal for search
+      function removeDiacritics(str) {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+      }
+
+      // Onboarding departments data
+      var onboardingDepts = [
+        { name: 'INBOUND', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.05 15.05 0 0 1-6.59-6.59l2.2-2.2a1 1 0 0 0 .24-1.02A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/><path d="M19 3v4h-4l1.29-1.29-2.58-2.59 1.41-1.41 2.59 2.58L19 3z" opacity=".85"/></svg>', desc: 'Tiếp nhận cuộc gọi đến từ khách hàng, hỗ trợ giải đáp thắc mắc và xử lý yêu cầu.', color: '#3b82f6', image: '', messages: ['Lắng nghe tận tâm, phục vụ tận tình', 'Mỗi cuộc gọi là một cơ hội tạo ấn tượng', 'Giải quyết nhanh, khách hàng hài lòng', 'Chuyên nghiệp trong từng lời nói'] },
+        { name: 'OUTBOUND', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.05 15.05 0 0 1-6.59-6.59l2.2-2.2a1 1 0 0 0 .24-1.02A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/><path d="M15 7V3h4v4h-1.5V5.56l-2.58 2.58-1.06-1.06L16.44 4.5H15z" opacity=".85"/></svg>', desc: 'Chủ động gọi ra cho khách hàng để tư vấn sản phẩm, dịch vụ và chăm sóc.', color: '#8b5cf6', image: '', messages: ['Chủ động kết nối, tạo giá trị', 'Mỗi cuộc gọi là một cơ hội kinh doanh', 'Tư vấn tận tâm, đồng hành cùng khách hàng', 'Không ngừng cải thiện chất lượng dịch vụ'] },
+        { name: 'ECOM', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/><path d="M9.5 9h5v1h-5V9zm0 2h3.5v1H9.5v-1z" opacity=".7"/></svg>', desc: 'Hỗ trợ khách hàng qua kênh chat, Email.', color: '#06b6d4', image: '', messages: ['Phản hồi nhanh, hỗ trợ kịp thời', 'Trải nghiệm số vượt trội', 'Kết nối khách hàng mọi lúc mọi nơi', 'Giải pháp nhanh chóng, chính xác'] },
+        { name: 'CARE', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/><circle cx="12" cy="9" r="2" fill="currentColor" opacity=".3"/></svg>', desc: 'Chăm sóc khách hàng sau bán, duy trì mối quan hệ và nâng cao trải nghiệm.', color: '#ef4444', image: '', messages: ['Chăm sóc bằng cả trái tim', 'Khách hàng là trung tâm của mọi hành động', 'Gắn kết bền vững, đồng hành lâu dài', 'Mang lại nụ cười trong từng trải nghiệm'] },
+        { name: 'SUPPORT', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a9 9 0 0 0-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7a9 9 0 0 0-9-9z"/></svg>', desc: 'Hỗ trợ kỹ thuật, xử lý escalation và các vấn đề phức tạp từ khách hàng.', color: '#f59e0b', image: '', messages: ['Không có vấn đề nào quá lớn', 'Giải pháp luôn có cho mọi tình huống', 'Hỗ trợ chuyên sâu, xử lý triệt để', 'Luôn sẵn sàng, luôn đáng tin cậy'] },
+        { name: 'QC-CX', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="currentColor" opacity=".3" style="filter:brightness(3)"/></svg>', desc: 'Kiểm soát chất lượng cuộc gọi, đảm bảo trải nghiệm khách hàng tốt nhất.', color: '#10b981', image: '', messages: ['Chất lượng là nền tảng của sự tin tưởng', 'Không ngừng nâng cao tiêu chuẩn', 'Trải nghiệm khách hàng là ưu tiên số 1', 'Dẫn dắt bằng dữ liệu, hành động bằng trái tim'] },
+        { name: 'OM', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14.4 2.81a.47.47 0 0 0-.48-.41h-3.84a.47.47 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.74 8.87a.48.48 0 0 0 .12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg>', desc: 'Quản lý vận hành, giám sát hiệu suất và tối ưu hóa quy trình làm việc.', color: '#6366f1', image: '', messages: ['Vận hành trơn tru, hiệu quả tối đa', 'Tổ chức thông minh, phối hợp nhịp nhàng', 'Mỗi quyết định dựa trên dữ liệu', 'Xây dựng đội ngũ vững mạnh'] }
+      ];
 
       function getCategoryClass(cat) {
         return categoryTagMap[cat] || 'tag-default';
@@ -505,6 +560,12 @@
         megaphone: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px"><path d="M18 11v2h4v-2h-4zm-2 6.61c.96.71 2.21 1.65 3.2 2.39.4-.53.8-1.07 1.2-1.6-.99-.74-2.24-1.68-3.2-2.4-.4.54-.8 1.08-1.2 1.61zM20.4 5.6c-.4-.53-.8-1.07-1.2-1.6-.99.74-2.24 1.68-3.2 2.4.4.53.8 1.07 1.2 1.6.96-.72 2.21-1.65 3.2-2.4zM4 9a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1l5 3V6L5 9H4zm5.03-1.71L14 4v16l-4.97-3.29H4a2 2 0 0 1-2-2v-2h.01z"/></svg>',
         folder: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z"/></svg>',
         mail: '<svg width="40" height="40" viewBox="0 0 24 24" fill="#d1d5db" style="vertical-align:middle"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>',
+        // Category-specific title icons
+        catThongbao: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>',
+        catChangelog: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 9V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h8v2H8v-2zm0-8h2v2H8V9z"/></svg>',
+        catSukien: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11z"/><path d="M12 10l1.12 3.45L17 13.82l-2.81 2.04.81 3.14L12 17.27 8.99 19l.81-3.14L7 13.82l3.88.37L12 10z" opacity=".8"/></svg>',
+        catDaotao: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>',
+        catHoinhap: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>',
       };
 
       // --- Lấy dữ liệu ---
@@ -521,17 +582,27 @@
 
       // --- Render filter ---
       var filterBar = document.getElementById('category-filter-bar');
-      var categories = [];
+      var categoriesRaw = [];
       posts.forEach(function (p) {
-        if (p.category && categories.indexOf(p.category) === -1) {
-          categories.push(p.category);
+        if (p.category && categoriesRaw.indexOf(p.category) === -1) {
+          categoriesRaw.push(p.category);
         }
       });
+      // Always include Hướng dẫn hội nhập even if no posts
+      if (categoriesRaw.indexOf('Hướng dẫn hội nhập') === -1) categoriesRaw.push('Hướng dẫn hội nhập');
+      // Sort categories by desired order
+      var categories = categoryOrder.filter(function (cat) { return categoriesRaw.indexOf(cat) !== -1; });
+      // Append any categories not in the order list
+      categoriesRaw.forEach(function (cat) { if (categories.indexOf(cat) === -1) categories.push(cat); });
 
-      var activeFilter = 'Tất cả';
+      var onboardingSection = document.getElementById('onboarding-section');
+      var onboardingGrid = document.getElementById('onboarding-grid');
+
+      var activeFilter = categories.length > 0 ? categories[0] : 'Thông báo';
       var activeSubFilter = 'Tất cả';
       var dateFrom = '';
       var dateTo = '';
+      var changelogSearchQuery = '';
 
       var newsFeedTitle = document.getElementById('news-feed-title');
       var subFilterToolbar = document.getElementById('sub-filter-toolbar');
@@ -539,6 +610,8 @@
       var dateFromInput = document.getElementById('date-from');
       var dateToInput = document.getElementById('date-to');
       var dateClearBtn = document.getElementById('date-clear');
+
+      var changelogSearchInput = document.getElementById('changelog-search-input');
 
       // Date filter events
       dateFromInput.addEventListener('change', function () { dateFrom = this.value; renderPosts(); });
@@ -549,12 +622,28 @@
         renderPosts();
       });
 
+      // Change Log search event
+      changelogSearchInput.addEventListener('input', function () {
+        changelogSearchQuery = this.value.toLowerCase().trim();
+        renderPosts();
+      });
+
+      // Map category to title icon
+      var categoryIconMap = {
+        'Thông báo': 'catThongbao',
+        'Quy trình': 'catChangelog',
+        'Sự kiện': 'catSukien',
+        'Đào tạo': 'catDaotao',
+        'Hướng dẫn hội nhập': 'catHoinhap'
+      };
+
       function updateSectionTitle() {
         if (!newsFeedTitle) return;
-        var icon = activeFilter === 'Tất cả' ? svgI.megaphone : svgI.folder;
-        var text = activeFilter === 'Tất cả' ? 'Truyền Thông Nội Bộ' : activeFilter;
+        var iconKey = categoryIconMap[activeFilter] || 'folder';
+        var icon = svgI[iconKey] || svgI.folder;
+        var text = getDisplayName(activeFilter);
         if (activeFilter === 'Quy trình' && activeSubFilter !== 'Tất cả') {
-          text = 'Quy trình - ' + activeSubFilter;
+          text = 'Change Log - ' + activeSubFilter;
         }
         newsFeedTitle.innerHTML = '<span class="news-feed-title-icon">' + icon + '</span> ' + text;
       }
@@ -593,24 +682,39 @@
         });
       }
 
+      var thongbaoBtnHeader = document.getElementById('thongbao-header-btn');
+
+      function updateThongbaoBtn() {
+        if (thongbaoBtnHeader) {
+          if (activeFilter === 'Thông báo') {
+            thongbaoBtnHeader.classList.add('active');
+          } else {
+            thongbaoBtnHeader.classList.remove('active');
+          }
+        }
+      }
+
+      thongbaoBtnHeader.onclick = function () {
+        activeFilter = 'Thông báo'; activeSubFilter = 'Tất cả';
+        changelogSearchQuery = ''; changelogSearchInput.value = '';
+        renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle(); updateThongbaoBtn();
+        document.getElementById('news-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+
       function renderFilterButtons() {
         filterBar.innerHTML = '';
-        var allBtn = document.createElement('button');
-        allBtn.className = 'category-filter-btn' + (activeFilter === 'Tất cả' ? ' active' : '');
-        allBtn.textContent = 'Tất cả';
-        allBtn.onclick = function () {
-          activeFilter = 'Tất cả'; activeSubFilter = 'Tất cả';
-          renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle();
-        };
-        filterBar.appendChild(allBtn);
 
         categories.forEach(function (cat) {
+          // Thông báo is now a separate header button, skip it here
+          if (cat === 'Thông báo') return;
           var btn = document.createElement('button');
           btn.className = 'category-filter-btn' + (activeFilter === cat ? ' active' : '');
-          btn.textContent = cat;
+          btn.textContent = getDisplayName(cat);
           btn.onclick = function () {
             activeFilter = cat; activeSubFilter = 'Tất cả';
-            renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle();
+            changelogSearchQuery = ''; changelogSearchInput.value = '';
+            renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle(); updateThongbaoBtn();
+            document.getElementById('news-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
           };
           filterBar.appendChild(btn);
         });
@@ -619,13 +723,113 @@
       // --- Render posts ---
       var postsGrid = document.getElementById('posts-grid');
 
+      // --- Onboarding modal logic ---
+      var onboardingModalOverlay = document.getElementById('onboarding-modal-overlay');
+      var onboardingModalContent = document.getElementById('onboarding-modal-content');
+      var onboardingModalCloseBtn = document.getElementById('onboarding-modal-close');
+
+      function openOnboardingModal(dept) {
+        var heroColorLight = dept.color + '12';
+        var html = '';
+        html += '<div class="onboarding-modal-hero" style="background: linear-gradient(180deg, ' + heroColorLight + ' 0%, #fff 100%);">';
+        html += '<div class="onboarding-modal-hero-icon" style="background: ' + dept.color + ';">' + dept.icon.replace(/width="32"/g, 'width="48"').replace(/height="32"/g, 'height="48"') + '</div>';
+        html += '<h2 class="onboarding-modal-title">' + dept.name + '</h2>';
+        html += '<p class="onboarding-modal-subtitle">' + dept.desc + '</p>';
+        // Hình ảnh phòng ban
+        if (dept.image) {
+          html += '<img class="onboarding-modal-image" src="' + dept.image + '" alt="' + dept.name + '" />';
+        } else {
+          html += '<div style="margin-top:20px;padding:40px 20px;border-radius:16px;background:linear-gradient(135deg,' + dept.color + '18,' + dept.color + '08);border:2px dashed ' + dept.color + '40;text-align:center;color:' + dept.color + ';font-size:14px;font-weight:500;"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" style="opacity:.5;margin-bottom:8px;"><path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg><br>Chưa có hình ảnh<br><span style="font-size:12px;opacity:.7;">Thêm hình vào trường image của phòng ban này</span></div>';
+        }
+        html += '</div>';
+        html += '<div class="onboarding-modal-body">';
+        if (dept.messages && dept.messages.length > 0) {
+          html += '<h3 class="onboarding-modal-info-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="' + dept.color + '"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg> Thông điệp</h3>';
+          html += '<ul class="onboarding-modal-info-list">';
+          dept.messages.forEach(function (m) {
+            html += '<li>' + m + '</li>';
+          });
+          html += '</ul>';
+        }
+        html += '</div>';
+        onboardingModalContent.innerHTML = html;
+        onboardingModalOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeOnboardingModal() {
+        onboardingModalOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+
+      onboardingModalCloseBtn.onclick = closeOnboardingModal;
+      onboardingModalOverlay.onclick = function (e) {
+        if (e.target === onboardingModalOverlay) closeOnboardingModal();
+      };
+
+      function renderOnboarding() {
+        if (activeFilter !== 'Hướng dẫn hội nhập') {
+          onboardingSection.style.display = 'none';
+          return;
+        }
+        onboardingSection.style.display = 'block';
+        onboardingGrid.innerHTML = '';
+
+        // Tiêu đề phụ cho grid
+        var heading = document.createElement('div');
+        heading.style.cssText = 'grid-column: 1 / -1; text-align: center; margin-bottom: 8px;';
+        heading.innerHTML = '<h3 style="font-size:18px;font-weight:700;color:#374151;margin:0 0 4px;">Các phòng ban của Trung tâm dịch vụ khách hàng</h3>' +
+          '<p style="font-size:13px;color:#9ca3af;margin:0;">Nhấn vào từng phòng ban để xem chi tiết nội dung hội nhập</p>';
+        onboardingGrid.appendChild(heading);
+
+        onboardingDepts.forEach(function (dept, index) {
+          var card = document.createElement('div');
+          card.className = 'onboarding-card';
+          card.style.animationDelay = (0.05 + index * 0.07) + 's';
+          card.innerHTML = '<div class="onboarding-card-icon"><div class="onboarding-card-icon-circle" style="background: ' + dept.color + ';">' + dept.icon + '</div></div>' +
+            '<div class="onboarding-card-body">' +
+            '<h3 class="onboarding-card-name">' + dept.name + '</h3>' +
+            '<p class="onboarding-card-desc">' + dept.desc + '</p>' +
+            '<span class="onboarding-card-action">Xem hướng dẫn <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></span>' +
+            '</div>';
+          card.onclick = (function (d) { return function () { openOnboardingModal(d); }; })(dept);
+          onboardingGrid.appendChild(card);
+        });
+      }
+
       function renderPosts() {
+        // Handle onboarding section visibility
+        renderOnboarding();
+        if (activeFilter === 'Hướng dẫn hội nhập') {
+          postsGrid.style.display = 'none';
+          return;
+        }
+        postsGrid.style.display = 'flex';
         postsGrid.innerHTML = '';
-        var filtered = activeFilter === 'Tất cả' ? posts : posts.filter(function (p) { return p.category === activeFilter; });
+        var filtered = posts.filter(function (p) { return p.category === activeFilter; });
 
         // Sub-category filter
         if (activeFilter === 'Quy trình' && activeSubFilter !== 'Tất cả') {
           filtered = filtered.filter(function (p) { return p.subCategory === activeSubFilter; });
+        }
+
+        // Change Log search filter (supports diacritics-free Vietnamese)
+        if (activeFilter === 'Quy trình' && changelogSearchQuery) {
+          var queryNorm = removeDiacritics(changelogSearchQuery);
+          filtered = filtered.filter(function (p) {
+            var title = (p.title || '').toLowerCase();
+            var content = (p.content || '').replace(/<[^>]*>/g, '').toLowerCase();
+            var sub = (p.subCategory || '').toLowerCase();
+            var titleNorm = removeDiacritics(title);
+            var contentNorm = removeDiacritics(content);
+            var subNorm = removeDiacritics(sub);
+            return title.indexOf(changelogSearchQuery) !== -1 ||
+              content.indexOf(changelogSearchQuery) !== -1 ||
+              sub.indexOf(changelogSearchQuery) !== -1 ||
+              titleNorm.indexOf(queryNorm) !== -1 ||
+              contentNorm.indexOf(queryNorm) !== -1 ||
+              subNorm.indexOf(queryNorm) !== -1;
+          });
         }
 
         // Date range filter
@@ -662,8 +866,13 @@
           if (post.pinned) {
             html += '<span class="pinned-badge">' + svgI.pin + ' Ghim</span>';
           }
-          html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + (post.category || 'Khác') + '</span>';
-          html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
+          html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + getDisplayName(post.category || 'Khác') + '</span>';
+          if (post.subCategory) {
+            html += '<span class="post-sub-tag">' + post.subCategory + '</span>';
+          }
+          if (post.category !== 'Quy trình') {
+            html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
+          }
           if (post.updateDate) {
             html += '<span class="post-date post-date-update">' + svgI.refresh + ' Cập nhật: ' + formatDate(post.updateDate) + '</span>';
           }
@@ -673,8 +882,24 @@
           html += '</div>';
           // Title
           html += '<div class="post-card-title">' + (post.title || '') + '</div>';
-          // Content preview
-          html += '<div class="post-card-content">' + (post.content || '') + '</div>';
+
+          // === DIFF VIEW: Chỉ cho Quy trình có oldContent ===
+          if (post.category === 'Quy trình' && post.oldContent) {
+            html += '<div class="post-diff-view">';
+            html += '<div class="post-diff-col post-diff-old">';
+            html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg> Nội dung cũ</div>';
+            html += '<div class="post-diff-content">' + post.oldContent + '</div>';
+            html += '</div>';
+            html += '<div class="post-diff-col post-diff-new">';
+            html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg> Nội dung mới</div>';
+            html += '<div class="post-diff-content">' + post.content + '</div>';
+            html += '</div>';
+            html += '</div>';
+          } else {
+            // Layout bình thường
+            html += '<div class="post-card-content">' + (post.content || '') + '</div>';
+          }
+
           html += '</div>';
 
           // Footer
@@ -713,8 +938,10 @@
         html += '<h2 class="post-modal-title">' + (post.title || '') + '</h2>';
         html += '<div class="post-modal-meta">';
         if (post.pinned) html += '<span class="pinned-badge">' + svgI.pin + ' Ghim</span>';
-        html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + (post.category || 'Khác') + '</span>';
-        html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
+        html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + getDisplayName(post.category || 'Khác') + '</span>';
+        if (post.category !== 'Quy trình') {
+          html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
+        }
         if (post.updateDate) {
           html += '<span class="post-date post-date-update">' + svgI.refresh + ' Cập nhật: ' + formatDate(post.updateDate) + '</span>';
         }
@@ -726,7 +953,22 @@
         if (post.image) {
           html += '<img style="width:100%;border-radius:12px;margin-bottom:20px;" src="' + post.image + '" alt="" />';
         }
-        html += '<div class="post-modal-content">' + (post.content || '') + '</div>';
+
+        // Modal cũng hiển thị diff view nếu có oldContent
+        if (post.category === 'Quy trình' && post.oldContent) {
+          html += '<div class="post-diff-view">';
+          html += '<div class="post-diff-col post-diff-old">';
+          html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg> Nội dung cũ</div>';
+          html += '<div class="post-diff-content">' + post.oldContent + '</div>';
+          html += '</div>';
+          html += '<div class="post-diff-col post-diff-new">';
+          html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg> Nội dung mới</div>';
+          html += '<div class="post-diff-content">' + post.content + '</div>';
+          html += '</div>';
+          html += '</div>';
+        } else {
+          html += '<div class="post-modal-content">' + (post.content || '') + '</div>';
+        }
 
         modalBody.innerHTML = html;
         modalOverlay.style.display = 'flex';
@@ -743,12 +985,13 @@
         if (e.target === modalOverlay) closePostModal();
       };
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') closePostModal();
+        if (e.key === 'Escape') { closePostModal(); closeOnboardingModal(); }
       });
 
       // --- Init ---
       renderFilterButtons();
       renderSubFilterBar();
+      updateSectionTitle();
       renderPosts();
     })();
   </script>

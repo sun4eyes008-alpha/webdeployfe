@@ -48,7 +48,7 @@
 .hero-nav-bar {
     position: absolute;
     bottom: 20px;
-    left: 30%;
+    left: 20%;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -202,11 +202,27 @@
 }
 
 .landing-header .tab-btn:hover {
+    background: #ecfae2;
+    border-color: #81c753;
     color: #2e7d32;
-    border-color: #4caf50;
+    transform: translateY(-1px);
 }
 
-.landing-header .dropdown-toggle,
+.landing-header .dropdown-toggle {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 3px 12px rgba(129, 199, 83, 0.3);
+}
+
+.landing-header .dropdown-toggle:hover {
+    background: #ecfae2;
+    border-color: #81c753;
+    color: #2e7d32;
+    box-shadow: none;
+    transform: translateY(-1px);
+}
+
 .landing-header .tab-btn.active {
     background: linear-gradient(135deg, #4caf50, #388e3c);
     color: #fff;
@@ -912,11 +928,119 @@ body.landing-page {
     color: #ef4444;
 }
 
+/* --- Change Log Search --- */
+.changelog-search-bar {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1.5px solid #d1d5db;
+    border-radius: 20px;
+    padding: 5px 14px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.changelog-search-bar:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.changelog-search-input {
+    border: none;
+    outline: none;
+    font-size: 12px;
+    color: #374151;
+    background: transparent;
+    width: 180px;
+    padding: 2px 0;
+}
+
+.changelog-search-input::placeholder {
+    color: #9ca3af;
+}
+
 /* --- Grid bài viết --- */
 .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 24px;
+}
+
+/* --- Diff view: Nội dung cũ vs mới (Quy trình) --- */
+.post-diff-view {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.post-diff-col {
+    flex: 1;
+    padding: 16px 18px;
+    min-width: 0;
+}
+
+.post-diff-old {
+    background: #fff8f8;
+    border-right: 2px solid #e0e0e0;
+}
+
+.post-diff-new {
+    background: #f3faf0;
+}
+
+.post-diff-label {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.post-diff-old .post-diff-label {
+    color: #c0392b;
+}
+
+.post-diff-new .post-diff-label {
+    color: #27ae60;
+}
+
+.post-diff-content {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.post-diff-old .post-diff-content {
+    opacity: 0.75;
+    text-decoration: line-through;
+    text-decoration-color: rgba(192, 57, 43, 0.3);
+}
+
+.post-sub-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 500;
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+@media (max-width: 700px) {
+    .post-diff-view {
+        flex-direction: column;
+    }
+
+    .post-diff-old {
+        border-right: none;
+        border-bottom: 2px solid #e0e0e0;
+    }
 }
 
 /* --- Card bài viết --- */
@@ -1069,9 +1193,310 @@ body.landing-page {
     color: #2e7d32;
 }
 
+.post-category-tag.tag-hoinhap {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
 .post-category-tag.tag-default {
     background: #f3f4f6;
     color: #4b5563;
+}
+
+/* --- Onboarding / Hướng dẫn hội nhập --- */
+.onboarding-section {
+    margin-top: 12px;
+}
+
+.onboarding-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.onboarding-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fdf5 100%);
+    border-radius: 20px;
+    border: 1px solid rgba(129, 199, 83, 0.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(129, 199, 83, 0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: postFadeIn 0.5s ease forwards;
+    opacity: 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.onboarding-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color, #81c753), var(--secondary-color, #009f52));
+    border-radius: 20px 20px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.onboarding-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 48px rgba(129, 199, 83, 0.15), 0 8px 20px rgba(0, 0, 0, 0.08);
+    border-color: rgba(129, 199, 83, 0.35);
+}
+
+.onboarding-card:hover::before {
+    opacity: 1;
+}
+
+.onboarding-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px 16px;
+}
+
+.onboarding-card-icon-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transition: all 0.4s ease;
+}
+
+.onboarding-card:hover .onboarding-card-icon-circle {
+    transform: scale(1.1);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.onboarding-card-body {
+    padding: 8px 24px 20px;
+    flex: 1;
+    text-align: center;
+}
+
+.onboarding-card-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0 0 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.onboarding-card-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #6b7280;
+    margin: 0 0 16px;
+}
+
+.onboarding-card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary-color, #009f52);
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.onboarding-card:hover .onboarding-card-action {
+    color: var(--primary-color, #81c753);
+    gap: 10px;
+}
+
+/* --- Onboarding Modal (fullscreen image viewer) --- */
+.onboarding-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    animation: modalOverlayIn 0.25s ease;
+}
+
+.onboarding-modal {
+    background: #fff;
+    border-radius: 24px;
+    max-width: 680px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 72px rgba(0, 0, 0, 0.25);
+    animation: modalSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.onboarding-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: #6b7280;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.onboarding-modal-close:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.onboarding-modal-hero {
+    position: relative;
+    padding: 48px 32px 32px;
+    text-align: center;
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+}
+
+.onboarding-modal-hero-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin: 0 auto 20px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1;
+}
+
+.onboarding-modal-hero-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.onboarding-modal-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin: 0 0 8px;
+    letter-spacing: 1.5px;
+    position: relative;
+    z-index: 1;
+}
+
+.onboarding-modal-subtitle {
+    font-size: 15px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.onboarding-modal-image {
+    width: 100%;
+    border-radius: 16px;
+    margin-top: 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 1;
+}
+
+.onboarding-modal-body {
+    padding: 28px 32px 36px;
+}
+
+.onboarding-modal-info-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #374151;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.onboarding-modal-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.onboarding-modal-info-list li {
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #f8fdf5;
+    border: 1px solid rgba(129, 199, 83, 0.12);
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.6;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.onboarding-modal-info-list li::before {
+    content: '✓';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #81c753, #009f52);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+@media (max-width: 600px) {
+    .onboarding-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .onboarding-modal {
+        max-width: 100%;
+        border-radius: 16px;
+        margin: 10px;
+    }
+
+    .onboarding-modal-hero {
+        padding: 40px 20px 24px;
+    }
+
+    .onboarding-modal-body {
+        padding: 20px;
+    }
+
+    .onboarding-modal-title {
+        font-size: 22px;
+    }
 }
 
 .post-date {
@@ -1100,6 +1525,7 @@ body.landing-page {
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

@@ -177,6 +177,7 @@
             margin-bottom: 4px;
             display: -webkit-box;
             -webkit-line-clamp: 1;
+            line-clamp: 1;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -525,8 +526,10 @@
         };
 
         // === CATEGORY presets ===
-        const CATEGORIES = ['Thông báo', 'Quy trình', 'Sự kiện', 'Đào tạo', 'Khác'];
+        const CATEGORIES = ['Thông báo', 'Quy trình', 'Sự kiện', 'Đào tạo', 'Hướng dẫn hội nhập', 'Khác'];
         const SUB_CATEGORIES = ['Card IB', 'Loan IB', 'Card Ecom', 'Loan Ecom', 'Ubank', 'Outbound'];
+        const CATEGORY_DISPLAY = { 'Quy trình': 'Change Log' };
+        const getDisplayName = (cat) => CATEGORY_DISPLAY[cat] || cat;
 
         // === Main App ===
         const PostEditorApp = () => {
@@ -659,6 +662,7 @@
                     id: newId,
                     title: 'Bài viết mới #' + newId,
                     content: '<p>Nhập nội dung bài viết tại đây...</p>',
+                    oldContent: '',
                     category: 'Thông báo',
                     subCategory: '',
                     date: today,
@@ -793,9 +797,9 @@
                                             >
                                                 <div className="item-title">{post.title}</div>
                                                 <div className="item-meta">
-                                                    <span className="item-cat">{post.category}</span>
+                                                    <span className="item-cat">{getDisplayName(post.category)}</span>
                                                     {post.subCategory && <span className="item-cat" style={{ background: '#eff6ff', color: '#2563eb' }}>{post.subCategory}</span>}
-                                                    <span>{post.date}</span>
+                                                    {post.category !== 'Quy trình' && <span>{post.date}</span>}
                                                     <span>{post.author}</span>
                                                 </div>
                                             </div>
@@ -955,9 +959,9 @@
         };
 
         // === TinyMCE Editor Component ===
-        const TinyMCEEditor = ({ postId, content, onContentChange }) => {
+        const TinyMCEEditor = ({ postId, content, onContentChange, suffix = '' }) => {
             const editorRef = useRef(null);
-            const editorIdRef = useRef('tinymce-editor-' + postId);
+            const editorIdRef = useRef('tinymce-editor-' + postId + (suffix ? '-' + suffix : ''));
 
             useEffect(() => {
                 const editorId = editorIdRef.current;
@@ -972,7 +976,7 @@
 
                 tinymce.init({
                     selector: '#' + editorId,
-                    height: 350,
+                    height: suffix ? 250 : 350,
                     base_url: 'tinymce',
                     suffix: '.min',
                     promotion: false,
@@ -1039,11 +1043,17 @@
                                         onUpdate(post.id, 'subCategory', '');
                                         onUpdate(post.id, 'updateDate', '');
                                         onUpdate(post.id, 'effectiveDate', '');
+                                        onUpdate(post.id, 'oldContent', '');
+                                    } else {
+                                        // Mặc định ngày cập nhật = hôm nay
+                                        if (!post.updateDate) {
+                                            onUpdate(post.id, 'updateDate', new Date().toISOString().split('T')[0]);
+                                        }
                                     }
                                 }}
                             >
                                 {CATEGORIES.map(cat => (
-                                    <option key={cat} value={cat}>{cat}</option>
+                                    <option key={cat} value={cat}>{getDisplayName(cat)}</option>
                                 ))}
                             </select>
                         </div>
@@ -1070,7 +1080,7 @@
                     {post.category === 'Quy trình' && (
                         <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: 16, marginBottom: 20 }}>
                             <div style={{ fontSize: 13, fontWeight: 700, color: '#166534', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-                                <Icon name="clipboard" size={15} color="#166534" /> Thông tin Quy trình
+                                <Icon name="clipboard" size={15} color="#166534" /> Thông tin Change Log
                             </div>
                             <div className="form-row-3">
                                 <div className="form-group">
@@ -1101,6 +1111,18 @@
                                         onChange={(e) => onUpdate(post.id, 'effectiveDate', e.target.value)}
                                     />
                                 </div>
+                            </div>
+
+                            {/* Nội dung cũ (oldContent) - TinyMCE */}
+                            <div className="form-group" style={{ marginTop: 12 }}>
+                                <label><Icon name="clipboard" size={13} color="#c0392b" style={{ marginRight: 4 }} /> Nội dung cũ (trước khi thay đổi)</label>
+                                <div style={{ fontSize: 11, color: '#9ca3af', marginBottom: 6 }}>Để trống nếu bài viết chưa có thay đổi. Khi có nội dung, trang chủ sẽ hiển thị so sánh "Cũ vs Mới".</div>
+                                <TinyMCEEditor
+                                    postId={post.id}
+                                    suffix="oldcontent"
+                                    content={post.oldContent || ''}
+                                    onContentChange={(html) => onUpdate(post.id, 'oldContent', html)}
+                                />
                             </div>
                         </div>
                     )}
