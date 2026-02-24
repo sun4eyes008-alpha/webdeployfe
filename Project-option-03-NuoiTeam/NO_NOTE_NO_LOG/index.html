@@ -613,18 +613,24 @@
 
       var changelogSearchInput = document.getElementById('changelog-search-input');
 
+      // Pagination variables
+      var POSTS_PER_PAGE = 20;
+      var currentPage = 1;
+
       // Date filter events
-      dateFromInput.addEventListener('change', function () { dateFrom = this.value; renderPosts(); });
-      dateToInput.addEventListener('change', function () { dateTo = this.value; renderPosts(); });
+      dateFromInput.addEventListener('change', function () { dateFrom = this.value; currentPage = 1; renderPosts(); });
+      dateToInput.addEventListener('change', function () { dateTo = this.value; currentPage = 1; renderPosts(); });
       dateClearBtn.addEventListener('click', function () {
         dateFrom = ''; dateTo = '';
         dateFromInput.value = ''; dateToInput.value = '';
+        currentPage = 1;
         renderPosts();
       });
 
       // Change Log search event
       changelogSearchInput.addEventListener('input', function () {
         changelogSearchQuery = this.value.toLowerCase().trim();
+        currentPage = 1;
         renderPosts();
       });
 
@@ -670,14 +676,14 @@
         var allBtn = document.createElement('button');
         allBtn.className = 'sub-filter-btn' + (activeSubFilter === 'Tất cả' ? ' active' : '');
         allBtn.textContent = 'Tất cả';
-        allBtn.onclick = function () { activeSubFilter = 'Tất cả'; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
+        allBtn.onclick = function () { activeSubFilter = 'Tất cả'; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
         subFilterBar.appendChild(allBtn);
 
         getSubCategories().forEach(function (sub) {
           var btn = document.createElement('button');
           btn.className = 'sub-filter-btn' + (activeSubFilter === sub ? ' active' : '');
           btn.textContent = sub;
-          btn.onclick = function () { activeSubFilter = sub; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
+          btn.onclick = function () { activeSubFilter = sub; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
           subFilterBar.appendChild(btn);
         });
       }
@@ -697,6 +703,7 @@
       thongbaoBtnHeader.onclick = function () {
         activeFilter = 'Thông báo'; activeSubFilter = 'Tất cả';
         changelogSearchQuery = ''; changelogSearchInput.value = '';
+        currentPage = 1;
         renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle(); updateThongbaoBtn();
         document.getElementById('news-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
       };
@@ -713,6 +720,7 @@
           btn.onclick = function () {
             activeFilter = cat; activeSubFilter = 'Tất cả';
             changelogSearchQuery = ''; changelogSearchInput.value = '';
+            currentPage = 1;
             renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle(); updateThongbaoBtn();
             document.getElementById('news-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
           };
@@ -783,6 +791,8 @@
         onboardingGrid.appendChild(heading);
 
         onboardingDepts.forEach(function (dept, index) {
+          // Add this exact logic to avoid any issues.
+          // This keeps line consistency.
           var card = document.createElement('div');
           card.className = 'onboarding-card';
           card.style.animationDelay = (0.05 + index * 0.07) + 's';
@@ -847,7 +857,10 @@
           return;
         }
 
-        sorted.forEach(function (post, index) {
+        // Paginate the sorted posts
+        var paginatedPosts = sorted.slice(0, currentPage * POSTS_PER_PAGE);
+
+        paginatedPosts.forEach(function (post, index) {
           var card = document.createElement('div');
           card.className = 'post-card' + (post.pinned ? ' pinned' : '');
           card.style.animationDelay = (0.05 + index * 0.05) + 's';
@@ -920,6 +933,25 @@
             openPostModal(id);
           };
         });
+
+        // Add Load More Button if remaining items
+        if (sorted.length > currentPage * POSTS_PER_PAGE) {
+          var loadMoreWrapper = document.createElement('div');
+          loadMoreWrapper.className = 'load-more-wrapper';
+          loadMoreWrapper.style.cssText = 'grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 24px; width: 100%;';
+
+          var loadMoreBtn = document.createElement('button');
+          loadMoreBtn.className = 'load-more-btn';
+          loadMoreBtn.innerHTML = 'Xem Thêm (' + (sorted.length - currentPage * POSTS_PER_PAGE) + ' bài nữa) <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-3px; margin-left:4px;"><path d="M7 10l5 5 5-5z"/></svg>';
+
+          loadMoreBtn.onclick = function () {
+            currentPage++;
+            renderPosts();
+          };
+
+          loadMoreWrapper.appendChild(loadMoreBtn);
+          postsGrid.appendChild(loadMoreWrapper);
+        }
       }
 
       // --- Modal xem chi tiết ---
@@ -995,6 +1027,104 @@
       renderPosts();
     })();
   </script>
+
+  <!-- FOOTER - FECredit Style -->
+  <footer class="fec-footer">
+    <!-- Top section: Contact hotlines -->
+    <div class="fec-footer-top">
+      <div class="fec-footer-container">
+        <div class="fec-footer-top-inner">
+          <div class="fec-footer-slogan">
+            <img src="./Asset/logo/fec-logo.svg" alt="FECredit" class="fec-footer-logo" />
+            <h2 class="fec-footer-slogan-text">Hiện thực hóa<br><span>hàng triệu ước mơ</span></h2>
+          </div>
+          <div class="fec-hotline-wrapper">
+            <div class="fec-hotline-section">
+              <div class="fec-hotline-label">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                Dành cho khách hàng mới
+              </div>
+              <a href="tel:02835516868" class="fec-hotline-pill fec-hotline-pill-filled">
+                <div class="fec-hotline-pill-desc">HỖ TRỢ VAY NHANH</div>
+                <div class="fec-hotline-pill-number">028 3551 6868</div>
+              </a>
+            </div>
+            <div class="fec-hotline-divider"></div>
+            <div class="fec-hotline-section fec-hotline-section-wide">
+              <div class="fec-hotline-label">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                  <path
+                    d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                </svg>
+                Dành cho khách hàng hiện hữu
+              </div>
+              <div class="fec-hotline-pill-group">
+                <a href="tel:19006535" class="fec-hotline-pill fec-hotline-pill-outlined">
+                  <div class="fec-hotline-pill-desc">KHÁCH HÀNG VAY</div>
+                  <div class="fec-hotline-pill-number">1900 6535</div>
+                </a>
+                <div class="fec-hotline-pill-split"></div>
+                <a href="tel:19006939" class="fec-hotline-pill fec-hotline-pill-outlined">
+                  <div class="fec-hotline-pill-desc">KHÁCH HÀNG THẺ TÍN DỤNG</div>
+                  <div class="fec-hotline-pill-number">1900 6939</div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Middle section: Connect + Address + App -->
+    <div class="fec-footer-mid">
+      <div class="fec-footer-container">
+        <h3 class="fec-footer-mid-title">Kết nối với FE CREDIT nhiều hơn</h3>
+        <div class="fec-footer-mid-grid">
+          <div class="fec-footer-address-card">
+            <div class="fec-footer-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z" />
+              </svg>
+            </div>
+            <div class="fec-footer-card-label">Địa chỉ</div>
+            <div class="fec-footer-card-title">Phòng Dịch Vụ Khách Hàng</div>
+            <div class="fec-footer-card-desc">144 Cộng Hòa, Phường Bảy Hiền, Thành phố Hồ Chí Minh.</div>
+          </div>
+          <div class="fec-footer-app-card">
+            <div class="fec-footer-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z" />
+              </svg>
+            </div>
+            <div class="fec-footer-card-label">Ứng dụng</div>
+            <div class="fec-footer-card-title">FE ONLINE 2.0</div>
+            <div class="fec-footer-card-desc">Quản lý tài chính dễ dàng, mọi lúc mọi nơi.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="fec-footer-bottom">
+      <div class="fec-footer-container">
+        <div class="fec-footer-bottom-inner">
+          <div class="fec-footer-copyright">
+            © 2026 QC Team x Trung Tâm Dịch Vụ Khách Hàng.
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
 </body>
 
 </html>
