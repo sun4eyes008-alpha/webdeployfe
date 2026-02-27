@@ -601,7 +601,7 @@
       var onboardingGrid = document.getElementById('onboarding-grid');
 
       var activeFilter = categories.length > 0 ? categories[0] : 'Thông báo';
-      var activeSubFilter = 'Tất cả';
+      var activeSubFilter = 'ALL';
       var dateFrom = '';
       var dateTo = '';
       var changelogSearchQuery = '';
@@ -656,11 +656,10 @@
         newsFeedTitle.innerHTML = '<span class="news-feed-title-icon">' + icon + '</span> ' + text;
       }
 
-      // Get sub-categories for Quy trình
       function getSubCategories() {
         var subs = [];
         posts.forEach(function (p) {
-          if (p.category === 'Quy trình' && p.subCategory && subs.indexOf(p.subCategory) === -1) {
+          if (p.category === 'Quy trình' && p.subCategory && p.subCategory !== 'All Group' && subs.indexOf(p.subCategory) === -1) {
             subs.push(p.subCategory);
           }
         });
@@ -675,19 +674,50 @@
         subFilterToolbar.style.display = 'flex';
         subFilterBar.innerHTML = '';
 
-        var allBtn = document.createElement('button');
-        allBtn.className = 'sub-filter-btn' + (activeSubFilter === 'Tất cả' ? ' active' : '');
-        allBtn.textContent = 'Tất cả';
-        allBtn.onclick = function () { activeSubFilter = 'Tất cả'; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
-        subFilterBar.appendChild(allBtn);
+        var dropdown = document.createElement('div');
+        dropdown.className = 'dropdown';
+
+        var toggleBtn = document.createElement('button');
+        toggleBtn.className = 'dropdown-toggle sub-filter-toggle';
+        toggleBtn.textContent = activeSubFilter || 'ALL';
+        dropdown.appendChild(toggleBtn);
+
+        var menu = document.createElement('div');
+        menu.className = 'dropdown-menu';
+
+        var allItem = document.createElement('div');
+        allItem.className = 'dropdown-item' + (activeSubFilter === 'ALL' || activeSubFilter === 'Tất cả' ? ' selected' : '');
+        allItem.textContent = 'ALL';
+        allItem.onclick = function () { activeSubFilter = 'ALL'; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
+        menu.appendChild(allItem);
+
+        var allGroupItem = document.createElement('div');
+        allGroupItem.className = 'dropdown-item' + (activeSubFilter === 'All Group' ? ' selected' : '');
+        allGroupItem.textContent = 'All Group';
+        allGroupItem.onclick = function () { activeSubFilter = 'All Group'; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
+        menu.appendChild(allGroupItem);
 
         getSubCategories().forEach(function (sub) {
-          var btn = document.createElement('button');
-          btn.className = 'sub-filter-btn' + (activeSubFilter === sub ? ' active' : '');
-          btn.textContent = sub;
-          btn.onclick = function () { activeSubFilter = sub; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
-          subFilterBar.appendChild(btn);
+          if (sub === 'Ubank') {
+            // Split Ubank into Ubank IB and Ubank Ecom
+            ['Ubank IB', 'Ubank Ecom'].forEach(function (uSub) {
+              var item = document.createElement('div');
+              item.className = 'dropdown-item' + (activeSubFilter === uSub ? ' selected' : '');
+              item.textContent = uSub;
+              item.onclick = function () { activeSubFilter = uSub; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
+              menu.appendChild(item);
+            });
+          } else {
+            var item = document.createElement('div');
+            item.className = 'dropdown-item' + (activeSubFilter === sub ? ' selected' : '');
+            item.textContent = sub;
+            item.onclick = function () { activeSubFilter = sub; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
+            menu.appendChild(item);
+          }
         });
+
+        dropdown.appendChild(menu);
+        subFilterBar.appendChild(dropdown);
       }
 
       var thongbaoBtnHeader = document.getElementById('thongbao-header-btn');
@@ -703,7 +733,7 @@
       }
 
       thongbaoBtnHeader.onclick = function () {
-        activeFilter = 'Thông báo'; activeSubFilter = 'Tất cả';
+        activeFilter = 'Thông báo'; activeSubFilter = 'ALL';
         changelogSearchQuery = ''; changelogSearchInput.value = '';
         currentPage = 1;
         renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle(); updateThongbaoBtn();
@@ -720,7 +750,7 @@
           btn.className = 'category-filter-btn' + (activeFilter === cat ? ' active' : '');
           btn.textContent = getDisplayName(cat);
           btn.onclick = function () {
-            activeFilter = cat; activeSubFilter = 'Tất cả';
+            activeFilter = cat; activeSubFilter = 'ALL';
             changelogSearchQuery = ''; changelogSearchInput.value = '';
             currentPage = 1;
             renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle(); updateThongbaoBtn();
@@ -821,8 +851,8 @@
         var filtered = posts.filter(function (p) { return p.category === activeFilter; });
 
         // Sub-category filter
-        if (activeFilter === 'Quy trình' && activeSubFilter !== 'Tất cả') {
-          filtered = filtered.filter(function (p) { return p.subCategory === activeSubFilter; });
+        if (activeFilter === 'Quy trình' && activeSubFilter !== 'Tất cả' && activeSubFilter !== 'ALL') {
+          filtered = filtered.filter(function (p) { return p.subCategory === activeSubFilter || p.subCategory === 'All Group'; });
         }
 
         // Change Log search filter (supports diacritics-free Vietnamese)

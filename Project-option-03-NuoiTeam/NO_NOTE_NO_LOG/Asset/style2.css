@@ -409,7 +409,7 @@ body.sidebar-collapsed {
 }
 
 .sidebar-content {
-  padding: 20px;
+  padding: 20px 20px 320px 20px;
 }
 
 .filter-group {

@@ -2507,6 +2507,17 @@
           currentDataNode = currentDataNode[key];
         });
 
+        // Hỗ trợ hiển thị dropdown trống cấp tiếp theo nếu node cuối cùng không phải là leaf
+        if (currentDataNode && !isLeaf(currentDataNode)) {
+          const contentKeys = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'note', 'xmttib', 'xmttemail', 'xmttchat', 'xmtt', 'dieukien', 'displayName', 'alert', 'tieudeflow'];
+          const childKeys = Object.keys(currentDataNode).filter(k =>
+            !contentKeys.includes(k) && isObject(currentDataNode[k])
+          );
+          if (childKeys.length > 0) {
+            createDropdown(childKeys, path.length + 1, currentDataNode, currentDataNode);
+          }
+        }
+
         if (isLeaf(currentDataNode)) {
           displayResult(currentDataNode);
           if (shouldSaveState) saveStateToURL(path);
@@ -2578,6 +2589,26 @@
         customDropdown.appendChild(dropdownHeader);
         customDropdown.appendChild(dropdownList);
 
+        const handleAutoScroll = () => {
+          setTimeout(() => {
+            const rect = dropdownList.getBoundingClientRect();
+            if (rect.height === 0) return;
+
+            const spaceBelow = window.innerHeight - rect.bottom;
+            if (spaceBelow < 0) {
+              const sidebarObj = document.getElementById("sidebar");
+              if (sidebarObj) {
+                sidebarObj.scrollTo({
+                  top: sidebarObj.scrollTop + Math.abs(spaceBelow) + 40,
+                  behavior: "smooth"
+                });
+              }
+            }
+          }, 100);
+        };
+
+        customDropdown.addEventListener("mouseenter", handleAutoScroll);
+
         dropdownHeader.addEventListener("click", (e) => {
           e.stopPropagation();
 
@@ -2585,6 +2616,10 @@
             if (dd !== customDropdown) dd.classList.remove('open');
           });
           customDropdown.classList.toggle("open");
+
+          if (customDropdown.classList.contains("open")) {
+            handleAutoScroll();
+          }
         });
 
         dropdownList.addEventListener("click", (e) => {
