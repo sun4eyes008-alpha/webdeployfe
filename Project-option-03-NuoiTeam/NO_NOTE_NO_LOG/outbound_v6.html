@@ -19,11 +19,15 @@
 
   <style>
     /* Bỏ gạch chân cho các link trong header */
-    a.tab-btn,
-    a.pdf-link-btn,
-    .dropdown-menu a.dropdown-item {
+    a.tab-btn:not(.dropdown-item),
+    a.pdf-link-btn:not(.dropdown-item) {
       text-decoration: none;
       color: inherit;
+    }
+
+    .dropdown-menu a.dropdown-item {
+      text-decoration: none;
+      /* removed color: inherit so it correctly falls back to #4d4d4d defined in style2.css */
     }
   </style>
 </head>
@@ -56,35 +60,32 @@
           <button class="tab-btn dropdown-toggle">PLTT</button>
           <div class="dropdown-menu">
             <a href="loan_v2.html" class="dropdown-item" id="loan-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z" />
-                <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z" />
-                <path
-                  d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M3.5 0A1.5 1.5 0 0 0 2 1.5v13A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5V4.5L10 0H3.5ZM9 1.5V4.5H12.5L9 1.5ZM7.5 13V11.751C6.446 11.536 5.86 10.957 5.766 10.198A.5.5 0 0 1 6.758 10C6.83 10.518 7.373 10.74 8 10.783V8.892C6.892 8.529 6 8.01 6 6.848C6 5.842 6.812 5.253 7.5 5.088V4H8.5V5.074C9.522 5.275 10.104 5.922 10.198 6.643A.5.5 0 1 1 9.204 6.75C9.135 6.257 8.674 5.992 8 5.952V7.794C9.176 8.136 10 8.7 10 9.883C10 10.871 9.226 11.518 8.5 11.721V13H7.5Z" />
               </svg>
               Loan
             </a>
             <a href="card_v6.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path
-                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
-                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M0 4A2 2 0 0 1 2 2H14A2 2 0 0 1 16 4V12A2 2 0 0 1 14 14H2A2 2 0 0 1 0 12V4ZM0 6H16V8H0V6ZM11 11H13V10H11V11ZM8 11H10V10H8V11Z" />
               </svg>
               Card
             </a>
             <a href="outbound_v6.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
                 <path fill-rule="evenodd"
                   d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z" />
               </svg>
               Outbound
             </a>
             <a href="ubank_v6.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path
-                  d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="5.5" cy="3.5" r="1.5" />
+                <circle cx="10.5" cy="3.5" r="1.5" />
+                <path d="M3 6.5v4c0 2.76 2.24 5 5 5s5-2.24 5-5v-4h-3v4c0 1.1-.9 2-2 2s-2-.9-2-2v-4H3z" />
               </svg>
-
               Ubank
             </a>
           </div>
@@ -175,12 +176,9 @@
   <nav id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-page-title">
-        <svg class="sidebar-title-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-          <path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z"></path>
-          <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z"></path>
-          <path
-            d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z">
-          </path>
+        <svg class="sidebar-title-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z" />
         </svg>
         <span>OUTBOUND</span>
       </div>

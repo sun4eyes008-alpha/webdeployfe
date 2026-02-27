@@ -19,11 +19,15 @@
 
   <style>
     /* Bỏ gạch chân cho các link trong header */
-    a.tab-btn,
-    a.pdf-link-btn,
-    .dropdown-menu a.dropdown-item {
+    a.tab-btn:not(.dropdown-item),
+    a.pdf-link-btn:not(.dropdown-item) {
       text-decoration: none;
       color: inherit;
+    }
+
+    .dropdown-menu a.dropdown-item {
+      text-decoration: none;
+      /* removed color: inherit so it correctly falls back to #4d4d4d defined in style2.css */
     }
   </style>
 </head>
@@ -56,35 +60,32 @@
           <button class="tab-btn dropdown-toggle">PLTT</button>
           <div class="dropdown-menu">
             <a href="loan_v2.html" class="dropdown-item" id="loan-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z" />
-                <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z" />
-                <path
-                  d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M3.5 0A1.5 1.5 0 0 0 2 1.5v13A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5V4.5L10 0H3.5ZM9 1.5V4.5H12.5L9 1.5ZM7.5 13V11.751C6.446 11.536 5.86 10.957 5.766 10.198A.5.5 0 0 1 6.758 10C6.83 10.518 7.373 10.74 8 10.783V8.892C6.892 8.529 6 8.01 6 6.848C6 5.842 6.812 5.253 7.5 5.088V4H8.5V5.074C9.522 5.275 10.104 5.922 10.198 6.643A.5.5 0 1 1 9.204 6.75C9.135 6.257 8.674 5.992 8 5.952V7.794C9.176 8.136 10 8.7 10 9.883C10 10.871 9.226 11.518 8.5 11.721V13H7.5Z" />
               </svg>
               Loan
             </a>
             <a href="card_v6.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path
-                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
-                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M0 4A2 2 0 0 1 2 2H14A2 2 0 0 1 16 4V12A2 2 0 0 1 14 14H2A2 2 0 0 1 0 12V4ZM0 6H16V8H0V6ZM11 11H13V10H11V11ZM8 11H10V10H8V11Z" />
               </svg>
               Card
             </a>
             <a href="outbound_v6.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
                 <path fill-rule="evenodd"
                   d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z" />
               </svg>
               Outbound
             </a>
             <a href="ubank_v6.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path
-                  d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="5.5" cy="3.5" r="1.5" />
+                <circle cx="10.5" cy="3.5" r="1.5" />
+                <path d="M3 6.5v4c0 2.76 2.24 5 5 5s5-2.24 5-5v-4h-3v4c0 1.1-.9 2-2 2s-2-.9-2-2v-4H3z" />
               </svg>
-
               Ubank
             </a>
           </div>
@@ -175,12 +176,9 @@
   <nav id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-page-title">
-        <svg class="sidebar-title-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-          <path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z"></path>
-          <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z"></path>
-          <path
-            d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z">
-          </path>
+        <svg class="sidebar-title-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M0 4A2 2 0 0 1 2 2H14A2 2 0 0 1 16 4V12A2 2 0 0 1 14 14H2A2 2 0 0 1 0 12V4ZM0 6H16V8H0V6ZM11 11H13V10H11V11ZM8 11H10V10H8V11Z" />
         </svg>
         <span>CARD</span>
       </div>
@@ -458,45 +456,203 @@
     window.flowchartData = {
       "1. THÔNG TIN CHUNG": {
         "Thông Tin Công Ty": {
-          "displayName": "Thông Tin Công Ty",
-          "pdf": "Thông tin công ty.pdf",
-          "note": "asdadasd",
-          "xmttib": "asdasdasdasdsddadas",
-          "xmttemail": "asdasdasdasdsddadas",
-          "xmttchat": "asdasdasdasdsddadas",
-          "dieukien": "asdadasd"
+          "Thông Tin Công Ty & Thương Hiệu": {
+            "pdf": "1_THONG_TIN_CONG_TY/Thong_tin_cong_ty_thuong_hieu.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Thông tin công ty & thương hiệu",
+            "dieukien": "",
+            "xmttecom": ""
+          },
+          "Các Kênh CSKH": {
+            "pdf": "1_THONG_TIN_CONG_TY/Cac_kenh_CSKH.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Các kênh CSKH",
+            "dieukien": "",
+            "xmttecom": ""
+          },
+          "Công Văn & Thư Tín": {
+            "pdf": "Cong_van_thu_tin.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Công Văn / Thư Tín",
+            "dieukien": "",
+            "xmttecom": ""
+          },
+          "Quy Trình Gửi ZNS": {
+            "pdf": "1_THONG_TIN_CONG_TY/Quy_trinh_gui_ZNS.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Quy trình gửi ZNS",
+            "dieukien": "",
+            "xmttecom": ""
+          }
         },
         "Hợp Tác Kinh Doanh": {
-          "displayName": "Hợp Tác Kinh Doanh",
-          "contentType": "htmlUrl",
-          "htmlContent": "<div class=\"modal\" id=\"myModal\">\n        <h2>Xin chào!</h2>\n        <p>Đây là hiệu ứng transition opacity, visibility và transform kết hợp với nhau.</p>\n        <button class=\"close-btn\" onclick=\"toggleModal()\">Đóng lại</button>\n    </div>",
+          "pdf": "2_HOP_TAC_KINH_DOANH/Hop_tac_kinh_doanh.pdf",
+          "contentType": "",
+          "htmlContent": "",
           "htmlUrl": "",
-          "note": "Thông tin dành cho đối tác muốn hợp tác kinh doanh.",
-          "xmttib": XMTT_1
+          "xmttib": "",
+          "note": "",
+          "displayName": "Hợp Tác Kinh Doanh",
+          "dieukien": "<p><strong>Điều kiện ghi nhận hợp t&aacute;c:</strong><br>+ Mặt h&agrave;ng KH đang kinh doanh thuộc danh mục được hỗ trợ <a href=\"pdfile-loan\\1_THONG_TIN_CHUNG\\2_HOP_TAC_KINH_DOANH\\Danh_sach_mat_hang_hop_tac_kinh_doanh.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a><br>+ Ng&agrave;y cấp giấy ph&eacute;p kinh doanh &ge; 2 năm</p>",
+          "xmttecom": ""
         },
         "Xóa Dữ Liệu Cá Nhân": {
+          "pdf": "3_XOA_DU_LIEU_CA_NHAN/Xoa_du_lieu_ca_nhan.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "note": "",
           "displayName": "Xóa Dữ Liệu Cá Nhân",
-          "pdf": "Xóa Dữ Liệu Cá Nhân.pdf",
-          "note": "Hướng dẫn thực hiện yêu cầu xóa dữ liệu cá nhân theo quy định.",
-          "xmttib": XMTT_1
+          "dieukien": "<p>1. Phiếu y&ecirc;u cầu xử l&yacute; dữ liệu c&aacute; nh&acirc;n: <a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Phieu_yeu_cau_xu_ly_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\">tại đ&acirc;y</a><br>2. Tham khảo nghị định về bảo vệ dữ liệu c&aacute; nh&acirc;n:<a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Tham_khao_nghi_dinh_ve_bao_ve_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\"> tại đ&acirc;y</a></p>",
+          "xmttecom": ""
         },
         "Mở Chặn Cuộc Gọi": {
-          "displayName": "Mở Chặn Cuộc Gọi",
-          "pdf": "Mở Chặn Cuộc Gọi.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
+          "Cuộc Gọi Từ Sale/ UW": {
+            "pdf": "4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Sale_UW.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Cuộc Gọi Từ Sale/ UW",
+            "dieukien": "<p>Kiểm tra ticket RL24/RC24, x&aacute;c định đơn vị đ&atilde; xử l&yacute; y&ecirc;u cầu ngưng mời vay trước đ&oacute;</p>",
+            "xmttecom": ""
+          },
+          "Cuộc Gọi Từ Collx": {
+            "pdf": "4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Collx.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Cuộc Gọi Từ Collx",
+            "dieukien": "",
+            "xmttecom": ""
+          }
         },
-        "Ngừng Mời Vay/QC": {
-          "displayName": "Ngừng Mời Vay/QC",
-          "pdf": "Ngừng Mời Vay_QC.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
+        "Ngưng Mời Vay & Quảng Cáo": {
+          "KH Chưa Có HĐ/ Thẻ": {
+            "pdf": "5_NGUNG_MOI_VAY/Ngung_moi_vay_chua_co_HD.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "KH Chưa Có HĐ/ Thẻ",
+            "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
+            "xmttecom": ""
+          },
+          "KH Đã Có HĐ/ Thẻ": {
+            "pdf": "5_NGUNG_MOI_VAY/Ngung_moi_vay_da_co_HD.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "KH Đã Có HĐ/ Thẻ",
+            "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
+            "xmttecom": ""
+          }
         },
         "Khuyến Mãi": {
-          "displayName": "Khuyến Mãi",
-          "pdf": "Khuyến Mãi.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
+          "Loan": {
+            "Ưu Đãi Thanh Toán": {
+              "pdf": "6_KHUYEN_MAI/Uu_dai_thanh_toan.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Thanh Toán Loan",
+              "dieukien": "",
+              "xmttecom": ""
+            }
+          },
+          "Card": {
+            "Ưu Đãi Thanh Toán": {
+              "pdf": "6_KHUYEN_MAI/Uu_dai_thanh_toan.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Thanh Toán Card",
+              "dieukien": "",
+              "xmttecom": ""
+            },
+            "Ưu Đãi Mua Sắm": {
+              "pdf": "6_KHUYEN_MAI/Uu_dai_mua_sam.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Mua Sắm Card",
+              "dieukien": "",
+              "xmttecom": ""
+            },
+            "Hoàn Tiền": {
+              "pdf": "6_KHUYEN_MAI/Hoan_tien.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Hoàn Tiền Card",
+              "dieukien": "",
+              "xmttecom": ""
+            },
+            "Dành riêng cho NV FEC": {
+              "pdf": "6_KHUYEN_MAI/Khuyen_mai_staff",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Dành Riêng Cho NV FEC",
+              "dieukien": "",
+              "xmttecom": ""
+            }
+          }
+        },
+        "Nhầm line/ Rớt cuộc/ Mất tín hiệu": {
+          "pdf": "7_NHAM_LINE_ROT_CUOC/Nham_line_rot_cuoc.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Nhầm Line/ Rớt Cuộc/ Mất Tín Hiệu",
+          "dieukien": "",
+          "xmttecom": ""
+        },
+        "Yêu cầu khác": {
+          "pdf": "8_YEU_CAU_KHAC/Yeu_cau_khac.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Yêu Cầu Khác",
+          "dieukien": "",
+          "xmttecom": ""
         }
       },
       "2. THÔNG TIN SẢN PHẨM": {

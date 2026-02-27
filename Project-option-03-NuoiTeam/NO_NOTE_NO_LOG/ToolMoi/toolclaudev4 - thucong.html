@@ -420,6 +420,7 @@
         // Init TinyMCE
         tinymce.init({
           selector: `#${textareaId}`,
+          entity_encoding: 'raw',
           license_key: 'gpl',  // GPL license - free to use
           base_url: './tinymce',
           suffix: '.min',
