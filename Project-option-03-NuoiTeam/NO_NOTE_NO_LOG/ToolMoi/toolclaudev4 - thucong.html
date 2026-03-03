@@ -1739,7 +1739,7 @@
           const sortedConsts = Object.entries(flatConstants).sort((a, b) => (b[1] || '').length - (a[1] || '').length);
 
           // Content fields that are NOT child nodes
-          const contentFieldsForExport = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow'];
+          const contentFieldsForExport = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'folderName'];
 
           Object.entries(dataSources).forEach(([name, data]) => {
             const info = allDataObjectInfo[name];
@@ -1749,7 +1749,8 @@
             const exportData = JSON.parse(JSON.stringify(data));
 
             // Helper to traverse and process nodes for export
-            const processExportData = (obj, path = []) => {
+            // Also prepends accumulated folderName paths to leaf pdf values
+            const processExportData = (obj, path = [], folderSegments = []) => {
               if (!obj || typeof obj !== 'object') return;
 
               Object.keys(obj).forEach(key => {
@@ -1761,10 +1762,19 @@
                 if (nodeQuoteTypes[pathStr] === 'var' && typeof val === 'string') {
                   obj[key] = `__VAR_REF__${val}__VAR_REF__`;
                 } else if (typeof val === 'object' && val !== null) {
-                  // Skip content fields - they should not be processed
+                  // Skip content fields - they should not be processed as children
                   if (!contentFieldsForExport.includes(key)) {
+                    // Collect folderName from this node if present
+                    const newFolderSegments = [...folderSegments];
+                    if (val.folderName) {
+                      newFolderSegments.push(val.folderName);
+                    }
+                    // Prepend folder path to pdf if this node has a pdf field
+                    if (val.pdf && newFolderSegments.length > 0) {
+                      val.pdf = newFolderSegments.join('/') + '/' + val.pdf;
+                    }
                     // Recurse into child nodes
-                    processExportData(val, currentPath);
+                    processExportData(val, currentPath, newFolderSegments);
                   }
                 }
               });
@@ -2187,7 +2197,7 @@ ${dataObjectsContent}
         }
 
         // Filter keys to get only CHILD NODES (not content fields)
-        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow'];
+        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'folderName'];
         const allKeys = Object.keys(node || {});
         const keys = allKeys.filter(key => !contentFields.includes(key));
 
@@ -2221,6 +2231,12 @@ ${dataObjectsContent}
                 {(node.dieukien || node.note || node.xmttib || node.xmttecom || node.pdf) && (
                   <span className="badge bg-purple-subtle text-purple ms-2" style={{ fontSize: '10px', backgroundColor: '#f3e8ff', color: '#7c3aed' }}>
                     📦 +Content
+                  </span>
+                )}
+                {/* Show folderName badge */}
+                {node.folderName && (
+                  <span className="badge ms-1" style={{ fontSize: '10px', backgroundColor: '#fef3c7', color: '#92400e' }}>
+                    📁 {node.folderName}
                   </span>
                 )}
               </span>
@@ -3030,7 +3046,7 @@ ${dataObjectsContent}
                       Chỉnh sửa: {editingNode.path.join(" > ")}
                     </h5>
                     {/* Badge hiển thị loại node */}
-                    {Object.keys(editingNode.node).some(k => !['displayName', 'pdf', 'note', 'xmttib', 'xmttecom', 'dieukien', 'alert', 'contentType', 'htmlContent', 'htmlUrl'].includes(k)) ? (
+                    {Object.keys(editingNode.node).some(k => !['displayName', 'pdf', 'note', 'xmttib', 'xmttecom', 'dieukien', 'alert', 'contentType', 'htmlContent', 'htmlUrl', 'folderName'].includes(k)) ? (
                       <span className="badge bg-success">📦 Hybrid Node</span>
                     ) : (
                       <span className="badge bg-primary">📄 Leaf Node</span>
@@ -3042,6 +3058,48 @@ ${dataObjectsContent}
                   ></button>
                 </div>
                 <div className="p-4 overflow-auto">
+                  {/* Folder Name Section */}
+                  <div className="row g-3 mb-3 p-3 rounded" style={{ backgroundColor: '#fef9ee', border: '1px solid #fde68a' }}>
+                    <div className="col-md-6">
+                      <label className="form-label small fw-bold" style={{ color: '#92400e' }}>
+                        📁 Tên Thư Mục (Folder Name)
+                      </label>
+                      <input
+                        className="form-control"
+                        placeholder="VD: 1_THONG_TIN_CHUNG"
+                        value={editingNode.node.folderName || ""}
+                        onChange={(e) =>
+                          setEditingNode({
+                            ...editingNode,
+                            node: {
+                              ...editingNode.node,
+                              folderName: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                      <small className="text-muted">Để trống nếu level này không cần thư mục riêng</small>
+                    </div>
+                    <div className="col-md-6">
+                      <label className="form-label small fw-bold" style={{ color: '#92400e' }}>
+                        📂 Preview đường dẫn tích luỹ
+                      </label>
+                      <div className="form-control bg-light" style={{ fontFamily: 'monospace', fontSize: '13px', minHeight: '38px' }}>
+                        {(() => {
+                          // Build accumulated path from ancestors
+                          const segments = [];
+                          let current = activeData;
+                          for (let i = 0; i < editingNode.path.length - 1; i++) {
+                            current = current[editingNode.path[i]];
+                            if (current && current.folderName) segments.push(current.folderName);
+                          }
+                          // Add current node's folderName
+                          if (editingNode.node.folderName) segments.push(editingNode.node.folderName);
+                          return segments.length > 0 ? segments.join('/') + '/...' : '(không có thư mục)';
+                        })()}
+                      </div>
+                    </div>
+                  </div>
                   <div className="row g-3 mb-3">
                     <div className="col-md-6">
                       <label className="form-label small fw-medium">

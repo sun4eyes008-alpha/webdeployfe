@@ -1,0 +1,173 @@
+/* ==============================================
+   THEME TẾT - ĐỎ VÀNG (LUNAR NEW YEAR)
+   File: theme-tet.css
+   
+   Hướng dẫn sử dụng:
+   - Link file này trong HTML để dùng theme Tết
+   - <link rel="stylesheet" href="Asset/theme-tet.css">
+   - Thay thế (hoặc comment) link theme-default.css
+   ============================================== */
+
+:root {
+    --theme-name: "summer";
+
+    /* Màu chủ đạo */
+    --primary-color: #1e90ff;
+    /* Xanh biển */
+    --secondary-color: #006994;
+    /* Xanh dương đậm */
+    --accent-color: #ffd700;
+    /* Vàng nắng */
+    --accent-hover: #e6c200;
+
+    /* Nền */
+    --bg-color: #e0f7fa;
+    /* Xanh ngọc nhạt */
+    --bg-sidebar: #fffbe6;
+    /* Vàng nhạt */
+    --bg-landing: #f0ffff;
+    /* Trắng xanh biển */
+
+    /* Hộp thông tin */
+    --box-ib: #b3e5fc;
+    --box-email: #fffacd;
+    --box-chat: #f0f8ff;
+    --box-notes: #ffe4b5;
+    --box-notes-border: #ffd700;
+    --box-dieukien: #fafad2;
+    --box-dieukien-border: #ffd700;
+
+    /* Trạng thái */
+    --hover-bg: #add8e6;
+    --selected-bg: #1e90ff;
+    --selected-hover: #006994;
+}
+
+#main-header {
+    background: linear-gradient(135deg, #1e90ff, #006994, #ffd700) !important;
+}
+
+
+/* Pattern vảy rồng cho header */
+#main-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* SVG Pattern hoa mai/vảy rồng - đơn giản hóa */
+    background-image: url("./img-video/pattern-he.png");
+    background-repeat: repeat;
+    background-size: 150px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+}
+
+/* Đảm bảo nội dung header hiện trên pattern */
+#main-header .header-container,
+#main-header .header-tabs,
+#main-header .logo-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== SIDEBAR STYLE TẾT ===== */
+.sidebar-page-title {
+    color: var(--primary-color) !important;
+    background: linear-gradient(135deg, #fff5f5, #fffacd) !important;
+}
+
+.sidebar-title-icon {
+    fill: var(--primary-color) !important;
+}
+
+.sidebar-tab-btn.active {
+    border-bottom-color: var(--primary-color) !important;
+}
+
+/* ===== COLUMN HEADER MÀU ĐỎ ===== */
+.column-header {
+    color: var(--primary-color) !important;
+}
+
+/* ===== RESIZE HANDLE MÀU ĐỎ ===== */
+.resize-handle:hover {
+    background: linear-gradient(90deg, transparent 2px, var(--primary-color) 2px, var(--primary-color) 4px, transparent 4px) !important;
+}
+
+.resize-handle:active {
+    background: linear-gradient(90deg, transparent 2px, var(--secondary-color) 2px, var(--secondary-color) 4px, transparent 4px) !important;
+}
+
+/* ===== SCROLL BUTTONS MÀU ĐỎ ===== */
+.scroll-btn {
+    background-color: var(--primary-color) !important;
+}
+
+/* ===== LANDING PAGE KHÔNG DÙNG PATTERN ===== */
+#main-header.landing-header {
+    background: var(--bg-landing) !important;
+}
+
+#main-header.landing-header::before {
+    display: none;
+}
+
+.tab-btn {
+    /* Bóng đổ đậm phía sau */
+    text-shadow:
+        2px 2px 3px rgba(0, 0, 0, 0.6),
+        0 0 8px rgba(0, 0, 0, 0.3);
+    padding: 8px 3px;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.logo {
+    border-radius: 5px;
+}
+
+/* ===== DROPDOWN MENU MÀU XANH HÈ ===== */
+/* Override màu hover và selected của dropdown items */
+
+/* Màu chữ mặc định - đậm để đọc được trên nền trắng */
+.dropdown-item {
+    color: #4d4d4d !important;
+    /* Xám đậm - dễ đọc */
+}
+
+.dropdown-item:hover {
+    background-color: var(--hover-bg) !important;
+    /* Xanh nhạt */
+    color: var(--primary-color) !important;
+    /* Xanh biển */
+}
+
+.dropdown-item:hover svg {
+    background-color: var(--primary-color) !important;
+    /* Xanh biển */
+    fill: var(--hover-bg) !important;
+    /* Xanh nhạt */
+}
+
+.dropdown-item svg {
+    background-color: var(--hover-bg) !important;
+    /* Xanh nhạt */
+    fill: var(--primary-color) !important;
+    /* Xanh biển */
+}
+
+/* Selected state - dropdown sidebar */
+.dropdown-item.selected {
+    background-color: var(--selected-bg) !important;
+    /* Xanh biển */
+    color: var(--text-on-primary) !important;
+    /* Trắng */
+}
+
+.dropdown-item.selected:hover {
+    background-color: var(--selected-hover) !important;
+    /* Xanh đậm */
+}

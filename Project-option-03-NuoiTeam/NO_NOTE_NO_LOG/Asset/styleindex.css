@@ -15,9 +15,9 @@
 .hero-slides {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 5.5;
-    min-height: 280px;
-    max-height: 500px;
+    aspect-ratio: 16 / 7.5;
+    min-height: 350px;
+    max-height: 600px;
 }
 
 .hero-slide {
@@ -771,7 +771,9 @@ body.landing-page {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e5e7eb;
     flex-wrap: wrap;
     gap: 16px;
 }
@@ -782,21 +784,20 @@ body.landing-page {
     gap: 14px;
     font-size: 26px;
     font-weight: 700;
-    color: #1a3a0a;
+    color: #009f52;
     margin: 0;
 }
 
 .news-feed-title-icon {
-    width: 46px;
-    height: 46px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-radius: 14px;
-    color: #fff;
-    font-size: 22px;
-    box-shadow: 0 4px 14px rgba(129, 199, 83, 0.35);
+    color: #009f52;
+}
+
+.news-feed-title-icon svg {
+    width: 30px;
+    height: 30px;
 }
 
 /* --- Filter danh mục --- */
@@ -830,6 +831,46 @@ body.landing-page {
     color: #fff;
     border-color: transparent;
     box-shadow: 0 3px 12px rgba(129, 199, 83, 0.3);
+}
+
+/* --- Tab Filter Danh Mục trong News Feed --- */
+.news-feed-filter-tabs {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.news-feed-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 4px;
+    background: transparent;
+    border: none;
+    color: #9fa5ad;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.news-feed-tab-btn:hover {
+    color: #1a3a0a;
+    background: transparent;
+    border-color: transparent;
+}
+
+.news-feed-tab-btn:hover svg {
+    opacity: 1;
+}
+
+.news-feed-tab-btn.active {
+    background: transparent;
+    color: #009f52;
 }
 
 /* --- Sub-filter toolbar (Quy trình) --- */
@@ -1386,22 +1427,24 @@ body.landing-page {
     backdrop-filter: blur(6px);
     z-index: 10000;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: 30px;
+    padding: 40px 20px 20px;
     animation: modalOverlayIn 0.25s ease;
+    overflow-y: auto;
 }
 
 .onboarding-modal {
     background: #fff;
     border-radius: 24px;
-    max-width: 680px;
+    max-width: 1100px;
     width: 100%;
-    max-height: 88vh;
+    max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 24px 72px rgba(0, 0, 0, 0.25);
     animation: modalSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    flex-shrink: 0;
 }
 
 .onboarding-modal-close {
@@ -1674,10 +1717,11 @@ body.landing-page {
     backdrop-filter: blur(4px);
     z-index: 9999;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: 20px;
+    padding: 40px 20px 20px;
     animation: modalOverlayIn 0.25s ease;
+    overflow-y: auto;
 }
 
 @keyframes modalOverlayIn {
@@ -1693,12 +1737,13 @@ body.landing-page {
 .post-modal {
     background: #fff;
     border-radius: 20px;
-    max-width: 720px;
+    max-width: 960px;
     width: 100%;
-    max-height: 85vh;
+    max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
     animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
 }
 
 @keyframes modalSlideIn {
@@ -1902,7 +1947,7 @@ body.landing-page {
     align-items: stretch;
     justify-content: center;
     gap: 12px;
-    max-width: 1400px;
+    max-width: 1200px;
     width: 100%;
 }
 
@@ -2611,5 +2656,639 @@ body.landing-page {
 
     .fec-footer-container {
         padding: 0 16px;
+    }
+}
+
+/* ===== ORG CHART INLINE ===== */
+.orgchart-inline {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+    animation: orgcardIn 0.4s ease;
+}
+
+/* --- Header --- */
+.orgchart-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.orgchart-header-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #009f52;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.orgchart-header-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2e7d32;
+    margin: 0 0 14px;
+    font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+}
+
+.orgchart-header-line {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, #81c753, #009f52);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+/* --- Director Card --- */
+.orgchart-director-card {
+    background: #fff;
+    border: 1px solid #e8f5e0;
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 159, 82, 0.08);
+}
+
+.orgchart-director-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #81c753, #009f52);
+}
+
+.orgchart-director-inner {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.orgchart-director-photo {
+    flex-shrink: 0;
+}
+
+.orgchart-director-photo img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e8f5e0;
+}
+
+.orgchart-director-info {
+    flex: 1;
+}
+
+.orgchart-director-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #009f52;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.orgchart-director-name {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a3a1a;
+    margin: 0 0 12px;
+    font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+}
+
+.orgchart-director-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #666;
+    margin: 0;
+}
+
+.orgchart-director-contact {
+    font-size: 13px;
+    color: #888;
+    margin-top: 8px;
+}
+
+/* --- Section Label --- */
+.orgchart-section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.orgchart-section-label span {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #009f52;
+    white-space: nowrap;
+}
+
+.orgchart-section-line {
+    flex: 1;
+    height: 1px;
+    background: #d4edda;
+}
+
+/* --- Department Cards Grid --- */
+.orgchart-dept-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.orgchart-dept-card-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.orgchart-dept-card {
+    background: #fff;
+    border: 1px solid #e8f5e0;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: orgcardIn 0.5s ease both;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+@keyframes orgcardIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.orgchart-dept-card:hover {
+    border-color: #81c753;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(129, 199, 83, 0.15);
+}
+
+.orgchart-dept-card-photo {
+    flex-shrink: 0;
+}
+
+.orgchart-dept-card-photo img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.orgchart-dept-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.orgchart-dept-card-badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.orgchart-dept-card-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.orgchart-dept-card-title {
+    font-size: 12px;
+    color: #999;
+}
+
+.orgchart-dept-card-arrow {
+    flex-shrink: 0;
+    color: #ccc;
+    transition: all 0.25s ease;
+}
+
+.orgchart-dept-card:hover .orgchart-dept-card-arrow {
+    color: #81c753;
+    transform: translateX(4px);
+}
+
+/* --- Active card state --- */
+.orgchart-dept-card.active {
+    border-color: #81c753;
+    box-shadow: 0 8px 24px rgba(129, 199, 83, 0.2);
+    transform: translateY(-2px);
+}
+
+.orgchart-dept-card.active .orgchart-dept-card-arrow {
+    color: #81c753;
+    transform: rotate(90deg);
+}
+
+/* --- Inline Detail (thay popup) --- */
+.orgchart-dept-detail-inline {
+    margin-top: 24px;
+    background: #fff;
+    border: 1px solid #e8f5e0;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 159, 82, 0.08);
+    animation: orgInlineSlideDown 0.35s ease;
+}
+
+@keyframes orgInlineSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.orgdetail-inline-hero {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #f8fdf6;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.orgdetail-inline-hero-photo {
+    flex-shrink: 0;
+}
+
+.orgdetail-inline-hero-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.orgdetail-inline-hero-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a3a1a;
+    margin: 0 0 4px;
+    font-family: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+}
+
+.orgdetail-inline-hero-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #009f52;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.orgdetail-inline-hero-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.orgdetail-inline-team {
+    padding: 16px 0;
+    border-top: 1px solid #f0f0f0;
+}
+
+.orgdetail-inline-team:first-of-type {
+    border-top: none;
+}
+
+.orgdetail-inline-team-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.orgdetail-inline-team-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.orgdetail-inline-team-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+    letter-spacing: 0.5px;
+}
+
+.orgdetail-inline-team-desc {
+    font-size: 13px;
+    color: #777;
+    margin: 0 0 12px;
+    line-height: 1.5;
+}
+
+.orgdetail-inline-role-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 10px 0 6px;
+    text-transform: uppercase;
+}
+
+.orgdetail-inline-people-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.orgdetail-inline-person-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #fafafa;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+
+.orgdetail-inline-person-card:hover {
+    background: #f0fdf4;
+}
+
+.orgdetail-inline-person-photo {
+    flex-shrink: 0;
+}
+
+.orgdetail-inline-person-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.orgdetail-inline-person-title {
+    font-size: 11px;
+    color: #999;
+}
+
+/* --- Detail Overlay --- */
+.orgchart-detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px 20px;
+    overflow-y: auto;
+}
+
+.orgchart-detail-modal {
+    width: 100%;
+    max-width: 1000px;
+    max-height: 90vh;
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid #e0e0e0;
+    overflow-y: auto;
+    position: relative;
+    animation: orgDetailIn 0.35s ease;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+@keyframes orgDetailIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.orgchart-detail-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    z-index: 2;
+}
+
+.orgchart-detail-close:hover {
+    background: #f5f5f5;
+    color: #333;
+}
+
+/* --- Detail Content --- */
+.orgdetail-hero {
+    padding: 36px 28px 28px;
+    border-radius: 20px 20px 0 0;
+    text-align: center;
+    position: relative;
+}
+
+.orgdetail-hero-badge {
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.orgdetail-hero-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a3a1a;
+    margin: 0 0 4px;
+}
+
+.orgdetail-hero-subtitle {
+    font-size: 13px;
+    color: #888;
+    margin: 0 0 12px;
+}
+
+.orgdetail-hero-desc {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.6;
+    margin: 0 0 20px;
+}
+
+.orgdetail-hero-photo {
+    margin: 0 auto;
+}
+
+.orgdetail-hero-photo img {
+    border-radius: 50%;
+    border: 3px solid #e8f5e0;
+}
+
+/* --- Detail Sections --- */
+.orgdetail-section {
+    padding: 20px 28px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.orgdetail-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.orgdetail-leaders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.orgdetail-leader-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #f8faf5;
+    border: 1px solid #e8f5e0;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.orgdetail-leader-card:hover {
+    background: #ecfae2;
+    border-color: #81c753;
+}
+
+.orgdetail-leader-photo {
+    flex-shrink: 0;
+}
+
+.orgdetail-leader-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.orgdetail-leader-title {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Team images */
+.orgdetail-team-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.orgdetail-team-img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    aspect-ratio: 4/3;
+    border: 1px solid #e0e0e0;
+}
+
+/* Messages */
+.orgdetail-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.orgdetail-messages li {
+    padding: 8px 0;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 20px;
+}
+
+.orgdetail-messages li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: #81c753;
+    font-size: 10px;
+    top: 10px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .orgchart-inline {
+        padding: 10px 0;
+    }
+
+    .orgchart-header-title {
+        font-size: 24px;
+    }
+
+    .orgchart-director-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .orgchart-director-name {
+        font-size: 22px;
+    }
+
+    .orgchart-dept-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .orgchart-detail-modal {
+        max-height: 90vh;
+    }
+
+    .orgdetail-leader-card {
+        flex-direction: column;
+        text-align: center;
     }
 }

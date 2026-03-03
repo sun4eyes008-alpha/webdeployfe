@@ -32,7 +32,8 @@
       padding: 8px;
       border-radius: 4px;
       border: 1px solid #e2e8f0;
-      max-height: 150px;
+      max-height: 200px;
+      width: 100%;
       overflow-y: auto;
     }
 
@@ -60,6 +61,55 @@
       border-left: 4px solid #2563eb;
       color: #1e40af;
       font-weight: 600;
+    }
+
+    /* Sticky Header cho Flowchart Editor */
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    /* Thêm margin-top cho phần nội dung bên dưới header */
+    .content-below-header {
+      margin-top: 58px;
+    }
+
+    /* Màu sắc phân biệt các cấp tree */
+    .tree-level-1 {
+      border-color: #3B82F6 !important;
+      background-color: rgba(59, 130, 246, 0.12) !important;
+    }
+
+    .tree-level-2 {
+      border-color: #10B981 !important;
+      background-color: rgba(16, 185, 129, 0.12) !important;
+    }
+
+    .tree-level-3 {
+      border-color: #F59E0B !important;
+      background-color: rgba(245, 158, 11, 0.12) !important;
+    }
+
+    .tree-level-4 {
+      border-color: #8B5CF6 !important;
+      background-color: rgba(139, 92, 246, 0.12) !important;
+    }
+
+    .tree-level-5 {
+      border-color: #EC4899 !important;
+      background-color: rgba(236, 72, 153, 0.12) !important;
+    }
+
+    .tree-root {
+      background: #EEF2FF !important;
+      border-radius: 8px;
+      padding: 8px !important;
+    }
+
+    .tree-branch {
+      border-radius: 4px;
+      padding: 4px 0 4px 8px;
     }
 
     .animate-fade-in {
@@ -351,6 +401,12 @@
       const [isVisual, setIsVisual] = React.useState(true); // true = WYSIWYG, false = code
       const textareaId = `tiny-${id}`;
 
+      // Fix: Use ref to store latest onChange handler to avoid stale closures
+      const onChangeRef = React.useRef(onChange);
+      React.useEffect(() => {
+        onChangeRef.current = onChange;
+      }, [onChange]);
+
       React.useEffect(() => {
         if (!isVisual) return; // Không init khi ở code mode
 
@@ -364,12 +420,13 @@
         // Init TinyMCE
         tinymce.init({
           selector: `#${textareaId}`,
+          entity_encoding: 'raw',
           license_key: 'gpl',  // GPL license - free to use
           base_url: './tinymce',
           suffix: '.min',
-          height: 600,
+          min_height: 300, max_height: 600, autoresize_bottom_margin: 20,
           menubar: false,
-          plugins: 'lists link code table image media hr charmap fullscreen preview searchreplace emoticons autolink',
+          plugins: 'lists link code table image media hr charmap fullscreen preview searchreplace emoticons autolink autoresize',
           toolbar: [
             'undo redo | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright',
             'bullist numlist | table hr charmap emoticons | image media link createpopup | fullscreen preview code'
@@ -391,9 +448,16 @@
 
                 if (window.launchPopupEditor) {
                   window.launchPopupEditor('', (popupHtml) => {
-                    const safeVal = encodeURIComponent(popupHtml);
-                    const html = `<span class="custom-popup" data-popup-content="${safeVal}" title="Click xem chi tiết" style="color: blue; text-decoration: underline; cursor: pointer;">${selectedText}</span>`;
-                    editor.selection.setContent(html);
+                    if (!editor) return;
+                    editor.focus();
+                    try {
+                      const safeVal = encodeURIComponent(popupHtml);
+                      const html = `<span class="custom-popup" data-popup-content="${safeVal}" title="Click xem chi tiết" style="color: blue; text-decoration: underline; cursor: pointer;">${selectedText}</span>`;
+                      editor.insertContent(html);
+                    } catch (e) {
+                      console.error("TinyMCE Create Error:", e);
+                      alert("Lỗi tạo popup: " + e.message);
+                    }
                   });
                 } else {
                   alert("Chức năng Popup Editor đang khởi động...");
@@ -411,11 +475,14 @@
                     var decoded = decodeURIComponent(oldVal);
                   } catch (e) { var decoded = oldVal; } // Fallback if not encoded yet
                   window.launchPopupEditor(decoded, (newHtml) => {
-                    editor.dom.setAttrib(target, 'data-popup-content', encodeURIComponent(newHtml));
-                    // Also update title for tooltip if simple text, but for HTML it might be ugly. 
-                    // Standardize: maybe just set title to "Click xem chi tiết" or leave it.
-                    // User previously saw raw HTML in title.
-                    editor.dom.setAttrib(target, 'title', 'Click xem chi tiết');
+                    editor.focus();
+                    try {
+                      editor.dom.setAttrib(target, 'data-popup-content', encodeURIComponent(newHtml));
+                      editor.dom.setAttrib(target, 'title', 'Click xem chi tiết');
+                    } catch (e) {
+                      console.error("TinyMCE Edit Error:", e);
+                      alert("Lỗi sửa popup: " + e.message);
+                    }
                   });
                 }
               }
@@ -423,7 +490,10 @@
 
             editorRef.current = editor;
             editor.on('change keyup', () => {
-              onChange(editor.getContent());
+              // Fix: Call latest onChange from ref
+              if (onChangeRef.current) {
+                onChangeRef.current(editor.getContent());
+              }
             });
           },
           init_instance_callback: (editor) => {
@@ -479,7 +549,7 @@
           ) : (
             <textarea
               className="form-control code-input"
-              rows={5}
+              rows={12} style={{ minHeight: "300px" }}
               value={value || ''}
               onChange={(e) => onChange(e.target.value)}
               placeholder={placeholder}
@@ -508,7 +578,7 @@
               <h5 className="fw-bold mb-0">Soạn thảo nội dung Popup (Rich Text)</h5>
               <button onClick={onClose} className="btn-close"></button>
             </div>
-            <div className="flex-fill p-2 overflow-hidden d-flex flex-column bg-light">
+            <div className="flex-fill p-2  d-flex flex-column bg-light">
               <div className="flex-fill bg-white border rounded">
                 {/* TinyEditor instance for Popup Content */}
                 <TinyEditor
@@ -522,6 +592,548 @@
             <div className="p-3 border-top d-flex justify-content-end gap-2 bg-light">
               <button onClick={onClose} className="btn btn-secondary">Hủy</button>
               <button onClick={() => { onSave(content); onClose(); }} className="btn btn-primary">Lưu Popup</button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // --- CONSTANTS MANAGER COMPONENT ---
+    const ConstantsManager = ({
+      activeGroup, setActiveGroup,
+      activeSubGroup, setActiveSubGroup,
+      expandedGroups, setExpandedGroups,
+      groupedConstants, setGroupedConstants,
+      varQuoteTypes, setVarQuoteTypes,
+      onClose,
+      dataSources, setDataSources,
+      nodeQuoteTypes, setNodeQuoteTypes
+    }) => {
+      const [tempGroups, setTempGroups] = React.useState(() => groupedConstants);
+
+      // Lock body scroll when modal is open
+      React.useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        return () => {
+          document.body.style.overflow = '';
+        };
+      }, []);
+
+      // Sync tempGroups with groupedConstants when it changes
+      React.useEffect(() => {
+        setTempGroups(groupedConstants);
+      }, [groupedConstants]);
+
+      const updateMainState = (newGroups) => {
+        setTempGroups(newGroups);
+        setGroupedConstants(newGroups);
+      };
+
+      // Get variables for current view (parent group or subgroup)
+      const getCurrentVariables = () => {
+        const group = tempGroups[activeGroup] || {};
+        if (activeSubGroup && group.__subgroups__ && group.__subgroups__[activeSubGroup]) {
+          return group.__subgroups__[activeSubGroup];
+        }
+        // Return variables excluding __subgroups__ key
+        const vars = { ...group };
+        delete vars.__subgroups__;
+        return vars;
+      };
+
+      // Count only variables (exclude __subgroups__)
+      const countVariables = (groupObj) => {
+        if (!groupObj) return 0;
+        return Object.keys(groupObj).filter(k => k !== '__subgroups__').length;
+      };
+
+      // Count subgroups
+      const countSubgroups = (groupObj) => {
+        if (!groupObj || !groupObj.__subgroups__) return 0;
+        return Object.keys(groupObj.__subgroups__).length;
+      };
+
+      const addGroup = () => {
+        const name = prompt("Tên nhóm mới:");
+        if (!name) return;
+        if (tempGroups[name]) {
+          alert("Nhóm đã tồn tại");
+          return;
+        }
+        updateMainState({ ...tempGroups, [name]: {} });
+        setActiveGroup(name);
+        setActiveSubGroup(null);
+      };
+
+      // Add SubGroup
+      const addSubGroup = () => {
+        const name = prompt("Tên nhóm con (subgroup):");
+        if (!name) return;
+        const group = tempGroups[activeGroup] || {};
+        const subgroups = group.__subgroups__ || {};
+        if (subgroups[name]) {
+          alert("Nhóm con đã tồn tại!");
+          return;
+        }
+        const newGroups = JSON.parse(JSON.stringify(tempGroups));
+        newGroups[activeGroup] = {
+          ...newGroups[activeGroup],
+          __subgroups__: { ...subgroups, [name]: {} }
+        };
+
+        // Update state without switching away
+        setTempGroups(newGroups);
+        setGroupedConstants(newGroups);
+
+        // Expand parent group and optionally select new subgroup
+        setExpandedGroups(prev => new Set([...prev, activeGroup]));
+        // Keep current selection - don't auto-select the new subgroup
+      };
+
+      const renameGroup = (targetGroup) => {
+        const groupToRename = targetGroup || activeGroup;
+        const newName = prompt(
+          `Đổi tên nhóm "${groupToRename}" thành:`,
+          groupToRename
+        );
+        if (!newName || newName === groupToRename) return;
+        if (tempGroups[newName]) {
+          alert("Tên nhóm đã tồn tại!");
+          return;
+        }
+        const newGroups = {};
+        Object.keys(tempGroups).forEach((key) => {
+          if (key === groupToRename)
+            newGroups[newName] = tempGroups[groupToRename];
+          else newGroups[key] = tempGroups[key];
+        });
+        updateMainState(newGroups);
+        if (activeGroup === groupToRename) setActiveGroup(newName);
+      };
+
+      // Rename SubGroup
+      const renameSubGroup = (subgroupName) => {
+        const newName = prompt(`Đổi tên nhóm con "${subgroupName}" thành:`, subgroupName);
+        if (!newName || newName === subgroupName) return;
+        const group = tempGroups[activeGroup];
+        const subgroups = group.__subgroups__ || {};
+        if (subgroups[newName]) {
+          alert("Tên nhóm con đã tồn tại!");
+          return;
+        }
+        const newSubgroups = {};
+        Object.keys(subgroups).forEach(key => {
+          if (key === subgroupName) newSubgroups[newName] = subgroups[subgroupName];
+          else newSubgroups[key] = subgroups[key];
+        });
+        const newGroups = { ...tempGroups };
+        newGroups[activeGroup] = { ...group, __subgroups__: newSubgroups };
+        updateMainState(newGroups);
+        if (activeSubGroup === subgroupName) setActiveSubGroup(newName);
+      };
+
+      // Delete SubGroup
+      const deleteSubGroup = (subgroupName) => {
+        if (!confirm(`Xóa nhóm con "${subgroupName}" và tất cả biến trong đó?`)) return;
+        const group = tempGroups[activeGroup];
+        const newSubgroups = { ...group.__subgroups__ };
+        delete newSubgroups[subgroupName];
+        const newGroups = { ...tempGroups };
+        newGroups[activeGroup] = { ...group, __subgroups__: newSubgroups };
+        updateMainState(newGroups);
+        if (activeSubGroup === subgroupName) setActiveSubGroup(null);
+      };
+
+      const deleteGroup = () => {
+        if (Object.keys(tempGroups).length <= 1) return;
+        if (!confirm(`Xóa group ${activeGroup}?`)) return;
+        const n = { ...tempGroups };
+        delete n[activeGroup];
+        updateMainState(n);
+        setActiveGroup(Object.keys(n)[0]);
+        setActiveSubGroup(null);
+      };
+
+      const addVar = (e) => {
+        e.preventDefault();
+        const k = e.target.key.value.trim();
+        const v = e.target.val.value;
+        // Check for duplicates across all groups and subgroups
+        let exists = false;
+        Object.values(tempGroups).forEach((g) => {
+          Object.keys(g).forEach(key => {
+            if (key !== '__subgroups__' && key === k) exists = true;
+          });
+          if (g.__subgroups__) {
+            Object.values(g.__subgroups__).forEach(sub => {
+              if (sub[k]) exists = true;
+            });
+          }
+        });
+        if (k && v && !exists) {
+          const newGroups = JSON.parse(JSON.stringify(tempGroups));
+          if (activeSubGroup) {
+            newGroups[activeGroup].__subgroups__[activeSubGroup][k] = v;
+          } else {
+            newGroups[activeGroup][k] = v;
+          }
+          updateMainState(newGroups);
+          e.target.reset();
+        } else if (exists) alert("Tên biến bị trùng!");
+      };
+
+      const deleteVar = (key) => {
+        if (!confirm("Xóa biến này?")) return;
+        const newGroups = JSON.parse(JSON.stringify(tempGroups));
+        if (activeSubGroup) {
+          delete newGroups[activeGroup].__subgroups__[activeSubGroup][key];
+        } else {
+          delete newGroups[activeGroup][key];
+        }
+        updateMainState(newGroups);
+
+        // Cleanup references in ALL Data Sources
+        const newAllData = JSON.parse(JSON.stringify(dataSources));
+        const newNodeQuoteTypes = { ...nodeQuoteTypes };
+        let dataChanged = false;
+
+        const processData = (obj, path = []) => {
+          if (!obj || typeof obj !== 'object') return;
+          Object.keys(obj).forEach(k => {
+            const val = obj[k];
+            const currentPath = [...path, k];
+            const pathStr = currentPath.join('.');
+
+            if (typeof val === 'object') {
+              processData(val, currentPath);
+            } else if (typeof val === 'string' && val === key && newNodeQuoteTypes[pathStr] === 'var') {
+              // Found reference to deleted variable -> Reset to empty
+              obj[k] = "";
+              // Remove 'var' marking so it becomes a normal empty string
+              delete newNodeQuoteTypes[pathStr];
+              dataChanged = true;
+            }
+          });
+        };
+
+        Object.values(newAllData).forEach(data => processData(data));
+
+        if (dataChanged) {
+          setDataSources(newAllData);
+          setNodeQuoteTypes(newNodeQuoteTypes);
+        }
+      };
+
+      const updateVar = (key, newVal) => {
+        const newGroups = JSON.parse(JSON.stringify(tempGroups));
+        if (activeSubGroup) {
+          newGroups[activeGroup].__subgroups__[activeSubGroup][key] = newVal;
+        } else {
+          newGroups[activeGroup][key] = newVal;
+        }
+        updateMainState(newGroups);
+      };
+
+      // FEATURE 2: Rename Variable
+      const renameVar = (oldKey) => {
+        const newKey = prompt(`Đổi tên biến "${oldKey}" thành:`, oldKey);
+        if (!newKey || newKey === oldKey) return;
+        // Check for duplicates
+        let exists = false;
+        Object.values(tempGroups).forEach((g) => {
+          Object.keys(g).forEach(key => {
+            if (key !== '__subgroups__' && key === newKey) exists = true;
+          });
+          if (g.__subgroups__) {
+            Object.values(g.__subgroups__).forEach(sub => {
+              if (sub[newKey]) exists = true;
+            });
+          }
+        });
+        if (exists) {
+          alert("Tên biến đã tồn tại!");
+          return;
+        }
+        const newGroups = JSON.parse(JSON.stringify(tempGroups));
+        let targetObj;
+        if (activeSubGroup) {
+          targetObj = newGroups[activeGroup].__subgroups__[activeSubGroup];
+        } else {
+          targetObj = newGroups[activeGroup];
+        }
+        // Preserve order by rebuilding object
+        const newObj = {};
+        Object.keys(targetObj).forEach(k => {
+          if (k === oldKey) newObj[newKey] = targetObj[oldKey];
+          else newObj[k] = targetObj[k];
+        });
+        if (activeSubGroup) {
+          newGroups[activeGroup].__subgroups__[activeSubGroup] = newObj;
+        } else {
+          // Preserve __subgroups__ if exists
+          if (newGroups[activeGroup].__subgroups__) {
+            newObj.__subgroups__ = newGroups[activeGroup].__subgroups__;
+          }
+          newGroups[activeGroup] = newObj;
+        }
+        // Update varQuoteTypes
+        if (varQuoteTypes[oldKey]) {
+          setVarQuoteTypes(prev => {
+            const updated = { ...prev };
+            updated[newKey] = updated[oldKey];
+            delete updated[oldKey];
+            return updated;
+          });
+        }
+        updateMainState(newGroups);
+      };
+
+      // Toggle group expansion
+      const toggleGroupExpand = (groupName) => {
+        setExpandedGroups(prev => {
+          const next = new Set(prev);
+          if (next.has(groupName)) next.delete(groupName);
+          else next.add(groupName);
+          return next;
+        });
+      };
+
+      const currentVars = getCurrentVariables();
+      const currentTitle = activeSubGroup
+        ? `${activeGroup} > ${activeSubGroup}`
+        : activeGroup;
+
+      return (
+        <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
+          <div className="bg-white rounded shadow-lg w-100 d-flex flex-column " style={{ maxWidth: '95vw', height: '85vh' }}>
+            <div className="p-3 border-bottom d-flex justify-content-between bg-light">
+              <h5 className="fw-bold d-flex align-items-center gap-2 mb-0">
+                <BtnIcon name="FileText" /> Quản lý Biến
+              </h5>
+              <button onClick={() => {
+                setGroupedConstants(tempGroups);
+                onClose();
+              }} className="btn-close"></button>
+            </div>
+            <div className="d-flex flex-fill overflow-hidden">
+              {/* LEFT PANEL - Groups & Subgroups Tree */}
+              <div className="border-end bg-light d-flex flex-column p-2 gap-1 overflow-auto" style={{ width: '28%' }}>
+                <button
+                  onClick={addGroup}
+                  className="w-100 btn btn-outline-primary btn-sm border-dashed mb-2"
+                >
+                  + Nhóm mới
+                </button>
+                {Object.keys(tempGroups).map((g) => (
+                  <div key={g}>
+                    {/* Parent Group */}
+                    <div
+                      className={`p-2 rounded small d-flex justify-content-between align-items-center ${activeGroup === g && !activeSubGroup
+                        ? "bg-primary bg-opacity-25 fw-bold text-primary"
+                        : "bg-white"
+                        }`}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <div className="d-flex align-items-center gap-1 flex-fill" onClick={() => { setActiveGroup(g); setActiveSubGroup(null); }}>
+                        {/* Expand/Collapse toggle */}
+                        {countSubgroups(tempGroups[g]) > 0 && (
+                          <button
+                            onClick={(e) => { e.stopPropagation(); toggleGroupExpand(g); }}
+                            className="btn btn-sm btn-link p-0 text-secondary"
+                          >
+                            <BtnIcon name={expandedGroups.has(g) ? "ChevronDown" : "ChevronRight"} size={14} />
+                          </button>
+                        )}
+                        <span className="text-truncate">{g}</span>
+                      </div>
+                      <div className="d-flex align-items-center gap-1">
+                        <span className="badge bg-white text-dark border" title="Số biến">
+                          {countVariables(tempGroups[g])}
+                        </span>
+                        {countSubgroups(tempGroups[g]) > 0 && (
+                          <span className="badge bg-info text-white" title="Số subgroup">
+                            +{countSubgroups(tempGroups[g])}
+                          </span>
+                        )}
+                        <button
+                          onClick={(e) => { e.stopPropagation(); renameGroup(g); }}
+                          className="btn btn-sm btn-link text-secondary p-1"
+                          title="Đổi tên"
+                        >
+                          <BtnIcon name="Edit2" size={12} />
+                        </button>
+                      </div>
+                    </div>
+                    {/* Subgroups list */}
+                    {expandedGroups.has(g) && tempGroups[g].__subgroups__ && (
+                      <div className="ms-3 border-start ps-2">
+                        {Object.keys(tempGroups[g].__subgroups__).map(sub => (
+                          <div
+                            key={sub}
+                            onClick={() => { setActiveGroup(g); setActiveSubGroup(sub); }}
+                            className={`p-2 rounded small d-flex justify-content-between align-items-center ${activeGroup === g && activeSubGroup === sub
+                              ? "bg-success bg-opacity-25 fw-bold text-success"
+                              : "bg-light"
+                              }`}
+                            style={{ cursor: 'pointer', marginTop: '2px' }}
+                          >
+                            <span className="text-truncate d-flex align-items-center gap-1">
+                              <BtnIcon name="Folder" size={12} /> {sub}
+                            </span>
+                            <div className="d-flex align-items-center gap-1">
+                              <span className="badge bg-white text-dark border" style={{ fontSize: '10px' }}>
+                                {Object.keys(tempGroups[g].__subgroups__[sub]).length}
+                              </span>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); renameSubGroup(sub); }}
+                                className="btn btn-sm btn-link text-secondary p-0"
+                                title="Đổi tên subgroup"
+                              >
+                                <BtnIcon name="Edit2" size={10} />
+                              </button>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); deleteSubGroup(sub); }}
+                                className="btn btn-sm btn-link text-danger p-0"
+                                title="Xóa subgroup"
+                              >
+                                <BtnIcon name="Trash2" size={10} />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+                <button
+                  onClick={deleteGroup}
+                  className="mt-auto btn btn-outline-danger btn-sm"
+                >
+                  Xóa Group này
+                </button>
+              </div>
+
+              {/* RIGHT PANEL - Variables */}
+              <div className="d-flex flex-column bg-white p-3" style={{ width: '72%' }}>
+                <div className="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
+                  <h5 className="fw-bold text-primary d-flex align-items-center gap-2 mb-0">
+                    <BtnIcon name="Folder" /> {currentTitle}
+                  </h5>
+                  <div className="d-flex gap-2">
+                    {/* Add Subgroup button - only for parent groups */}
+                    {!activeSubGroup && (
+                      <button
+                        onClick={addSubGroup}
+                        className="btn btn-sm btn-outline-success d-flex align-items-center gap-1"
+                        title="Thêm nhóm con"
+                      >
+                        <BtnIcon name="FolderPlus" size={14} /> + Subgroup
+                      </button>
+                    )}
+                    <button
+                      onClick={() => activeSubGroup ? renameSubGroup(activeSubGroup) : renameGroup(activeGroup)}
+                      className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+                    >
+                      <BtnIcon name="Edit2" size={14} /> Đổi tên
+                    </button>
+                  </div>
+                </div>
+
+                {/* Variables list */}
+                <div className="flex-fill overflow-auto mb-3">
+                  {Object.keys(currentVars).length === 0 && (
+                    <div className="text-secondary text-center py-5">
+                      Trống
+                    </div>
+                  )}
+                  {Object.entries(currentVars).map(([k, v]) => (
+                    <div key={k} className="d-flex gap-2 border-bottom pb-2 mb-2 align-items-start">
+                      {/* Variable name with rename button */}
+                      <div className="d-flex align-items-center gap-1" style={{ width: '22%' }}>
+                        <input
+                          className="form-control form-control-sm font-monospace fw-bold text-primary bg-light flex-fill"
+                          readOnly
+                          value={k}
+                          title={k}
+                        />
+                        {/* FEATURE 2: Rename Variable Button */}
+                        <button
+                          onClick={() => renameVar(k)}
+                          className="btn btn-sm p-1"
+                          style={{ color: '#9333ea' }}
+                          title="Đổi tên biến"
+                        >
+                          <BtnIcon name="Edit2" size={14} />
+                        </button>
+                      </div>
+                      {/* Quote type dropdown */}
+                      <select
+                        className="form-select form-select-sm"
+                        style={{ width: '55px' }}
+                        value={varQuoteTypes[k] || '`'}
+                        onChange={(e) => setVarQuoteTypes({ ...varQuoteTypes, [k]: e.target.value })}
+                        title="Loại quote"
+                      >
+                        <option value="`">`</option>
+                        <option value='"'>"</option>
+                        <option value="var">var</option>
+                      </select>
+                      {varQuoteTypes[k] === '`' ? (
+                        <div style={{ width: '60%' }}>
+                          <TinyEditor id={`var-${(activeSubGroup ? activeSubGroup : activeGroup).replace(/[^a-zA-Z0-9]/g, "_")}-${k.replace(/[^a-zA-Z0-9]/g, "_")}`} value={v} onChange={(val) => updateVar(k, val)} placeholder="Nhap gia tri HTML..." />
+                        </div>
+                      ) : (
+                        <textarea
+                          className="form-control form-control-sm code-input"
+                          style={{ width: '60%' }}
+                          rows={Math.max(1, (typeof v === 'string' ? v.split("\n").length : 1))}
+                          defaultValue={v}
+                          key={`${k}-${activeGroup}-${activeSubGroup || ''}`}
+                          onBlur={(e) => updateVar(k, e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && e.ctrlKey) {
+                              e.target.blur();
+                            }
+                          }}
+                        />
+                      )}
+
+                      {/* Delete button */}
+                      <button
+                        onClick={() => deleteVar(k)}
+                        className="btn btn-sm btn-link text-danger p-1"
+                      >
+                        <BtnIcon name="Trash2" size={16} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Add new variable form */}
+                <form
+                  onSubmit={addVar}
+                  className="d-flex gap-2 pt-3 border-top bg-light p-2 rounded"
+                >
+                  <input
+                    name="key"
+                    placeholder="Tên biến (KEY)..."
+                    className="form-control form-control-sm font-monospace"
+                    style={{ width: '25%' }}
+                    required
+                  />
+                  <textarea
+                    name="val"
+                    placeholder="Giá trị (VALUE)..."
+                    className="form-control form-control-sm"
+                    style={{ width: '60%' }}
+                    rows={1}
+                    required
+                  />
+                  <button className="btn btn-success fw-bold" style={{ width: '15%' }}>
+                    + Thêm
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -997,9 +1609,72 @@
         reader.readAsText(file);
       };
 
+      // === VALIDATION: Kiểm tra biến chưa khai báo ===
+      const validateUndeclaredVariables = () => {
+        const undeclaredVars = [];
+
+        // Lấy tất cả tên biến đã khai báo
+        const declaredVars = new Set();
+        Object.values(groupedConstants).forEach(group => {
+          Object.keys(group).forEach(key => {
+            if (key !== '__subgroups__') declaredVars.add(key);
+          });
+          if (group.__subgroups__) {
+            Object.values(group.__subgroups__).forEach(subVars => {
+              Object.keys(subVars).forEach(key => declaredVars.add(key));
+            });
+          }
+        });
+
+        // Quét tất cả dataSources để tìm biến chưa khai báo
+        const scanForVars = (obj, path = []) => {
+          if (!obj || typeof obj !== 'object') return;
+
+          const varFields = ['xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'dieukien'];
+
+          Object.entries(obj).forEach(([key, value]) => {
+            const currentPath = [...path, key].join(' > ');
+
+            if (varFields.includes(key) && typeof value === 'string' && value.trim()) {
+              // Kiểm tra xem có phải variable reference không (nodeQuoteTypes)
+              const pathStr = [...path, key].join('.');
+              if (nodeQuoteTypes[pathStr] === 'var') {
+                // Đây là biến reference - kiểm tra xem có khai báo chưa
+                if (!declaredVars.has(value)) {
+                  undeclaredVars.push({
+                    varName: value,
+                    field: key,
+                    location: currentPath
+                  });
+                }
+              }
+            } else if (typeof value === 'object') {
+              scanForVars(value, [...path, key]);
+            }
+          });
+        };
+
+        Object.entries(dataSources).forEach(([dataName, data]) => {
+          scanForVars(data, [dataName]);
+        });
+
+        return undeclaredVars;
+      };
+
       const handleDownload = () => {
         if (Object.keys(dataSources).length === 0) {
           alert("Lỗi: Không có dữ liệu để lưu.");
+          return;
+        }
+
+        const undeclared = validateUndeclaredVariables();
+        if (undeclared.length > 0) {
+          let message = "❌ Lỗi: Có biến chưa được khai báo trong flowchart của bạn!\n\n";
+          undeclared.forEach(v => {
+            message += `- Biến: "${v.varName}" tại trường "${v.field}" trong "${v.location}"\n`;
+          });
+          message += "\nVui lòng khai báo các biến này trong phần Constants hoặc sửa lại tham chiếu.";
+          setErrorInfo({ title: "❌ Lỗi Validation", message: message });
           return;
         }
 
@@ -1097,7 +1772,40 @@
 
             processExportData(exportData);
 
-            let newJsonString = JSON.stringify(exportData, null, 2);
+            // Custom stringify để đảm bảo content fields xuất hiện trước children
+            // Giải quyết vấn đề displayName, pdf, note... bị đẩy xuống dưới children
+            const orderedStringify = (obj, indent = 0) => {
+              const spaces = '  '.repeat(indent);
+              const innerSpaces = '  '.repeat(indent + 1);
+
+              if (obj === null) return 'null';
+              if (typeof obj !== 'object') return JSON.stringify(obj);
+              if (Array.isArray(obj)) {
+                if (obj.length === 0) return '[]';
+                const items = obj.map(item => innerSpaces + orderedStringify(item, indent + 1));
+                return '[\n' + items.join(',\n') + '\n' + spaces + ']';
+              }
+
+              const keys = Object.keys(obj);
+              if (keys.length === 0) return '{}';
+
+              // Phân loại keys: content fields trước, children sau
+              const contentKeys = keys.filter(k => contentFieldsForExport.includes(k));
+              const childKeys = keys.filter(k => !contentFieldsForExport.includes(k));
+
+              // Sắp xếp: content fields theo thứ tự định nghĩa, children giữ nguyên thứ tự
+              const orderedContentKeys = contentFieldsForExport.filter(k => contentKeys.includes(k));
+              const orderedKeys = [...orderedContentKeys, ...childKeys];
+
+              const pairs = orderedKeys.map(key => {
+                const val = orderedStringify(obj[key], indent + 1);
+                return `${innerSpaces}${JSON.stringify(key)}: ${val}`;
+              });
+
+              return '{\n' + pairs.join(',\n') + '\n' + spaces + '}';
+            };
+
+            let newJsonString = orderedStringify(exportData);
 
             // Remove quotes from marked variable references
             // Replace "__VAR_REF__VariableName__VAR_REF__" with VariableName
@@ -1486,10 +2194,9 @@ ${dataObjectsContent}
         return (
           <div
             key={pathStr}
-            className={`mt-2 ${path.length ? "ms-4 border-start border-2 ps-2" : ""
-              }`}
+            className={`mt-2 ${path.length ? `ms-4 border-start border-2 ps-2 tree-level-${Math.min(path.length, 5)} tree-branch` : "tree-root"}`}
           >
-            <div className="d-flex align-items-center gap-2 py-1 bg-light bg-opacity-50 rounded pe-2">
+            <div className="d-flex align-items-center gap-2 py-1 rounded pe-2">
               <button
                 onClick={() => {
                   const next = new Set(expandedNodes);
@@ -1610,7 +2317,7 @@ ${dataObjectsContent}
         );
       };
 
-      const ConstantsManager = () => {
+      const ConstantsManager_Deprecated = () => {
         // Use lifted state from parent to prevent reset on re-render
         const activeGroup = activeConstGroup;
         const setActiveGroup = setActiveConstGroup;
@@ -1793,6 +2500,37 @@ ${dataObjectsContent}
             delete newGroups[activeGroup][key];
           }
           updateMainState(newGroups);
+
+          // Cleanup references in ALL Data Sources
+          const newAllData = JSON.parse(JSON.stringify(dataSources));
+          const newNodeQuoteTypes = { ...nodeQuoteTypes };
+          let dataChanged = false;
+
+          const processData = (obj, path = []) => {
+            if (!obj || typeof obj !== 'object') return;
+            Object.keys(obj).forEach(k => {
+              const val = obj[k];
+              const currentPath = [...path, k];
+              const pathStr = currentPath.join('.');
+
+              if (typeof val === 'object') {
+                processData(val, currentPath);
+              } else if (typeof val === 'string' && val === key && newNodeQuoteTypes[pathStr] === 'var') {
+                // Found reference to deleted variable -> Reset to empty
+                obj[k] = "";
+                // Remove 'var' marking so it becomes a normal empty string
+                delete newNodeQuoteTypes[pathStr];
+                dataChanged = true;
+              }
+            });
+          };
+
+          Object.values(newAllData).forEach(data => processData(data));
+
+          if (dataChanged) {
+            setDataSources(newAllData);
+            setNodeQuoteTypes(newNodeQuoteTypes);
+          }
         };
 
         const updateVar = (key, newVal) => {
@@ -1876,7 +2614,7 @@ ${dataObjectsContent}
 
         return (
           <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
-            <div className="bg-white rounded shadow-lg w-100 d-flex flex-column overflow-hidden" style={{ maxWidth: '95vw', height: '85vh' }}>
+            <div className="bg-white rounded shadow-lg w-100 d-flex flex-column " style={{ maxWidth: '95vw', height: '85vh' }}>
               <div className="p-3 border-bottom d-flex justify-content-between bg-light">
                 <h5 className="fw-bold d-flex align-items-center gap-2 mb-0">
                   <BtnIcon name="FileText" /> Quản lý Biến
@@ -1886,7 +2624,7 @@ ${dataObjectsContent}
                   setShowConstModal(false);
                 }} className="btn-close"></button>
               </div>
-              <div className="d-flex flex-fill overflow-hidden">
+              <div className="d-flex flex-fill ">
                 {/* LEFT PANEL - Groups & Subgroups Tree */}
                 <div className="border-end bg-light d-flex flex-column p-2 gap-1 overflow-auto" style={{ width: '28%' }}>
                   <button
@@ -2120,8 +2858,8 @@ ${dataObjectsContent}
 
       return (
         <div className="min-vh-100 bg-light p-4">
-          <div className="container-fluid bg-white rounded shadow border overflow-hidden" style={{ maxWidth: '1400px' }}>
-            <div className="bg-dark text-white p-3 d-flex align-items-center justify-content-between">
+          <div className="container-fluid bg-white rounded shadow border " style={{ maxWidth: '1400px' }}>
+            <div className="bg-dark text-white p-3 d-flex align-items-center justify-content-between sticky-header">
               <h1 className="h4 fw-bold d-flex align-items-center gap-2 mb-0">
                 Flowchart Editor
               </h1>
@@ -2532,7 +3270,23 @@ ${dataObjectsContent}
               if (popupEditorState.onSave) popupEditorState.onSave(newContent);
             }}
           />
-          {showConstModal && <ConstantsManager />}
+          {showConstModal && <ConstantsManager
+            activeGroup={activeConstGroup}
+            setActiveGroup={setActiveConstGroup}
+            activeSubGroup={activeConstSubGroup}
+            setActiveSubGroup={setActiveConstSubGroup}
+            expandedGroups={expandedConstGroups}
+            setExpandedGroups={setExpandedConstGroups}
+            groupedConstants={groupedConstants}
+            setGroupedConstants={setGroupedConstants}
+            varQuoteTypes={varQuoteTypes}
+            setVarQuoteTypes={setVarQuoteTypes}
+            onClose={() => setShowConstModal(false)}
+            dataSources={dataSources}
+            setDataSources={setDataSources}
+            nodeQuoteTypes={nodeQuoteTypes}
+            setNodeQuoteTypes={setNodeQuoteTypes}
+          />}
 
           {/* HTML Preview Modal */}
           {previewHtml && (

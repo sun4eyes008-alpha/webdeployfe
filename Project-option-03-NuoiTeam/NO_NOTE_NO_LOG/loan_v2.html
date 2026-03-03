@@ -26,6 +26,44 @@
       text-decoration: none;
       /* removed color: inherit so it correctly falls back to #4d4d4d defined in style2.css */
     }
+
+    .home-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: white;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+      text-decoration: none;
+      margin-right: 5px;
+      line-height: 0;
+      align-self: center;
+    }
+
+    .home-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+    }
+
+    .sidebar-toggle:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   </style>
 </head>
 
@@ -33,6 +71,13 @@
   <!-- Header -->
   <header id="main-header">
     <div class="header-container">
+      <a href="index.html" class="home-btn" title="Trang chủ">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </a>
       <button class="sidebar-toggle" id="sidebar-toggle">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -632,7 +677,7 @@
           "xmttecom": ""
         }
       },
-      "2. THÔNG TIN SẢN PHẨM": {
+      "2. SẢN PHẨM": {
         "Vay Mua Xe Máy": {
           "pdf": "Sản Phẩm Vay Mua Xe Máy.pdf",
           "xmttib": XMTT_1,
@@ -650,29 +695,37 @@
           "xmttib": XMTT_1,
           "note": "N/A",
           "displayName": "Thông tin sản phẩm > Vay Tiền Mặt"
+        },
+        "Bảo Hiểm": {
+          "Phí BH": {
+            "Bảo Hiểm Khoản Vay": {
+              "pdf": "",
+              "xmttib": "",
+              "xmttemail": "",
+              "note": "",
+              "displayName": "Bảo Hiểm Khoản Vay"
+            },
+            "Bảo Hiểm Banca": {
+              "pdf": "",
+              "xmttib": "",
+              "xmttemail": "",
+              "note": "",
+              "displayName": "Bảo Hiểm Banca"
+            },
+            "Bảo Hiểm Sức Khỏe": {
+              "pdf": "",
+              "xmttib": "",
+              "xmttemail": "",
+              "note": "",
+              "displayName": "Bảo Hiểm Sức Khỏe"
+            }
+          },
+          "Quyền lợi": {},
+          "Thủ tục bồi thường": {},
+          "Đăng ký/ tái tục": {}
         }
       },
-      "3. ĐĂNG KÝ VAY": {
-        "Vay Mua Xe Máy": {
-          "pdf": "Vay Sản Phẩm Vay Mua Xe Máy.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Đăng ký vay > Vay Mua Xe Máy"
-        },
-        "Vay Mua Điện Máy": {
-          "pdf": "Vay Sản Phẩm Vay Mua Điện Máy.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Đăng ký vay > Vay Mua Điện Máy"
-        },
-        "Vay Tiền Mặt": {
-          "pdf": "Vay Sản Phẩm Vay Tiền Mặt.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Đăng ký vay > Vay Tiền Mặt"
-        }
-      },
-      "4. GIẢI NGÂN": {
+      "3. KÊNH GIẢI NGÂN/ THANH TOÁN": {
         "Giải Ngân Tiền Mặt": {
           "pdf": "Giải Ngân Tiền Mặt.pdf",
           "xmttib": XMTT_1,
@@ -680,474 +733,451 @@
           "displayName": "Giải Ngân Tiền Mặt"
         }
       },
-      "5. KÊNH THANH TOÁN": {
-        "Thanh Toán Trực Tuyến": {
-          "pdf": "THANH TOÁN TRỰC TUYẾN.pdf",
-          "xmttib": XMTT_1,
-          "note": "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo.",
-          "alert": "Thanh toán chuyển khoản qua VPbank được hoàn 5.000vnd vào tháng tiếp theo",
-          "displayName": "Kênh thanh toán > Thanh Toán Trực Tuyến"
-        },
-        "Thanh Toán Tiền Mặt": {
-          "pdf": "THANH TOÁN TIỀN MẶT.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Kênh Thanh Toán > Thanh Toán Tiền Mặt"
-        },
-        "Thanh Toán Qua ATM/CDM": {
-          "pdf": "THANH TOÁN QUA ATM CDM.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Kênh Thanh Toán > Thanh Toán Qua ATM/CDM"
-        },
-        "Trích Nợ Tự Động": {
-          "pdf": "TRÍCH NỢ TỰ ĐỘNG.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Kênh Thanh Toán > Trích Nợ Tự Động"
-        }
-      },
-      "6. VẤN ĐỀ THANH TOÁN": {
-        "Lịch Trả Nợ": {
-          "HĐ FEC|| HĐ Bán Nợ FC|| HĐ Bán Nợ Một Phần Galaxy": {
-            "pdf": "LICH_TRA_NO_FEC.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": LTNSlide4,
-            "xmttemail": ECLTNSlide4,
-            "note": LUUYLTNSlide4,
-            "displayName": "Lịch Trả Nợ HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy"
+      "4. CIC": {},
+      "5. THANH TOÁN/ NHẮC NỢ": {
+        "THANH TOÁN": {
+          "Lịch Trả Nợ": {
+            "HĐ FEC|| HĐ Bán Nợ FC|| HĐ Bán Nợ Một Phần Galaxy": {
+              "pdf": "LICH_TRA_NO_FEC.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "LTNSlide4",
+              "xmttemail": "ECLTNSlide4",
+              "note": "LUUYLTNSlide4",
+              "displayName": "Lịch Trả Nợ HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy"
+            },
+            "HĐ Bán Nợ Toàn Phần Galaxy": {
+              "pdf": "VĐTT_BAN_NO_TOAN_PHAN_GALAXY.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "LTNSlide4",
+              "xmttemail": "ECLTNSlide11",
+              "note": "LUUYLTNSlide11",
+              "displayName": "Lịch Trả Nợ HĐ Bán Nợ Toàn Phần Galaxy"
+            },
+            "HĐ Bán Nợ FC Sold_Azura": {
+              "pdf": "VĐTT_BAN_NO_FC_SOLD_AZURA.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "LUUYLTNSlide11",
+              "xmttemail": "ECLTNSlide11",
+              "note": "LTNSlide4",
+              "displayName": "Lịch Trả Nợ HĐ bán nợ FC Sold_Azura"
+            },
+            "HĐ Bán Nợ Welcome Vina": {
+              "pdf": "VĐTT_BAN_NO_WELCOMEVINA.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "LTNSlide11",
+              "xmttemail": "ECLTNSlide11",
+              "note": "LUUYLTNSlide11",
+              "displayName": "Lịch Trả Nợ HĐ Bán Nợ Welcome Vina"
+            },
+            "HĐ CF/ HĐ FC Sold CF\t": {
+              "pdf": "VĐTT_CF_FC_SOLD_CF.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "LTNSlide11",
+              "xmttemail": "ECLTNSlide11",
+              "note": "LUUYLTNSlide11",
+              "displayName": "Lịch Trả Nợ HĐ bán nợ CF/ HĐ FC Sold CF",
+              "tieudeflow": ""
+            },
+            "HĐ B2": {
+              "pdf": "VĐTT_B2.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "CMND/CCCD/SHĐ",
+              "note": " •HĐ được ký trước năm 2014 thuộc phạm vi quản lý chung của VPBank và FE\n •Không hiển thị tkhi search ại mục “sau giải ngân” trên Pega hoặc có hiển thị tại mục B2 Contracts\n •Danh sách hợp đồng <u><strong><a href=\"file://deltavn.vn/DeltaShare/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/DS%20HĐ%20B2.xlsx\">xem tại đây</a></strong></u> ",
+              "displayName": "Lịch Trả HĐ B2"
+            },
+            "HĐ Cash 24": {
+              "pdf": "VĐTT_CASH24.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "CMND/CCCD/SHĐ",
+              "note": " •<strong>Định nghĩa: </strong>Là hợp đồng được cấp bởi đối tác Ideal Tech (CASH24) thông qua nền tảng số\n •<strong>Dấu hiệu nhận biết: </strong>Không thể kiểm tra được trên Pega. Số HĐ gồm 8 số (ví dụ: 00-00-09-27). \n •<strong>KH muốn biết số HĐ: </strong>CS khai thác CMND/CCCD và cung cấp theo <u><span style=\"color:#0070c0\">danh sách</span></u> ",
+              "displayName": "Lịch Trả Nợ HĐ Cash 24"
+            },
+            "HĐ Kim An": {
+              "pdf": "LTN_LSTT_KIM_AN.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "CMND/CCCD/SHĐ",
+              "note": " •Là hợp đồng được cấp bởi công ty đối tác Kim An\n •Dấu hiệu nhận biết: <strong>FC ROBO KIM AN</strong>\n •Đặc điểm: HĐ thu tiền theo ngày/ tuần và có nv tự liên hệ KH thu tiền ",
+              "displayName": "Lịch Trả Nợ Bán Nợ Welcome Vina"
+            }
           },
-          "HĐ Bán Nợ Toàn Phần Galaxy": {
-            "pdf": "VĐTT_BAN_NO_TOAN_PHAN_GALAXY.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": LTNSlide4,
-            "xmttemail": ECLTNSlide11,
-            "note": LUUYLTNSlide11,
-            "displayName": "Lịch Trả Nợ HĐ Bán Nợ Toàn Phần Galaxy"
+          "Lịch Sử Thanh Toán": {
+            "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
+              "pdf": "IB Dung SDT.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Lịch Sử TT HĐ FEC"
+            },
+            "HĐ Bán Nợ Toàn Phần Galaxy": {
+              "pdf": "PDF_LICH_SU_THANH_TOAN_FEC.pdf",
+              "xmttib": XMTT_1,
+              "note": "N/A",
+              "displayName": "Lịch Sử Thanh Toán HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy"
+            },
+            "HĐ Bán Nợ FC Sold_Azura": {
+              "pdf": "HĐ Kim An.pdf",
+              "xmtt": XMTT_2,
+              "note": "Lưu ý cho hợp đồng Kim An.",
+              "displayName": "Lịch Sử TT Kim An"
+            },
+            "HĐ Bán Nợ Welcome Vina": {
+              "pdf": "HĐ Bán Nợ Một Phần.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Lịch Sử TT Bán Nợ Một Phần"
+            },
+            "HĐ CF/ HĐ FC Sold CF": {
+              "pdf": "HĐ Bán Nợ Galaxy.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Lịch Sử TT Bán Nợ Galaxy"
+            },
+            "HĐ B2": {
+              "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Lịch Sử Thanh Toán HĐ B2"
+            },
+            "HĐ Cash 24": {
+              "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Lịch Sử Thanh Toán Bán Nợ Welcome Vina"
+            },
+            "HĐ Kim An": {
+              "pdf": "",
+              "xmttib": "",
+              "xmttemail": "",
+              "note": "",
+              "displayName": "Lịch Sử Thanh Toán HĐ Kim An"
+            }
           },
-          "HĐ Bán Nợ FC Sold_Azura": {
-            "pdf": "VĐTT_BAN_NO_FC_SOLD_AZURA.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": LUUYLTNSlide11,
-            "xmttemail": ECLTNSlide11,
-            "note": LTNSlide4,
-            "displayName": "Lịch Trả Nợ HĐ bán nợ FC Sold_Azura"
+          "Thanh lý Hợp Đồng": {
+            "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
+              "pdf": "PDF_TLHD_FEC.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Thanh Lý HĐ FEC"
+            },
+            "HĐ Bán Nợ Toàn Phần Galaxy": {
+              "pdf": "PDF_BAN_NO_TOAN_PHAN_GALAXY.pdf",
+              "xmttib": XMTT_1,
+              "note": "N/A",
+              "displayName": "Thanh Lý HĐ HĐ Bán Nợ Toàn Phần Galaxy"
+            },
+            "HĐ Bán Nợ FC Sold_Azura": {
+              "pdf": "PDF_BAN_NO_FC_SOLD_AZURA.pdf",
+              "xmtt": XMTT_2,
+              "note": "Lưu ý cho hợp đồng Kim An.",
+              "displayName": "Thanh Lý HĐ HĐ Bán Nợ FC Sold_Azura"
+            },
+            "HĐ Bán Nợ Welcome Vina": {
+              "pdf": "PDF_BAN_NO_WELCOMEVINA.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Thanh Lý HĐ Bán Nợ HĐ Bán Nợ Welcome Vina"
+            },
+            "HĐ CF/ HĐ FC Sold CF": {
+              "pdf": "PDF_CF_FC _SOLD_CF.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Thanh Lý HĐ HĐ CF/ HĐ FC Sold CF"
+            },
+            "HĐ B2": {
+              "pdf": "PDF_B2.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Thanh Lý HĐ HĐ B2"
+            },
+            "HĐ Cash 24": {
+              "pdf": "PDF_CASH24.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Thanh Lý HĐ HĐ Cash 24"
+            },
+            "HĐ Kim An": {
+              "pdf": "PDF_KIM_AN",
+              "xmttib": "",
+              "xmttemail": "",
+              "note": "",
+              "displayName": "Thanh lý Hợp Đồng HĐ Kim An"
+            }
           },
-          "HĐ Bán Nợ Welcome Vina": {
-            "pdf": "VĐTT_BAN_NO_WELCOMEVINA.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": LTNSlide11,
-            "xmttemail": ECLTNSlide11,
-            "note": LUUYLTNSlide11,
-            "displayName": "Lịch Trả Nợ HĐ Bán Nợ Welcome Vina"
+          "Thỏa Thuận Khoản Vay": {
+            "HĐ FEC": {
+              "pdf": "IB Dung SDT.pdf",
+              "xmttib": "XMTT_8",
+              "note": "N/A",
+              "displayName": "Thỏa Thuận KV HĐ FEC"
+            },
+            "Cash 24": {
+              "pdf": "HD Cash 24.pdf",
+              "xmttib": XMTT_1,
+              "note": "N/A",
+              "displayName": "Thỏa Thuận KV Cash 24"
+            },
+            "Kim An": {
+              "pdf": "HĐ Kim An.pdf",
+              "xmtt": XMTT_2,
+              "note": "Lưu ý cho hợp đồng Kim An.",
+              "displayName": "Thỏa Thuận KV Kim An"
+            },
+            "Bán Nợ Một Phần": {
+              "pdf": "HĐ Bán Nợ Một Phần.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Thỏa Thuận KV Bán Nợ Một Phần"
+            },
+            "Bán Nợ Galaxy": {
+              "pdf": "HĐ Bán Nợ Galaxy.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Thỏa Thuận KV Bán Nợ Galaxy"
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Thỏa Thuận KV Bán Nợ Fc Sold_Azura"
+            },
+            "Bán Nợ Welcome Vina": {
+              "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Thỏa Thuận KV Bán Nợ Welcome Vina"
+            }
           },
-          "HĐ CF/ HĐ FC Sold CF\t": {
-            "pdf": "VĐTT_CF_FC_SOLD_CF.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": LTNSlide11,
-            "xmttemail": ECLTNSlide11,
-            "note": LUUYLTNSlide11,
-            "displayName": "Lịch Trả Nợ HĐ bán nợ CF/ HĐ FC Sold CF",
-            "tieudeflow": "__VAR_REF____VAR_REF__"
+          "Tình Trạng Hợp Đồng": {
+            "HĐ FEC": {
+              "pdf": "IB Dung SDT.pdf",
+              "xmttib": "XMTT_8",
+              "note": "N/A",
+              "displayName": "Tình Trạng HĐ FEC"
+            },
+            "Cash 24": {
+              "pdf": "HD Cash 24.pdf",
+              "xmttib": XMTT_1,
+              "note": "N/A",
+              "displayName": "Tình Trạng HĐ Cash 24"
+            },
+            "Kim An": {
+              "pdf": "HĐ Kim An.pdf",
+              "xmtt": XMTT_2,
+              "note": "Lưu ý cho hợp đồng Kim An.",
+              "displayName": "Tình Trạng HĐ Kim An"
+            },
+            "Bán Nợ Một Phần": {
+              "pdf": "HĐ Bán Nợ Một Phần.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Tình Trạng HĐ Bán Nợ Một Phần"
+            },
+            "Bán Nợ Galaxy": {
+              "pdf": "HĐ Bán Nợ Galaxy.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Tình Trạng HĐ Bán Nợ Galaxy"
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Tình Trạng HĐ Bán Nợ Fc Sold_Azura"
+            },
+            "Bán Nợ Welcome Vina": {
+              "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Tình Trạng HĐ Bán Nợ Welcome Vina"
+            }
           },
-          "HĐ B2": {
-            "pdf": "VĐTT_B2.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": "CMND/CCCD/SHĐ",
-            "note": " •HĐ được ký trước năm 2014 thuộc phạm vi quản lý chung của VPBank và FE\n •Không hiển thị tkhi search ại mục “sau giải ngân” trên Pega hoặc có hiển thị tại mục B2 Contracts\n •Danh sách hợp đồng <u><strong><a href=\"file://deltavn.vn/DeltaShare/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/DS%20HĐ%20B2.xlsx\">xem tại đây</a></strong></u> ",
-            "displayName": "Lịch Trả HĐ B2"
+          "Đóng Hợp Đồng": {
+            "HĐ FEC": {
+              "pdf": "IB Dung SDT.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Đóng HĐ FEC"
+            },
+            "Cash 24": {
+              "pdf": "HD Cash 24.pdf",
+              "xmttib": XMTT_1,
+              "note": "N/A",
+              "displayName": "Đóng HĐ Cash 24"
+            },
+            "Kim An": {
+              "pdf": "HĐ Kim An.pdf",
+              "xmtt": XMTT_2,
+              "note": "Lưu ý cho hợp đồng Kim An.",
+              "displayName": "Đóng HĐ Kim An"
+            },
+            "Bán Nợ Một Phần": {
+              "pdf": "HĐ Bán Nợ Một Phần.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Đóng HĐ Bán Nợ Một Phần"
+            },
+            "Bán Nợ Galaxy": {
+              "pdf": "HĐ Bán Nợ Galaxy.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Đóng HĐ Bán Nợ Galaxy"
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Đóng HĐ Bán Nợ Fc Sold_Azura"
+            },
+            "Bán Nợ Welcome Vina": {
+              "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "Đóng HĐ Bán Nợ Welcome Vina"
+            }
           },
-          "HĐ Cash 24": {
-            "pdf": "VĐTT_CASH24.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": "CMND/CCCD/SHĐ",
-            "note": " •<strong>Định nghĩa: </strong>Là hợp đồng được cấp bởi đối tác Ideal Tech (CASH24) thông qua nền tảng số\n •<strong>Dấu hiệu nhận biết: </strong>Không thể kiểm tra được trên Pega. Số HĐ gồm 8 số (ví dụ: 00-00-09-27). \n •<strong>KH muốn biết số HĐ: </strong>CS khai thác CMND/CCCD và cung cấp theo <u><span style=\"color:#0070c0\">danh sách</span></u> ",
-            "displayName": "Lịch Trả Nợ HĐ Cash 24"
-          },
-          "HĐ Kim An": {
-            "pdf": "LTN_LSTT_KIM_AN.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": "CMND/CCCD/SHĐ",
-            "note": " •Là hợp đồng được cấp bởi công ty đối tác Kim An\n •Dấu hiệu nhận biết: <strong>FC ROBO KIM AN</strong>\n •Đặc điểm: HĐ thu tiền theo ngày/ tuần và có nv tự liên hệ KH thu tiền ",
-            "displayName": "Lịch Trả Nợ Bán Nợ Welcome Vina"
+          "Lãi/Phí Phát Sinh Sai": {
+            "HĐ FEC": {
+              "pdf": "IB Dung SDT.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "CIC HĐ FEC"
+            },
+            "Cash 24": {
+              "pdf": "HD Cash 24.pdf",
+              "xmttib": XMTT_1,
+              "note": "N/A",
+              "displayName": "CIC Cash 24"
+            },
+            "Kim An": {
+              "pdf": "HĐ Kim An.pdf",
+              "xmtt": XMTT_2,
+              "note": "Lưu ý cho hợp đồng Kim An.",
+              "displayName": "CIC Kim An"
+            },
+            "Bán Nợ Một Phần": {
+              "pdf": "HĐ Bán Nợ Một Phần.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "CIC Bán Nợ Một Phần"
+            },
+            "Bán Nợ Galaxy": {
+              "pdf": "HĐ Bán Nợ Galaxy.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "CIC Bán Nợ Galaxy"
+            },
+            "Bán Nợ Fc Sold_Azura": {
+              "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "CIC Bán Nợ Fc Sold_Azura"
+            },
+            "Bán Nợ Welcome Vina": {
+              "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
+              "xmttib": XMTT_4,
+              "note": "N/A",
+              "displayName": "CIC Bán Nợ Welcome Vina"
+            }
           }
         },
-        "Lịch Sử Thanh Toán": {
-          "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
-            "pdf": "IB Dung SDT.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Lịch Sử TT HĐ FEC"
-          },
-          "HĐ Bán Nợ Toàn Phần Galaxy": {
-            "pdf": "PDF_LICH_SU_THANH_TOAN_FEC.pdf",
-            "xmttib": XMTT_1,
-            "note": "N/A",
-            "displayName": "Lịch Sử Thanh Toán HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy"
-          },
-          "HĐ Bán Nợ FC Sold_Azura": {
-            "pdf": "HĐ Kim An.pdf",
-            "xmtt": XMTT_2,
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "displayName": "Lịch Sử TT Kim An"
-          },
-          "HĐ Bán Nợ Welcome Vina": {
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Lịch Sử TT Bán Nợ Một Phần"
-          },
-          "HĐ CF/ HĐ FC Sold CF": {
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Lịch Sử TT Bán Nợ Galaxy"
-          },
-          "HĐ B2": {
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Lịch Sử Thanh Toán HĐ B2"
-          },
-          "HĐ Cash 24": {
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Lịch Sử Thanh Toán Bán Nợ Welcome Vina"
-          },
-          "HĐ Kim An": {
-            "pdf": "",
-            "xmttib": "",
-            "xmttemail": "",
+        "NHẮC NỢ": {
+          "Nhắc Nợ trước hạn": {
+            "pdf": "NHAC_NO_TRUOC_HAN.PDF",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "CCCD",
+            "xmttemail": "CCCD",
+            "xmttchat": "CCCD",
             "note": "",
-            "displayName": "Lịch Sử Thanh Toán HĐ Kim An"
-          }
-        },
-        "Thanh lý Hợp Đồng": {
-          "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
-            "pdf": "PDF_TLHD_FEC.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Thanh Lý HĐ FEC"
+            "displayName": "Nhắc Nợ Trước Hạn"
           },
-          "HĐ Bán Nợ Toàn Phần Galaxy": {
-            "pdf": "PDF_BAN_NO_TOAN_PHAN_GALAXY.pdf",
-            "xmttib": XMTT_1,
-            "note": "N/A",
-            "displayName": "Thanh Lý HĐ HĐ Bán Nợ Toàn Phần Galaxy"
-          },
-          "HĐ Bán Nợ FC Sold_Azura": {
-            "pdf": "PDF_BAN_NO_FC_SOLD_AZURA.pdf",
-            "xmtt": XMTT_2,
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "displayName": "Thanh Lý HĐ HĐ Bán Nợ FC Sold_Azura"
-          },
-          "HĐ Bán Nợ Welcome Vina": {
-            "pdf": "PDF_BAN_NO_WELCOMEVINA.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Thanh Lý HĐ Bán Nợ HĐ Bán Nợ Welcome Vina"
-          },
-          "HĐ CF/ HĐ FC Sold CF": {
-            "pdf": "PDF_CF_FC _SOLD_CF.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Thanh Lý HĐ HĐ CF/ HĐ FC Sold CF"
-          },
-          "HĐ B2": {
-            "pdf": "PDF_B2.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Thanh Lý HĐ HĐ B2"
-          },
-          "HĐ Cash 24": {
-            "pdf": "PDF_CASH24.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Thanh Lý HĐ HĐ Cash 24"
-          },
-          "HĐ Kim An": {
-            "pdf": "PDF_KIM_AN",
-            "xmttib": "",
-            "xmttemail": "",
-            "note": "",
-            "displayName": "Thanh lý Hợp Đồng HĐ Kim An"
-          }
-        },
-        "Thỏa Thuận Khoản Vay": {
-          "HĐ FEC": {
-            "pdf": "IB Dung SDT.pdf",
-            "xmttib": XMTT_8,
-            "note": "N/A",
-            "displayName": "Thỏa Thuận KV HĐ FEC"
-          },
-          "Cash 24": {
-            "pdf": "HD Cash 24.pdf",
-            "xmttib": XMTT_1,
-            "note": "N/A",
-            "displayName": "Thỏa Thuận KV Cash 24"
-          },
-          "Kim An": {
-            "pdf": "HĐ Kim An.pdf",
-            "xmtt": XMTT_2,
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "displayName": "Thỏa Thuận KV Kim An"
-          },
-          "Bán Nợ Một Phần": {
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Thỏa Thuận KV Bán Nợ Một Phần"
-          },
-          "Bán Nợ Galaxy": {
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Thỏa Thuận KV Bán Nợ Galaxy"
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Thỏa Thuận KV Bán Nợ Fc Sold_Azura"
-          },
-          "Bán Nợ Welcome Vina": {
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Thỏa Thuận KV Bán Nợ Welcome Vina"
-          }
-        },
-        "Tình Trạng Hợp Đồng": {
-          "HĐ FEC": {
-            "pdf": "IB Dung SDT.pdf",
-            "xmttib": XMTT_8,
-            "note": "N/A",
-            "displayName": "Tình Trạng HĐ FEC"
-          },
-          "Cash 24": {
-            "pdf": "HD Cash 24.pdf",
-            "xmttib": XMTT_1,
-            "note": "N/A",
-            "displayName": "Tình Trạng HĐ Cash 24"
-          },
-          "Kim An": {
-            "pdf": "HĐ Kim An.pdf",
-            "xmtt": XMTT_2,
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "displayName": "Tình Trạng HĐ Kim An"
-          },
-          "Bán Nợ Một Phần": {
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Tình Trạng HĐ Bán Nợ Một Phần"
-          },
-          "Bán Nợ Galaxy": {
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Tình Trạng HĐ Bán Nợ Galaxy"
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Tình Trạng HĐ Bán Nợ Fc Sold_Azura"
-          },
-          "Bán Nợ Welcome Vina": {
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Tình Trạng HĐ Bán Nợ Welcome Vina"
-          }
-        },
-        "Đóng Hợp Đồng": {
-          "HĐ FEC": {
-            "pdf": "IB Dung SDT.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Đóng HĐ FEC"
-          },
-          "Cash 24": {
-            "pdf": "HD Cash 24.pdf",
-            "xmttib": XMTT_1,
-            "note": "N/A",
-            "displayName": "Đóng HĐ Cash 24"
-          },
-          "Kim An": {
-            "pdf": "HĐ Kim An.pdf",
-            "xmtt": XMTT_2,
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "displayName": "Đóng HĐ Kim An"
-          },
-          "Bán Nợ Một Phần": {
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Đóng HĐ Bán Nợ Một Phần"
-          },
-          "Bán Nợ Galaxy": {
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Đóng HĐ Bán Nợ Galaxy"
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Đóng HĐ Bán Nợ Fc Sold_Azura"
-          },
-          "Bán Nợ Welcome Vina": {
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "Đóng HĐ Bán Nợ Welcome Vina"
-          }
-        },
-        "Lãi/Phí Phát Sinh Sai": {
-          "HĐ FEC": {
-            "pdf": "IB Dung SDT.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "CIC HĐ FEC"
-          },
-          "Cash 24": {
-            "pdf": "HD Cash 24.pdf",
-            "xmttib": XMTT_1,
-            "note": "N/A",
-            "displayName": "CIC Cash 24"
-          },
-          "Kim An": {
-            "pdf": "HĐ Kim An.pdf",
-            "xmtt": XMTT_2,
-            "note": "Lưu ý cho hợp đồng Kim An.",
-            "displayName": "CIC Kim An"
-          },
-          "Bán Nợ Một Phần": {
-            "pdf": "HĐ Bán Nợ Một Phần.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "CIC Bán Nợ Một Phần"
-          },
-          "Bán Nợ Galaxy": {
-            "pdf": "HĐ Bán Nợ Galaxy.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "CIC Bán Nợ Galaxy"
-          },
-          "Bán Nợ Fc Sold_Azura": {
-            "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "CIC Bán Nợ Fc Sold_Azura"
-          },
-          "Bán Nợ Welcome Vina": {
-            "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-            "xmttib": XMTT_4,
-            "note": "N/A",
-            "displayName": "CIC Bán Nợ Welcome Vina"
-          }
-        }
-      },
-      "7. NHẮC NỢ": {
-        "Nhắc Nợ trước hạn": {
-          "pdf": "NHAC_NO_TRUOC_HAN.PDF",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": "",
-          "xmttib": "CCCD",
-          "xmttemail": "CCCD",
-          "xmttchat": "CCCD",
-          "note": "",
-          "displayName": "Nhắc Nợ Trước Hạn"
-        },
-        "Nhắc Nợ Nhiều Lần/ Quá 7h-21h/ Nhá Máy": {
-          "pdf": "NHAC_NO_NHIEU_LAN.PDF",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": "",
-          "xmttib": "- Đúng SĐT + CCCD + 1A <br>\n- XM không thành công: CCCD/SHĐ/ Điện thoại đăng ký và ghi nhận khiếu nại không cung cấp chi tiết hợp đồng",
-          "xmttemail": "N/A",
-          "xmttchat": "N/A",
-          "note": "",
-          "displayName": "Nhắc Nợ Nhiều Lần/ Quá 7h-21h/ Nhá Máy",
-          "dieukien": "",
-          "xmttecom": ""
-        },
-        "Yêu Cầu Ngưng Nhắc Nợ": {
-          "Số Chính Chủ Đăng Ký HĐ FE CREDIT": {
-            "pdf": "NGUNG_NHAC_NO_CHINH_CHU.pdf",
+          "Nhắc Nợ Nhiều Lần/ Quá 7h-21h/ Nhá Máy": {
+            "pdf": "NHAC_NO_NHIEU_LAN.PDF",
             "contentType": "",
             "htmlContent": "",
             "htmlUrl": "",
-            "xmttib": "N/A",
+            "xmttib": "- Đúng SĐT + CCCD + 1A <br>\n- XM không thành công: CCCD/SHĐ/ Điện thoại đăng ký và ghi nhận khiếu nại không cung cấp chi tiết hợp đồng",
             "xmttemail": "N/A",
             "xmttchat": "N/A",
             "note": "",
-            "displayName": "Nhắc Nợ Số Chính Chủ Đăng Ký HĐ FE CREDIT",
-            "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
-            "xmttecom": ""
-          },
-          "Số Tham Chiếu/ Không Có Thông Tin HĐ": {
-            "pdf": "NGUNG_NHAC_NO_THAM_CHIEU.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": "N/A",
-            "xmttemail": "N/A",
-            "xmttchat": "N/A",
-            "note": "",
-            "displayName": "Nhắc Nợ Số Tham Chiếu/ Không Có Thông Tin HĐ",
-            "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
-            "xmttecom": ""
-          },
-          "Khách Hàng Đã Thanh Toán": {
-            "pdf": "NGUNG_NHAC_NO_DA_THANH_TOAN.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": "Đúng SĐT + CMND/ CCCD + 1A",
-            "xmttemail": "N/A",
-            "xmttchat": "N/A",
-            "note": "",
-            "displayName": "Khách Hàng Đã Thanh Toán Vẫn Bị Nhắc Nợ",
+            "displayName": "Nhắc Nợ Nhiều Lần/ Quá 7h-21h/ Nhá Máy",
             "dieukien": "",
             "xmttecom": ""
           },
-          "Đang Trong Quá Trình Xử Lý": {
-            "pdf": "NGUNG_NHAC_NO_DANG_XU_LY.pdf",
-            "contentType": "",
-            "htmlContent": "",
-            "htmlUrl": "",
-            "xmttib": "Đúng chủ HĐ + CCCD/ SHĐ + 1A",
-            "xmttemail": "N/A",
-            "xmttchat": "N/A",
-            "note": "",
-            "displayName": "Đang Trong Quá Trình Xử Lý Nhắc Nợ",
-            "dieukien": "<p>Kiểm tra ticket đ&atilde; ghi nhận trước đ&oacute;, bao gồm c&aacute;c code sau: <a href=\"pdfile-loan/7_NHAC_NO/Code_Can_Kiem_Tra.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>",
-            "xmttecom": ""
+          "Yêu Cầu Ngưng Nhắc Nợ": {
+            "Số Chính Chủ Đăng Ký HĐ FE CREDIT": {
+              "pdf": "NGUNG_NHAC_NO_CHINH_CHU.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "N/A",
+              "xmttemail": "N/A",
+              "xmttchat": "N/A",
+              "note": "",
+              "displayName": "Nhắc Nợ Số Chính Chủ Đăng Ký HĐ FE CREDIT",
+              "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
+              "xmttecom": ""
+            },
+            "Số Tham Chiếu/ Không Có Thông Tin HĐ": {
+              "pdf": "NGUNG_NHAC_NO_THAM_CHIEU.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "N/A",
+              "xmttemail": "N/A",
+              "xmttchat": "N/A",
+              "note": "",
+              "displayName": "Nhắc Nợ Số Tham Chiếu/ Không Có Thông Tin HĐ",
+              "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
+              "xmttecom": ""
+            },
+            "Khách Hàng Đã Thanh Toán": {
+              "pdf": "NGUNG_NHAC_NO_DA_THANH_TOAN.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "Đúng SĐT + CMND/ CCCD + 1A",
+              "xmttemail": "N/A",
+              "xmttchat": "N/A",
+              "note": "",
+              "displayName": "Khách Hàng Đã Thanh Toán Vẫn Bị Nhắc Nợ",
+              "dieukien": "",
+              "xmttecom": ""
+            },
+            "Đang Trong Quá Trình Xử Lý": {
+              "pdf": "NGUNG_NHAC_NO_DANG_XU_LY.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "Đúng chủ HĐ + CCCD/ SHĐ + 1A",
+              "xmttemail": "N/A",
+              "xmttchat": "N/A",
+              "note": "",
+              "displayName": "Đang Trong Quá Trình Xử Lý Nhắc Nợ",
+              "dieukien": "<p>Kiểm tra ticket đ&atilde; ghi nhận trước đ&oacute;, bao gồm c&aacute;c code sau: <a href=\"pdfile-loan/7_NHAC_NO/Code_Can_Kiem_Tra.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>",
+              "xmttecom": ""
+            }
           }
         }
       },
-      "8. MRC/ YÊU CẦU GIẤY TỜ": {
+      "6. MRC": {},
+      "7. YÊU CẦU GIẤY TỜ": {
         "MRC": {
           "HĐ FEC": {
             "pdf": "",
@@ -1404,40 +1434,7 @@
           }
         }
       },
-      "9. BẢO HIỂM": {
-        "Phí BH": {
-          "Bảo Hiểm Khoản Vay": {
-            "pdf": "",
-            "xmttib": "",
-            "xmttemail": "",
-            "note": "",
-            "displayName": "Bảo Hiểm Khoản Vay"
-          },
-          "Bảo Hiểm Banca": {
-            "pdf": "",
-            "xmttib": "",
-            "xmttemail": "",
-            "note": "",
-            "displayName": "Bảo Hiểm Banca"
-          },
-          "Bảo Hiểm Sức Khỏe": {
-            "pdf": "",
-            "xmttib": "",
-            "xmttemail": "",
-            "note": "",
-            "displayName": "Bảo Hiểm Sức Khỏe"
-          }
-        },
-        "Quyền lợi": {},
-        "Thủ tục bồi thường": {},
-        "Đăng ký/ tái tục": {}
-      },
-      "10. HOÀN TIỀN, ĐIỀU CHỈNH THANH TOÁN": {
-        "Kiểm Tra Tiền Dư": {},
-        "Hoàn Tiền": {},
-        "Điều Chỉnh Thanh Toán": {}
-      },
-      "11. CẬP NHẬT THÔNG TIN": {
+      "8. CẬP NHẬT THÔNG TIN": {
         "Cập Nhật SĐT": {
           "Đã Có Hợp Đồng Vay": {
             "Chưa Cập Nhật Trên FEOL 2.0": {
@@ -1477,7 +1474,7 @@
                 "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
                 "note": "",
                 "displayName": "Thẻ Tín Dụng Chưa Được Kích Hoạt",
-                "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+                "dieukien": "Cap_nhat_sdt_feo_khong_thanh_cong",
                 "xmttecom": ""
               },
               "Thẻ Tín Dụng Đang Còn Dư Nợ": {
@@ -1490,7 +1487,7 @@
                 "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
                 "note": "",
                 "displayName": "Thẻ Tín Dụng Đang Còn Dư Nợ",
-                "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+                "dieukien": "Cap_nhat_sdt_feo_khong_thanh_cong",
                 "xmttecom": ""
               },
               "Thẻ Tín Dụng Đang Bị Khóa": {
@@ -1503,7 +1500,7 @@
                 "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
                 "note": "",
                 "displayName": "Thẻ Tín Dụng Đang Bị Khóa",
-                "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+                "dieukien": "Cap_nhat_sdt_feo_khong_thanh_cong",
                 "xmttecom": ""
               },
               "Chức Năng Cập Nhật SĐT Không Khả Dụng": {
@@ -1516,7 +1513,7 @@
                 "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
                 "note": "",
                 "displayName": "Chức Năng Cập Nhật SĐT Không Khả Dụng",
-                "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+                "dieukien": "Cap_nhat_sdt_feo_khong_thanh_cong",
                 "xmttecom": ""
               },
               "Rất Tiếc Đã Xảy Ra Lỗi": {
@@ -1529,7 +1526,7 @@
                 "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
                 "note": "",
                 "displayName": "Rất Tiếc Đã Xảy Ra Lỗi",
-                "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+                "dieukien": "Cap_nhat_sdt_feo_khong_thanh_cong",
                 "xmttecom": ""
               },
               "Tính Năng Này Đã Tạm Thời Bị Khóa": {
@@ -1542,7 +1539,7 @@
                 "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
                 "note": "",
                 "displayName": "Tính Năng Này Đã Tạm Thời Bị Khóa",
-                "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
+                "dieukien": "Cap_nhat_sdt_feo_khong_thanh_cong",
                 "xmttecom": ""
               },
               "Yêu Cầu Của Bạn Không Được Tiếp Tục": {
@@ -1707,8 +1704,12 @@
           }
         }
       },
-      "12. KẾT QUẢ XỬ LÝ YÊU CẦU": {},
-      "13. TRA CỨU TỰ ĐỘNG": {
+      "9. HOÀN TIỀN, ĐIỀU CHỈNH THANH TOÁN": {
+        "Kiểm Tra Tiền Dư": {},
+        "Hoàn Tiền": {},
+        "Điều Chỉnh Thanh Toán": {}
+      },
+      "10. TRA CỨU TỰ ĐỘNG": {
         "FE Online 2.0": {
           "Tính Năng Chung": {
             "Đăng Ký - Đăng Nhập": {
@@ -2300,7 +2301,8 @@
             "xmttecom": ""
           }
         }
-      }
+      },
+      "11. KẾT QUẢ XỬ LÝ YÊU CẦU": {}
     };
 
     window.flowchartDataFeedback = {
@@ -2373,27 +2375,6 @@
       const popupCloseBtn = document.getElementById("popup-close-btn");
       const sidebar = document.getElementById("sidebar");
 
-      const FOLDER_MAPS = {
-        truyvan: {
-          1: "1_THONG_TIN_CHUNG",
-          2: "2_THONG_TIN_SAN_PHAM",
-          3: "3_DANG_KY_VAY",
-          4: "4_GIAI_NGAN",
-          5: "5_KENH_THANH_TOAN",
-          6: "6_VAN_DE_THANH_TOAN",
-          7: "7_NHAC_NO",
-          8: "8_MRC_YEUCAUGIAYTO",
-          9: "9_BAO_HIEM",
-          10: "10_HOANTIEN_DIEUCHINHTHANHTOAN",
-          11: "11_CAP_NHAT_THONG_TIN",
-          12: "12_KET_QUA_XULYYEUCAU",
-          13: "13_TRA_CUU_TU_DONG",
-        },
-        feedback: {
-          1: "A1_KHIEU_NAI_THAI_DO",
-          2: "A2_KHIEU_NAI_NGHIEP_VU",
-        },
-      };
 
       const LEVEL_LABELS = {
         truyvan: {
@@ -2423,8 +2404,6 @@
           <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z"></path>
           <path d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z"></path>`,
 
-        // Folder mappings cho từng source
-        folderMaps: FOLDER_MAPS,
 
         // Labels cho các level dropdown
         levelLabels: LEVEL_LABELS
@@ -3880,37 +3859,12 @@
           pdfViewer.style.display = 'block';
         } else if (resultObject.pdf) {
 
-          const firstLevelSelect = dynamicFiltersContainer.querySelector(
-            'select[data-level="1"]'
-          );
-          const categoryIndexMatch = firstLevelSelect?.value.match(/^(\d+)/);
-          const folderMap = FOLDER_MAPS[state.activeSourceName];
-          let folderName =
-            categoryIndexMatch && folderMap
-              ? folderMap[categoryIndexMatch[1]]
-              : null;
-
-          if (!folderName && firstLevelSelect?.value) {
-            // Fallback: If value matches a value in folderMap
-            if (folderMap && Object.values(folderMap).includes(firstLevelSelect.value)) {
-              folderName = firstLevelSelect.value;
-            } else {
-              // Fallback: Use value as folder name (sanitized if needed, or raw)
-              // This supports keys that ARE the folder name (e.g. "1_THONG_TIN_CHUNG")
-              folderName = firstLevelSelect.value;
-            }
-          }
           const baseFolder =
             state.activeSourceName === "feedback"
               ? "pdfile-loan-fb"
               : "pdfile-loan";
 
-          if (folderName) {
-            pdfViewer.src = `./${baseFolder}/${folderName}/${resultObject.pdf}`;
-          } else {
-
-            pdfViewer.src = `./${baseFolder}/${resultObject.pdf}`;
-          }
+          pdfViewer.src = `./${baseFolder}/${resultObject.pdf}`;
           pdfViewer.style.display = 'block';
         }
 

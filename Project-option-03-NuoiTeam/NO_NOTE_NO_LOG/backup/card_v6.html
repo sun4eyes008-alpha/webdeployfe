@@ -4,8 +4,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PLTT CARD v6</title>
+  <title>PLTT CARD</title>
+  <link rel="icon" type="image/x-icon" href="./Asset/img-video/fec_logo-1.png">
   <link rel="stylesheet" href="./Asset/style2.css" />
+  <link rel="stylesheet" href="./Asset/theme-default.css" />
+  <!--
+  <link rel="stylesheet" href="./Asset/theme-tet.css" />
+   -->
+  <link rel="stylesheet" href="./Asset/theme-he.css" />
+  <!--
+ <link rel="stylesheet" href="./Asset/theme-thu.css" />
+  <link rel="stylesheet" href="./Asset/theme-dong.css" />
+  -->
+
+  <style>
+    /* Bỏ gạch chân cho các link trong header */
+    a.tab-btn:not(.dropdown-item),
+    a.pdf-link-btn:not(.dropdown-item) {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .dropdown-menu a.dropdown-item {
+      text-decoration: none;
+      /* removed color: inherit so it correctly falls back to #4d4d4d defined in style2.css */
+    }
+  </style>
 </head>
 
 <body>
@@ -21,7 +45,7 @@
       </button>
       <div class="logo-container">
         <a href="index.html">
-          <img src="./Asset/logo/logo-fecredit.svg" alt="FECredit" class="logo" />
+          <img src="./Asset/logo/logo-fecredit.gif" alt="FECredit" class="logo" />
         </a>
       </div>
 
@@ -36,40 +60,37 @@
           <button class="tab-btn dropdown-toggle">PLTT</button>
           <div class="dropdown-menu">
             <a href="loan_v2.html" class="dropdown-item" id="loan-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z" />
-                <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z" />
-                <path
-                  d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M3.5 0A1.5 1.5 0 0 0 2 1.5v13A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5V4.5L10 0H3.5ZM9 1.5V4.5H12.5L9 1.5ZM7.5 13V11.751C6.446 11.536 5.86 10.957 5.766 10.198A.5.5 0 0 1 6.758 10C6.83 10.518 7.373 10.74 8 10.783V8.892C6.892 8.529 6 8.01 6 6.848C6 5.842 6.812 5.253 7.5 5.088V4H8.5V5.074C9.522 5.275 10.104 5.922 10.198 6.643A.5.5 0 1 1 9.204 6.75C9.135 6.257 8.674 5.992 8 5.952V7.794C9.176 8.136 10 8.7 10 9.883C10 10.871 9.226 11.518 8.5 11.721V13H7.5Z" />
               </svg>
               Loan
             </a>
             <a href="card_v6.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path
-                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
-                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M0 4A2 2 0 0 1 2 2H14A2 2 0 0 1 16 4V12A2 2 0 0 1 14 14H2A2 2 0 0 1 0 12V4ZM0 6H16V8H0V6ZM11 11H13V10H11V11ZM8 11H10V10H8V11Z" />
               </svg>
               Card
             </a>
             <a href="outbound_v6.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
                 <path fill-rule="evenodd"
                   d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z" />
               </svg>
               Outbound
             </a>
             <a href="ubank_v6.html" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                <path
-                  d="M8 .95 1.75 4h12.5L8 .95zM1 5.5v1h14v-1H1zm.25 2.5a.5.5 0 0 0 0 1h13.5a.5.5 0 0 0 0-1H1.25zM1 10.5v1h14v-1H1zM1.75 13h12.5l-6.25 3.05L1.75 13zM1 14.25v-1h14v1H1z" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="5.5" cy="3.5" r="1.5" />
+                <circle cx="10.5" cy="3.5" r="1.5" />
+                <path d="M3 6.5v4c0 2.76 2.24 5 5 5s5-2.24 5-5v-4h-3v4c0 1.1-.9 2-2 2s-2-.9-2-2v-4H3z" />
               </svg>
-
               Ubank
             </a>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-preset="TIN_TUC">TIN TỨC</button>
+        <a href="#preset=TIN_TUC" class="tab-btn pdf-link-btn" data-preset="TIN_TUC">TIN TỨC</a>
         <div class="dropdown">
           <button class="tab-btn dropdown-toggle">QUY ĐỊNH CHUNG</button>
           <div class="dropdown-menu">
@@ -81,32 +102,35 @@
               </svg>
               Xác Minh Thông Tin
               <div class="dropdown-submenu">
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="QD_CHUNG">Quy định chung</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="PHAN_LOAI_RUI_RO">Phân loại rủi ro</a>
+                <a href="#preset=QD_CHUNG" class="dropdown-item pdf-link-btn" data-preset="QD_CHUNG">Quy định chung</a>
+                <a href="#preset=PHAN_LOAI_RUI_RO" class="dropdown-item pdf-link-btn"
+                  data-preset="PHAN_LOAI_RUI_RO">Phân loại rủi ro</a>
                 <div class="dropdown-item has-submenu">
                   Câu hỏi xác minh
                   <div class="dropdown-submenu">
-                    <a href="#" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_A">Level A - Thông tin KH</a>
-                    <a href="#" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_B">Level B - Thông tin HĐ</a>
+                    <a href="#preset=XMTT_LEVEL_A" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_A">Level A
+                      - Thông tin KH</a>
+                    <a href="#preset=XMTT_LEVEL_B" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_B">Level B
+                      - Thông tin HĐ</a>
                   </div>
                 </div>
               </div>
             </div>
-            <a href="#" class="dropdown-item pdf-link-btn" data-preset="TIEP_NHAN_CUOC_GOI">
+            <a href="#preset=TIEP_NHAN_CUOC_GOI" class="dropdown-item pdf-link-btn" data-preset="TIEP_NHAN_CUOC_GOI">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
                   d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
               </svg>
               Tiếp Nhận Cuộc Gọi
             </a>
-            <a href="#" class="dropdown-item pdf-link-btn" data-preset="XU_LY_EMAIL_CHAT">
+            <a href="#preset=XU_LY_EMAIL_CHAT" class="dropdown-item pdf-link-btn" data-preset="XU_LY_EMAIL_CHAT">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
               </svg>
               Xử lý Email/Chat
             </a>
-            <a href="#" class="dropdown-item pdf-link-btn" data-preset="HUONG_DAN_NHAP_LIEU">
+            <a href="#preset=HUONG_DAN_NHAP_LIEU" class="dropdown-item pdf-link-btn" data-preset="HUONG_DAN_NHAP_LIEU">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                 <path
                   d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z" />
@@ -121,22 +145,29 @@
               </svg>
               Quy định hỗ trợ người thứ 3
               <div class="dropdown-submenu">
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="DU_NO_THOA_THUAN">Dư nợ/Thỏa thuận khoản
+                <a href="#preset=DU_NO_THOA_THUAN" class="dropdown-item pdf-link-btn" data-preset="DU_NO_THOA_THUAN">Dư
+                  nợ/Thỏa thuận khoản
                   vay</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="BOI_THUONG_BAO_HIEM">Bồi thường bảo hiểm</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="NGUNG_NHAC_NO_DAN_SU">Ngưng nhắc nợ dân
+                <a href="#preset=BOI_THUONG_BAO_HIEM" class="dropdown-item pdf-link-btn"
+                  data-preset="BOI_THUONG_BAO_HIEM">Bồi thường bảo hiểm</a>
+                <a href="#preset=NGUNG_NHAC_NO_DAN_SU" class="dropdown-item pdf-link-btn"
+                  data-preset="NGUNG_NHAC_NO_DAN_SU">Ngưng nhắc nợ dân
                   sự</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="HOAN_TIEN">Hoàn tiền</a>
-                <a href="#" class="dropdown-item pdf-link-btn" data-preset="CAC_YEU_CAU_KHAC">Các yêu cầu khác</a>
+                <a href="#preset=HOAN_TIEN" class="dropdown-item pdf-link-btn" data-preset="HOAN_TIEN">Hoàn tiền</a>
+                <a href="#preset=CAC_YEU_CAU_KHAC" class="dropdown-item pdf-link-btn" data-preset="CAC_YEU_CAU_KHAC">Các
+                  yêu cầu khác</a>
               </div>
             </div>
           </div>
         </div>
-        <button class="tab-btn pdf-link-btn" data-preset="TAI_LIEU_THAM_KHAO">TÀI LIỆU THAM KHẢO</button>
-        <button class="tab-btn pdf-link-btn" data-preset="HUONG_DAN_HE_THONG">HƯỚNG DẪN HỆ THỐNG</button>
-        <button class="tab-btn pdf-link-btn" data-preset="CHANGE_LOG" data-tab="change-log" id="change-log-btn">
+        <a href="#preset=TAI_LIEU_THAM_KHAO" class="tab-btn pdf-link-btn" data-preset="TAI_LIEU_THAM_KHAO">TÀI LIỆU THAM
+          KHẢO</a>
+        <a href="#preset=HUONG_DAN_HE_THONG" class="tab-btn pdf-link-btn" data-preset="HUONG_DAN_HE_THONG">HƯỚNG DẪN HỆ
+          THỐNG</a>
+        <a href="#preset=CHANGE_LOG" class="tab-btn pdf-link-btn" data-preset="CHANGE_LOG" data-tab="change-log"
+          id="change-log-btn">
           CHANGE LOG
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -145,12 +176,9 @@
   <nav id="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-page-title">
-        <svg class="sidebar-title-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-          <path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z"></path>
-          <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z"></path>
-          <path
-            d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z">
-          </path>
+        <svg class="sidebar-title-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M0 4A2 2 0 0 1 2 2H14A2 2 0 0 1 16 4V12A2 2 0 0 1 14 14H2A2 2 0 0 1 0 12V4ZM0 6H16V8H0V6ZM11 11H13V10H11V11ZM8 11H10V10H8V11Z" />
         </svg>
         <span>CARD</span>
       </div>
@@ -321,128 +349,310 @@
 </td> `;
 
     // --- GROUP: DIEUKIEN TEMPLATES ---
-    // Định nghĩa các điều kiện lặp lại nhiều lần
     const DIEUKIEN_NGUOI_THU_3 = `<p><strong><span style='color:#ff0000'>Lưu ý:</span> Nếu người thứ 3 báo chủ thẻ đang đi tù/ thẻ bị mất/ nuốt thẻ</strong><br />
 - Thông báo khóa thẻ để tránh rủi ro phát sinh GD (trừ những thẻ Dcard chỉ dùng như kênh giải ngân cho khoản vay.)<br />
 - Hướng dẫn chủ thẻ liên hệ tổng đài để được hỗ trợ mở khóa/ đóng thẻ/ thay thế thẻ mới khi cần<br />
 - Nhập code: Chọn: Card Block / Unblock / PIN Reset => Block A. Nếu thẻ khóa Q trước đó thì chuyển khóa L.</p>`;
 
-    // --- GROUP: HEADER PRESETS ---
-    // Preset cho các dropdown trong header, tương tự flowchartData
-    // Hỗ trợ: pdf, contentType, htmlContent, htmlUrl, dieukien, note, alert, xmttib, xmttchat, xmttemail, xmtt, displayName, tieudeflow
-    const HEADER_PRESETS = {
-      // === TIN TỨC ===
-      "TIN_TUC": {
-        pdf: "khuyenmai.pdf",
-        note: "<strong>Khuyến mãi mới nhất:</strong><br>- Giảm 10% lãi suất cho vay mua xe máy trong tháng 1/2026<br>- Tặng voucher 500k cho khách hàng mới đăng ký qua app",
-        xmttib: XMTT_1
-      },
 
-      // === QUY ĐỊNH CHUNG - Xác Minh Thông Tin ===
+    window.HEADER_PRESETS = {
+      "TIN_TUC": {
+        "pdf": "khuyenmai.pdf",
+        "note": "<strong>Khuyến mãi mới nhất:</strong><br>- Giảm 10% lãi suất cho vay mua xe máy trong tháng 1/2026<br>- Tặng voucher 500k cho khách hàng mới đăng ký qua app",
+        "xmttib": XMTT_1
+      },
       "QD_CHUNG": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/quydinhchung.pdf"
+        "pdf": "./QUY_DINH_CHUNG/CARD/quydinhchung.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "PHAN_LOAI_RUI_RO": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/phanloairuiroloan.pdf"
+        "pdf": "./QUY_DINH_CHUNG/CARD/phanloairuirolcard.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "XMTT_LEVEL_A": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/cauhoixmttloan_levela.pdf"
+        "pdf": "./QUY_DINH_CHUNG/CARD/cauhoilevelacard.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "XMTT_LEVEL_B": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/cauhoixmttloan_levelb.pdf"
+        "pdf": "./QUY_DINH_CHUNG/CARD/cauhoilevelbcard.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "TIEP_NHAN_CUOC_GOI": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/quydinhtiepnhancuogoi.pdf"
+        "pdf": "./QUY_DINH_CHUNG/CARD/quydinhtiepnhancuogoi.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "XU_LY_EMAIL_CHAT": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/quydinhxulyemail_chat.pdf"
+        "pdf": "./QUY_DINH_CHUNG/CARD/quydinhxulyemail_chat.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "HUONG_DAN_NHAP_LIEU": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/quydinhnhaplieu.pdf"
+        "pdf": "./QUY_DINH_CHUNG/CARD/quydinhnhaplieu.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
-
-      // === QUY ĐỊNH HỖ TRỢ NGƯỜI THỨ 3 ===
       "DU_NO_THOA_THUAN": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/dunothoaThuanKhoanVay.pdf",
-        dieukien: DIEUKIEN_NGUOI_THU_3
+        "pdf": "./QUY_DINH_CHUNG/CARD/dunothuathuoanthanhtoan_card.pdf",
+        "dieukien": DIEUKIEN_NGUOI_THU_3,
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "BOI_THUONG_BAO_HIEM": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/boithuongbaohiem.pdf",
-        dieukien: DIEUKIEN_NGUOI_THU_3
+        "pdf": "./QUY_DINH_CHUNG/CARD/boithuongbaohiem_card.pdf",
+        "dieukien": DIEUKIEN_NGUOI_THU_3,
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "NGUNG_NHAC_NO_DAN_SU": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/ngungnhacnodansu.pdf",
-        dieukien: DIEUKIEN_NGUOI_THU_3
+        "pdf": "./QUY_DINH_CHUNG/CARD/ngungnhacnodansu.pdf",
+        "dieukien": DIEUKIEN_NGUOI_THU_3,
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "HOAN_TIEN": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/hoantien.pdf",
-        dieukien: DIEUKIEN_NGUOI_THU_3
+        "pdf": "./QUY_DINH_CHUNG/CARD/hoantien_card.pdf",
+        "dieukien": DIEUKIEN_NGUOI_THU_3,
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
       "CAC_YEU_CAU_KHAC": {
-        pdf: "./QUY_DINH_CHUNG/LOAN/cacyeucaukhac.pdf",
-        dieukien: DIEUKIEN_NGUOI_THU_3
+        "pdf": "./QUY_DINH_CHUNG/CARD/cacyeucaukhac_card.pdf",
+        "dieukien": DIEUKIEN_NGUOI_THU_3,
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": ""
       },
-
-      // === HEADER BUTTONS ===
       "TAI_LIEU_THAM_KHAO": {
-        pdf: "TAI LIEU THAM KHAO.pdf",
-        note: "Tài liệu tham khảo các quy định, chính sách và hướng dẫn nghiệp vụ",
-        xmttib: XMTT_1,
-        xmttchat: "Post Login FEOL 2.0",
-        xmttemail: "Không cần XMTT cho Email"
+        "pdf": "TAI LIEU THAM KHAO.pdf",
+        "note": "Tài liệu tham khảo các quy định, chính sách và hướng dẫn nghiệp vụ",
+        "xmttib": XMTT_1,
+        "xmttchat": "Post Login FEOL 2.0",
+        "xmttemail": "Không cần XMTT cho Email"
       },
       "HUONG_DAN_HE_THONG": {
-        pdf: "HUONG DAN HE THONG.pdf"
+        "pdf": "HUONG DAN HE THONG.pdf"
       },
       "CHANGE_LOG": {
-        pdf: "CHANGE LOG.pdf"
+        "pdf": "CHANGE LOG.pdf"
       }
     };
-
-
 
     window.flowchartData = {
       "1. THÔNG TIN CHUNG": {
         "Thông Tin Công Ty": {
-          "displayName": "Thông Tin Công Ty",
-          "pdf": "Thông tin công ty.pdf",
-          "note": "asdadasd",
-          "xmttib": "asdasdasdasdsddadas",
-          "xmttemail": "asdasdasdasdsddadas",
-          "xmttchat": "asdasdasdasdsddadas",
-          "dieukien": "asdadasd"
+          "Thông Tin Công Ty & Thương Hiệu": {
+            "pdf": "1_THONG_TIN_CONG_TY/Thong_tin_cong_ty_thuong_hieu.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Thông tin công ty & thương hiệu",
+            "dieukien": "",
+            "xmttecom": ""
+          },
+          "Các Kênh CSKH": {
+            "pdf": "1_THONG_TIN_CONG_TY/Cac_kenh_CSKH.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Các kênh CSKH",
+            "dieukien": "",
+            "xmttecom": ""
+          },
+          "Công Văn & Thư Tín": {
+            "pdf": "Cong_van_thu_tin.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Công Văn / Thư Tín",
+            "dieukien": "",
+            "xmttecom": ""
+          },
+          "Quy Trình Gửi ZNS": {
+            "pdf": "1_THONG_TIN_CONG_TY/Quy_trinh_gui_ZNS.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Quy trình gửi ZNS",
+            "dieukien": "",
+            "xmttecom": ""
+          }
         },
         "Hợp Tác Kinh Doanh": {
-          "displayName": "Hợp Tác Kinh Doanh",
-          "contentType": "htmlUrl",
-          "htmlContent": "<div class=\"modal\" id=\"myModal\">\n        <h2>Xin chào!</h2>\n        <p>Đây là hiệu ứng transition opacity, visibility và transform kết hợp với nhau.</p>\n        <button class=\"close-btn\" onclick=\"toggleModal()\">Đóng lại</button>\n    </div>",
+          "pdf": "2_HOP_TAC_KINH_DOANH/Hop_tac_kinh_doanh.pdf",
+          "contentType": "",
+          "htmlContent": "",
           "htmlUrl": "",
-          "note": "Thông tin dành cho đối tác muốn hợp tác kinh doanh.",
-          "xmttib": XMTT_1
+          "xmttib": "",
+          "note": "",
+          "displayName": "Hợp Tác Kinh Doanh",
+          "dieukien": "<p><strong>Điều kiện ghi nhận hợp t&aacute;c:</strong><br>+ Mặt h&agrave;ng KH đang kinh doanh thuộc danh mục được hỗ trợ <a href=\"pdfile-loan\\1_THONG_TIN_CHUNG\\2_HOP_TAC_KINH_DOANH\\Danh_sach_mat_hang_hop_tac_kinh_doanh.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a><br>+ Ng&agrave;y cấp giấy ph&eacute;p kinh doanh &ge; 2 năm</p>",
+          "xmttecom": ""
         },
         "Xóa Dữ Liệu Cá Nhân": {
+          "pdf": "3_XOA_DU_LIEU_CA_NHAN/Xoa_du_lieu_ca_nhan.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "note": "",
           "displayName": "Xóa Dữ Liệu Cá Nhân",
-          "pdf": "Xóa Dữ Liệu Cá Nhân.pdf",
-          "note": "Hướng dẫn thực hiện yêu cầu xóa dữ liệu cá nhân theo quy định.",
-          "xmttib": XMTT_1
+          "dieukien": "<p>1. Phiếu y&ecirc;u cầu xử l&yacute; dữ liệu c&aacute; nh&acirc;n: <a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Phieu_yeu_cau_xu_ly_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\">tại đ&acirc;y</a><br>2. Tham khảo nghị định về bảo vệ dữ liệu c&aacute; nh&acirc;n:<a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Tham_khao_nghi_dinh_ve_bao_ve_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\"> tại đ&acirc;y</a></p>",
+          "xmttecom": ""
         },
         "Mở Chặn Cuộc Gọi": {
-          "displayName": "Mở Chặn Cuộc Gọi",
-          "pdf": "Mở Chặn Cuộc Gọi.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
+          "Cuộc Gọi Từ Sale/ UW": {
+            "pdf": "4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Sale_UW.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Cuộc Gọi Từ Sale/ UW",
+            "dieukien": "<p>Kiểm tra ticket RL24/RC24, x&aacute;c định đơn vị đ&atilde; xử l&yacute; y&ecirc;u cầu ngưng mời vay trước đ&oacute;</p>",
+            "xmttecom": ""
+          },
+          "Cuộc Gọi Từ Collx": {
+            "pdf": "4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Collx.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "Cuộc Gọi Từ Collx",
+            "dieukien": "",
+            "xmttecom": ""
+          }
         },
-        "Ngừng Mời Vay/QC": {
-          "displayName": "Ngừng Mời Vay/QC",
-          "pdf": "Ngừng Mời Vay_QC.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
+        "Ngưng Mời Vay & Quảng Cáo": {
+          "KH Chưa Có HĐ/ Thẻ": {
+            "pdf": "5_NGUNG_MOI_VAY/Ngung_moi_vay_chua_co_HD.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "KH Chưa Có HĐ/ Thẻ",
+            "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
+            "xmttecom": ""
+          },
+          "KH Đã Có HĐ/ Thẻ": {
+            "pdf": "5_NGUNG_MOI_VAY/Ngung_moi_vay_da_co_HD.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "note": "",
+            "displayName": "KH Đã Có HĐ/ Thẻ",
+            "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
+            "xmttecom": ""
+          }
         },
         "Khuyến Mãi": {
-          "displayName": "Khuyến Mãi",
-          "pdf": "Khuyến Mãi.pdf",
-          "note": "N/A",
-          "xmttib": XMTT_1
+          "Loan": {
+            "Ưu Đãi Thanh Toán": {
+              "pdf": "6_KHUYEN_MAI/Uu_dai_thanh_toan.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Thanh Toán Loan",
+              "dieukien": "",
+              "xmttecom": ""
+            }
+          },
+          "Card": {
+            "Ưu Đãi Thanh Toán": {
+              "pdf": "6_KHUYEN_MAI/Uu_dai_thanh_toan.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Thanh Toán Card",
+              "dieukien": "",
+              "xmttecom": ""
+            },
+            "Ưu Đãi Mua Sắm": {
+              "pdf": "6_KHUYEN_MAI/Uu_dai_mua_sam.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Mua Sắm Card",
+              "dieukien": "",
+              "xmttecom": ""
+            },
+            "Hoàn Tiền": {
+              "pdf": "6_KHUYEN_MAI/Hoan_tien.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Hoàn Tiền Card",
+              "dieukien": "",
+              "xmttecom": ""
+            },
+            "Dành riêng cho NV FEC": {
+              "pdf": "6_KHUYEN_MAI/Khuyen_mai_staff",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "note": "",
+              "displayName": "Ưu Đãi Dành Riêng Cho NV FEC",
+              "dieukien": "",
+              "xmttecom": ""
+            }
+          }
+        },
+        "Nhầm line/ Rớt cuộc/ Mất tín hiệu": {
+          "pdf": "7_NHAM_LINE_ROT_CUOC/Nham_line_rot_cuoc.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Nhầm Line/ Rớt Cuộc/ Mất Tín Hiệu",
+          "dieukien": "",
+          "xmttecom": ""
+        },
+        "Yêu cầu khác": {
+          "pdf": "8_YEU_CAU_KHAC/Yeu_cau_khac.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "note": "",
+          "displayName": "Yêu Cầu Khác",
+          "dieukien": "",
+          "xmttecom": ""
         }
       },
       "2. THÔNG TIN SẢN PHẨM": {
@@ -1850,27 +2060,49 @@
 
       // Hàm flatten flowchart data cho search
       // Trả về array thay vì gán trực tiếp vào state (cho phép cache)
+      // Hỗ trợ node vừa có content (pdf, displayName) vừa có children (group có sub-items)
       function flattenFlowchart(node, path = [], breadcrumb = [], result = []) {
+        // Danh sách các key thuộc tính content (không phải children)
+        const CONTENT_KEYS = ['displayName', 'pdf', 'note', 'xmttib', 'xmttemail', 'xmttchat',
+          'dieukien', 'contentType', 'htmlContent', 'htmlUrl', 'alert', 'tieudeflow', 'xmtt'];
+
         Object.keys(node).forEach((key) => {
           const newPath = [...path, key];
           const newBreadcrumb = [...breadcrumb, key.replace(/^\d+\.\s*/, "")];
           const childNode = node[key];
 
-          if (isLeaf(childNode)) {
-            const displayText =
-              childNode.displayName || newBreadcrumb.join(" > ");
+          if (!isObject(childNode)) return; // Bỏ qua giá trị không phải object
+
+          // Kiểm tra node có content không (pdf, htmlContent, htmlUrl, contentType)
+          const hasContent = childNode.pdf !== undefined ||
+            childNode.contentType !== undefined ||
+            childNode.htmlContent !== undefined ||
+            childNode.htmlUrl !== undefined;
+
+          // Nếu có content → thêm vào search results (dù có children hay không)
+          if (hasContent) {
+            const displayText = childNode.displayName || newBreadcrumb.join(" > ");
             result.push({
               path: newPath,
               pdfName: childNode.pdf || "",
               displayText: displayText,
               normalizedDisplayText: removeAccents(displayText.toLowerCase()),
-              normalizedPdfName: removeAccents(
-                (childNode.pdf || "").toLowerCase()
-              ),
+              normalizedPdfName: removeAccents((childNode.pdf || "").toLowerCase()),
             });
-          } else if (isObject(childNode)) {
-            flattenFlowchart(childNode, newPath, newBreadcrumb, result);
           }
+
+          // Tìm và duyệt children (các key không phải thuộc tính content)
+          Object.keys(childNode).forEach((subKey) => {
+            if (!CONTENT_KEYS.includes(subKey) && isObject(childNode[subKey])) {
+              // Đây là children → duyệt tiếp
+              flattenFlowchart(
+                { [subKey]: childNode[subKey] },
+                newPath,
+                newBreadcrumb,
+                result
+              );
+            }
+          });
         });
         return result;
       }
@@ -1880,7 +2112,29 @@
       function getFlattenedData(sourceName) {
         if (!FLAT_DATA_CACHE[sourceName]) {
           console.log(`[Cache] Building cache for: ${sourceName}`);
-          FLAT_DATA_CACHE[sourceName] = flattenFlowchart(dataSources[sourceName]);
+          // Flatten flowchart data
+          const flowchartFlattened = flattenFlowchart(dataSources[sourceName]);
+          // Flatten header presets
+          const headerFlattened = (function () {
+            const result = [];
+            Object.keys(HEADER_PRESETS).forEach((presetKey) => {
+              const preset = HEADER_PRESETS[presetKey];
+              if (preset.displayName) {
+                result.push({
+                  path: ['__HEADER_PRESET__', presetKey],
+                  pdfName: preset.pdf || "",
+                  displayText: preset.displayName,
+                  normalizedDisplayText: removeAccents(preset.displayName.toLowerCase()),
+                  normalizedPdfName: removeAccents((preset.pdf || "").toLowerCase()),
+                  isHeaderPreset: true,
+                  presetKey: presetKey
+                });
+              }
+            });
+            return result;
+          })();
+          // Merge cả 2 nguồn
+          FLAT_DATA_CACHE[sourceName] = [...flowchartFlattened, ...headerFlattened];
         } else {
           console.log(`[Cache] Using cached data for: ${sourceName}`);
         }
@@ -2016,10 +2270,24 @@
         const compressed = urlParams.get('s');      // Dữ liệu đường dẫn đã nén
         const sourceParam = urlParams.get('source'); // Nguồn dữ liệu
         let headerPdf = urlParams.get('pdf');      // PDF từ header
+        const presetParam = urlParams.get('preset'); // Preset từ header (hỗ trợ open new tab)
 
-
-
-
+        // Xử lý preset param - cho phép open new tab từ header links
+        if (presetParam && window.HEADER_PRESETS && window.HEADER_PRESETS[presetParam]) {
+          const preset = window.HEADER_PRESETS[presetParam];
+          if (preset.pdf) {
+            navigateTo('header-pdf', {
+              pdfName: preset.pdf,
+              dieukien: preset.dieukien || '',
+              note: preset.note || '',
+              xmttib: preset.xmttib || '',
+              xmttchat: preset.xmttchat || '',
+              xmttemail: preset.xmttemail || '',
+              displayName: preset.displayName || ''
+            }, false);
+            return true;
+          }
+        }
 
         if (headerPdf) {
 
@@ -2185,6 +2453,20 @@
           return;
         }
 
+        // Xử lý đặc biệt cho HEADER_PRESETS
+        if (path[0] === '__HEADER_PRESET__') {
+          const presetKey = path[1];
+          if (HEADER_PRESETS[presetKey]) {
+            const presetBtn = document.querySelector(`[data-preset="${presetKey}"]`);
+            if (presetBtn) {
+              presetBtn.click();
+            }
+          }
+          searchResultsContainer.classList.remove('show');
+          headerSearch.value = '';
+          return;
+        }
+
         removeDropdowns(1);
         let currentDataNode = state.activeData;
         path.forEach((key, index) => {
@@ -2224,6 +2506,17 @@
 
           currentDataNode = currentDataNode[key];
         });
+
+        // Hỗ trợ hiển thị dropdown trống cấp tiếp theo nếu node cuối cùng không phải là leaf
+        if (currentDataNode && !isLeaf(currentDataNode)) {
+          const contentKeys = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'note', 'xmttib', 'xmttemail', 'xmttchat', 'xmtt', 'dieukien', 'displayName', 'alert', 'tieudeflow'];
+          const childKeys = Object.keys(currentDataNode).filter(k =>
+            !contentKeys.includes(k) && isObject(currentDataNode[k])
+          );
+          if (childKeys.length > 0) {
+            createDropdown(childKeys, path.length + 1, currentDataNode, currentDataNode);
+          }
+        }
 
         if (isLeaf(currentDataNode)) {
           displayResult(currentDataNode);
@@ -2296,6 +2589,26 @@
         customDropdown.appendChild(dropdownHeader);
         customDropdown.appendChild(dropdownList);
 
+        const handleAutoScroll = () => {
+          setTimeout(() => {
+            const rect = dropdownList.getBoundingClientRect();
+            if (rect.height === 0) return;
+
+            const spaceBelow = window.innerHeight - rect.bottom;
+            if (spaceBelow < 0) {
+              const sidebarObj = document.getElementById("sidebar");
+              if (sidebarObj) {
+                sidebarObj.scrollTo({
+                  top: sidebarObj.scrollTop + Math.abs(spaceBelow) + 40,
+                  behavior: "smooth"
+                });
+              }
+            }
+          }, 100);
+        };
+
+        customDropdown.addEventListener("mouseenter", handleAutoScroll);
+
         dropdownHeader.addEventListener("click", (e) => {
           e.stopPropagation();
 
@@ -2303,6 +2616,10 @@
             if (dd !== customDropdown) dd.classList.remove('open');
           });
           customDropdown.classList.toggle("open");
+
+          if (customDropdown.classList.contains("open")) {
+            handleAutoScroll();
+          }
         });
 
         dropdownList.addEventListener("click", (e) => {
@@ -2519,7 +2836,8 @@
           note: '',
           xmttib: '',
           xmttchat: '',
-          xmttemail: ''
+          xmttemail: '',
+          displayName: '' // Tên hiển thị trên title
         },
 
         snapshot() {
@@ -2632,6 +2950,12 @@
        * Render header PDF state
        */
       function renderHeaderPdfState(pdfState) {
+        // Cập nhật title theo displayName
+        if (pdfState.displayName) {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName + ' - ' + pdfState.displayName;
+        } else {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName;
+        }
 
         removeDropdowns(1);
         createFirstLevelDropdown();
@@ -2994,6 +3318,13 @@
       }
 
       function displayResult(resultObject) {
+        // Cập nhật title theo displayName của kết quả được chọn
+        if (resultObject.displayName) {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName + ' - ' + resultObject.displayName;
+        } else {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName;
+        }
+
         const subHeader = document.getElementById("sub-header");
         const xmttIbBox = document.getElementById("xmtt-ib-box");
         const xmttEmailBox = document.getElementById("xmtt-email-box");
@@ -3002,6 +3333,7 @@
         const xmttIbContent = document.getElementById("xmtt-ib-content");
         const xmttEmailContent = document.getElementById("xmtt-email-content");
         const xmttChatContent = document.getElementById("xmtt-chat-content");
+
 
         if (resultObject.hideSubHeader === true) {
 
@@ -3141,6 +3473,9 @@
       }
 
       function resetResults(showDefault = false) {
+        // Reset title về mặc định khi không có kết quả
+        document.title = 'PLTT ' + PAGE_CONFIG.productName;
+
 
         const xmttIbBox = document.getElementById("xmtt-ib-box");
         const xmttEmailBox = document.getElementById("xmtt-email-box");
@@ -3616,13 +3951,13 @@
     });
   </script>
 
-  
-    <!-- AUTO-INJECTED CUSTOM POPUP LOGIC -->
+
+  <!-- AUTO-INJECTED CUSTOM POPUP LOGIC -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // 1. Create Modal Markup if not exists
-        if (!document.getElementById('custom-popup-modal')) {
-            const modalHtml = `
+    document.addEventListener('DOMContentLoaded', function () {
+      // 1. Create Modal Markup if not exists
+      if (!document.getElementById('custom-popup-modal')) {
+        const modalHtml = `
                 <div id="custom-popup-modal" class="custom-modal-overlay">
                     <div class="custom-modal-content">
                         <div class="custom-modal-header">
@@ -3635,48 +3970,48 @@
                     </div>
                 </div>
             `;
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-            
-            // Close event
-            const closeBtn = document.querySelector('.custom-modal-close');
-            if(closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    document.getElementById('custom-popup-modal').classList.remove('show');
-                });
-            }
-            
-            // Click outside to close
-            const modal = document.getElementById('custom-popup-modal');
-            if(modal) {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        this.classList.remove('show');
-                    }
-                });
-            }
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        // Close event
+        const closeBtn = document.querySelector('.custom-modal-close');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', function () {
+            document.getElementById('custom-popup-modal').classList.remove('show');
+          });
         }
 
-        // 2. Delegate click event for popups
-        document.body.addEventListener('click', function(e) {
-            const target = e.target.closest('.custom-popup');
-            if (target) {
-                let content = target.getAttribute('data-popup-content');
-                if (content) {
-                    try {
-                        content = decodeURIComponent(content);
-                    } catch(e) {
-                        // console.warn('Content not encoded:', e);
-                    }
-
-                    const body = document.getElementById('custom-popup-body');
-                    const modal = document.getElementById('custom-popup-modal');
-                    if(body && modal) {
-                        body.innerHTML = content;
-                        modal.classList.add('show');
-                    }
-                }
+        // Click outside to close
+        const modal = document.getElementById('custom-popup-modal');
+        if (modal) {
+          modal.addEventListener('click', function (e) {
+            if (e.target === this) {
+              this.classList.remove('show');
             }
-        });
+          });
+        }
+      }
+
+      // 2. Delegate click event for popups
+      document.body.addEventListener('click', function (e) {
+        const target = e.target.closest('.custom-popup');
+        if (target) {
+          let content = target.getAttribute('data-popup-content');
+          if (content) {
+            try {
+              content = decodeURIComponent(content);
+            } catch (e) {
+              // console.warn('Content not encoded:', e);
+            }
+
+            const body = document.getElementById('custom-popup-body');
+            const modal = document.getElementById('custom-popup-modal');
+            if (body && modal) {
+              body.innerHTML = content;
+              modal.classList.add('show');
+            }
+          }
+        }
+      });
     });
   </script>
 </body>

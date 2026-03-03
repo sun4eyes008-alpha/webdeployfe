@@ -104,14 +104,96 @@
 }
 
 :root {
-  --primary-color: #81c753;
-  --secondary-color: #009f52;
-  --bg-color: #f5f3f3;
+  /* ===== BIẾN CẤU TRÚC (Structure Variables) ===== */
   --sidebar-width: 20vw;
   --header-height: 45px;
-  /* Changed to fixed height */
   --collapsed-sidebar-width: 0px;
   --transition-speed: 0.3s;
+
+  /* ===== MÀU SẮC CHỦ ĐỀ (Theme Colors) ===== */
+  /* Có thể override bởi file theme-*.css */
+
+  /* Màu chính (Primary Colors) */
+  --primary-color: #81c753;
+  /* Xanh lá chính */
+  --secondary-color: #009f52;
+  /* Xanh lá đậm */
+  --accent-color: #539e22;
+  /* Màu nhấn */
+  --accent-hover: #6ab343;
+  /* Màu nhấn khi hover */
+
+  /* Màu nền (Background Colors) */
+  --bg-color: #f5f3f3;
+  /* Nền chung */
+  --bg-white: #ffffff;
+  /* Nền trắng */
+  --bg-sidebar: #ffffff;
+  /* Nền sidebar */
+  --bg-landing: #fdffef;
+  /* Nền trang landing */
+
+  /* Màu text (Text Colors) */
+  --text-dark: #333333;
+  /* Text đậm */
+  --text-medium: #666666;
+  /* Text trung bình */
+  --text-light: #999999;
+  /* Text nhạt */
+  --text-placeholder: #94a3b8;
+  /* Text placeholder */
+  --text-on-primary: #ffffff;
+  /* Text trên nền màu chính */
+
+  /* Màu border (Border Colors) */
+  --border-light: #e0e0e0;
+  /* Border nhạt */
+  --border-medium: #cccccc;
+  /* Border trung bình */
+  --border-focus: #009f52;
+  /* Border khi focus */
+
+  /* Màu các hộp thông tin (Box Colors) */
+  --box-ib: #a8ec81;
+  /* Hộp IB - xanh lá nhạt */
+  --box-email: #7ae9c8;
+  /* Hộp Email - xanh ngọc */
+  --box-chat: #a8d8f0;
+  /* Hộp Chat - xanh dương nhạt */
+  --box-ib-bg: #cff4fc;
+  /* Nền cột IB */
+  --box-ecom-bg: #ecfae2;
+  /* Nền cột ECOM */
+  --box-notes: #fff8bf;
+  /* Hộp Notes - vàng */
+  --box-notes-border: #ffeeba;
+  /* Border hộp Notes */
+  --box-dieukien: #fffff7;
+  /* Nền panel điều kiện */
+  --box-dieukien-border: #FF0;
+  /* Border panel điều kiện */
+
+  /* Màu trạng thái (State Colors) */
+  --hover-bg: #ecfae2;
+  /* Nền khi hover */
+  --selected-bg: #81c753;
+  /* Nền khi được chọn */
+  --selected-hover: #6ab343;
+  /* Nền chọn + hover */
+
+  /* Màu thông báo (Notification Colors) */
+  --error-bg: #ffd1d1;
+  /* Nền thông báo lỗi */
+  --error-border: #b12d2d;
+  /* Border thông báo lỗi */
+  --error-text: rgb(73, 19, 19);
+  /* Text thông báo lỗi */
+
+  /* Màu tree/flowchart (Tree Colors) */
+  --tree-primary: #667eea;
+  /* Màu chính tree */
+  --tree-secondary: #764ba2;
+  /* Màu phụ tree */
 }
 
 html,
@@ -179,7 +261,7 @@ body.sidebar-collapsed {
 }
 
 .logo {
-  height: 18px;
+  height: 24px;
   /* Adjusted logo size */
   cursor: pointer;
   transition: transform 0.2s ease;
@@ -204,7 +286,7 @@ body.sidebar-collapsed {
   align-items: center;
   margin-left: auto;
   /* Push tabs to the right */
-  gap: 3px;
+  gap: 2px;
 }
 
 .tab-btn {
@@ -290,26 +372,26 @@ body.sidebar-collapsed {
 
 /* Hover state - xám nhạt */
 .search-result-item:hover {
-  background-color: #ecfae2;
+  background-color: var(--hover-bg);
 }
 
 /* Selected state (keyboard navigation) - XANH LÁ RÕ RÀNG */
 .search-result-item.selected {
-  background-color: #81c753 !important;
-  color: #fff !important;
+  background-color: var(--selected-bg) !important;
+  color: var(--text-on-primary) !important;
   font-weight: 600;
 }
 
 /* Selected + Hover */
 .search-result-item.selected:hover {
-  background-color: #6ab343 !important;
+  background-color: var(--selected-hover) !important;
 }
 
 /* --- SIDEBAR --- */
 #sidebar {
   grid-area: sidebar;
-  background-color: #ffff;
-  border-right: 1px solid #e0e0e0;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-light);
   padding-top: 0px;
   overflow-y: auto;
   transition: width var(--transition-speed) ease;
@@ -317,17 +399,17 @@ body.sidebar-collapsed {
 
 .sidebar-header {
   padding: 0 20px 20px 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .sidebar-header h5 {
-  color: #1f6d00;
+  color: var(--secondary-color);
   font-size: 1.2em;
   font-weight: 600;
 }
 
 .sidebar-content {
-  padding: 20px;
+  padding: 20px 20px 320px 20px;
 }
 
 .filter-group {
@@ -337,16 +419,16 @@ body.sidebar-collapsed {
 .filter-label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--text-dark);
   font-weight: 500;
 }
 
 .filter-select {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-medium);
   border-radius: 4px;
-  background-color: #fff;
+  background-color: var(--bg-white);
   cursor: pointer;
   overflow: hidden;
   /* Attempt to contain the dropdown */
@@ -362,15 +444,15 @@ body.sidebar-collapsed {
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-medium);
   border-radius: 6px;
   /* Slightly more rounded than default filter-select */
   padding: 10px 30px 10px 10px;
   /* Adjust padding for custom arrow */
   font-weight: bold;
-  color: #539e22;
+  color: var(--accent-color);
   /* Active tab color */
-  background-color: #fff;
+  background-color: var(--bg-white);
   cursor: pointer;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   /* Subtle shadow */
@@ -380,13 +462,13 @@ body.sidebar-collapsed {
 }
 
 #source-switcher:hover {
-  border-color: #009f52;
+  border-color: var(--secondary-color);
   /* Hover border color */
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
 #source-switcher:focus {
-  border-color: #009f52;
+  border-color: var(--secondary-color);
   box-shadow: 0 0 0 2px rgba(0, 159, 82, 0.2);
   /* Focus ring */
 }
@@ -396,23 +478,23 @@ body.sidebar-collapsed {
   /* Allow text to wrap in options */
   word-wrap: break-word;
   padding: 8px 10px;
-  background-color: #fff;
-  color: #333;
+  background-color: var(--bg-white);
+  color: var(--text-dark);
 }
 
 /* Option khi được chọn (selected) */
 .filter-select option:checked,
 #source-switcher option:checked {
-  background: linear-gradient(0deg, #81c753 0%, #81c753 100%);
-  background-color: #81c753 !important;
-  color: #fff;
+  background: linear-gradient(0deg, var(--selected-bg) 0%, var(--selected-bg) 100%);
+  background-color: var(--selected-bg) !important;
+  color: var(--text-on-primary);
 }
 
 /* Option khi hover */
 .filter-select option:hover,
 #source-switcher option:hover {
-  background-color: #ecfae2 !important;
-  color: #333;
+  background-color: var(--hover-bg) !important;
+  color: var(--text-dark);
 }
 
 /* Firefox specific - dùng accent-color */
@@ -441,12 +523,12 @@ body.sidebar-collapsed {
 .dropdown-header {
   width: 100%;
   padding: 10px 35px 10px 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-medium);
   border-radius: 6px;
-  background-color: #fff;
+  background-color: var(--bg-white);
   cursor: pointer;
   font-size: 13px;
-  color: #333;
+  color: var(--text-dark);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -455,12 +537,12 @@ body.sidebar-collapsed {
 }
 
 .dropdown-header:hover {
-  border-color: #009f52;
+  border-color: var(--secondary-color);
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
 }
 
 .custom-dropdown.open .dropdown-header {
-  border-color: #009f52;
+  border-color: var(--secondary-color);
   box-shadow: 0 0 0 2px rgba(0, 159, 82, 0.2);
 }
 
@@ -470,12 +552,12 @@ body.sidebar-collapsed {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-weight: 500;
-  color: #539e22;
+  color: var(--accent-color);
 }
 
 .dropdown-arrow {
   font-size: 10px;
-  color: #666;
+  color: var(--text-medium);
   margin-left: 8px;
   transition: transform 0.2s ease;
 }
@@ -514,7 +596,7 @@ body.sidebar-collapsed {
 }
 
 .custom-dropdown:not(.just-selected):hover .dropdown-header {
-  border-color: #009f52;
+  border-color: var(--secondary-color);
   box-shadow: 0 0 0 2px rgba(0, 159, 82, 0.2);
 }
 
@@ -527,7 +609,7 @@ body.sidebar-collapsed {
   padding: 10px 12px;
   cursor: pointer;
   font-size: 13px;
-  color: #333;
+  color: var(--text-dark);
   border-bottom: 1px solid #f0f0f0;
   transition: all 0.15s ease;
 }
@@ -539,21 +621,21 @@ body.sidebar-collapsed {
 
 /* Hover state - XÁM NHẠT (màu xanh lá nhạt) */
 .dropdown-item:hover {
-  background-color: #ecfae2 !important;
-  color: #333;
+  background-color: var(--hover-bg) !important;
+  color: var(--text-dark);
 }
 
 /* Selected state - XANH LÁ */
 .dropdown-item.selected {
-  background-color: #81c753 !important;
-  color: #fff !important;
+  background-color: var(--selected-bg) !important;
+  color: var(--text-on-primary) !important;
   font-weight: 600;
 }
 
 /* Selected + Hover */
 .dropdown-item.selected:hover {
-  background-color: #6ab343 !important;
-  color: #fff !important;
+  background-color: var(--selected-hover) !important;
+  color: var(--text-on-primary) !important;
 }
 
 /* --- MAIN CONTENT --- */
@@ -568,13 +650,13 @@ body.sidebar-collapsed {
   max-height: 50vh;
   /* Set a max-height instead of fixed height */
   min-height: 120px;
-  background-color: #f5f3f3;
+  background-color: var(--bg-color);
   border-bottom: 0 px solid #ddd;
 }
 
 /* XMTT IB Box - White card style */
 .xmtt-ib-box {
-  background: #a8ec81;
+  background: var(--box-ib);
   flex: 1 1 0;
   min-width: 100px;
   box-sizing: border-box;
@@ -587,7 +669,7 @@ body.sidebar-collapsed {
 
 /* XMTT EMAIL Box - White card style */
 .xmtt-email-box {
-  background: #7ae9c8;
+  background: var(--box-email);
   flex: 1 1 0;
   min-width: 100px;
   box-sizing: border-box;
@@ -600,7 +682,7 @@ body.sidebar-collapsed {
 
 /* XMTT CHAT Box - White card style */
 .xmtt-chat-box {
-  background: #a8d8f0;
+  background: var(--box-chat);
   flex: 1 1 0;
   min-width: 100px;
   box-sizing: border-box;
@@ -614,20 +696,20 @@ body.sidebar-collapsed {
 /* Notes box - White card style */
 #notes-box {
   width: 100%;
-  background: #ffffff;
+  background: var(--bg-white);
   padding: 0;
   border-radius: 8px;
-  border: 1px solid #ffeeba;
+  border: 1px solid var(--box-notes-border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 /* Điều kiện panel - White card style */
 .dieukien-panel {
-  background: #ffffff;
+  background: var(--bg-white);
   padding: 0;
   border-radius: 8px;
   margin: 8px 8px 0px 8px;
-  border: 1px solid #FF0;
+  border: 1px solid var(--box-dieukien-border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
@@ -657,7 +739,7 @@ body.sidebar-collapsed {
 }
 
 .resize-handle:hover {
-  background: #009f52;
+  background: var(--secondary-color);
 }
 
 /* When handle is hidden, ensure it takes no space */
@@ -737,7 +819,7 @@ body.sidebar-collapsed {
 
 /* IB Column - Modern Blue Theme */
 .xmtt-column.xmtt-ib {
-  background: #cff4fc;
+  background: var(--box-ib-bg);
   border-radius: 10px;
   position: relative;
   margin: 8px;
@@ -746,7 +828,7 @@ body.sidebar-collapsed {
 
 /* ECOM Column - Modern Green Theme */
 .xmtt-column.xmtt-ecom {
-  background: #ecfae2;
+  background: var(--box-ecom-bg);
   border-radius: 10px;
   position: relative;
   margin: 8px;
@@ -857,7 +939,7 @@ body.sidebar-collapsed {
 
 /* Notes content */
 #notes-result {
-  background: #fff8bf !important;
+  background: var(--box-notes) !important;
   border-radius: 8px !important;
   border: 2px solid #fff178 !important;
   overflow-y: auto;
@@ -869,7 +951,7 @@ body.sidebar-collapsed {
 #dieukien-result {
   background: rgba(255, 255, 255, 1);
   border-radius: 8px;
-  padding: 12px;
+  padding: 3px;
 }
 
 #xmtt-ib-content:hover,
@@ -911,7 +993,7 @@ body.sidebar-collapsed {
 /* Modern Condition Panel - Separate from sub-header */
 .dieukien-panel {
   padding: 8px 0 5px 0;
-  background-color: #fffff7;
+  background-color: var(--box-dieukien);
 }
 
 .dieukien-box {
@@ -1119,11 +1201,11 @@ body.sidebar-collapsed {
 }
 
 .notification-toast {
-  background: #ffd1d1;
-  color: rgb(73, 19, 19);
+  background: var(--error-bg);
+  color: var(--error-text);
   padding: 10px 10px 10px 10px;
   border-radius: 5px;
-  border-left: 5px solid #b12d2d;
+  border-left: 5px solid var(--error-border);
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 
   /* Transition Properties for a fade-in and slide-up effect */
@@ -1367,8 +1449,8 @@ body:not(.sidebar-collapsed) #sidebar {
   /* Adjust padding to center the 18px icon path */
   border-radius: 50%;
   /* Default State Colors */
-  background-color: #ecfae2;
-  fill: #00994f;
+  background-color: var(--hover-bg);
+  fill: var(--secondary-color);
   /* Smooth transition for hover effect */
   transition: background-color 0.2s ease, fill 0.2s ease;
   flex-shrink: 0;
@@ -1376,9 +1458,9 @@ body:not(.sidebar-collapsed) #sidebar {
 }
 
 .dropdown-item:hover {
-  background-color: #ecfae2;
+  background-color: var(--hover-bg);
   /* User's request */
-  color: #00994f;
+  color: var(--secondary-color);
   /* User's request */
   border-radius: 10px;
   /* User's request */
@@ -1386,8 +1468,8 @@ body:not(.sidebar-collapsed) #sidebar {
 
 /* New Hover State for SVG */
 .dropdown-item:hover svg {
-  background-color: #00994f;
-  fill: #ecfae2;
+  background-color: var(--secondary-color);
+  fill: var(--hover-bg);
 }
 
 .dropdown:hover .dropdown-menu {
@@ -1471,7 +1553,7 @@ body.landing-page #main-header .sidebar-toggle {
   height: calc(100vh - 70px);
   overflow: hidden;
   z-index: 0;
-  background-color: #fdffef;
+  background-color: var(--bg-landing);
 }
 
 .video-background-main video {
@@ -1488,9 +1570,9 @@ body.landing-page #main-header .sidebar-toggle {
 
 /* New, cleaner header overrides using the dedicated class */
 #main-header.landing-header {
-  background: #fdffef;
+  background: var(--bg-landing);
   /* New solid color */
-  color: #4d4d4d;
+  color: var(--text-medium);
   /* New text color for readability */
   border-bottom: none;
   /* Remove bottom border */
@@ -1498,11 +1580,11 @@ body.landing-page #main-header .sidebar-toggle {
 
 /* Ensure child elements inherit/use the new color scheme */
 .landing-header .sidebar-toggle svg {
-  stroke: #4d4d4d;
+  stroke: var(--text-medium);
 }
 
 .landing-header .tab-btn {
-  color: #4d4d4d;
+  color: var(--text-medium);
 }
 
 .landing-header .tab-btn:hover {
@@ -1519,7 +1601,7 @@ body.landing-page #main-header .sidebar-toggle {
 .sidebar-header {
   /* Removed display: flex; to allow stacking of title and tabs */
   padding: 0;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .sidebar-page-title {
@@ -1637,9 +1719,9 @@ body.landing-page #main-header .sidebar-toggle {
 }
 
 .sidebar-tab-btn.active {
-  color: #539e22;
-  background-color: #fff;
-  border-bottom-color: #009f52;
+  color: var(--accent-color);
+  background-color: var(--bg-white);
+  border-bottom-color: var(--secondary-color);
   cursor: pointer;
   /* Ensure pointer cursor */
 }

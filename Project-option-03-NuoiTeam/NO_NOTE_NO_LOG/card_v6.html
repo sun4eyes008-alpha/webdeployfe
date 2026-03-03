@@ -8,14 +8,10 @@
   <link rel="icon" type="image/x-icon" href="./Asset/img-video/fec_logo-1.png">
   <link rel="stylesheet" href="./Asset/style2.css" />
   <link rel="stylesheet" href="./Asset/theme-default.css" />
-  <!--
-  <link rel="stylesheet" href="./Asset/theme-tet.css" />
-   -->
-  <link rel="stylesheet" href="./Asset/theme-he.css" />
-  <!--
- <link rel="stylesheet" href="./Asset/theme-thu.css" />
-  <link rel="stylesheet" href="./Asset/theme-dong.css" />
-  -->
+  <!-- <link rel="stylesheet" href="./Asset/theme-tet.css" />
+  <link rel="stylesheet" href="./Asset/theme-he.css" /> 
+  <link rel="stylesheet" href="./Asset/theme-thu.css" />
+  <link rel="stylesheet" href="./Asset/theme-dong.css" /> -->
 
   <style>
     /* Bỏ gạch chân cho các link trong header */
@@ -29,6 +25,44 @@
       text-decoration: none;
       /* removed color: inherit so it correctly falls back to #4d4d4d defined in style2.css */
     }
+
+    .home-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: white;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+      text-decoration: none;
+      margin-right: 5px;
+      line-height: 0;
+      align-self: center;
+    }
+
+    .home-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+    }
+
+    .sidebar-toggle:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   </style>
 </head>
 
@@ -36,6 +70,13 @@
   <!-- Header -->
   <header id="main-header">
     <div class="header-container">
+      <a href="index.html" class="home-btn" title="Trang chủ">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </a>
       <button class="sidebar-toggle" id="sidebar-toggle">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -45,7 +86,7 @@
       </button>
       <div class="logo-container">
         <a href="index.html">
-          <img src="./Asset/logo/logo-fecredit.gif" alt="FECredit" class="logo" />
+          <img src="./Asset/logo/logo-fecredit.gif" alt="FECredit" class="logo" style="border-radius: 5px;" />
         </a>
       </div>
 
