@@ -391,7 +391,10 @@
         "effectiveDate": "2026-02-15",
         "author": "QC Team",
         "pinned": false,
-        "image": ""
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
       },
       {
         "id": 6,
@@ -405,7 +408,10 @@
         "effectiveDate": "2026-02-15",
         "author": "QC Team",
         "pinned": false,
-        "image": ""
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
       },
       {
         "id": 7,
@@ -418,7 +424,10 @@
         "effectiveDate": "2026-02-15",
         "author": "QC Team",
         "pinned": false,
-        "image": ""
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
       },
       {
         "id": 8,
@@ -431,7 +440,10 @@
         "effectiveDate": "2026-02-15",
         "author": "QC Team",
         "pinned": false,
-        "image": ""
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
       },
       {
         "id": 9,
@@ -444,7 +456,10 @@
         "effectiveDate": "2026-02-15",
         "author": "QC Team",
         "pinned": false,
-        "image": ""
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
       },
       {
         "id": 10,
@@ -457,7 +472,10 @@
         "effectiveDate": "2026-02-15",
         "author": "QC Team",
         "pinned": false,
-        "image": ""
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
       }
     ];
   </script>
@@ -551,14 +569,33 @@
       };
 
       // Display name mapping: internal category -> display label
-      var categoryDisplayName = {
+      var CATEGORY_DISPLAY = {
         'Quy trình': 'Change Log'
       };
+      // Trả về tên hiển thị (Ví dụ Quy trình -> Change Log)
       function getDisplayName(cat) {
-        return categoryDisplayName[cat] || cat;
+        if (!cat) return 'Khác';
+        return CATEGORY_DISPLAY[cat] || cat;
       }
 
-      // Desired order of categories in header
+      // Hàm tính thời gian trôi qua, ví dụ: 1 tháng trước
+      function timeAgo(dateString) {
+        if (!dateString) return '';
+        var date = new Date(dateString);
+        var now = new Date();
+        var diffInMs = now - date;
+        var diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+        if (diffInDays === 0) return 'Hôm nay';
+        if (diffInDays === 1) return 'Hôm qua';
+        if (diffInDays < 30) return diffInDays + ' ngày trước';
+        var diffInMonths = Math.floor(diffInDays / 30);
+        if (diffInMonths < 12) return diffInMonths + ' tháng trước';
+        var diffInYears = Math.floor(diffInDays / 365);
+        return diffInYears + ' năm trước';
+      }
+
+      // Format date yyyy-mm-dd -> dd/mm/yyyyer of categories in header
       var categoryOrder = ['Thông báo', 'Quy trình', 'Sự kiện', 'Đào tạo', 'Hướng dẫn hội nhập'];
 
       // Vietnamese diacritics removal for search
@@ -569,6 +606,7 @@
       // Onboarding departments data
       var onboardingDepts = [
         { name: 'INBOUND', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.05 15.05 0 0 1-6.59-6.59l2.2-2.2a1 1 0 0 0 .24-1.02A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/><path d="M19 3v4h-4l1.29-1.29-2.58-2.59 1.41-1.41 2.59 2.58L19 3z" opacity=".85"/></svg>', desc: 'Tiếp nhận cuộc gọi đến từ khách hàng, hỗ trợ giải đáp thắc mắc và xử lý yêu cầu.', color: '#3b82f6', image: '', messages: ['Lắng nghe tận tâm, phục vụ tận tình', 'Mỗi cuộc gọi là một cơ hội tạo ấn tượng', 'Giải quyết nhanh, khách hàng hài lòng', 'Chuyên nghiệp trong từng lời nói'] },
+        { name: 'F2F', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>', desc: 'Tư vấn và hỗ trợ khách hàng trực tiếp tại các điểm giao dịch, quầy dịch vụ.', color: '#eab308', image: '', messages: ['Gặp gỡ trực tiếp, tư vấn tận tâm', 'Chuyên nghiệp và chu đáo', 'Đồng hành cùng khách hàng'] },
         { name: 'OUTBOUND', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.05 15.05 0 0 1-6.59-6.59l2.2-2.2a1 1 0 0 0 .24-1.02A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/><path d="M15 7V3h4v4h-1.5V5.56l-2.58 2.58-1.06-1.06L16.44 4.5H15z" opacity=".85"/></svg>', desc: 'Chủ động gọi ra cho khách hàng để tư vấn sản phẩm, dịch vụ và chăm sóc.', color: '#8b5cf6', image: '', messages: ['Chủ động kết nối, tạo giá trị', 'Mỗi cuộc gọi là một cơ hội kinh doanh', 'Tư vấn tận tâm, đồng hành cùng khách hàng', 'Không ngừng cải thiện chất lượng dịch vụ'] },
         { name: 'ECOM', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/><path d="M9.5 9h5v1h-5V9zm0 2h3.5v1H9.5v-1z" opacity=".7"/></svg>', desc: 'Hỗ trợ khách hàng qua kênh chat, Email.', color: '#06b6d4', image: '', messages: ['Phản hồi nhanh, hỗ trợ kịp thời', 'Trải nghiệm số vượt trội', 'Kết nối khách hàng mọi lúc mọi nơi', 'Giải pháp nhanh chóng, chính xác'] },
         { name: 'CARE', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/><circle cx="12" cy="9" r="2" fill="currentColor" opacity=".3"/></svg>', desc: 'Chăm sóc khách hàng sau bán, duy trì mối quan hệ và nâng cao trải nghiệm.', color: '#ef4444', image: '', messages: ['Chăm sóc bằng cả trái tim', 'Khách hàng là trung tâm của mọi hành động', 'Gắn kết bền vững, đồng hành lâu dài', 'Mang lại nụ cười trong từng trải nghiệm'] },
@@ -800,7 +838,14 @@
               changelogSearchQuery = ''; changelogSearchInput.value = '';
               currentPage = 1;
               renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle(); updateThongbaoBtn();
-              document.getElementById('news-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
+              if (cat === 'Hướng dẫn hội nhập') {
+                setTimeout(function () {
+                  var obGrid = document.getElementById('onboarding-grid');
+                  if (obGrid) obGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+              } else {
+                document.getElementById('news-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
             };
             filterBar.appendChild(btnHead);
           }
@@ -821,7 +866,7 @@
         var heroColorLight = dept.color + '12';
         var html = '';
         html += '<div class="onboarding-modal-hero" style="background: linear-gradient(180deg, ' + heroColorLight + ' 0%, #fff 100%);">';
-        html += '<div class="onboarding-modal-hero-icon" style="background: ' + dept.color + ';">' + dept.icon.replace(/width="32"/g, 'width="48"').replace(/height="32"/g, 'height="48"') + '</div>';
+        html += '<div class="onboarding-modal-hero-icon" style="background: ' + dept.color + ';">' + dept.icon.replace(/width="32"/g, 'width="48"').replace(/height="32"/g, 'width="48"') + '</div>';
         html += '<h2 class="onboarding-modal-title">' + dept.name + '</h2>';
         html += '<p class="onboarding-modal-subtitle">' + dept.desc + '</p>';
         // Hình ảnh phòng ban
@@ -910,7 +955,7 @@
       // Org chart data - Grouped by Trưởng Bộ Phận (TBP)
       var orgChartData = {
         director: {
-          name: 'Nguyễn Văn Sơn',
+          name: 'Nguyễn Thanh Sơn',
           title: 'GIÁM ĐỐC TRUNG TÂM',
           desc: 'Phụ trách điều hành và quản lý toàn bộ hoạt động của Trung tâm Dịch vụ Khách hàng, đảm bảo chất lượng phục vụ và hiệu quả vận hành.',
           image: '',
@@ -922,45 +967,50 @@
             id: 'tbp1',
             color: '#3b82f6',
             head: { name: 'Hân Phạm', title: 'Trưởng Bộ Phận Dịch Vụ Khách Hàng', image: '' },
-            desc: 'Quản lý các bộ phận Inbound, Ecom và Outbound — đảm bảo chất lượng tiếp nhận, hỗ trợ kênh số và tư vấn chủ động.',
-            teams: [
+            desc: 'Quản lý các bộ phận Inbound, Ecom, Outbound và F2F — đảm bảo chất lượng tiếp nhận, hỗ trợ kênh số và tư vấn trực tiếp.',
+            unitGroups: [
               {
-                name: 'INBOUND', color: '#3b82f6',
-                desc: 'Tiếp nhận cuộc gọi đến từ khách hàng, hỗ trợ giải đáp thắc mắc và xử lý yêu cầu.',
-                unitHeads: [
-                  { name: 'Unit Head DVKH', title: 'Unit Head', image: '' }
-                ],
-                leaders: [
-                  { name: 'Leader IB Team 1', title: 'Leader', image: '' },
-                  { name: 'Leader IB Team 2', title: 'Leader', image: '' }
-                ],
-                teamImages: [],
-                messages: ['Lắng nghe tận tâm, phục vụ tận tình', 'Mỗi cuộc gọi là một cơ hội tạo ấn tượng']
-              },
-              {
-                name: 'ECOM', color: '#06b6d4',
-                desc: 'Hỗ trợ khách hàng qua kênh chat, Email.',
-                unitHeads: [
-                  { name: 'Unit Head DVKH', title: 'Unit Head', image: '' }
-                ],
-                leaders: [
-                  { name: 'Leader Ecom Team 1', title: 'Leader', image: '' }
-                ],
-                teamImages: [],
-                messages: ['Phản hồi nhanh, hỗ trợ kịp thời', 'Trải nghiệm số vượt trội']
-              },
-              {
-                name: 'OUTBOUND', color: '#8b5cf6',
-                desc: 'Chủ động gọi ra cho khách hàng để tư vấn sản phẩm, dịch vụ và chăm sóc.',
-                unitHeads: [
-                  { name: 'Unit Head DVKH', title: 'Unit Head', image: '' }
-                ],
-                leaders: [
-                  { name: 'Leader OB Team 1', title: 'Leader', image: '' },
-                  { name: 'Leader OB Team 2', title: 'Leader', image: '' }
-                ],
-                teamImages: [],
-                messages: ['Chủ động kết nối, tạo giá trị', 'Tư vấn tận tâm, đồng hành cùng khách hàng']
+                unitHeads: [{ name: 'Unit Head DVKH', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'INBOUND', color: '#3b82f6',
+                    desc: 'Tiếp nhận cuộc gọi đến từ khách hàng, hỗ trợ giải đáp thắc mắc và xử lý yêu cầu.',
+                    leaders: [
+                      { name: 'Leader IB Team 1', title: 'Leader', image: '' },
+                      { name: 'Leader IB Team 2', title: 'Leader', image: '' }
+                    ],
+                    teamImages: [],
+                    messages: ['Lắng nghe tận tâm, phục vụ tận tình', 'Mỗi cuộc gọi là một cơ hội tạo ấn tượng']
+                  },
+                  {
+                    name: 'ECOM', color: '#06b6d4',
+                    desc: 'Hỗ trợ khách hàng qua kênh chat, Email.',
+                    leaders: [
+                      { name: 'Leader Ecom Team 1', title: 'Leader', image: '' }
+                    ],
+                    teamImages: [],
+                    messages: ['Phản hồi nhanh, hỗ trợ kịp thời', 'Trải nghiệm số vượt trội']
+                  },
+                  {
+                    name: 'OUTBOUND', color: '#8b5cf6',
+                    desc: 'Chủ động gọi ra cho khách hàng để tư vấn sản phẩm, dịch vụ và chăm sóc.',
+                    leaders: [
+                      { name: 'Leader OB Team 1', title: 'Leader', image: '' },
+                      { name: 'Leader OB Team 2', title: 'Leader', image: '' }
+                    ],
+                    teamImages: [],
+                    messages: ['Chủ động kết nối, tạo giá trị', 'Tư vấn tận tâm, đồng hành cùng khách hàng']
+                  },
+                  {
+                    name: 'F2F', color: '#eab308',
+                    desc: 'Tư vấn và hỗ trợ khách hàng trực tiếp tại quầy dịch vụ.',
+                    leaders: [
+                      { name: 'Leader F2F Team 1', title: 'Leader', image: '' }
+                    ],
+                    teamImages: [],
+                    messages: ['Gặp gỡ trực tiếp, tư vấn tận tâm', 'Chuyên nghiệp và chu đáo']
+                  }
+                ]
               }
             ]
           },
@@ -969,30 +1019,30 @@
             color: '#ef4444',
             head: { name: 'Lý Cường Phú', title: 'Trưởng Bộ Phận Chăm Sóc Khách Hàng', image: '' },
             desc: 'Quản lý các bộ phận Support và Care — xử lý escalation, chăm sóc khách hàng sau bán.',
-            teams: [
+            unitGroups: [
               {
-                name: 'SUPPORT', color: '#f59e0b',
-                desc: 'Hỗ trợ kỹ thuật, xử lý escalation và các vấn đề phức tạp từ khách hàng.',
-                unitHeads: [
-                  { name: 'Unit Head SP', title: 'Unit Head', image: '' }
-                ],
-                leaders: [
-                  { name: 'Leader SP Team 1', title: 'Leader', image: '' }
-                ],
-                teamImages: [],
-                messages: ['Giải pháp luôn có cho mọi tình huống', 'Hỗ trợ chuyên sâu, xử lý triệt để']
+                unitHeads: [{ name: 'Unit Head SP', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'SUPPORT', color: '#f59e0b',
+                    desc: 'Hỗ trợ kỹ thuật, xử lý escalation và các vấn đề phức tạp từ khách hàng.',
+                    leaders: [{ name: 'Leader SP Team 1', title: 'Leader', image: '' }],
+                    teamImages: [],
+                    messages: ['Giải pháp luôn có cho mọi tình huống', 'Hỗ trợ chuyên sâu, xử lý triệt để']
+                  }
+                ]
               },
               {
-                name: 'CARE', color: '#ef4444',
-                desc: 'Chăm sóc khách hàng sau bán, duy trì mối quan hệ và nâng cao trải nghiệm.',
-                unitHeads: [
-                  { name: 'Unit Head Care', title: 'Unit Head', image: '' }
-                ],
-                leaders: [
-                  { name: 'Leader Care Team 1', title: 'Leader', image: '' }
-                ],
-                teamImages: [],
-                messages: ['Chăm sóc bằng cả trái tim', 'Gắn kết bền vững, đồng hành lâu dài']
+                unitHeads: [{ name: 'Unit Head Care', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'CARE', color: '#ef4444',
+                    desc: 'Chăm sóc khách hàng sau bán, duy trì mối quan hệ và nâng cao trải nghiệm.',
+                    leaders: [{ name: 'Leader Care Team 1', title: 'Leader', image: '' }],
+                    teamImages: [],
+                    messages: ['Chăm sóc bằng cả trái tim', 'Gắn kết bền vững, đồng hành lâu dài']
+                  }
+                ]
               }
             ]
           },
@@ -1001,30 +1051,30 @@
             color: '#10b981',
             head: { name: 'Nguyễn Thị Thục Anh', title: 'Trưởng BP Kiểm Soát CL & Trải Nghiệm DVKH', image: '' },
             desc: 'Quản lý các bộ phận QC-CX và OM — kiểm soát chất lượng, tối ưu vận hành.',
-            teams: [
+            unitGroups: [
               {
-                name: 'QC-CX', color: '#10b981',
-                desc: 'Kiểm soát chất lượng cuộc gọi, đảm bảo trải nghiệm khách hàng tốt nhất.',
-                unitHeads: [
-                  { name: 'Trần Thị Phương', title: 'Unit Head', image: '' }
-                ],
-                leaders: [
-                  { name: 'Nguyễn Thị Ý Nguyện', title: 'Manager', image: '' }
-                ],
-                teamImages: [],
-                messages: ['Chất lượng là nền tảng của sự tin tưởng', 'Trải nghiệm khách hàng là ưu tiên số 1']
+                unitHeads: [{ name: 'Trần Thị Thương', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'QC-CX', color: '#10b981',
+                    desc: 'Kiểm soát chất lượng cuộc gọi, đảm bảo trải nghiệm khách hàng tốt nhất.',
+                    leaders: [{ name: 'Nguyễn Thị Ý Nguyện', title: 'Manager', image: '' }],
+                    teamImages: [],
+                    messages: ['Chất lượng là nền tảng của sự tin tưởng', 'Trải nghiệm khách hàng là ưu tiên số 1']
+                  }
+                ]
               },
               {
-                name: 'OM', color: '#6366f1',
-                desc: 'Quản lý vận hành, giám sát hiệu suất và tối ưu hóa quy trình làm việc.',
-                unitHeads: [
-                  { name: 'Unit Head OM', title: 'Unit Head', image: '' }
-                ],
-                leaders: [
-                  { name: 'Leader OM Team 1', title: 'Leader', image: '' }
-                ],
-                teamImages: [],
-                messages: ['Vận hành trơn tru, hiệu quả tối đa', 'Xây dựng đội ngũ vững mạnh']
+                unitHeads: [{ name: 'Unit Head OM', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'OM', color: '#6366f1',
+                    desc: 'Quản lý vận hành, giám sát hiệu suất và tối ưu hóa quy trình làm việc.',
+                    leaders: [{ name: 'Leader OM Team 1', title: 'Leader', image: '' }],
+                    teamImages: [],
+                    messages: ['Vận hành trơn tru, hiệu quả tối đa', 'Xây dựng đội ngũ vững mạnh']
+                  }
+                ]
               }
             ]
           }
@@ -1064,18 +1114,22 @@
         orgChartData.departments.forEach(function (dept, i) {
           // Build team badges string
           var teamBadges = '';
-          dept.teams.forEach(function (t) {
-            teamBadges += '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;letter-spacing:0.5px;background:' + t.color + '14;color:' + t.color + ';margin-right:4px;">' + t.name + '</span>';
-          });
+          if (dept.unitGroups) {
+            dept.unitGroups.forEach(function (group) {
+              group.teams.forEach(function (t) {
+                teamBadges += '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;letter-spacing:0.5px;background:' + t.color + '14;color:' + t.color + ';margin-right:4px;">' + t.name + '</span>';
+              });
+            });
+          }
 
           gridHtml += '<div class="orgchart-dept-card" data-dept-id="' + dept.id + '" style="animation-delay:' + (0.1 + i * 0.08) + 's;">';
           gridHtml += '<div class="orgchart-dept-card-photo">';
           gridHtml += renderPersonAvatar(dept.head, 64);
           gridHtml += '</div>';
           gridHtml += '<div class="orgchart-dept-card-info">';
-          gridHtml += '<div class="orgchart-dept-card-badges">' + teamBadges + '</div>';
           gridHtml += '<div class="orgchart-dept-card-name">' + dept.head.name + '</div>';
           gridHtml += '<div class="orgchart-dept-card-title">' + dept.head.title + '</div>';
+          gridHtml += '<div class="orgchart-dept-card-badges" style="margin-top: 6px;">' + teamBadges + '</div>';
           gridHtml += '</div>';
           gridHtml += '<div class="orgchart-dept-card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>';
           gridHtml += '</div>';
@@ -1095,7 +1149,7 @@
       var activeDeptId = null;
       var inlineDetailEl = document.getElementById('orgchart-dept-detail-inline');
 
-      function openOrgChartDetail(deptId) {
+      function openOrgChartDetail(deptId, noScroll) {
         // Toggle: click lại card đang mở → đóng
         if (activeDeptId === deptId) {
           closeOrgChartDetail();
@@ -1126,56 +1180,73 @@
         html += '<p class="orgdetail-inline-hero-desc">' + dept.desc + '</p>';
         html += '</div></div>';
 
-        // Teams
-        dept.teams.forEach(function (team) {
-          html += '<div class="orgdetail-inline-team">';
-          html += '<div class="orgdetail-inline-team-header">';
-          html += '<span class="orgdetail-inline-team-dot" style="background:' + team.color + ';"></span>';
-          html += '<span class="orgdetail-inline-team-name">' + team.name + '</span>';
-          html += '</div>';
-          html += '<p class="orgdetail-inline-team-desc">' + team.desc + '</p>';
+        // Grouped Units & Teams
+        if (dept.unitGroups) {
+          dept.unitGroups.forEach(function (group) {
 
-          // Unit Heads
-          if (team.unitHeads && team.unitHeads.length > 0) {
-            html += '<div class="orgdetail-inline-role-label" style="color:#009f52;">Unit Head</div>';
-            html += '<div class="orgdetail-inline-people-grid">';
-            team.unitHeads.forEach(function (uh) {
-              html += '<div class="orgdetail-inline-person-card" style="border-left:3px solid ' + team.color + ';">';
-              html += '<div class="orgdetail-inline-person-photo">' + renderPersonAvatar(uh, 40) + '</div>';
-              html += '<div class="orgdetail-inline-person-info">';
-              html += '<div class="orgdetail-inline-person-name">' + uh.name + '</div>';
-              html += '<div class="orgdetail-inline-person-title" style="color:' + team.color + ';">' + uh.title + '</div>';
-              html += '</div></div>';
-            });
-            html += '</div>';
-          }
+            // Unit Heads block
+            if (group.unitHeads && group.unitHeads.length > 0) {
+              html += '<div class="orgdetail-inline-role-label" style="color:#009f52; margin-top:24px; font-size:15px; font-weight:700;"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-3px;margin-right:6px;"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>Khối Unit</div>';
+              html += '<div class="orgdetail-inline-people-grid" style="margin-bottom:16px;">';
+              group.unitHeads.forEach(function (uh) {
+                html += '<div class="orgdetail-inline-person-card" style="border-left:3px solid #009f52; background:#f0fdf4;">';
+                html += '<div class="orgdetail-inline-person-photo">' + renderPersonAvatar(uh, 48) + '</div>';
+                html += '<div class="orgdetail-inline-person-info">';
+                html += '<div class="orgdetail-inline-person-name" style="font-size:15px;">' + uh.name + '</div>';
+                html += '<div class="orgdetail-inline-person-title" style="color:#009f52;">' + uh.title + '</div>';
+                html += '</div></div>';
+              });
+              html += '</div>';
+            }
 
-          // Leaders
-          if (team.leaders && team.leaders.length > 0) {
-            html += '<div class="orgdetail-inline-role-label" style="color:#888;">Leaders</div>';
-            html += '<div class="orgdetail-inline-people-grid">';
-            team.leaders.forEach(function (leader) {
-              html += '<div class="orgdetail-inline-person-card">';
-              html += '<div class="orgdetail-inline-person-photo">' + renderPersonAvatar(leader, 40) + '</div>';
-              html += '<div class="orgdetail-inline-person-info">';
-              html += '<div class="orgdetail-inline-person-name">' + leader.name + '</div>';
-              html += '<div class="orgdetail-inline-person-title">' + leader.title + '</div>';
-              html += '</div></div>';
-            });
-            html += '</div>';
-          }
+            // Visual branch line container for Teams
+            html += '<div style="margin-left: 20px; border-left: 2px solid #e5e7eb; padding-left: 24px; margin-bottom: 32px;">';
 
-          html += '</div>'; // close team
-        });
+            // Teams
+            if (group.teams) {
+              group.teams.forEach(function (team) {
+                html += '<div class="orgdetail-inline-team" style="position:relative; margin-top: 16px;">';
+                // Connecting line
+                html += '<div style="position:absolute; left:-26px; top:28px; width:24px; height:2px; background:#e5e7eb;"></div>';
+
+                html += '<div class="orgdetail-inline-team-header">';
+                html += '<span class="orgdetail-inline-team-dot" style="background:' + team.color + ';"></span>';
+                html += '<span class="orgdetail-inline-team-name">' + team.name + '</span>';
+                html += '</div>';
+                html += '<p class="orgdetail-inline-team-desc">' + team.desc + '</p>';
+
+                // Leaders
+                if (team.leaders && team.leaders.length > 0) {
+                  html += '<div class="orgdetail-inline-role-label" style="color:#888;">Leaders</div>';
+                  html += '<div class="orgdetail-inline-people-grid">';
+                  team.leaders.forEach(function (leader) {
+                    html += '<div class="orgdetail-inline-person-card">';
+                    html += '<div class="orgdetail-inline-person-photo">' + renderPersonAvatar(leader, 40) + '</div>';
+                    html += '<div class="orgdetail-inline-person-info">';
+                    html += '<div class="orgdetail-inline-person-name">' + leader.name + '</div>';
+                    html += '<div class="orgdetail-inline-person-title">' + leader.title + '</div>';
+                    html += '</div></div>';
+                  });
+                  html += '</div>';
+                }
+
+                html += '</div>'; // close team
+              });
+            }
+            html += '</div>'; // close branch line
+          });
+        }
 
         inlineDetailEl.innerHTML = html;
         inlineDetailEl.style.display = 'block';
         activeDeptId = deptId;
 
-        // Scroll to inline detail
-        setTimeout(function () {
-          inlineDetailEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 100);
+        if (!noScroll) {
+          // Scroll to inline detail
+          setTimeout(function () {
+            inlineDetailEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 100);
+        }
       }
 
       function closeOrgChartDetail() {
@@ -1225,8 +1296,8 @@
 
         // 2. Show org chart inline within the onboarding section
         renderOrgChartOverlay();
-        // Mặc định mở card Nguyễn Thị Thục Anh
-        openOrgChartDetail('tbp3');
+        // Mặc định mở card Nguyễn Thị Thục Anh, không auto-scroll
+        openOrgChartDetail('tbp3', true);
       }
 
       function renderPosts() {
@@ -1236,7 +1307,15 @@
           postsGrid.style.display = 'none';
           return;
         }
-        postsGrid.style.display = 'flex';
+
+        if (activeFilter === 'Quy trình') {
+          postsGrid.className = 'posts-grid';
+          postsGrid.style.display = 'flex';
+        } else {
+          postsGrid.className = 'posts-grid fec-news-grid';
+          postsGrid.style.display = 'grid'; // Layout 3 cột
+        }
+
         postsGrid.innerHTML = '';
         var filtered = posts.filter(function (p) { return p.category === activeFilter; });
 
@@ -1252,15 +1331,25 @@
             var title = (p.title || '').toLowerCase();
             var content = (p.content || '').replace(/<[^>]*>/g, '').toLowerCase();
             var sub = (p.subCategory || '').toLowerCase();
+            var status = (p.status || '').toLowerCase();
+            var classification = (p.classification || '').toLowerCase();
+
             var titleNorm = removeDiacritics(title);
             var contentNorm = removeDiacritics(content);
             var subNorm = removeDiacritics(sub);
+            var statusNorm = removeDiacritics(status);
+            var classificationNorm = removeDiacritics(classification);
+
             return title.indexOf(changelogSearchQuery) !== -1 ||
               content.indexOf(changelogSearchQuery) !== -1 ||
               sub.indexOf(changelogSearchQuery) !== -1 ||
+              status.indexOf(changelogSearchQuery) !== -1 ||
+              classification.indexOf(changelogSearchQuery) !== -1 ||
               titleNorm.indexOf(queryNorm) !== -1 ||
               contentNorm.indexOf(queryNorm) !== -1 ||
-              subNorm.indexOf(queryNorm) !== -1;
+              subNorm.indexOf(queryNorm) !== -1 ||
+              statusNorm.indexOf(queryNorm) !== -1 ||
+              classificationNorm.indexOf(queryNorm) !== -1;
           });
         }
 
@@ -1284,66 +1373,107 @@
 
         paginatedPosts.forEach(function (post, index) {
           var card = document.createElement('div');
-          card.className = 'post-card' + (post.pinned ? ' pinned' : '');
-          card.style.animationDelay = (0.05 + index * 0.05) + 's';
 
-          var html = '';
+          if (activeFilter === 'Quy trình') {
+            // ==========================================
+            // LOGIC CŨ CHO CHANGE LOG (QUY TRÌNH)
+            // ==========================================
+            card.className = 'post-card' + (post.pinned ? ' pinned' : '');
+            card.style.animationDelay = (0.05 + index * 0.05) + 's';
 
-          // Ảnh (nếu có)
-          if (post.image) {
-            html += '<img class="post-card-image" src="' + post.image + '" alt="" />';
-          }
+            var html = '';
 
-          // Body
-          html += '<div class="post-card-body">';
-          // Meta
-          html += '<div class="post-card-meta">';
-          if (post.pinned) {
-            html += '<span class="pinned-badge">' + svgI.pin + ' Ghim</span>';
-          }
-          html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + getDisplayName(post.category || 'Khác') + '</span>';
-          if (post.subCategory) {
-            html += '<span class="post-sub-tag">' + post.subCategory + '</span>';
-          }
-          if (post.category !== 'Quy trình') {
-            html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
-          }
-          if (post.updateDate) {
-            html += '<span class="post-date post-date-update">' + svgI.refresh + ' Cập nhật: ' + formatDate(post.updateDate) + '</span>';
-          }
-          if (post.effectiveDate) {
-            html += '<span class="post-date post-date-effective">' + svgI.check + ' Áp dụng: ' + formatDate(post.effectiveDate) + '</span>';
-          }
-          html += '</div>';
-          // Title
-          html += '<div class="post-card-title">' + (post.title || '') + '</div>';
+            // Ảnh (nếu có)
+            if (post.image) {
+              html += '<img class="post-card-image" src="' + post.image + '" alt="" />';
+            }
 
-          // === DIFF VIEW: Chỉ cho Quy trình có oldContent ===
-          if (post.category === 'Quy trình' && post.oldContent) {
-            html += '<div class="post-diff-view">';
-            html += '<div class="post-diff-col post-diff-old">';
-            html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg> Nội dung cũ</div>';
-            html += '<div class="post-diff-content">' + post.oldContent + '</div>';
+            // Body
+            html += '<div class="post-card-body">';
+            // Meta
+            html += '<div class="post-card-meta" style="flex-wrap: wrap; gap: 6px; row-gap: 8px;">';
+            if (post.pinned) {
+              html += '<span class="pinned-badge">' + svgI.pin + ' Ghim</span>';
+            }
+            html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + getDisplayName(post.category || 'Khác') + '</span>';
+            if (post.subCategory) {
+              html += '<span class="post-sub-tag">' + post.subCategory + '</span>';
+            }
+            if (post.status) html += '<span class="post-sub-tag" style="background:#fdf4ff;color:#c026d3;border:1px solid #fae8ff;">' + post.status + '</span>';
+            if (post.classification) html += '<span class="post-sub-tag" style="background:#ecfeff;color:#0e7490;border:1px solid #cffafe;">' + post.classification + '</span>';
+
+            if (post.category !== 'Quy trình') {
+              html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
+            }
+            if (post.updateDate) {
+              html += '<span class="post-date post-date-update">' + svgI.refresh + ' Cập nhật: ' + formatDate(post.updateDate) + '</span>';
+            }
+            if (post.effectiveDate) {
+              html += '<span class="post-date post-date-effective">' + svgI.check + ' Áp dụng: ' + formatDate(post.effectiveDate) + '</span>';
+            }
             html += '</div>';
-            html += '<div class="post-diff-col post-diff-new">';
-            html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg> Nội dung mới</div>';
-            html += '<div class="post-diff-content">' + post.content + '</div>';
+            // Title
+            html += '<div class="post-card-title">' + (post.title || '') + '</div>';
+
+            // === DIFF VIEW: Chỉ cho Quy trình có oldContent ===
+            if (post.category === 'Quy trình' && post.oldContent) {
+              html += '<div class="post-diff-view">';
+              html += '<div class="post-diff-col post-diff-old">';
+              html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg> Nội dung cũ</div>';
+              html += '<div class="post-diff-content">' + post.oldContent + '</div>';
+              html += '</div>';
+              html += '<div class="post-diff-col post-diff-new">';
+              html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg> Nội dung mới</div>';
+              html += '<div class="post-diff-content">' + post.content + '</div>';
+              html += '</div>';
+              html += '</div>';
+            } else {
+              // Layout bình thường
+              html += '<div class="post-card-content">' + (post.content || '') + '</div>';
+            }
+            html += '</div>'; // End body
+
+            // Footer
+            html += '<div class="post-card-footer">';
+            html += '<div class="post-author"><span class="post-author-avatar">' + getInitials(post.author) + '</span>' + (post.author || '') + '</div>';
+            html += '<button class="post-read-more" data-id="' + post.id + '">Xem thêm →</button>';
             html += '</div>';
-            html += '</div>';
+
+            card.innerHTML = html;
+
           } else {
-            // Layout bình thường
-            html += '<div class="post-card-content">' + (post.content || '') + '</div>';
+            // ==========================================
+            // LAYOUT TRÌNH BÀY THẺ TIN TỨC / SỰ KIỆN FEC
+            // ==========================================
+            card.className = 'fec-news-card';
+            card.style.animationDelay = (0.05 + index * 0.05) + 's';
+
+            // Xử lý click event vô toàn bộ tag Card thay vì chỉ nút:
+            card.onclick = function (e) {
+              // Ignore if clicked on specific buttons (though we have read-more)
+              openPostModal(post.id);
+            };
+
+            var html = '';
+            // Sử dụng hình SVG cover mặc định kèm màu gradient xanh lá nếu ko có hình
+            var defaultBg = 'url(\'./Asset/logo/fec-logo.svg\') center / 60% no-repeat, linear-gradient(135deg, rgba(46,125,50,0.95) 0%, rgba(27,94,32,0.95) 100%)';
+            var bgStyle = post.image ? 'background-image: url(\'' + post.image + '\'); background-size: cover;' : 'background: ' + defaultBg + '; border-bottom: 2px solid #e0f2f1;';
+
+            html += '<div class="fec-news-image" style="' + bgStyle + '"></div>';
+            html += '<div class="fec-news-body">';
+            html += '  <div class="fec-news-meta">';
+            html += '    <span class="fec-news-tag">' + getDisplayName(post.category) + '</span>';
+            html += '    <span class="fec-news-time">' + timeAgo(post.date) + '</span>';
+            html += '  </div>';
+            html += '  <h3 class="fec-news-title">' + (post.title || '') + '</h3>';
+            html += '</div>';
+            html += '<div class="fec-news-footer">';
+            html += '  <span class="fec-news-read-more" data-id="' + post.id + '">Xem chi tiết</span>';
+            html += '</div>';
+
+            card.innerHTML = html;
           }
 
-          html += '</div>';
-
-          // Footer
-          html += '<div class="post-card-footer">';
-          html += '<div class="post-author"><span class="post-author-avatar">' + getInitials(post.author) + '</span>' + (post.author || '') + '</div>';
-          html += '<button class="post-read-more" data-id="' + post.id + '">Xem thêm →</button>';
-          html += '</div>';
-
-          card.innerHTML = html;
           postsGrid.appendChild(card);
         });
 
@@ -1390,9 +1520,14 @@
 
         var html = '';
         html += '<h2 class="post-modal-title">' + (post.title || '') + '</h2>';
-        html += '<div class="post-modal-meta">';
+        html += '<div class="post-modal-meta" style="flex-wrap: wrap; gap: 6px; row-gap: 8px;">';
         if (post.pinned) html += '<span class="pinned-badge">' + svgI.pin + ' Ghim</span>';
         html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + getDisplayName(post.category || 'Khác') + '</span>';
+        if (post.subCategory) html += '<span class="post-sub-tag">' + post.subCategory + '</span>';
+        if (post.issue) html += '<span class="post-sub-tag" style="background:#fefce8;color:#a16207;border:1px solid #fef08a;">' + post.issue + '</span>';
+        if (post.status) html += '<span class="post-sub-tag" style="background:#fdf4ff;color:#c026d3;border:1px solid #fae8ff;">' + post.status + '</span>';
+        if (post.classification) html += '<span class="post-sub-tag" style="background:#ecfeff;color:#0e7490;border:1px solid #cffafe;">' + post.classification + '</span>';
+
         if (post.category !== 'Quy trình') {
           html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
         }

@@ -296,7 +296,7 @@
 
       // First, detect variable references in node fields (xmttib, xmttemail, xmttchat, note, alert, dieukien)
       // These are values without quotes that match a constant name
-      const varFields = ['xmttib', 'xmttemail', 'xmttchat', 'note', 'alert', 'dieukien'];
+      const varFields = ['xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'dieukien'];
       const detectedVarRefs = {}; // Track which field values are variable references
 
       varFields.forEach(fieldName => {

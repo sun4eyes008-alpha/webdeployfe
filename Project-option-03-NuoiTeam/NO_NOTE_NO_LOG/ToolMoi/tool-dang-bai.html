@@ -12,6 +12,7 @@
     <link href="bootstrap.min.css" rel="stylesheet">
     <script src="tinymce/tinymce.min.js"></script>
     <script src="bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 
     <style>
         body {
@@ -531,6 +532,10 @@
         const CATEGORY_DISPLAY = { 'Quy trình': 'Change Log' };
         const getDisplayName = (cat) => CATEGORY_DISPLAY[cat] || cat;
 
+        // Custom presets for new fields
+        const DEFAULT_STATUSES = ['new', 'update', 'remove', 'pending'];
+        const DEFAULT_CLASSIFICATIONS = ['Thông tin', 'XMTT', 'Tính năng', 'Quy trình', 'Khác'];
+
         // === Main App ===
         const PostEditorApp = () => {
             const [posts, setPosts] = useState([]);
@@ -544,6 +549,7 @@
             const [htmlAfter, setHtmlAfter] = useState('');
             const [isHtmlMode, setIsHtmlMode] = useState(false);
             const fileInputRef = useRef(null);
+            const excelInputRef = useRef(null);
 
             // Active post
             const activePost = posts.find(p => p.id === activeId) || null;
@@ -620,6 +626,116 @@
                 e.target.value = '';
             };
 
+            // === TẢI TEMPLATE EXCEL ===
+            const handleDownloadTemplate = () => {
+                if (typeof XLSX === 'undefined') {
+                    alert('Đang tải thư viện xử lý Excel, vui lòng thử lại sau 1 lát...');
+                    return;
+                }
+                const data = [
+                    ['Tiêu đề', 'Loại quy trình', 'Trạng thái', 'Phân loại', 'Ngày cập nhật', 'Ngày áp dụng', 'Tác giả', 'Nội dung cũ', 'Nội dung mới'],
+                    ['Demo: Thêm quy trình thẻ All Group', 'All Group', 'new', 'Quy trình', '2024-03-01', '2024-03-05', 'Admin', '', 'Gõ chữ xong xuống dòng bằng Alt+Enter.\n\nDòng 2 đây.\nTool sẽ tự chuyển thành xuống dòng Web.'],
+                    ['Demo: Sửa tính năng IB', 'Card IB', 'update', 'Tính năng', '2024-03-02', '2024-03-10', 'System', '<p>Đây là nội dung cũ trước kia (dùng HTML).</p>', '<p>Trường Ngày cập nhật, nếu bỏ trống Tool sẽ tự lấy ngày hôm nay.</p>']
+                ];
+                const ws = XLSX.utils.aoa_to_sheet(data);
+                // Canh chỉnh độ rộng cột mẫu
+                ws['!cols'] = [{ wch: 35 }, { wch: 15 }, { wch: 10 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 50 }, { wch: 50 }];
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "ChangeLog_Template");
+                XLSX.writeFile(wb, "Template_ChangeLog.xlsx");
+            };
+
+            // === IMPORT EXCEL ===
+            const handleImportExcel = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                if (typeof XLSX === 'undefined') {
+                    alert('Đang tải thư viện xử lý Excel, vui lòng thử lại sau 1 lát...');
+                    e.target.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const data = new Uint8Array(ev.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const firstSheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheetName];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                        if (jsonData.length <= 1) {
+                            alert('File Excel trống hoặc không có dữ liệu hàng nội dung!');
+                            return;
+                        }
+
+                        let newPostsCount = 0;
+                        let currentMaxId = posts.length > 0 ? Math.max(...posts.map(p => p.id)) : 0;
+                        const newPosts = [];
+                        const today = new Date().toISOString().split('T')[0];
+
+                        const parseDate = (val) => {
+                            if (!val) return '';
+                            // XLSX JS parse dates as numbers sometimes
+                            // Excel epoch starts at 1900-01-01 (1 is 1900-01-01, but due to lotus 1-2-3 bug 1900 is leap year)
+                            // XLSX JS handles some date conversions, but if it is number:
+                            if (typeof val === 'number') {
+                                const date = new Date(Math.round((val - 25569) * 86400 * 1000));
+                                return date.toISOString().split('T')[0];
+                            }
+                            return String(val).trim();
+                        };
+
+                        const formatHtmlFromExcel = (text) => {
+                            if (!text) return '';
+                            let html = String(text).trim();
+                            // Nếu trong file Excel chưa gõ thẻ HTML (<p>, <br>, ...) thì tự chuyển Alt+Enter (\n) thành <br>
+                            if (!/<[a-z][\s\S]*>/i.test(html)) {
+                                html = html.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+                            }
+                            return html;
+                        };
+
+                        for (let i = 1; i < jsonData.length; i++) {
+                            const row = jsonData[i];
+                            if (!row || row.length === 0 || !row[0]) continue; // Bỏ qua nếu ko có tiêu đề
+
+                            currentMaxId++;
+                            newPosts.push({
+                                id: currentMaxId,
+                                title: String(row[0] || '').trim(),
+                                category: 'Quy trình', // Mặc định Excel là import cho Change log (Category: Quy trình)
+                                subCategory: String(row[1] || '').trim(),
+                                status: String(row[2] || '').trim(),
+                                classification: String(row[3] || '').trim(),
+                                updateDate: parseDate(row[4]) || today,
+                                effectiveDate: parseDate(row[5]),
+                                author: String(row[6] || '').trim(),
+                                oldContent: formatHtmlFromExcel(row[7]),
+                                content: formatHtmlFromExcel(row[8]),
+                                date: today, // Ngày đăng tin tức luôn được gán là ngày tool chạy
+                                pinned: false,
+                                image: ''
+                            });
+                            newPostsCount++;
+                        }
+
+                        if (newPosts.length > 0) {
+                            // Prepend array mới vào đầu array cũ
+                            setPosts(prev => [...newPosts, ...prev]);
+                            setActiveId(newPosts[0].id);
+                            if (!loaded) setLoaded(true);
+                            alert('✅ Đã Import thành công ' + newPostsCount + ' bài viết Change Log từ file Excel!');
+                        } else {
+                            alert('Không tìm thấy dữ liệu hợp lệ trong file Excel để import.');
+                        }
+                    } catch (err) {
+                        alert('❌ Lỗi xử lý file Excel: ' + err.message);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+                e.target.value = '';
+            };
+
             // === EXPORT file (HTML hoặc JS) ===
             const handleExport = () => {
                 if (posts.length === 0 && carouselImages.length === 0) {
@@ -671,7 +787,10 @@
                     effectiveDate: '',
                     author: '',
                     pinned: false,
-                    image: ''
+                    image: '',
+                    issue: '',
+                    status: '',
+                    classification: ''
                 };
                 setPosts(prev => [newPost, ...prev]);
                 setActiveId(newId);
@@ -728,10 +847,28 @@
                             onChange={handleImport}
                         />
                         <button className="btn-tool" onClick={() => fileInputRef.current.click()}>
-                            <Icon name="folder" size={14} /> Import File
+                            <Icon name="folder" size={14} /> Import Index.html
                         </button>
+
+                        {/* Nút Import Excel & Tải Template */}
+                        <div style={{ width: 1, height: 24, background: '#d1d5db', margin: '0 4px' }}></div>
+                        <input
+                            type="file"
+                            accept=".xlsx,.xls,.csv"
+                            ref={excelInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleImportExcel}
+                        />
+                        <button className="btn-tool" style={{ borderColor: '#81c753', color: '#2e7d32' }} title="Import nhiều bài Change Log từ Excel" onClick={() => excelInputRef.current.click()}>
+                            <Icon name="file" size={14} color="#81c753" /> Import Excel
+                        </button>
+                        <button className="btn-tool" title="Tải file Excel mẫu để điền dữ liệu" onClick={handleDownloadTemplate}>
+                            <Icon name="clipboard" size={14} /> Tải file mẫu
+                        </button>
+
+                        <div style={{ width: 1, height: 24, background: '#d1d5db', margin: '0 4px' }}></div>
                         <button className="btn-tool" onClick={handleExport} disabled={posts.length === 0 && carouselImages.length === 0}>
-                            <Icon name="save" size={14} /> Export File
+                            <Icon name="save" size={14} /> Tải file HTML mới
                         </button>
                         {fileName && (
                             <span className="file-info">
@@ -840,6 +977,7 @@
                                         onUpdate={handleUpdatePost}
                                         onDelete={handleDeletePost}
                                         onMove={handleMovePost}
+                                        allPosts={posts}
                                     />
                                 )}
                             </div>
@@ -1024,7 +1162,15 @@
         };
 
         // === Post Editor Component ===
-        const PostEditor = ({ post, onUpdate, onDelete, onMove }) => {
+        const PostEditor = ({ post, onUpdate, onDelete, onMove, allPosts }) => {
+
+            // Xây dựng danh sách gợi ý duy nhất
+            const getSuggestions = (field, defaults) => {
+                const vals = (allPosts || []).map(p => p[field]).filter(v => typeof v === 'string' && v.trim() !== '');
+                return Array.from(new Set([...defaults, ...vals]));
+            };
+            const statusSuggestions = getSuggestions('status', DEFAULT_STATUSES);
+            const classSuggestions = getSuggestions('classification', DEFAULT_CLASSIFICATIONS);
 
             return (
                 <div className="editor-card animate-in">
@@ -1062,6 +1208,8 @@
                                         onUpdate(post.id, 'updateDate', '');
                                         onUpdate(post.id, 'effectiveDate', '');
                                         onUpdate(post.id, 'oldContent', '');
+                                        onUpdate(post.id, 'status', '');
+                                        onUpdate(post.id, 'classification', '');
                                     } else {
                                         // Mặc định ngày cập nhật = hôm nay
                                         if (!post.updateDate) {
@@ -1128,6 +1276,35 @@
                                         value={post.effectiveDate || ''}
                                         onChange={(e) => onUpdate(post.id, 'effectiveDate', e.target.value)}
                                     />
+                                </div>
+                            </div>
+
+                            <div className="form-row" style={{ marginTop: 12 }}>
+                                <div className="form-group">
+                                    <label>Trạng thái</label>
+                                    <input
+                                        type="text"
+                                        list="status-list"
+                                        value={post.status || ''}
+                                        onChange={(e) => onUpdate(post.id, 'status', e.target.value)}
+                                        placeholder="VD: new..."
+                                    />
+                                    <datalist id="status-list">
+                                        {statusSuggestions.map(val => <option key={val} value={val} />)}
+                                    </datalist>
+                                </div>
+                                <div className="form-group">
+                                    <label>Phân loại</label>
+                                    <input
+                                        type="text"
+                                        list="class-list"
+                                        value={post.classification || ''}
+                                        onChange={(e) => onUpdate(post.id, 'classification', e.target.value)}
+                                        placeholder="VD: Thông tin..."
+                                    />
+                                    <datalist id="class-list">
+                                        {classSuggestions.map(val => <option key={val} value={val} />)}
+                                    </datalist>
                                 </div>
                             </div>
 
