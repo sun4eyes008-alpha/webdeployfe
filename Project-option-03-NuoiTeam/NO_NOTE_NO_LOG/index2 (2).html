@@ -350,6 +350,40 @@
     ];
     window.postsData = [
       {
+        "id": 11,
+        "title": "Demo file 1: Thêm quy trình thẻ All Group",
+        "category": "Quy trình",
+        "subCategory": "All Group",
+        "status": "new",
+        "classification": "Quy trình",
+        "updateDate": "2024-03-01",
+        "effectiveDate": "2024-03-05",
+        "author": "Admin",
+        "oldContent": "",
+        "content": "<p>Chi tiết nội dung cập nhật. Bạn có thể sử dụng mã HTML ở đây.</p>",
+        "link": "https://google.com",
+        "date": "2026-03-06",
+        "pinned": false,
+        "image": ""
+      },
+      {
+        "id": 12,
+        "title": "Demo file 2: Sửa tính năng IB",
+        "category": "Quy trình",
+        "subCategory": "Card IB",
+        "status": "update",
+        "classification": "Tính năng",
+        "updateDate": "2024-03-02",
+        "effectiveDate": "2024-03-10",
+        "author": "System",
+        "oldContent": "<p>Nội dung cũ ngày trước nằm ở đây.</p>",
+        "content": "<p>Trường Ngày cập nhật, nếu bỏ trống Tool sẽ tự lấy ngày hôm nay.</p>",
+        "link": "ToolMoi/toolclaudev4 - thucong.html",
+        "date": "2026-03-06",
+        "pinned": false,
+        "image": ""
+      },
+      {
         "id": 1,
         "title": "Chào mừng đến với Trang Truyền Thông Nội Bộ!",
         "content": "<p>Đây là nền tảng truyền thông nội bộ của team. Tại đây bạn có thể xem các thông báo, cập nhật và tin tức mới nhất.</p><ul><li>Thông báo quan trọng sẽ được <strong>ghim</strong> lên đầu</li><li>Lọc bài viết theo danh mục</li><li>Sắp xếp theo thời gian</li></ul>",
@@ -1399,8 +1433,8 @@
             if (post.subCategory) {
               html += '<span class="post-sub-tag">' + post.subCategory + '</span>';
             }
-            if (post.status) html += '<span class="post-sub-tag" style="background:#eef2ff;color:#4f46e5;border:1px solid #c7d2fe;">' + post.status + '</span>';
-            if (post.classification) html += '<span class="post-sub-tag" style="background:#fff7ed;color:#ea580c;border:1px solid #ffedd5;">' + post.classification + '</span>';
+            if (post.status) html += '<span class="post-sub-tag" style="background:#fdf4ff;color:#c026d3;border:1px solid #fae8ff;">' + post.status + '</span>';
+            if (post.classification) html += '<span class="post-sub-tag" style="background:#ecfeff;color:#0e7490;border:1px solid #cffafe;">' + post.classification + '</span>';
 
             if (post.category !== 'Quy trình') {
               html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
@@ -1533,8 +1567,8 @@
         html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + getDisplayName(post.category || 'Khác') + '</span>';
         if (post.subCategory) html += '<span class="post-sub-tag">' + post.subCategory + '</span>';
         if (post.issue) html += '<span class="post-sub-tag" style="background:#fefce8;color:#a16207;border:1px solid #fef08a;">' + post.issue + '</span>';
-        if (post.status) html += '<span class="post-sub-tag" style="background:#eef2ff;color:#4f46e5;border:1px solid #c7d2fe;">' + post.status + '</span>';
-        if (post.classification) html += '<span class="post-sub-tag" style="background:#fff7ed;color:#ea580c;border:1px solid #ffedd5;">' + post.classification + '</span>';
+        if (post.status) html += '<span class="post-sub-tag" style="background:#fdf4ff;color:#c026d3;border:1px solid #fae8ff;">' + post.status + '</span>';
+        if (post.classification) html += '<span class="post-sub-tag" style="background:#ecfeff;color:#0e7490;border:1px solid #cffafe;">' + post.classification + '</span>';
 
         if (post.category !== 'Quy trình') {
           html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
