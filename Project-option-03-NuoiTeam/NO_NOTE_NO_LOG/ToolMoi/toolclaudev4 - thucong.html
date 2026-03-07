@@ -278,6 +278,27 @@
           <line x1="9" y1="14" x2="15" y2="14" />
         </>
       ),
+      Copy: (
+        <>
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </>
+      ),
+      Scissors: (
+        <>
+          <circle cx="6" cy="6" r="3"></circle>
+          <circle cx="6" cy="18" r="3"></circle>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+          <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+          <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+        </>
+      ),
+      ClipboardPaste: (
+        <>
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        </>
+      ),
     };
     const BtnIcon = ({ name, size }) => (
       <Icon path={Icons[name]} size={size} />
@@ -1157,6 +1178,7 @@
       const [errorInfo, setErrorInfo] = useState(null);
       const [previewHtml, setPreviewHtml] = useState(null); // { varName, content } for HTML preview
       const [originalFileContent, setOriginalFileContent] = useState("");
+      const [clipboard, setClipboard] = useState({ type: null, path: null, node: null });
 
       // State for ConstantsManager - lifted to prevent reset on re-render
       const [activeConstGroup, setActiveConstGroup] = useState("Chưa phân loại");
@@ -2067,6 +2089,78 @@ ${dataObjectsContent}
         });
       };
 
+      const handleCopy = (path, node) => {
+        setClipboard({ type: 'copy', path, node: JSON.parse(JSON.stringify(node)) });
+      };
+
+      const handleCut = (path, node) => {
+        setClipboard({ type: 'cut', path, node: JSON.parse(JSON.stringify(node)) });
+      };
+
+      const handlePaste = (targetPath) => {
+        if (!clipboard.node) return;
+
+        // determine original name from clipboard path
+        const originalName = clipboard.path.length > 0 ? clipboard.path[clipboard.path.length - 1] : "Pasted_Node";
+        let defaultName = clipboard.type === 'copy' ? originalName + ' - Copy' : originalName;
+
+        const name = prompt("Nhập tên cho nhánh được dán:", defaultName);
+        if (!name) return;
+
+        updateActiveData(currentData => {
+          const parentNode = targetPath.length === 0 ? currentData : getNode(currentData, targetPath);
+          if (parentNode[name]) {
+            alert("Tên này đã tồn tại ở vị trí dán!");
+            return currentData;
+          }
+
+          let newData = JSON.parse(JSON.stringify(currentData));
+
+          // If it's a cut operation, remove original node first
+          if (clipboard.type === 'cut') {
+            const cutParentPath = clipboard.path.slice(0, -1);
+            const cutNodeName = clipboard.path[clipboard.path.length - 1];
+
+            // Anti-recursion or anti-paste-into-self check for Cut
+            let isChildOfCut = true;
+            if (targetPath.length < clipboard.path.length) {
+              isChildOfCut = false;
+            } else {
+              for (let i = 0; i < clipboard.path.length; i++) {
+                if (targetPath[i] !== clipboard.path[i]) {
+                  isChildOfCut = false;
+                  break;
+                }
+              }
+            }
+            if (isChildOfCut) {
+              alert("Lỗi: Không thể cắt và dán một mục vào trong chính nó hoặc mục con của nó!");
+              return currentData;
+            }
+
+            const cutParent = cutParentPath.length === 0 ? newData : getNode(newData, cutParentPath);
+            delete cutParent[cutNodeName];
+          }
+
+          // Add to target
+          const targetParent = targetPath.length === 0 ? newData : getNode(newData, targetPath);
+          targetParent[name] = JSON.parse(JSON.stringify(clipboard.node));
+
+          // Auto Expand
+          const newExpanded = new Set(expandedNodes);
+          if (targetPath.length > 0) newExpanded.add(targetPath.join("."));
+          newExpanded.add([...targetPath, name].join("."));
+          setExpandedNodes(newExpanded);
+
+          // Reset clipboard if Cut
+          if (clipboard.type === 'cut') {
+            setTimeout(() => setClipboard({ type: null, path: null, node: null }), 0);
+          }
+
+          return newData;
+        });
+      };
+
       // Helper to check if a node has any child nodes (non-content fields)
       const hasChildren = (node) => {
         if (!node || typeof node !== "object") return false;
@@ -2159,6 +2253,26 @@ ${dataObjectsContent}
                     title="Xuống"
                   >
                     <BtnIcon name="ArrowDown" size={14} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCopy(path, node);
+                    }}
+                    className="btn btn-sm btn-link text-secondary p-1"
+                    title="Copy (Sao chép)"
+                  >
+                    <BtnIcon name="Copy" size={14} />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCut(path, node);
+                    }}
+                    className="btn btn-sm btn-link text-secondary p-1"
+                    title="Cut (Cắt)"
+                  >
+                    <BtnIcon name="Scissors" size={14} />
                   </button>
                   <button
                     onClick={(e) => {
@@ -2264,6 +2378,26 @@ ${dataObjectsContent}
                     >
                       <BtnIcon name="ArrowDown" size={14} />
                     </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCopy(path, node);
+                      }}
+                      className="btn btn-sm btn-link text-secondary p-1"
+                      title="Copy (Sao chép)"
+                    >
+                      <BtnIcon name="Copy" size={14} />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCut(path, node);
+                      }}
+                      className="btn btn-sm btn-link text-secondary p-1 me-2"
+                      title="Cut (Cắt)"
+                    >
+                      <BtnIcon name="Scissors" size={14} />
+                    </button>
                     {/* --- NÚT ĐỔI TÊN NHÓM (TÍM) --- */}
                     <button
                       onClick={(e) => {
@@ -2304,6 +2438,19 @@ ${dataObjectsContent}
                 >
                   <BtnIcon name="Plus" size={14} /> Child
                 </button>
+
+                {clipboard.node && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePaste(path);
+                    }}
+                    className="btn btn-sm btn-warning p-1 ms-1 d-flex align-items-center gap-1"
+                    title="Dán mục đã Copy/Cut vào đây"
+                  >
+                    <BtnIcon name="ClipboardPaste" size={14} /> Paste
+                  </button>
+                )}
 
                 {path.length > 0 && (
                   <button
@@ -2957,6 +3104,15 @@ ${dataObjectsContent}
                   </select>
                 </div>
                 <div className="p-4">
+                  {clipboard.node && (
+                    <div className="mb-3 p-2 bg-warning bg-opacity-10 border border-warning rounded d-flex align-items-center justify-content-between">
+                      <span className="text-dark fw-bold d-flex align-items-center gap-2">
+                        <BtnIcon name="ClipboardPaste" size={16} />
+                        Đang chờ dán ({clipboard.type === 'copy' ? 'Copy' : 'Cut'}): <span className="text-primary">{clipboard.path.join(" > ")}</span>
+                      </span>
+                      <button onClick={() => setClipboard({ type: null, path: null, node: null })} className="btn btn-sm btn-outline-danger">Hủy bỏ</button>
+                    </div>
+                  )}
                   {!activeData ? (
                     <div className="text-center py-5 text-secondary border border-2 border-dashed rounded">
                       Chưa có dữ liệu. Vui lòng tải file.
