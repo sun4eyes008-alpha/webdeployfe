@@ -20,6 +20,36 @@
       text-decoration: none;
       /* removed color: inherit so it correctly falls back to #4d4d4d defined in style2.css */
     }
+
+    /* Badge đếm mục mới/áp dụng hôm nay */
+    .changelog-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 9px;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      margin-left: 4px;
+      line-height: 1;
+    }
+
+    .changelog-badge.badge-update {
+      background: #f59e0b;
+    }
+
+    .changelog-badge.badge-effective {
+      background: #10b981;
+    }
+
+    .changelog-badge-group {
+      display: inline-flex;
+      gap: 3px;
+      margin-left: 6px;
+    }
   </style>
 </head>
 
@@ -478,6 +508,63 @@
         "classification": ""
       }
     ];
+
+    // --- MOCK DATA SCRIPT THÊM 140 POSTS MỚI ĐỂ TEST ---
+    (function () {
+      var subCategories = ['Card IB', 'Loan IB', 'Card Ecom', 'Loan Ecom', 'Ubank IB', 'Ubank Ecom', 'Outbound'];
+
+      // Lấy ngày hôm nay định dạng yyyy-mm-dd
+      var d = new Date();
+      var mm = String(d.getMonth() + 1).padStart(2, '0');
+      var dd = String(d.getDate()).padStart(2, '0');
+      var today = d.getFullYear() + '-' + mm + '-' + dd;
+
+      var baseId = 1000;
+      subCategories.forEach(function (sub) {
+        for (var i = 1; i <= 20; i++) {
+          var isEffectiveToday = (i <= 5); // 5 bài đầu sẽ có effectiveDate là hôm nay
+          window.postsData.push({
+            id: baseId++,
+            title: '[' + sub + '] Bài viết test số ' + i + ' (Update Hôm Nay)',
+            content: '<p>Đây là bài viết mẫu số ' + i + ' được generate tự động cho phân hệ <strong>' + sub + '</strong> để test tính năng badge.</p>',
+            category: 'Quy trình',
+            subCategory: sub,
+            date: '2026-03-01',
+            updateDate: today,
+            effectiveDate: isEffectiveToday ? today : '2026-03-20',
+            author: 'Hệ thống tự động',
+            status: 'Testing',
+            classification: 'Demo'
+          });
+        }
+      });
+
+      // Thêm 22 bài Thông báo
+      for (var j = 1; j <= 22; j++) {
+        window.postsData.push({
+          id: baseId++,
+          title: '[Thông báo] Bài viết test số ' + j,
+          content: '<p>Đây là bài viết mẫu Thông báo số ' + j + ' được generate tự động để test phân trang hoặc hiển thị.</p>',
+          category: 'Thông báo',
+          date: today,
+          author: 'Hệ thống tự động',
+          image: './Asset/logo/LOGO_CS.png'
+        });
+      }
+
+      // Thêm 22 bài Sự kiện
+      for (var k = 1; k <= 22; k++) {
+        window.postsData.push({
+          id: baseId++,
+          title: '[Sự kiện] Bài viết test số ' + k,
+          content: '<p>Đây là bài viết mẫu Sự kiện số ' + k + ' được generate tự động để test phân trang hoặc hiển thị.</p>',
+          category: 'Sự kiện',
+          date: today,
+          author: 'Hệ thống tự động',
+          image: './Asset/logo/LOGO_CS.png'
+        });
+      }
+    })();
   </script>
 
   <!-- Script render carousel + bài viết -->
@@ -658,7 +745,10 @@
         return arr.slice().sort(function (a, b) {
           if (a.pinned && !b.pinned) return -1;
           if (!a.pinned && b.pinned) return 1;
-          return (b.date || '').localeCompare(a.date || '');
+          // Ưu tiên updateDate, fallback về date
+          var dateA = a.updateDate || a.date || '';
+          var dateB = b.updateDate || b.date || '';
+          return dateB.localeCompare(dateA);
         });
       }
 
@@ -746,58 +836,118 @@
         return subs;
       }
 
+      // Đếm số post cập nhật/áp dụng hôm nay
+      function getTodayStr() {
+        var d = new Date();
+        var mm = String(d.getMonth() + 1).padStart(2, '0');
+        var dd = String(d.getDate()).padStart(2, '0');
+        return d.getFullYear() + '-' + mm + '-' + dd;
+      }
+
+      function countTodayPosts(subFilter) {
+        var today = getTodayStr();
+        var clPosts = posts.filter(function (p) { return p.category === 'Quy trình'; });
+
+        // Lọc theo sub-filter
+        if (subFilter && subFilter !== 'ALL' && subFilter !== 'Tất cả') {
+          clPosts = clPosts.filter(function (p) {
+            return p.subCategory === subFilter || p.subCategory === 'All Group';
+          });
+        }
+
+        var updateCount = 0;
+        var effectiveCount = 0;
+        clPosts.forEach(function (p) {
+          if (p.updateDate === today) updateCount++;
+          if (p.effectiveDate === today) effectiveCount++;
+        });
+        return { update: updateCount, effective: effectiveCount };
+      }
+
+      function buildBadgeHtml(counts) {
+        var html = '';
+        if (counts.update > 0 || counts.effective > 0) {
+          html += '<span class="changelog-badge-group">';
+          if (counts.update > 0) {
+            html += '<span class="changelog-badge badge-update" title="Cập nhật hôm nay">' + counts.update + '</span>';
+          }
+          if (counts.effective > 0) {
+            html += '<span class="changelog-badge badge-effective" title="Áp dụng hôm nay">' + counts.effective + '</span>';
+          }
+          html += '</span>';
+        }
+        return html;
+      }
+
       function renderSubFilterBar() {
-        if (activeFilter !== 'Quy trình') {
+        if (activeFilter === 'Hướng dẫn hội nhập') {
           subFilterToolbar.style.display = 'none';
           return;
         }
         subFilterToolbar.style.display = 'flex';
-        subFilterBar.innerHTML = '';
 
-        var dropdown = document.createElement('div');
-        dropdown.className = 'dropdown';
+        // --- Điều khiển nút drop-down Bộ lọc Phòng ban (chỉ của Quy trình) ---
+        if (activeFilter !== 'Quy trình') {
+          subFilterBar.style.display = 'none';
+          subFilterToolbar.style.justifyContent = 'flex-end';
+        } else {
+          subFilterBar.style.display = 'flex';
+          subFilterToolbar.style.justifyContent = 'space-between';
+          subFilterBar.innerHTML = '';
 
-        var toggleBtn = document.createElement('button');
-        toggleBtn.className = 'dropdown-toggle sub-filter-toggle';
-        toggleBtn.textContent = activeSubFilter || 'ALL';
-        dropdown.appendChild(toggleBtn);
+          var dropdown = document.createElement('div');
+          dropdown.className = 'dropdown';
 
-        var menu = document.createElement('div');
-        menu.className = 'dropdown-menu';
+          // Badge cho toggle button (theo sub-filter hiện tại)
+          var currentCounts = countTodayPosts(activeSubFilter);
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'dropdown-toggle sub-filter-toggle';
+          toggleBtn.innerHTML = (activeSubFilter || 'ALL') + buildBadgeHtml(currentCounts);
+          dropdown.appendChild(toggleBtn);
 
-        var allItem = document.createElement('div');
-        allItem.className = 'dropdown-item' + (activeSubFilter === 'ALL' || activeSubFilter === 'Tất cả' ? ' selected' : '');
-        allItem.textContent = 'ALL';
-        allItem.onclick = function () { activeSubFilter = 'ALL'; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
-        menu.appendChild(allItem);
+          var menu = document.createElement('div');
+          menu.className = 'dropdown-menu';
 
-        var allGroupItem = document.createElement('div');
-        allGroupItem.className = 'dropdown-item' + (activeSubFilter === 'All Group' ? ' selected' : '');
-        allGroupItem.textContent = 'All Group';
-        allGroupItem.onclick = function () { activeSubFilter = 'All Group'; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
-        menu.appendChild(allGroupItem);
-
-        getSubCategories().forEach(function (sub) {
-          if (sub === 'Ubank') {
-            // Split Ubank into Ubank IB and Ubank Ecom
-            ['Ubank IB', 'Ubank Ecom'].forEach(function (uSub) {
-              var item = document.createElement('div');
-              item.className = 'dropdown-item' + (activeSubFilter === uSub ? ' selected' : '');
-              item.textContent = uSub;
-              item.onclick = function () { activeSubFilter = uSub; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
-              menu.appendChild(item);
-            });
-          } else {
+          // Helper tạo dropdown item có badge
+          function createMenuItem(label, filterValue) {
+            var counts = countTodayPosts(filterValue);
             var item = document.createElement('div');
-            item.className = 'dropdown-item' + (activeSubFilter === sub ? ' selected' : '');
-            item.textContent = sub;
-            item.onclick = function () { activeSubFilter = sub; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
+            item.className = 'dropdown-item' + (activeSubFilter === filterValue ? ' selected' : '');
+            // Thêm flex styles trực tiếp để đẩy badge sang phải
+            item.style.display = 'flex';
+            item.style.justifyContent = 'space-between';
+            item.style.alignItems = 'center';
+
+            item.innerHTML = '<span>' + label + '</span>' + buildBadgeHtml(counts);
+            item.onclick = function () { activeSubFilter = filterValue; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
             menu.appendChild(item);
           }
-        });
 
-        dropdown.appendChild(menu);
-        subFilterBar.appendChild(dropdown);
+          createMenuItem('ALL', 'ALL');
+          createMenuItem('All Group', 'All Group');
+
+          getSubCategories().forEach(function (sub) {
+            if (sub === 'Ubank') {
+              ['Ubank IB', 'Ubank Ecom'].forEach(function (uSub) {
+                createMenuItem(uSub, uSub);
+              });
+            } else {
+              createMenuItem(sub, sub);
+            }
+          });
+
+          dropdown.appendChild(menu);
+          subFilterBar.appendChild(dropdown);
+        } // Hết khối Dropdown của Quy Trình
+
+        // Đổi Placeholder thanh search cho phù hợp tab
+        if (changelogSearchInput) {
+          if (activeFilter === 'Quy trình') {
+            changelogSearchInput.placeholder = 'Tìm kiếm ' + activeFilter.toLowerCase() + '...';
+          } else {
+            changelogSearchInput.placeholder = 'Tìm kiếm ' + activeFilter.toLowerCase() + '...';
+          }
+        }
       }
 
       var thongbaoBtnHeader = document.getElementById('thongbao-header-btn');
@@ -833,6 +983,10 @@
             var btnHead = document.createElement('button');
             btnHead.className = 'category-filter-btn' + (activeFilter === cat ? ' active' : '');
             btnHead.textContent = getDisplayName(cat);
+            if (cat === 'Quy trình') {
+              var headerCounts = countTodayPosts('ALL');
+              btnHead.innerHTML = getDisplayName(cat) + buildBadgeHtml(headerCounts);
+            }
             btnHead.onclick = function () {
               activeFilter = cat; activeSubFilter = 'ALL';
               changelogSearchQuery = ''; changelogSearchInput.value = '';
@@ -1300,7 +1454,7 @@
         openOrgChartDetail('tbp3', true);
       }
 
-      function renderPosts() {
+      function renderPosts(isAppend) {
         // Handle onboarding section visibility
         renderOnboarding();
         if (activeFilter === 'Hướng dẫn hội nhập') {
@@ -1316,7 +1470,11 @@
           postsGrid.style.display = 'grid'; // Layout 3 cột
         }
 
-        postsGrid.innerHTML = '';
+        // Nếu KHÔNG phải chế độ append (Tức là đang filter, search, đổi tab...), thì dọn sạch Grid
+        if (isAppend !== true) {
+          postsGrid.innerHTML = '';
+        }
+
         var filtered = posts.filter(function (p) { return p.category === activeFilter; });
 
         // Sub-category filter
@@ -1324,8 +1482,8 @@
           filtered = filtered.filter(function (p) { return p.subCategory === activeSubFilter || p.subCategory === 'All Group'; });
         }
 
-        // Change Log search filter (supports diacritics-free Vietnamese)
-        if (activeFilter === 'Quy trình' && changelogSearchQuery) {
+        // Change Log search filter (supports diacritics-free Vietnamese) - KHÔNG GIỚI HẠN RIÊNG TAB NỮA
+        if (changelogSearchQuery) {
           var queryNorm = removeDiacritics(changelogSearchQuery);
           filtered = filtered.filter(function (p) {
             var title = (p.title || '').toLowerCase();
@@ -1355,10 +1513,16 @@
 
         // Date range filter
         if (dateFrom) {
-          filtered = filtered.filter(function (p) { return (p.date || '') >= dateFrom; });
+          filtered = filtered.filter(function (p) {
+            var postDate = p.updateDate || p.date || '';
+            return postDate >= dateFrom;
+          });
         }
         if (dateTo) {
-          filtered = filtered.filter(function (p) { return (p.date || '') <= dateTo; });
+          filtered = filtered.filter(function (p) {
+            var postDate = p.updateDate || p.date || '';
+            return postDate <= dateTo;
+          });
         }
 
         var sorted = sortPosts(filtered);
@@ -1368,8 +1532,13 @@
           return;
         }
 
-        // Paginate the sorted posts
-        var paginatedPosts = sorted.slice(0, currentPage * POSTS_PER_PAGE);
+        // Tối ưu Pagination: Lấy ra các phần tử CỦA TRANG HIỆN TẠI để render
+        var startIndex = isAppend ? (currentPage - 1) * POSTS_PER_PAGE : 0;
+        var endIndex = currentPage * POSTS_PER_PAGE;
+        var paginatedPosts = sorted.slice(startIndex, endIndex);
+
+        // Chuẩn bị Document Fragment để đẩy vào DOM 1 lần
+        var fragment = document.createDocumentFragment();
 
         paginatedPosts.forEach(function (post, index) {
           var card = document.createElement('div');
@@ -1379,6 +1548,7 @@
             // LOGIC CŨ CHO CHANGE LOG (QUY TRÌNH)
             // ==========================================
             card.className = 'post-card' + (post.pinned ? ' pinned' : '');
+            // Hiệu ứng delay nhẹ nhàng nối tiếp nhau cho list card
             card.style.animationDelay = (0.05 + index * 0.05) + 's';
 
             var html = '';
@@ -1390,7 +1560,7 @@
 
             // Body
             html += '<div class="post-card-body">';
-            // Meta
+            // Meta (Bao gồm Tag & Author góc phải)
             html += '<div class="post-card-meta" style="flex-wrap: wrap; gap: 6px; row-gap: 8px;">';
             if (post.pinned) {
               html += '<span class="pinned-badge">' + svgI.pin + ' Ghim</span>';
@@ -1411,13 +1581,21 @@
             if (post.effectiveDate) {
               html += '<span class="post-date post-date-effective">' + svgI.check + ' Áp dụng: ' + formatDate(post.effectiveDate) + '</span>';
             }
+
+            // ĐƯA AUTHOR LÊN ĐÂY (NẰM Ở CUỐI HÀNG META)
+            html += '<div class="post-author" style="margin-left: auto;"><span class="post-author-avatar">' + getInitials(post.author) + '</span>' + (post.author || '') + '</div>';
+
             html += '</div>';
+            // Title và Nút Xem thêm
+            html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">';
+
             // Title
             if (post.link) {
-              html += '<div class="post-card-title"><a href="' + post.link + '" target="_blank" style="color: inherit; text-decoration: underline; text-underline-offset: 4px;">' + (post.title || '') + '</a></div>';
+              html += '<div class="post-card-title" style="flex: 1;"><a href="' + post.link + '" target="_blank" style="color: inherit; text-decoration: none;">' + (post.title || '') + '</a></div>';
             } else {
-              html += '<div class="post-card-title">' + (post.title || '') + '</div>';
+              html += '<div class="post-card-title" style="flex: 1;">' + (post.title || '') + '</div>';
             }
+            html += '</div>';
 
             // === DIFF VIEW: Chỉ cho Quy trình có oldContent ===
             if (post.category === 'Quy trình' && post.oldContent) {
@@ -1429,19 +1607,21 @@
               html += '<div class="post-diff-col post-diff-new">';
               html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg> Nội dung mới</div>';
               html += '<div class="post-diff-content">' + post.content + '</div>';
+              // --- NÚT XEM THÊM NẰM TRONG BOX NỘI DUNG MỚI GÓC PHẢI DƯỚI CÙNG ---
+              html += '<div style="display:flex; justify-content:flex-end; margin-top: 10px;">';
+              html += '<button class="post-read-more" data-id="' + post.id + '">Xem thêm →</button>';
+              html += '</div>';
               html += '</div>';
               html += '</div>';
             } else {
               // Layout bình thường
               html += '<div class="post-card-content">' + (post.content || '') + '</div>';
+              html += '<div style="display:flex; justify-content:flex-end; margin-top: 10px;">';
+              html += '<button class="post-read-more" data-id="' + post.id + '">Xem thêm →</button>';
+              html += '</div>';
             }
+            // (Đã xóa nút xem thêm ở đáy)
             html += '</div>'; // End body
-
-            // Footer
-            html += '<div class="post-card-footer">';
-            html += '<div class="post-author"><span class="post-author-avatar">' + getInitials(post.author) + '</span>' + (post.author || '') + '</div>';
-            html += '<button class="post-read-more" data-id="' + post.id + '">Xem thêm →</button>';
-            html += '</div>';
 
             card.innerHTML = html;
 
@@ -1459,9 +1639,15 @@
             };
 
             var html = '';
-            // Sử dụng hình SVG cover mặc định kèm màu gradient xanh lá nếu ko có hình
-            var defaultBg = 'url(\'./Asset/logo/fec-logo.svg\') center / 60% no-repeat, linear-gradient(135deg, rgba(46,125,50,0.95) 0%, rgba(27,94,32,0.95) 100%)';
-            var bgStyle = post.image ? 'background-image: url(\'' + post.image + '\'); background-size: cover;' : 'background: ' + defaultBg + '; border-bottom: 2px solid #e0f2f1;';
+            // CSS setup for bg image handling
+            var bgStyle = '';
+            if (post.image) {
+              // Bổ sung: Nếu image là logo thì chỉ hiển thị vừa phải không làm background lấp kín.
+              bgStyle = 'background-color:#f1f5f9; background-image: url(\'' + post.image + '\'); background-size: contain; background-repeat: no-repeat; background-position: center;';
+            } else {
+              // Sử dụng Logo CS làm mặc định cho các bài chưa có hình ảnh
+              bgStyle = 'background-color:#f1f5f9; background-image: url(\'./Asset/logo/LOGO_CS.png\'); background-size: contain; background-repeat: no-repeat; background-position: center;';
+            }
 
             html += '<div class="fec-news-image" style="' + bgStyle + '"></div>';
             html += '<div class="fec-news-body">';
@@ -1478,16 +1664,28 @@
             card.innerHTML = html;
           }
 
-          postsGrid.appendChild(card);
+          fragment.appendChild(card);
         });
 
-        // Gắn sự kiện xem chi tiết
-        var readBtns = postsGrid.querySelectorAll('.post-read-more');
-        readBtns.forEach(function (btn) {
-          btn.onclick = function () {
-            var id = parseInt(this.getAttribute('data-id'));
-            openPostModal(id);
-          };
+        // Xoá nút Xem thêm cũ đang nằm ở cuối trang nếu có
+        var oldLoadMore = postsGrid.querySelector('.load-more-wrapper');
+        if (oldLoadMore) {
+          oldLoadMore.remove();
+        }
+
+        // Chèn các bài viết mới vào lưới Grid
+        postsGrid.appendChild(fragment);
+
+        // Gắn sự kiện xem chi tiết (chỉ bắt các tag mới được nối thêm vào)
+        var newCards = Array.from(postsGrid.children).slice(startIndex);
+        newCards.forEach(function (child) {
+          var readBtn = child.querySelector('.post-read-more');
+          if (readBtn) {
+            readBtn.onclick = function () {
+              var id = parseInt(this.getAttribute('data-id'));
+              openPostModal(id);
+            };
+          }
         });
 
         // Add Load More Button if remaining items
@@ -1502,7 +1700,7 @@
 
           loadMoreBtn.onclick = function () {
             currentPage++;
-            renderPosts();
+            renderPosts(true); // GỌI RENDER Ở CHẾ ĐỘ APPEND
           };
 
           loadMoreWrapper.appendChild(loadMoreBtn);
@@ -1548,7 +1746,9 @@
         html += '<div class="post-author"><span class="post-author-avatar">' + getInitials(post.author) + '</span>' + (post.author || '') + '</div>';
         html += '</div>';
         if (post.image) {
-          html += '<img style="width:100%;border-radius:12px;margin-bottom:20px;" src="' + post.image + '" alt="" />';
+          html += '<div style="text-align: center; margin-bottom: 20px;">';
+          html += '<img style="max-height:100px; max-width:100%; object-fit: contain; border-radius:8px;" src="' + post.image + '" alt="" />';
+          html += '</div>';
         }
 
         // Modal cũng hiển thị diff view nếu có oldContent
@@ -1613,9 +1813,9 @@
                 </svg>
                 Dành cho khách hàng mới
               </div>
-              <a href="tel:02836111555" class="fec-hotline-pill fec-hotline-pill-filled">
+              <a href="tel:02839111555" class="fec-hotline-pill fec-hotline-pill-filled">
                 <div class="fec-hotline-pill-desc">HỖ TRỢ VAY NHANH</div>
-                <div class="fec-hotline-pill-number">028 36 111555</div>
+                <div class="fec-hotline-pill-number">028 39 111555</div>
               </a>
             </div>
             <div class="fec-hotline-divider"></div>
