@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -13,57 +13,8 @@
   <link rel="stylesheet" href="./Asset/theme-thu.css" />
   <link rel="stylesheet" href="./Asset/theme-dong.css" /> -->
 
-  <style>
-    /* Bỏ gạch chân cho các link trong header */
-    a.tab-btn:not(.dropdown-item),
-    a.pdf-link-btn:not(.dropdown-item) {
-      text-decoration: none;
-      color: inherit;
-    }
 
-    .dropdown-menu a.dropdown-item {
-      text-decoration: none;
-      /* removed color: inherit so it correctly falls back to #4d4d4d defined in style2.css */
-    }
 
-    .home-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      padding: 0;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      color: white;
-      border-radius: 6px;
-      transition: background-color 0.2s ease;
-      text-decoration: none;
-      margin-right: 5px;
-      line-height: 0;
-      align-self: center;
-    }
-
-    .home-btn:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .sidebar-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      padding: 0;
-      border-radius: 6px;
-      transition: background-color 0.2s ease;
-    }
-
-    .sidebar-toggle:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-  </style>
 </head>
 
 <body>
@@ -1874,6 +1825,9 @@
         feedback: window.flowchartDataFeedback,  // Dữ liệu góp ý
       };
 
+      // Expose to window for ppt-copy logic
+      window.dataSources = dataSources;
+
       const isObject = (value) => typeof value === "object" && value !== null;
 
       const isLeaf = (node) => isObject(node) && (node.pdf !== undefined || node.contentType !== undefined || node.htmlContent !== undefined || node.htmlUrl !== undefined);
@@ -2555,6 +2509,17 @@
 
             displayResult(selectedNode, path);
           }
+
+          // Enable copy buttons
+          const btnSetBase = document.getElementById('btn-set-base');
+          const btnCopyTarget = document.getElementById('btn-copy-target');
+          if (btnSetBase) {
+            btnSetBase.disabled = false;
+            btnSetBase.title = "Lưu điểm gốc từ: " + path.join(" > ");
+          }
+          if (btnCopyTarget) {
+            btnCopyTarget.disabled = false;
+          }
         }
 
       }
@@ -2691,6 +2656,11 @@
           this.headerPdf = snapshot.headerPdf ? { ...snapshot.headerPdf } : { pdfName: null };
         }
       };
+
+      // Expose to window for ppt-copy logic
+      window.state = state;
+      window.appState = appState;
+      window.dataSources = dataSources;
 
       /**
        * Unified Navigation API - Điểm duy nhất để navigate
@@ -2856,6 +2826,17 @@
         if (window.initXmttResize) {
 
           setTimeout(() => window.initXmttResize(true), 10);
+        }
+
+        // Enable copy-link buttons for header presets
+        const btnSetBase = document.getElementById('btn-set-base');
+        const btnCopyTarget = document.getElementById('btn-copy-target');
+        if (btnSetBase) {
+          btnSetBase.disabled = false;
+          btnSetBase.title = "Lưu điểm gốc từ: " + pdfState.pdfName;
+        }
+        if (btnCopyTarget) {
+          btnCopyTarget.disabled = false;
         }
       }
 
@@ -3823,6 +3804,147 @@
           }
         }
       });
+    });
+  </script>
+
+  <!-- === COPY LINK FOR PPT (2-BUTTON: SET BASE + COPY TARGET) === -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const btnSetBase = document.getElementById('btn-set-base');
+      const btnCopyTarget = document.getElementById('btn-copy-target');
+      const copyFeedback = document.getElementById('copy-link-feedback');
+      const baseInfoEl = document.getElementById('copy-link-base-info');
+
+      const STORAGE_KEY = 'ppt_base_path';
+
+      if (btnSetBase) {
+        btnSetBase.addEventListener('click', function () {
+          setBasePath();
+        });
+      }
+
+      if (btnCopyTarget) {
+        btnCopyTarget.addEventListener('click', function () {
+          copyTargetLink();
+        });
+      }
+
+      function setBasePath() {
+        // Path from sidebar select
+        const path = Array.from(document.querySelectorAll('.filter-select'))
+          .map(s => s.value).filter(Boolean);
+
+        let pdfPath = '';
+
+        if (path.length === 0) {
+          // If no sidebar path, check header-pdf from appState
+          if (window.appState && window.appState.type === 'header-pdf' && window.appState.headerPdf.pdfName) {
+            pdfPath = window.appState.headerPdf.pdfName;
+          } else {
+            showCopyFeedback('⚠️ Chưa chọn mục nào!', true);
+            return;
+          }
+        } else {
+          // Get source from window.state or window.appState
+          const sourceName = (window.state && window.state.activeSourceName) || (window.appState && window.appState.sidebar && window.appState.sidebar.source) || 'truyvan';
+          const sourceData = (window.dataSources && window.dataSources[sourceName]) || window.flowchartData;
+
+          let node = sourceData;
+          for (const key of path) {
+            if (node && node[key]) {
+              node = node[key];
+            } else {
+              showCopyFeedback('⚠️ Không tìm thấy node!', true);
+              return;
+            }
+          }
+          pdfPath = node.pdf || '';
+        }
+
+        if (!pdfPath) {
+          showCopyFeedback('⚠️ Node này không có PDF!', true);
+          return;
+        }
+
+        // Calculate "../" depth
+        let cleanPath = pdfPath;
+        let baseFolderDepth = 1;
+
+        if (cleanPath.startsWith('./')) {
+          cleanPath = cleanPath.substring(2);
+          baseFolderDepth = 0;
+        }
+
+        const slashCount = (cleanPath.match(/\//g) || []).length;
+        const depth = baseFolderDepth + slashCount;
+        const prefix = '../'.repeat(depth);
+
+        localStorage.setItem(STORAGE_KEY, prefix);
+        updateBaseInfoDisplay();
+
+        showCopyFeedback('📌 Đã lưu gốc: ' + prefix + ' (' + depth + ' cấp)');
+      }
+
+      function copyTargetLink() {
+        const savedPrefix = localStorage.getItem(STORAGE_KEY);
+        if (!savedPrefix) {
+          showCopyFeedback('⚠️ Chưa lưu gốc! Bấm "LẤY GỐC" trước.', true);
+          return;
+        }
+
+        const path = Array.from(document.querySelectorAll('.filter-select'))
+          .map(s => s.value).filter(Boolean);
+
+        let link = '';
+        if (path.length === 0) {
+          if (window.appState && window.appState.type === 'header-pdf' && window.appState.headerPdf.pdfName) {
+            link = savedPrefix + 'outbound_v6.html#pdf=' + encodeURIComponent(window.appState.headerPdf.pdfName);
+          } else {
+            showCopyFeedback('⚠️ Chưa chọn mục đích!', true);
+            return;
+          }
+        } else {
+          const sourceName = (window.state && window.state.activeSourceName) || (window.appState && window.appState.sidebar && window.appState.sidebar.source) || 'truyvan';
+          const jsonPath = JSON.stringify(path);
+          const compressed = LZString.compressToEncodedURIComponent(jsonPath);
+          link = savedPrefix + 'outbound_v6.html#source=' + sourceName + '&s=' + compressed;
+        }
+
+        navigator.clipboard.writeText(link).then(function () {
+          showCopyFeedback('✅ Đã copy! (' + savedPrefix + ')');
+        }).catch(function () {
+          var textarea = document.createElement('textarea');
+          textarea.value = link;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          showCopyFeedback('✅ Đã copy! (' + savedPrefix + ')');
+        });
+      }
+
+      function updateBaseInfoDisplay() {
+        if (!baseInfoEl) return;
+        var saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          baseInfoEl.innerHTML = 'Gốc: <span class="base-path-value">' + saved + '</span>';
+          baseInfoEl.style.display = '';
+        }
+      }
+
+      function showCopyFeedback(message, isError) {
+        if (copyFeedback) {
+          copyFeedback.textContent = message;
+          copyFeedback.classList.remove('show', 'error');
+          if (isError) copyFeedback.classList.add('error');
+          void copyFeedback.offsetWidth;
+          copyFeedback.classList.add('show');
+          clearTimeout(copyFeedback._timeout);
+          copyFeedback._timeout = setTimeout(function () {
+            copyFeedback.classList.remove('show');
+          }, 3000);
+        }
+      }
     });
   </script>
 </body>

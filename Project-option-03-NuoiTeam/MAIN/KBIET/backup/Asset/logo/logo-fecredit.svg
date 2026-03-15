@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="313" height="43" viewBox="-6 -6 313 43">
+  <style>
+    /* ===== KEYFRAMES CHO ANIMATION (CHU KỲ 3 GIÂY) ===== */
+    
+    /* Hiệu ứng popIn - chữ nhảy vào rồi giữ nguyên trong phần còn lại của chu kỳ */
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.9);
+      }
+      15% {
+        opacity: 1;
+        transform: translateY(-2px) scale(1.02);
+      }
+      25%, 100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    /* Hiệu ứng shine chạy ngang - chạy 1 lần rồi nghỉ */
+    @keyframes shine {
+      0%, 35% {
+        transform: translateX(-150px);
+        opacity: 0;
+      }
+      40% {
+        opacity: 0.6;
+      }
+      55% {
+        opacity: 0.6;
+      }
+      60% {
+        transform: translateX(350px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(350px);
+        opacity: 0;
+      }
+    }
+
+    /* ===== ÁP DỤNG ANIMATION - LẶP LẠI MỖI 3 GIÂY ===== */
+    
+    /* Chữ F đỏ bên trái - xuất hiện đầu tiên */
+    #red-left {
+      animation: popIn 3s ease-out 0s infinite;
+    }
+    
+    /* Chữ E đỏ ở giữa - delay 0.1s */
+    #red-mid {
+      animation: popIn 3s ease-out 0.1s infinite;
+    }
+    
+    /* Dải xanh - mỗi phần xuất hiện nối tiếp */
+    #green-C { animation: popIn 3s ease-out 0.2s infinite; }
+    #green-R { animation: popIn 3s ease-out 0.28s infinite; }
+    #green-E { animation: popIn 3s ease-out 0.36s infinite; }
+    #green-D { animation: popIn 3s ease-out 0.44s infinite; }
+    #green-I { animation: popIn 3s ease-out 0.52s infinite; }
+    #green-T { animation: popIn 3s ease-out 0.6s infinite; }
+    
+    /* Thanh shine - lặp lại mỗi 3 giây */
+    #shineBar {
+      animation: shine 3s ease-in-out 0s infinite;
+    }
+  </style>
+  
+  <defs>
+    <!-- Bóng đổ mạnh cho logo - giúp nổi bật trên mọi nền -->
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    
+    <!-- Outer glow trắng - tạo viền sáng xung quanh logo -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feFlood flood-color="#ffffff" flood-opacity="0.8"/>
+      <feComposite in2="blur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <!-- Gradient cho hiệu ứng shine -->
+    <linearGradient id="shineGrad" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- NỀN TRẮNG MỜ PHÍA SAU LOGO (glassmorphism) -->
+  <rect x="-5" y="-4" width="312" height="39" rx="8" ry="8" fill="rgba(255,255,255,0.85)"/>
+
+  <!-- ===== LOGO CHÍNH ===== -->
+  <g id="logoBase" filter="url(#shadow)">
+    
+    <!-- CHỮ F ĐỎ BÊN TRÁI -->
+    <path id="red-left" fill="#EA2027"
+      d="M.646.453v29.948H9.82V20.076h21.597v-6.883H9.82v-5.69H32.5V.453H.647Z"/>
+    
+    <!-- CHỮ E ĐỎ Ở GIỮA -->
+    <path id="red-mid" fill="#EA2027"
+      d="M69.636.453v7.05H45.12v4.33h23.126v6.606H45.12v4.801h24.516v7.161H36.059V.453h33.577Z"/>
+    
+    <!-- DẢI XANH - CREDIT -->
+    <!-- C -->
+    <path id="green-C" fill="#008445"
+      d="M122.005 18.757c.028 1.387.028 2.303.083 2.747 0 2.22-.361 3.97-1.028 5.218-.751 1.388-2.196 2.387-4.336 2.915-2.14.527-5.865.75-11.174.75-5.56 0-9.506-.084-11.924-.306-2.335-.222-4.142-.61-5.31-1.221-1.111-.583-1.89-1.333-2.418-2.304-.528-.916-.834-2.165-1-3.803-.167-1.304-.25-3.719-.25-7.16 0-3.359.083-5.801.25-7.3.11-1.471.333-2.664.778-3.497.778-1.832 2.418-3.053 4.892-3.58 2.502-.583 7.505-.833 15.01-.833 3.78 0 6.56.083 8.255.25 1.723.194 3.058.5 4.114.971 1.306.61 2.223 1.527 2.807 2.803.528 1.222.778 2.998.834 5.413 0 .138 0 .61-.028 1.443h-8.894c-.056-.972-.112-1.582-.195-1.943-.056-.305-.222-.555-.472-.833-.362-.305-1.251-.472-2.613-.61-1.39-.14-3.475-.222-6.31-.222-2.752 0-4.697.055-5.781.166-1.057.139-1.78.361-2.224.694-.556.444-.945 1.138-1.112 2.193-.195.999-.278 2.581-.39 4.801 0 2.193.14 3.747.334 4.663.167.888.473 1.527 1.057 1.915.5.389 1.278.639 2.362.777 1.112.14 3.058.167 5.837.14 3.392 0 5.671-.056 6.81-.14 1.14-.083 1.891-.305 2.335-.721.501-.5.779-1.61.862-3.442h8.839v.056Z"/>
+    
+    <!-- R -->
+    <path id="green-R" fill="#008445"
+      d="M126.367.453h22.209c5.17 0 8.311.028 9.339.222 1.001.083 2.002.416 3.002 1 1.112.665 1.89 1.61 2.363 2.83.389 1.222.584 3.109.612 5.718 0 2.137-.139 3.775-.417 4.83-.278.97-.751 1.803-1.529 2.414-.806.666-2.001 1.138-3.669 1.388 1.89.139 3.335.61 4.141 1.61.501.555.779 1.249.918 2.109.111.75.222 2.47.222 5.08v2.775h-9.089v-1.61c0-1.638-.028-2.831-.167-3.553-.056-.666-.306-1.249-.667-1.61-.306-.36-.806-.582-1.418-.666-.583-.083-1.806-.138-3.752-.138H135.54v7.577h-9.173V.453Zm22.126 14.877c2.223 0 3.585-.056 4.03-.083a2.93 2.93 0 0 0 1.084-.361c.389-.278.667-.61.862-1.138.139-.444.222-1.194.222-2.193 0-.999-.083-1.72-.278-2.192-.167-.5-.5-.86-.945-1.083-.306-.139-.695-.222-1.167-.25-.445 0-1.724-.055-3.836-.055h-12.897v7.355h12.925Z"/>
+    
+    <!-- E -->
+    <path id="green-E" fill="#008445"
+      d="M201.78.453v7.05h-24.516v4.33h23.126v6.606h-23.126v4.801h24.516v7.161h-33.55V.453h33.55Z"/>
+    
+    <!-- D -->
+    <path id="green-D" fill="#008445"
+      d="M206.086.453h21.764c3.836 0 6.337.056 7.56.083a22.86 22.86 0 0 1 3.753.5c2.974.61 4.975 2.276 5.865 5.08.361 1.082.556 2.192.695 3.413.139 1.221.167 3.025.167 5.496 0 2.636-.028 4.662-.251 6.05-.139 1.36-.361 2.61-.722 3.692-.89 2.636-2.724 4.302-5.504 4.94-1.306.278-2.724.5-4.225.583-1.473.083-3.863.111-7.31.111h-21.764V.453h-.028Zm21.847 22.343c2.335 0 4.059-.055 5.226-.222 1.084-.139 1.835-.416 2.307-.805.5-.388.834-1.082 1.056-2.026.223-.888.306-2.304.306-4.163 0-1.832-.083-3.22-.25-4.191-.195-.888-.5-1.61-.917-2.165-.501-.5-1.223-.86-2.224-1.027-.889-.139-2.78-.222-5.587-.222h-12.73v14.821h12.813Z"/>
+    
+    <!-- I -->
+    <path id="green-I" fill="#008445"
+      d="M259.842.453h-9.645v29.948h9.645V.453Z"/>
+    
+    <!-- T -->
+    <path id="green-T" fill="#008445"
+      d="M300.647.453v7.633h-13.453V30.4h-9.618V8.086h-13.453V.453h36.524Z"/>
+  </g>
+
+  <!-- THANH SHINE CHẠY NGANG -->
+  <rect id="shineBar" x="-120" y="0" width="80" height="31" fill="url(#shineGrad)"/>
+</svg>

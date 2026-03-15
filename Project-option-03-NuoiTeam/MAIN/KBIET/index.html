@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trang Chủ</title>
+  <link rel="stylesheet" href="./Asset/style2.css" />
+  <link rel="stylesheet" href="./Asset/styleindex.css" />
+  <link rel="icon" type="image/x-icon" href="./Asset/img-video/fec_logo-1.png">
+  <style>
+    /* Bỏ gạch chân cho các link trong header */
+    a.tab-btn:not(.dropdown-item),
+    a.pdf-link-btn:not(.dropdown-item) {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .dropdown-menu a.dropdown-item {
+      text-decoration: none;
+      /* removed color: inherit so it correctly falls back to #4d4d4d defined in style2.css */
+    }
+
+    /* Badge đếm mục mới/áp dụng hôm nay */
+    .changelog-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 9px;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      margin-left: 4px;
+      line-height: 1;
+    }
+
+    .changelog-badge.badge-update {
+      background: #f59e0b;
+    }
+
+    .changelog-badge.badge-effective {
+      background: #10b981;
+    }
+
+    .changelog-badge-group {
+      display: inline-flex;
+      gap: 3px;
+      margin-left: 6px;
+    }
+  </style>
+</head>
+
+<body class="landing-page">
+  <!-- Header gọn: Logo + PLTT + Category Filter -->
+  <header id="main-header" class="landing-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <a href="index.html">
+          <img src="./Asset/logo/logo-fecredit.svg" alt="FECredit" class="logo" />
+        </a>
+      </div>
+
+      <div class="header-tabs">
+        <button class="tab-btn thongbao-header-btn active" id="thongbao-header-btn">Thông báo</button>
+        <div class="dropdown">
+          <button class="tab-btn dropdown-toggle">PLTT</button>
+          <div class="dropdown-menu">
+            <a href="loan_v2.html" class="dropdown-item" id="loan-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M3.5 0A1.5 1.5 0 0 0 2 1.5v13A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5V4.5L10 0H3.5ZM9 1.5V4.5H12.5L9 1.5ZM7.5 13V11.751C6.446 11.536 5.86 10.957 5.766 10.198A.5.5 0 0 1 6.758 10C6.83 10.518 7.373 10.74 8 10.783V8.892C6.892 8.529 6 8.01 6 6.848C6 5.842 6.812 5.253 7.5 5.088V4H8.5V5.074C9.522 5.275 10.104 5.922 10.198 6.643A.5.5 0 1 1 9.204 6.75C9.135 6.257 8.674 5.992 8 5.952V7.794C9.176 8.136 10 8.7 10 9.883C10 10.871 9.226 11.518 8.5 11.721V13H7.5Z" />
+              </svg>
+              Loan
+            </a>
+            <a href="card_v6.html" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M0 4A2 2 0 0 1 2 2H14A2 2 0 0 1 16 4V12A2 2 0 0 1 14 14H2A2 2 0 0 1 0 12V4ZM0 6H16V8H0V6ZM11 11H13V10H11V11ZM8 11H10V10H8V11Z" />
+              </svg>
+              Card
+            </a>
+            <a href="outbound_v6.html" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z" />
+              </svg>
+              Outbound
+            </a>
+            <a href="ubank_v6.html" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="5.5" cy="3.5" r="1.5" />
+                <circle cx="10.5" cy="3.5" r="1.5" />
+                <path d="M3 6.5v4c0 2.76 2.24 5 5 5s5-2.24 5-5v-4h-3v4c0 1.1-.9 2-2 2s-2-.9-2-2v-4H3z" />
+              </svg>
+              Ubank
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category filter buttons -->
+      <div class="category-filter-bar" id="category-filter-bar">
+        <!-- Buttons sẽ được JS render -->
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO BANNER CAROUSEL -->
+  <section class="hero-carousel" id="hero-carousel">
+    <div class="hero-slides" id="hero-slides">
+      <!-- JS render -->
+    </div>
+    <div class="hero-nav-bar">
+      <button class="hero-arrow hero-arrow-left" id="hero-prev">&#10094;</button>
+      <div class="hero-dots" id="hero-dots"></div>
+      <button class="hero-arrow hero-arrow-right" id="hero-next">&#10095;</button>
+    </div>
+  </section>
+
+  <!-- HEART TEXT SECTION - FUSO STYLE (Image Clipped Letters with Flip) -->
+  <section class="heart-section" id="heart-section">
+    <div class="heart-text-wrapper">
+
+      <!-- H = Heart Touching -->
+      <div class="heart-flip-card">
+        <div class="heart-flip-inner">
+          <div class="heart-flip-front">
+            <span class="heart-letter"
+              style="background-image: url('./Asset/img-video/ree-tower.jpg'); background-size: 500% auto; background-position: 0% center;">H</span>
+          </div>
+          <div class="heart-flip-back">
+            <div class="heart-meaning-card">
+              <h3 class="meaning-title">Heart Touching</h3>
+              <p class="meaning-subtitle">Chạm đến trái tim</p>
+              <p class="meaning-desc">Mở đầu cuộc gọi bằng sự chân thành, tạo ấn tượng tích cực ngay từ giây phút đầu
+                tiên:</p>
+              <ul class="meaning-list">
+                <li>Chào hỏi ấm áp, thân thiện</li>
+                <li>Thể hiện sự quan tâm chân thành</li>
+                <li>Tạo kết nối cảm xúc với khách hàng</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E = Empathy -->
+      <div class="heart-flip-card">
+        <div class="heart-flip-inner">
+          <div class="heart-flip-front">
+            <span class="heart-letter"
+              style="background-image: url('./Asset/img-video/ree-tower.jpg'); background-size: 500% auto; background-position: 25% center;">E</span>
+          </div>
+          <div class="heart-flip-back">
+            <div class="heart-meaning-card">
+              <h3 class="meaning-title">Empathy</h3>
+              <p class="meaning-subtitle">Thấu hiểu</p>
+              <p class="meaning-desc">Đặt mình vào vị trí người khác, lắng nghe và chia sẻ với đồng nghiệp và khách
+                hàng:</p>
+              <ul class="meaning-list">
+                <li>Lắng nghe chủ động, thấu hiểu nhu cầu</li>
+                <li>Hỗ trợ đồng đội khi gặp khó khăn</li>
+                <li>Phục vụ khách hàng bằng cả tấm lòng</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- A = Attentive Actions -->
+      <div class="heart-flip-card">
+        <div class="heart-flip-inner">
+          <div class="heart-flip-front">
+            <span class="heart-letter"
+              style="background-image: url('./Asset/img-video/ree-tower.jpg'); background-size: 500% auto; background-position: 50% center;">A</span>
+          </div>
+          <div class="heart-flip-back">
+            <div class="heart-meaning-card">
+              <h3 class="meaning-title">Attentive Actions</h3>
+              <p class="meaning-subtitle">Hành động tận tâm</p>
+              <p class="meaning-desc">Chủ động hành động với sự tỉ mỉ và chu đáo, đảm bảo mọi yêu cầu được xử lý chính
+                xác:</p>
+              <ul class="meaning-list">
+                <li>Lắng nghe kỹ lưỡng từng chi tiết</li>
+                <li>Xử lý nhanh chóng, chính xác</li>
+                <li>Luôn chủ động đề xuất giải pháp</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- R = Reliable Resolution -->
+      <div class="heart-flip-card">
+        <div class="heart-flip-inner">
+          <div class="heart-flip-front">
+            <span class="heart-letter"
+              style="background-image: url('./Asset/img-video/ree-tower.jpg'); background-size: 500% auto; background-position: 75% center;">R</span>
+          </div>
+          <div class="heart-flip-back">
+            <div class="heart-meaning-card">
+              <h3 class="meaning-title">Reliable Resolution</h3>
+              <p class="meaning-subtitle">Giải quyết đáng tin cậy</p>
+              <p class="meaning-desc">Đưa ra giải pháp đáng tin cậy, đảm bảo khách hàng luôn an tâm và hài lòng:</p>
+              <ul class="meaning-list">
+                <li>Cam kết giải quyết triệt để vấn đề</li>
+                <li>Đảm bảo thông tin chính xác, minh bạch</li>
+                <li>Theo dõi và hỗ trợ đến khi hoàn tất</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- T = Thankful Closing -->
+      <div class="heart-flip-card">
+        <div class="heart-flip-inner">
+          <div class="heart-flip-front">
+            <span class="heart-letter"
+              style="background-image: url('./Asset/img-video/ree-tower.jpg'); background-size: 500% 100%; background-position: 100% center;">T</span>
+          </div>
+          <div class="heart-flip-back">
+            <div class="heart-meaning-card">
+              <h3 class="meaning-title">Thankful Closing</h3>
+              <p class="meaning-subtitle">Kết thúc biết ơn</p>
+              <p class="meaning-desc">Kết thúc cuộc gọi bằng lời cảm ơn chân thành, để lại ấn tượng đẹp và lâu dài:</p>
+              <ul class="meaning-list">
+                <li>Cảm ơn khách hàng đã tin tưởng</li>
+                <li>Tóm tắt nội dung đã hỗ trợ</li>
+                <li>Chào tạm biệt ấm áp, chuyên nghiệp</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- KHU VỰC TRUYỀN THÔNG NỘI BỘ -->
+  <section class="news-feed-section" id="news-feed">
+    <div class="news-feed-container">
+      <!-- Header -->
+      <div class="news-feed-header">
+        <h2 class="news-feed-title" id="news-feed-title">
+          <span class="news-feed-title-icon" id="news-feed-dynamic-icon"><svg width="20" height="20" viewBox="0 0 24 24"
+              fill="currentColor" style="vertical-align:-3px">
+              <path
+                d="M18 11v2h4v-2h-4zm-2 6.61c.96.71 2.21 1.65 3.2 2.39.4-.53.8-1.07 1.2-1.6-.99-.74-2.24-1.68-3.2-2.4-.4.54-.8 1.08-1.2 1.61zM20.4 5.6c-.4-.53-.8-1.07-1.2-1.6-.99.74-2.24 1.68-3.2 2.4.4.53.8 1.07 1.2 1.6.96-.72 2.21-1.65 3.2-2.4zM4 9a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1l5 3V6L5 9H4zm5.03-1.71L14 4v16l-4.97-3.29H4a2 2 0 0 1-2-2v-2h.01z" />
+            </svg></span>
+          <span id="news-feed-dynamic-text">Truyền Thông Nội Bộ</span>
+        </h2>
+
+
+      </div>
+
+      <!-- Sub-filter bar + Date filter + Search (ẩn khi không ở Change Log) -->
+      <div class="sub-filter-toolbar" id="sub-filter-toolbar" style="display: none;">
+        <div class="sub-filter-bar" id="sub-filter-bar">
+          <!-- JS render sub-category buttons -->
+        </div>
+        <div class="changelog-search-bar" id="changelog-search-bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"
+            style="vertical-align:-2px; margin-right:4px;">
+            <path
+              d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+          </svg>
+          <input type="text" class="changelog-search-input" id="changelog-search-input"
+            placeholder="Tìm kiếm Change Log..." />
+        </div>
+        <div class="date-filter-bar">
+          <label class="date-filter-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"
+              style="vertical-align:-1px">
+              <path
+                d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11z" />
+            </svg> Từ</label>
+          <input type="date" class="date-filter-input" id="date-from" />
+          <label class="date-filter-label">đến</label>
+          <input type="date" class="date-filter-input" id="date-to" />
+          <button class="date-filter-clear" id="date-clear" title="Xóa lọc ngày">✕</button>
+        </div>
+      </div>
+
+      <!-- Grid bài viết -->
+      <div class="posts-grid" id="posts-grid">
+        <!-- Cards sẽ được JS render -->
+      </div>
+
+      <!-- Hướng dẫn hội nhập section (ẩn mặc định) -->
+      <div class="onboarding-section" id="onboarding-section" style="display: none;">
+        <!-- Grid Các phòng ban -->
+        <div class="onboarding-grid" id="onboarding-grid">
+          <!-- JS render department cards -->
+        </div>
+
+        <div class="orgchart-inline" id="orgchart-inline" style="margin-top: 40px;">
+          <!-- Header -->
+          <div class="orgchart-header">
+            <div class="orgchart-header-label">Tổ Chức & Nhân Sự</div>
+            <div class="orgchart-header-line"></div>
+          </div>
+
+          <!-- Director Card -->
+          <div class="orgchart-director-card" id="orgchart-director-card">
+            <!-- JS render -->
+          </div>
+
+          <!-- Department Heads Section -->
+          <div class="orgchart-section-label">
+            <span>TRƯỞNG BỘ PHẬN</span>
+            <div class="orgchart-section-line"></div>
+          </div>
+          <div class="orgchart-dept-grid" id="orgchart-dept-grid">
+            <!-- JS render -->
+          </div>
+          <!-- Inline detail (thay popup) -->
+          <div id="orgchart-dept-detail-inline" class="orgchart-dept-detail-inline" style="display:none;"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ORG CHART DETAIL MODAL (xem chi tiết bộ phận/team) -->
+  <div class="orgchart-detail-overlay" id="orgchart-detail-overlay" style="display: none;">
+    <div class="orgchart-detail-modal" id="orgchart-detail-modal">
+      <button class="orgchart-detail-close" id="orgchart-detail-close" title="Đóng">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+        </svg>
+      </button>
+      <div id="orgchart-detail-content"></div>
+    </div>
+  </div>
+
+  <!-- Keep the original onboarding modal for backward compat -->
+  <div class="onboarding-modal-overlay" id="onboarding-modal-overlay" style="display: none;">
+    <div class="onboarding-modal">
+      <button class="onboarding-modal-close" id="onboarding-modal-close" title="Đóng">✕</button>
+      <div id="onboarding-modal-content"></div>
+    </div>
+  </div>
+
+
+  <!-- Modal xem chi tiết -->
+  <div class="post-modal-overlay" id="post-modal-overlay" style="display: none;">
+    <div class="post-modal">
+      <div class="post-modal-header">
+        <div></div>
+        <button class="post-modal-close" id="post-modal-close" title="Đóng">✕</button>
+      </div>
+      <div class="post-modal-body" id="post-modal-body">
+        <!-- Nội dung modal sẽ được JS render -->
+      </div>
+    </div>
+  </div>
+
+  <!-- DỮ LIỆU - được quản lý bởi Tool Đăng Bài (ToolMoi/tool-dang-bai.html) -->
+  <script>
+    window.carouselImages = [
+      {
+        "id": 1,
+        "src": "./Asset/img-video/bannerIndex/slide1.jpg",
+        "alt": "Banner 1"
+      },
+      {
+        "id": 2,
+        "src": "./Asset/img-video/bannerIndex/slide2.jpg",
+        "alt": "Banner 2"
+      },
+      {
+        "id": 3,
+        "src": "./Asset/img-video/bannerIndex/slide3.jpg",
+        "alt": "Banner 3"
+      }
+    ];
+    window.postsData = [
+      {
+        "id": 1,
+        "title": "Chào mừng đến với Trang Truyền Thông Nội Bộ!",
+        "content": "<p>Đây là nền tảng truyền thông nội bộ của team. Tại đây bạn có thể xem các thông báo, cập nhật và tin tức mới nhất.</p><ul><li>Thông báo quan trọng sẽ được <strong>ghim</strong> lên đầu</li><li>Lọc bài viết theo danh mục</li><li>Sắp xếp theo thời gian</li></ul>",
+        "category": "Thông báo",
+        "date": "2026-02-13",
+        "author": "Admin",
+        "pinned": true,
+        "image": ""
+      },
+      {
+        "id": 2,
+        "title": "Quy trình làm việc mới - Q1/2026",
+        "content": "<p>Để n&acirc;ng cao hiệu suất l&agrave;m việc, team sẽ &aacute;p dụng quy tr&igrave;nh mới từ ng&agrave;y <strong>15/02/2026</strong>:</p>\n<ol>\n<li>Họp standup h&agrave;ng ng&agrave;y l&uacute;c 9:00 AM</li>\n<li>Review tiến độ mỗi thứ 6</li>\n<li>B&aacute;o c&aacute;o tổng kết cuối th&aacute;ng</li>\n</ol>",
+        "category": "Quy trình",
+        "date": "2026-02-12",
+        "author": "Team Lead",
+        "pinned": false,
+        "image": ""
+      },
+      {
+        "id": 3,
+        "title": "🎂 Sinh nhật tháng 2 - Chúc mừng các bạn!",
+        "content": "<p>Chúc mừng sinh nhật các thành viên trong tháng 2! 🥳</p><p>Chương trình sinh nhật sẽ được tổ chức vào <strong>thứ 6 cuối tháng</strong>.</p>",
+        "category": "Sự kiện",
+        "date": "2026-02-10",
+        "author": "HR",
+        "pinned": false,
+        "image": ""
+      },
+      {
+        "id": 5,
+        "title": "Quy trình Card IB (Inbound)",
+        "content": "<p>Quy trình xử lý cuộc gọi <strong>Card Inbound</strong> - hỗ trợ khách hàng về thẻ tín dụng:</p><ol><li>Tiếp nhận và xác minh thông tin khách hàng</li><li>Xác định nhu cầu: kích hoạt thẻ, tra cứu sao kê, khiếu nại giao dịch</li><li>Xử lý yêu cầu theo đúng SLA</li><li>Xác nhận kết quả và ghi nhận feedback</li></ol>",
+        "oldContent": "<p>Quy trình xử lý cuộc gọi <strong>Card Inbound</strong>:</p><ol><li>Tiếp nhận cuộc gọi</li><li>Xác minh thông tin khách hàng</li><li>Xử lý yêu cầu</li></ol>",
+        "category": "Quy trình",
+        "subCategory": "Card IB",
+        "date": "2026-02-13",
+        "updateDate": "2026-02-13",
+        "effectiveDate": "2026-02-15",
+        "author": "QC Team",
+        "pinned": false,
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
+      },
+      {
+        "id": 6,
+        "title": "Quy trình Loan IB (Inbound)",
+        "content": "<p>Quy tr&igrave;nh xử l&yacute; cuộc gọi <strong>Loan Inbound</strong> - hỗ trợ kh&aacute;ch h&agrave;ng về khoản vay:</p>\n<ol>\n<li>Tiếp nhận cuộc gọi v&agrave; x&aacute;c minh</li>\n<li>Tra cứu th&ocirc;ng tin khoản vay, lịch thanh to&aacute;n</li>\n<li>Hướng dẫn thanh to&aacute;n, tất to&aacute;n</li>\n<li>Ghi nhận y&ecirc;u cầu v&agrave; chuyển bộ phận li&ecirc;n quan nếu cần</li>\n</ol>",
+        "oldContent": "<p>Quy tr&igrave;nh xử l&yacute; cuộc gọi <strong>Loan Inbound</strong>:</p>\n<ol>\n<li>Tiếp nhận cuộc gọi</li>\n<li>Tra cứu th&ocirc;ng tin khoản vay</li>\n<li>Xử l&yacute; y&ecirc;u cầu</li>\n</ol>",
+        "category": "Quy trình",
+        "subCategory": "Loan IB",
+        "date": "2026-02-13",
+        "updateDate": "2026-02-13",
+        "effectiveDate": "2026-02-15",
+        "author": "QC Team",
+        "pinned": false,
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
+      },
+      {
+        "id": 7,
+        "title": "Quy trình Card Ecom",
+        "content": "<p>Quy tr&igrave;nh xử l&yacute; <strong>Card Ecom:</strong></p>\n<ol>\n<li>Hỗ trợ k&ecirc;nh chat</li>\n</ol>",
+        "category": "Quy trình",
+        "subCategory": "Card Ecom",
+        "date": "2026-02-13",
+        "updateDate": "2026-02-13",
+        "effectiveDate": "2026-02-15",
+        "author": "QC Team",
+        "pinned": false,
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
+      },
+      {
+        "id": 8,
+        "title": "Quy trình Loan Ecom",
+        "content": "<p>Quy tr&igrave;nh xử l&yacute; <strong>Loan Ecom:</strong></p>\n<ol>\n<li>Hỗ trợ k&ecirc;nh chat</li>\n</ol>",
+        "category": "Quy trình",
+        "subCategory": "Loan Ecom",
+        "date": "2026-02-13",
+        "updateDate": "2026-02-13",
+        "effectiveDate": "2026-02-15",
+        "author": "QC Team",
+        "pinned": false,
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
+      },
+      {
+        "id": 9,
+        "title": "Quy trình Ubank",
+        "content": "<p>Quy tr&igrave;nh hỗ trợ kh&aacute;ch h&agrave;ng sử dụng <strong>Ubank</strong> - ứng dụng ng&acirc;n h&agrave;ng số:</p>\n<ol>\n<li>Hướng dẫn tải, c&agrave;i đặt v&agrave; đăng k&yacute; t&agrave;i khoản Ubank</li>\n<li>Hỗ trợ sự cố đăng nhập, x&aacute;c thực eKYC</li>\n<li>Hướng dẫn sử dụng t&iacute;nh năng: chuyển tiền, thanh to&aacute;n</li>\n</ol>",
+        "category": "Quy trình",
+        "subCategory": "Ubank",
+        "date": "2026-02-13",
+        "updateDate": "2026-02-13",
+        "effectiveDate": "2026-02-15",
+        "author": "QC Team",
+        "pinned": false,
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
+      },
+      {
+        "id": 10,
+        "title": "Quy trình Outbound",
+        "content": "<p>Quy tr&igrave;nh thực hiện cuộc gọi <strong>Outbound</strong> - chủ động li&ecirc;n hệ kh&aacute;ch h&agrave;ng:</p>\n<ol>\n<li>Chuẩn bị data kh&aacute;ch h&agrave;ng v&agrave; kịch bản cuộc gọi</li>\n<li>Gọi ra theo lịch tr&igrave;nh, đảm bảo đ&uacute;ng đối tượng</li>\n<li>Tư vấn sản phẩm/dịch vụ, xử l&yacute; từ chối</li>\n</ol>",
+        "category": "Quy trình",
+        "subCategory": "Outbound",
+        "date": "2026-02-13",
+        "updateDate": "2026-02-13",
+        "effectiveDate": "2026-02-15",
+        "author": "QC Team",
+        "pinned": false,
+        "image": "",
+        "issue": "",
+        "status": "",
+        "classification": ""
+      }
+    ];
+
+    // --- MOCK DATA SCRIPT THÊM 140 POSTS MỚI ĐỂ TEST ---
+    (function () {
+      var subCategories = ['Card IB', 'Loan IB', 'Card Ecom', 'Loan Ecom', 'Ubank IB', 'Ubank Ecom', 'Outbound'];
+
+      // Lấy ngày hôm nay định dạng yyyy-mm-dd
+      var d = new Date();
+      var mm = String(d.getMonth() + 1).padStart(2, '0');
+      var dd = String(d.getDate()).padStart(2, '0');
+      var today = d.getFullYear() + '-' + mm + '-' + dd;
+
+      var baseId = 1000;
+      subCategories.forEach(function (sub) {
+        for (var i = 1; i <= 20; i++) {
+          var isEffectiveToday = (i <= 5); // 5 bài đầu sẽ có effectiveDate là hôm nay
+          window.postsData.push({
+            id: baseId++,
+            title: '[' + sub + '] Bài viết test số ' + i + ' (Update Hôm Nay)',
+            content: '<p>Đây là bài viết mẫu số ' + i + ' được generate tự động cho phân hệ <strong>' + sub + '</strong> để test tính năng badge.</p>',
+            category: 'Quy trình',
+            subCategory: sub,
+            date: '2026-03-01',
+            updateDate: today,
+            effectiveDate: isEffectiveToday ? today : '2026-03-20',
+            author: 'Hệ thống tự động',
+            status: 'Testing',
+            classification: 'Demo'
+          });
+        }
+      });
+
+      // Thêm 22 bài Thông báo
+      for (var j = 1; j <= 22; j++) {
+        window.postsData.push({
+          id: baseId++,
+          title: '[Thông báo] Bài viết test số ' + j,
+          content: '<p>Đây là bài viết mẫu Thông báo số ' + j + ' được generate tự động để test phân trang hoặc hiển thị.</p>',
+          category: 'Thông báo',
+          date: today,
+          author: 'Hệ thống tự động',
+          image: './Asset/logo/LOGO_CS.png'
+        });
+      }
+
+      // Thêm 22 bài Sự kiện
+      for (var k = 1; k <= 22; k++) {
+        window.postsData.push({
+          id: baseId++,
+          title: '[Sự kiện] Bài viết test số ' + k,
+          content: '<p>Đây là bài viết mẫu Sự kiện số ' + k + ' được generate tự động để test phân trang hoặc hiển thị.</p>',
+          category: 'Sự kiện',
+          date: today,
+          author: 'Hệ thống tự động',
+          image: './Asset/logo/LOGO_CS.png'
+        });
+      }
+    })();
+  </script>
+
+  <!-- Script render carousel + bài viết -->
+  <script>
+    (function () {
+      // --- HERO BANNER CAROUSEL ---
+      var carouselImages = window.carouselImages || [];
+      var heroSlides = document.getElementById('hero-slides');
+      var heroDots = document.getElementById('hero-dots');
+
+      var currentSlide = 0;
+      var slideTimer = null;
+      var SLIDE_INTERVAL = 5000;
+
+      function renderHeroCarousel() {
+        if (!heroSlides || carouselImages.length === 0) {
+          var section = document.getElementById('hero-carousel');
+          if (section) section.innerHTML = '<div style="text-align:center;padding:80px 20px;color:#aaa;font-size:16px;">Chưa có hình ảnh banner</div>';
+          return;
+        }
+
+        var slidesHtml = '';
+        carouselImages.forEach(function (img, i) {
+          slidesHtml += '<div class="hero-slide' + (i === 0 ? ' active' : '') + '">';
+          slidesHtml += '<img src="' + img.src + '" alt="' + (img.alt || '') + '" />';
+          slidesHtml += '</div>';
+        });
+        heroSlides.innerHTML = slidesHtml;
+
+        var dotsHtml = '';
+        carouselImages.forEach(function (_, i) {
+          dotsHtml += '<button class="hero-dot' + (i === 0 ? ' active' : '') + '" data-index="' + i + '"></button>';
+        });
+        heroDots.innerHTML = dotsHtml;
+
+        heroDots.querySelectorAll('.hero-dot').forEach(function (dot) {
+          dot.onclick = function () {
+            goToSlide(parseInt(this.getAttribute('data-index')));
+            resetTimer();
+          };
+        });
+
+        document.getElementById('hero-prev').onclick = function () { prevSlide(); resetTimer(); };
+        document.getElementById('hero-next').onclick = function () { nextSlide(); resetTimer(); };
+
+        startTimer();
+      }
+
+      function goToSlide(index) {
+        var slides = heroSlides.querySelectorAll('.hero-slide');
+        var dots = heroDots.querySelectorAll('.hero-dot');
+        if (slides.length === 0) return;
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        currentSlide = ((index % slides.length) + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
+        dots.forEach(function (d, i) {
+          d.classList.remove('done', 'active');
+          if (i < currentSlide) d.classList.add('done');
+        });
+        var activeDot = dots[currentSlide];
+        activeDot.classList.add('active');
+        activeDot.style.animation = 'none';
+        activeDot.offsetHeight;
+        activeDot.style.animation = '';
+      }
+
+      function nextSlide() { goToSlide(currentSlide + 1); }
+      function prevSlide() { goToSlide(currentSlide - 1); }
+
+      function startTimer() {
+        slideTimer = setInterval(nextSlide, SLIDE_INTERVAL);
+      }
+
+      function resetTimer() {
+        clearInterval(slideTimer);
+        startTimer();
+      }
+
+      renderHeroCarousel();
+
+      // --- Helpers ---
+      var categoryTagMap = {
+        'Thông báo': 'tag-thongbao',
+        'Quy trình': 'tag-quytrinh',
+        'Sự kiện': 'tag-sukien',
+        'Đào tạo': 'tag-daotao',
+        'Hướng dẫn hội nhập': 'tag-hoinhap'
+      };
+
+      // Display name mapping: internal category -> display label
+      var CATEGORY_DISPLAY = {
+        'Quy trình': 'Change Log'
+      };
+      // Trả về tên hiển thị (Ví dụ Quy trình -> Change Log)
+      function getDisplayName(cat) {
+        if (!cat) return 'Khác';
+        return CATEGORY_DISPLAY[cat] || cat;
+      }
+
+      // Hàm tính thời gian trôi qua, ví dụ: 1 tháng trước
+      function timeAgo(dateString) {
+        if (!dateString) return '';
+        var date = new Date(dateString);
+        var now = new Date();
+        var diffInMs = now - date;
+        var diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+        if (diffInDays === 0) return 'Hôm nay';
+        if (diffInDays === 1) return 'Hôm qua';
+        if (diffInDays < 30) return diffInDays + ' ngày trước';
+        var diffInMonths = Math.floor(diffInDays / 30);
+        if (diffInMonths < 12) return diffInMonths + ' tháng trước';
+        var diffInYears = Math.floor(diffInDays / 365);
+        return diffInYears + ' năm trước';
+      }
+
+      // Format date yyyy-mm-dd -> dd/mm/yyyyer of categories in header
+      var categoryOrder = ['Thông báo', 'Quy trình', 'Sự kiện', 'Đào tạo', 'Hướng dẫn hội nhập'];
+
+      // Vietnamese diacritics removal for search
+      function removeDiacritics(str) {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+      }
+
+      // Onboarding departments data
+      var onboardingDepts = [
+        { name: 'INBOUND', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.05 15.05 0 0 1-6.59-6.59l2.2-2.2a1 1 0 0 0 .24-1.02A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/><path d="M19 3v4h-4l1.29-1.29-2.58-2.59 1.41-1.41 2.59 2.58L19 3z" opacity=".85"/></svg>', desc: 'Tiếp nhận cuộc gọi đến từ khách hàng, hỗ trợ giải đáp thắc mắc và xử lý yêu cầu.', color: '#3b82f6', image: '', messages: ['Lắng nghe tận tâm, phục vụ tận tình', 'Mỗi cuộc gọi là một cơ hội tạo ấn tượng', 'Giải quyết nhanh, khách hàng hài lòng', 'Chuyên nghiệp trong từng lời nói'] },
+        { name: 'F2F', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>', desc: 'Tư vấn và hỗ trợ khách hàng trực tiếp tại các điểm giao dịch, quầy dịch vụ.', color: '#eab308', image: '', messages: ['Gặp gỡ trực tiếp, tư vấn tận tâm', 'Chuyên nghiệp và chu đáo', 'Đồng hành cùng khách hàng'] },
+        { name: 'OUTBOUND', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57a1 1 0 0 0-1.02.24l-2.2 2.2a15.05 15.05 0 0 1-6.59-6.59l2.2-2.2a1 1 0 0 0 .24-1.02A11.36 11.36 0 0 1 8.5 4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1 17 17 0 0 0 17 17 1 1 0 0 0 1-1v-3.5a1 1 0 0 0-1-1z"/><path d="M15 7V3h4v4h-1.5V5.56l-2.58 2.58-1.06-1.06L16.44 4.5H15z" opacity=".85"/></svg>', desc: 'Chủ động gọi ra cho khách hàng để tư vấn sản phẩm, dịch vụ và chăm sóc.', color: '#8b5cf6', image: '', messages: ['Chủ động kết nối, tạo giá trị', 'Mỗi cuộc gọi là một cơ hội kinh doanh', 'Tư vấn tận tâm, đồng hành cùng khách hàng', 'Không ngừng cải thiện chất lượng dịch vụ'] },
+        { name: 'ECOM', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/><path d="M9.5 9h5v1h-5V9zm0 2h3.5v1H9.5v-1z" opacity=".7"/></svg>', desc: 'Hỗ trợ khách hàng qua kênh chat, Email.', color: '#06b6d4', image: '', messages: ['Phản hồi nhanh, hỗ trợ kịp thời', 'Trải nghiệm số vượt trội', 'Kết nối khách hàng mọi lúc mọi nơi', 'Giải pháp nhanh chóng, chính xác'] },
+        { name: 'CARE', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/><circle cx="12" cy="9" r="2" fill="currentColor" opacity=".3"/></svg>', desc: 'Chăm sóc khách hàng sau bán, duy trì mối quan hệ và nâng cao trải nghiệm.', color: '#ef4444', image: '', messages: ['Chăm sóc bằng cả trái tim', 'Khách hàng là trung tâm của mọi hành động', 'Gắn kết bền vững, đồng hành lâu dài', 'Mang lại nụ cười trong từng trải nghiệm'] },
+        { name: 'SUPPORT', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a9 9 0 0 0-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7a9 9 0 0 0-9-9z"/></svg>', desc: 'Hỗ trợ kỹ thuật, xử lý escalation và các vấn đề phức tạp từ khách hàng.', color: '#f59e0b', image: '', messages: ['Không có vấn đề nào quá lớn', 'Giải pháp luôn có cho mọi tình huống', 'Hỗ trợ chuyên sâu, xử lý triệt để', 'Luôn sẵn sàng, luôn đáng tin cậy'] },
+        { name: 'QC-CX', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/><path d="M10 15.5l-3.5-3.5 1.41-1.41L10 12.67l5.59-5.59L17 8.5l-7 7z" fill="currentColor" opacity=".3" style="filter:brightness(3)"/></svg>', desc: 'Kiểm soát chất lượng cuộc gọi, đảm bảo trải nghiệm khách hàng tốt nhất.', color: '#10b981', image: '', messages: ['Chất lượng là nền tảng của sự tin tưởng', 'Không ngừng nâng cao tiêu chuẩn', 'Trải nghiệm khách hàng là ưu tiên số 1', 'Dẫn dắt bằng dữ liệu, hành động bằng trái tim'] },
+        { name: 'OM', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94L14.4 2.81a.47.47 0 0 0-.48-.41h-3.84a.47.47 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.74 8.87a.48.48 0 0 0 .12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg>', desc: 'Quản lý vận hành, giám sát hiệu suất và tối ưu hóa quy trình làm việc.', color: '#6366f1', image: '', messages: ['Vận hành trơn tru, hiệu quả tối đa', 'Tổ chức thông minh, phối hợp nhịp nhàng', 'Mỗi quyết định dựa trên dữ liệu', 'Xây dựng đội ngũ vững mạnh'] }
+      ];
+
+      function getCategoryClass(cat) {
+        return categoryTagMap[cat] || 'tag-default';
+      }
+
+      function formatDate(dateStr) {
+        if (!dateStr) return '';
+        var parts = dateStr.split('-');
+        if (parts.length === 3) return parts[2] + '/' + parts[1] + '/' + parts[0];
+        return dateStr;
+      }
+
+      function getInitials(name) {
+        if (!name) return '?';
+        var words = name.trim().split(/\s+/);
+        if (words.length >= 2) return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+        return name.substring(0, 2).toUpperCase();
+      }
+
+      // === SVG Icons (filled monochrome) ===
+      var svgI = {
+        calendar: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11z"/></svg>',
+        pin: '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5v6h2v-6h5v-2l-2-2z"/></svg>',
+        refresh: '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 8 8h-2a6 6 0 1 1-1.76-4.24L14 10h7V3l-3.35 3.35z"/></svg>',
+        check: '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>',
+        megaphone: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px"><path d="M18 11v2h4v-2h-4zm-2 6.61c.96.71 2.21 1.65 3.2 2.39.4-.53.8-1.07 1.2-1.6-.99-.74-2.24-1.68-3.2-2.4-.4.54-.8 1.08-1.2 1.61zM20.4 5.6c-.4-.53-.8-1.07-1.2-1.6-.99.74-2.24 1.68-3.2 2.4.4.53.8 1.07 1.2 1.6.96-.72 2.21-1.65 3.2-2.4zM4 9a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h1l5 3V6L5 9H4zm5.03-1.71L14 4v16l-4.97-3.29H4a2 2 0 0 1-2-2v-2h.01z"/></svg>',
+        folder: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2z"/></svg>',
+        mail: '<svg width="40" height="40" viewBox="0 0 24 24" fill="#d1d5db" style="vertical-align:middle"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>',
+        // Category-specific title icons
+        catThongbao: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>',
+        catChangelog: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 9V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h8v2H8v-2zm0-8h2v2H8V9z"/></svg>',
+        catSukien: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H5V8h14v11z"/><path d="M12 10l1.12 3.45L17 13.82l-2.81 2.04.81 3.14L12 17.27 8.99 19l.81-3.14L7 13.82l3.88.37L12 10z" opacity=".8"/></svg>',
+        catDaotao: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>',
+        catHoinhap: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>',
+      };
+
+      // --- Lấy dữ liệu ---
+      var posts = window.postsData || [];
+
+      // --- Sắp xếp: ghim trước, sau đó theo ngày mới nhất ---
+      function sortPosts(arr) {
+        return arr.slice().sort(function (a, b) {
+          if (a.pinned && !b.pinned) return -1;
+          if (!a.pinned && b.pinned) return 1;
+          // Ưu tiên updateDate, fallback về date
+          var dateA = a.updateDate || a.date || '';
+          var dateB = b.updateDate || b.date || '';
+          return dateB.localeCompare(dateA);
+        });
+      }
+
+      // --- Render filter ---
+      var filterBar = document.getElementById('category-filter-bar');
+      var categoriesRaw = [];
+      posts.forEach(function (p) {
+        if (p.category && categoriesRaw.indexOf(p.category) === -1) {
+          categoriesRaw.push(p.category);
+        }
+      });
+      // Always include Hướng dẫn hội nhập even if no posts
+      if (categoriesRaw.indexOf('Hướng dẫn hội nhập') === -1) categoriesRaw.push('Hướng dẫn hội nhập');
+      // Sort categories by desired order
+      var categories = categoryOrder.filter(function (cat) { return categoriesRaw.indexOf(cat) !== -1; });
+      // Append any categories not in the order list
+      categoriesRaw.forEach(function (cat) { if (categories.indexOf(cat) === -1) categories.push(cat); });
+
+      var onboardingSection = document.getElementById('onboarding-section');
+      var onboardingGrid = document.getElementById('onboarding-grid');
+
+      var activeFilter = categories.length > 0 ? categories[0] : 'Thông báo';
+      var activeSubFilter = 'ALL';
+      var dateFrom = '';
+      var dateTo = '';
+      var changelogSearchQuery = '';
+
+      var newsFeedTitle = document.getElementById('news-feed-title');
+      var subFilterToolbar = document.getElementById('sub-filter-toolbar');
+      var subFilterBar = document.getElementById('sub-filter-bar');
+      var dateFromInput = document.getElementById('date-from');
+      var dateToInput = document.getElementById('date-to');
+      var dateClearBtn = document.getElementById('date-clear');
+
+      var changelogSearchInput = document.getElementById('changelog-search-input');
+
+      // Pagination variables
+      var POSTS_PER_PAGE = 20;
+      var currentPage = 1;
+
+      // Date filter events
+      dateFromInput.addEventListener('change', function () { dateFrom = this.value; currentPage = 1; renderPosts(); });
+      dateToInput.addEventListener('change', function () { dateTo = this.value; currentPage = 1; renderPosts(); });
+      dateClearBtn.addEventListener('click', function () {
+        dateFrom = ''; dateTo = '';
+        dateFromInput.value = ''; dateToInput.value = '';
+        currentPage = 1;
+        renderPosts();
+      });
+
+      // Change Log search event
+      changelogSearchInput.addEventListener('input', function () {
+        changelogSearchQuery = this.value.toLowerCase().trim();
+        currentPage = 1;
+        renderPosts();
+      });
+
+      // Map category to title icon
+      var categoryIconMap = {
+        'Thông báo': 'catThongbao',
+        'Quy trình': 'catChangelog',
+        'Sự kiện': 'catSukien',
+        'Đào tạo': 'catDaotao',
+        'Hướng dẫn hội nhập': 'catHoinhap'
+      };
+
+      function updateSectionTitle() {
+        if (!newsFeedTitle) return;
+        var iconKey = categoryIconMap[activeFilter] || 'folder';
+        var icon = svgI[iconKey] || svgI.folder;
+        var text = getDisplayName(activeFilter);
+        if (activeFilter === 'Quy trình' && activeSubFilter !== 'Tất cả') {
+          text = 'Change Log - ' + activeSubFilter;
+        }
+        newsFeedTitle.innerHTML = '<span class="news-feed-title-icon">' + icon + '</span> ' + text;
+      }
+
+      function getSubCategories() {
+        var subs = [];
+        posts.forEach(function (p) {
+          if (p.category === 'Quy trình' && p.subCategory && p.subCategory !== 'All Group' && subs.indexOf(p.subCategory) === -1) {
+            subs.push(p.subCategory);
+          }
+        });
+        return subs;
+      }
+
+      // Đếm số post cập nhật/áp dụng hôm nay
+      function getTodayStr() {
+        var d = new Date();
+        var mm = String(d.getMonth() + 1).padStart(2, '0');
+        var dd = String(d.getDate()).padStart(2, '0');
+        return d.getFullYear() + '-' + mm + '-' + dd;
+      }
+
+      function countTodayPosts(subFilter) {
+        var today = getTodayStr();
+        var clPosts = posts.filter(function (p) { return p.category === 'Quy trình'; });
+
+        // Lọc theo sub-filter
+        if (subFilter && subFilter !== 'ALL' && subFilter !== 'Tất cả') {
+          clPosts = clPosts.filter(function (p) {
+            return p.subCategory === subFilter || p.subCategory === 'All Group';
+          });
+        }
+
+        var updateCount = 0;
+        var effectiveCount = 0;
+        clPosts.forEach(function (p) {
+          if (p.updateDate === today) updateCount++;
+          if (p.effectiveDate === today) effectiveCount++;
+        });
+        return { update: updateCount, effective: effectiveCount };
+      }
+
+      function buildBadgeHtml(counts) {
+        var html = '';
+        if (counts.update > 0 || counts.effective > 0) {
+          html += '<span class="changelog-badge-group">';
+          if (counts.update > 0) {
+            html += '<span class="changelog-badge badge-update" title="Cập nhật hôm nay">' + counts.update + '</span>';
+          }
+          if (counts.effective > 0) {
+            html += '<span class="changelog-badge badge-effective" title="Áp dụng hôm nay">' + counts.effective + '</span>';
+          }
+          html += '</span>';
+        }
+        return html;
+      }
+
+      function renderSubFilterBar() {
+        if (activeFilter === 'Hướng dẫn hội nhập') {
+          subFilterToolbar.style.display = 'none';
+          return;
+        }
+        subFilterToolbar.style.display = 'flex';
+
+        // --- Điều khiển nút drop-down Bộ lọc Phòng ban (chỉ của Quy trình) ---
+        if (activeFilter !== 'Quy trình') {
+          subFilterBar.style.display = 'none';
+          subFilterToolbar.style.justifyContent = 'flex-end';
+        } else {
+          subFilterBar.style.display = 'flex';
+          subFilterToolbar.style.justifyContent = 'space-between';
+          subFilterBar.innerHTML = '';
+
+          var dropdown = document.createElement('div');
+          dropdown.className = 'dropdown';
+
+          // Badge cho toggle button (theo sub-filter hiện tại)
+          var currentCounts = countTodayPosts(activeSubFilter);
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'dropdown-toggle sub-filter-toggle';
+          toggleBtn.innerHTML = (activeSubFilter || 'ALL') + buildBadgeHtml(currentCounts);
+          dropdown.appendChild(toggleBtn);
+
+          var menu = document.createElement('div');
+          menu.className = 'dropdown-menu';
+
+          // Helper tạo dropdown item có badge
+          function createMenuItem(label, filterValue) {
+            var counts = countTodayPosts(filterValue);
+            var item = document.createElement('div');
+            item.className = 'dropdown-item' + (activeSubFilter === filterValue ? ' selected' : '');
+            // Thêm flex styles trực tiếp để đẩy badge sang phải
+            item.style.display = 'flex';
+            item.style.justifyContent = 'space-between';
+            item.style.alignItems = 'center';
+
+            item.innerHTML = '<span>' + label + '</span>' + buildBadgeHtml(counts);
+            item.onclick = function () { activeSubFilter = filterValue; currentPage = 1; renderSubFilterBar(); renderPosts(); updateSectionTitle(); };
+            menu.appendChild(item);
+          }
+
+          createMenuItem('ALL', 'ALL');
+          createMenuItem('All Group', 'All Group');
+
+          getSubCategories().forEach(function (sub) {
+            if (sub === 'Ubank') {
+              ['Ubank IB', 'Ubank Ecom'].forEach(function (uSub) {
+                createMenuItem(uSub, uSub);
+              });
+            } else {
+              createMenuItem(sub, sub);
+            }
+          });
+
+          dropdown.appendChild(menu);
+          subFilterBar.appendChild(dropdown);
+        } // Hết khối Dropdown của Quy Trình
+
+        // Đổi Placeholder thanh search cho phù hợp tab
+        if (changelogSearchInput) {
+          if (activeFilter === 'Quy trình') {
+            changelogSearchInput.placeholder = 'Tìm kiếm ' + activeFilter.toLowerCase() + '...';
+          } else {
+            changelogSearchInput.placeholder = 'Tìm kiếm ' + activeFilter.toLowerCase() + '...';
+          }
+        }
+      }
+
+      var thongbaoBtnHeader = document.getElementById('thongbao-header-btn');
+
+      function updateThongbaoBtn() {
+        if (thongbaoBtnHeader) {
+          if (activeFilter === 'Thông báo') {
+            thongbaoBtnHeader.classList.add('active');
+          } else {
+            thongbaoBtnHeader.classList.remove('active');
+          }
+        }
+      }
+
+      thongbaoBtnHeader.onclick = function () {
+        activeFilter = 'Thông báo'; activeSubFilter = 'ALL';
+        changelogSearchQuery = ''; changelogSearchInput.value = '';
+        currentPage = 1;
+        renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle(); updateThongbaoBtn();
+        document.getElementById('news-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+
+      var filterBar = document.getElementById('category-filter-bar');
+      var newsFeedTabs = document.getElementById('news-feed-filter-tabs');
+
+      function renderFilterButtons() {
+        if (filterBar) filterBar.innerHTML = '';
+
+
+        categories.forEach(function (cat) {
+          // 1. Dựng nút cho Header (Bỏ qua 'Thông báo' vì đã có nút cứng trên Header)
+          if (filterBar && cat !== 'Thông báo') {
+            var btnHead = document.createElement('button');
+            btnHead.className = 'category-filter-btn' + (activeFilter === cat ? ' active' : '');
+            btnHead.textContent = getDisplayName(cat);
+            if (cat === 'Quy trình') {
+              var headerCounts = countTodayPosts('ALL');
+              btnHead.innerHTML = getDisplayName(cat) + buildBadgeHtml(headerCounts);
+            }
+            btnHead.onclick = function () {
+              activeFilter = cat; activeSubFilter = 'ALL';
+              changelogSearchQuery = ''; changelogSearchInput.value = '';
+              currentPage = 1;
+              renderFilterButtons(); renderSubFilterBar(); renderPosts(); updateSectionTitle(); updateThongbaoBtn();
+              if (cat === 'Hướng dẫn hội nhập') {
+                setTimeout(function () {
+                  var obGrid = document.getElementById('onboarding-grid');
+                  if (obGrid) obGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 50);
+              } else {
+                document.getElementById('news-feed').scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            };
+            filterBar.appendChild(btnHead);
+          }
+
+
+        });
+      }
+
+      // --- Render posts ---
+      var postsGrid = document.getElementById('posts-grid');
+
+      // --- Onboarding modal logic ---
+      var onboardingModalOverlay = document.getElementById('onboarding-modal-overlay');
+      var onboardingModalContent = document.getElementById('onboarding-modal-content');
+      var onboardingModalCloseBtn = document.getElementById('onboarding-modal-close');
+
+      function openOnboardingModal(dept) {
+        var heroColorLight = dept.color + '12';
+        var html = '';
+        html += '<div class="onboarding-modal-hero" style="background: linear-gradient(180deg, ' + heroColorLight + ' 0%, #fff 100%);">';
+        html += '<div class="onboarding-modal-hero-icon" style="background: ' + dept.color + ';">' + dept.icon.replace(/width="32"/g, 'width="48"').replace(/height="32"/g, 'width="48"') + '</div>';
+        html += '<h2 class="onboarding-modal-title">' + dept.name + '</h2>';
+        html += '<p class="onboarding-modal-subtitle">' + dept.desc + '</p>';
+        // Hình ảnh phòng ban
+        if (dept.image) {
+          html += '<img class="onboarding-modal-image" src="' + dept.image + '" alt="' + dept.name + '" />';
+        } else {
+          html += '<div style="margin-top:20px;padding:40px 20px;border-radius:16px;background:linear-gradient(135deg,' + dept.color + '18,' + dept.color + '08);border:2px dashed ' + dept.color + '40;text-align:center;color:' + dept.color + ';font-size:14px;font-weight:500;"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" style="opacity:.5;margin-bottom:8px;"><path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg><br>Chưa có hình ảnh<br><span style="font-size:12px;opacity:.7;">Thêm hình vào trường image của phòng ban này</span></div>';
+        }
+        html += '</div>';
+        html += '<div class="onboarding-modal-body">';
+        if (dept.messages && dept.messages.length > 0) {
+          html += '<h3 class="onboarding-modal-info-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="' + dept.color + '"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg> Thông điệp</h3>';
+          html += '<ul class="onboarding-modal-info-list">';
+          dept.messages.forEach(function (m) {
+            html += '<li>' + m + '</li>';
+          });
+          html += '</ul>';
+        }
+        html += '</div>';
+        onboardingModalContent.innerHTML = html;
+        onboardingModalOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeOnboardingModal() {
+        onboardingModalOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+
+      onboardingModalCloseBtn.onclick = closeOnboardingModal;
+      onboardingModalOverlay.onclick = function (e) {
+        if (e.target === onboardingModalOverlay) closeOnboardingModal();
+      };
+
+      // --- Onboarding modal logic ---
+      var onboardingModalOverlay = document.getElementById('onboarding-modal-overlay');
+      var onboardingModalContent = document.getElementById('onboarding-modal-content');
+      var onboardingModalCloseBtn = document.getElementById('onboarding-modal-close');
+
+      function openOnboardingModal(dept) {
+        var heroColorLight = dept.color + '12';
+        var html = '';
+        html += '<div class="onboarding-modal-hero" style="background: linear-gradient(180deg, ' + heroColorLight + ' 0%, #fff 100%);">';
+        html += '<div class="onboarding-modal-hero-icon" style="background: ' + dept.color + ';">' + dept.icon.replace(/width="32"/g, 'width="48"').replace(/height="32"/g, 'height="48"') + '</div>';
+        html += '<h2 class="onboarding-modal-title">' + dept.name + '</h2>';
+        html += '<p class="onboarding-modal-subtitle">' + dept.desc + '</p>';
+        // Hình ảnh phòng ban
+        if (dept.image) {
+          html += '<img class="onboarding-modal-image" src="' + dept.image + '" alt="' + dept.name + '" />';
+        } else {
+          html += '<div style="margin-top:20px;padding:40px 20px;border-radius:16px;background:linear-gradient(135deg,' + dept.color + '18,' + dept.color + '08);border:2px dashed ' + dept.color + '40;text-align:center;color:' + dept.color + ';font-size:14px;font-weight:500;"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" style="opacity:.5;margin-bottom:8px;"><path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg><br>Chưa có hình ảnh<br><span style="font-size:12px;opacity:.7;">Thêm hình vào trường image của phòng ban này</span></div>';
+        }
+        html += '</div>';
+        html += '<div class="onboarding-modal-body">';
+        if (dept.messages && dept.messages.length > 0) {
+          html += '<h3 class="onboarding-modal-info-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="' + dept.color + '"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg> Thông điệp</h3>';
+          html += '<ul class="onboarding-modal-info-list">';
+          dept.messages.forEach(function (m) {
+            html += '<li>' + m + '</li>';
+          });
+          html += '</ul>';
+        }
+        html += '</div>';
+        onboardingModalContent.innerHTML = html;
+        onboardingModalOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeOnboardingModal() {
+        onboardingModalOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+
+      onboardingModalCloseBtn.onclick = closeOnboardingModal;
+      onboardingModalOverlay.onclick = function (e) {
+        if (e.target === onboardingModalOverlay) closeOnboardingModal();
+      };
+
+      // ========== ORG CHART OVERLAY LOGIC ==========
+      var orgchartDirectorCard = document.getElementById('orgchart-director-card');
+      var orgchartDeptGrid = document.getElementById('orgchart-dept-grid');
+      var orgchartDetailOverlay = document.getElementById('orgchart-detail-overlay');
+      var orgchartDetailContent = document.getElementById('orgchart-detail-content');
+      var orgchartDetailCloseBtn = document.getElementById('orgchart-detail-close');
+
+      // Org chart data - Grouped by Trưởng Bộ Phận (TBP)
+      var orgChartData = {
+        director: {
+          name: 'Nguyễn Thanh Sơn',
+          title: 'GIÁM ĐỐC TRUNG TÂM',
+          desc: 'Phụ trách điều hành và quản lý toàn bộ hoạt động của Trung tâm Dịch vụ Khách hàng, đảm bảo chất lượng phục vụ và hiệu quả vận hành.',
+          image: '',
+          contact: '',
+          email: ''
+        },
+        departments: [
+          {
+            id: 'tbp1',
+            color: '#3b82f6',
+            head: { name: 'Hân Phạm', title: 'Trưởng Bộ Phận Dịch Vụ Khách Hàng', image: '' },
+            desc: 'Quản lý các bộ phận Inbound, Ecom, Outbound và F2F — đảm bảo chất lượng tiếp nhận, hỗ trợ kênh số và tư vấn trực tiếp.',
+            unitGroups: [
+              {
+                unitHeads: [{ name: 'Unit Head DVKH', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'INBOUND', color: '#3b82f6',
+                    desc: 'Tiếp nhận cuộc gọi đến từ khách hàng, hỗ trợ giải đáp thắc mắc và xử lý yêu cầu.',
+                    leaders: [
+                      { name: 'Leader IB Team 1', title: 'Leader', image: '' },
+                      { name: 'Leader IB Team 2', title: 'Leader', image: '' }
+                    ],
+                    teamImages: [],
+                    messages: ['Lắng nghe tận tâm, phục vụ tận tình', 'Mỗi cuộc gọi là một cơ hội tạo ấn tượng']
+                  },
+                  {
+                    name: 'ECOM', color: '#06b6d4',
+                    desc: 'Hỗ trợ khách hàng qua kênh chat, Email.',
+                    leaders: [
+                      { name: 'Leader Ecom Team 1', title: 'Leader', image: '' }
+                    ],
+                    teamImages: [],
+                    messages: ['Phản hồi nhanh, hỗ trợ kịp thời', 'Trải nghiệm số vượt trội']
+                  },
+                  {
+                    name: 'OUTBOUND', color: '#8b5cf6',
+                    desc: 'Chủ động gọi ra cho khách hàng để tư vấn sản phẩm, dịch vụ và chăm sóc.',
+                    leaders: [
+                      { name: 'Leader OB Team 1', title: 'Leader', image: '' },
+                      { name: 'Leader OB Team 2', title: 'Leader', image: '' }
+                    ],
+                    teamImages: [],
+                    messages: ['Chủ động kết nối, tạo giá trị', 'Tư vấn tận tâm, đồng hành cùng khách hàng']
+                  },
+                  {
+                    name: 'F2F', color: '#eab308',
+                    desc: 'Tư vấn và hỗ trợ khách hàng trực tiếp tại quầy dịch vụ.',
+                    leaders: [
+                      { name: 'Leader F2F Team 1', title: 'Leader', image: '' }
+                    ],
+                    teamImages: [],
+                    messages: ['Gặp gỡ trực tiếp, tư vấn tận tâm', 'Chuyên nghiệp và chu đáo']
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            id: 'tbp2',
+            color: '#ef4444',
+            head: { name: 'Lý Cường Phú', title: 'Trưởng Bộ Phận Chăm Sóc Khách Hàng', image: '' },
+            desc: 'Quản lý các bộ phận Support và Care — xử lý escalation, chăm sóc khách hàng sau bán.',
+            unitGroups: [
+              {
+                unitHeads: [{ name: 'Unit Head SP', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'SUPPORT', color: '#f59e0b',
+                    desc: 'Hỗ trợ kỹ thuật, xử lý escalation và các vấn đề phức tạp từ khách hàng.',
+                    leaders: [{ name: 'Leader SP Team 1', title: 'Leader', image: '' }],
+                    teamImages: [],
+                    messages: ['Giải pháp luôn có cho mọi tình huống', 'Hỗ trợ chuyên sâu, xử lý triệt để']
+                  }
+                ]
+              },
+              {
+                unitHeads: [{ name: 'Unit Head Care', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'CARE', color: '#ef4444',
+                    desc: 'Chăm sóc khách hàng sau bán, duy trì mối quan hệ và nâng cao trải nghiệm.',
+                    leaders: [{ name: 'Leader Care Team 1', title: 'Leader', image: '' }],
+                    teamImages: [],
+                    messages: ['Chăm sóc bằng cả trái tim', 'Gắn kết bền vững, đồng hành lâu dài']
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            id: 'tbp3',
+            color: '#10b981',
+            head: { name: 'Nguyễn Thị Thục Anh', title: 'Trưởng BP Kiểm Soát CL & Trải Nghiệm DVKH', image: '' },
+            desc: 'Quản lý các bộ phận QC-CX và OM — kiểm soát chất lượng, tối ưu vận hành.',
+            unitGroups: [
+              {
+                unitHeads: [{ name: 'Trần Thị Thương', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'QC-CX', color: '#10b981',
+                    desc: 'Kiểm soát chất lượng cuộc gọi, đảm bảo trải nghiệm khách hàng tốt nhất.',
+                    leaders: [{ name: 'Nguyễn Thị Ý Nguyện', title: 'Manager', image: '' }],
+                    teamImages: [],
+                    messages: ['Chất lượng là nền tảng của sự tin tưởng', 'Trải nghiệm khách hàng là ưu tiên số 1']
+                  }
+                ]
+              },
+              {
+                unitHeads: [{ name: 'Unit Head OM', title: 'Unit Head', image: '' }],
+                teams: [
+                  {
+                    name: 'OM', color: '#6366f1',
+                    desc: 'Quản lý vận hành, giám sát hiệu suất và tối ưu hóa quy trình làm việc.',
+                    leaders: [{ name: 'Leader OM Team 1', title: 'Leader', image: '' }],
+                    teamImages: [],
+                    messages: ['Vận hành trơn tru, hiệu quả tối đa', 'Xây dựng đội ngũ vững mạnh']
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+
+      function renderPersonAvatar(person, size) {
+        size = size || 80;
+        if (person.image) {
+          return '<img src="' + person.image + '" alt="' + person.name + '" style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;object-fit:cover;" />';
+        }
+        // Default placeholder avatar
+        var fontSize = Math.round(size * 0.32);
+        return '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:linear-gradient(135deg,#e8f5e0,#d4edda);display:flex;align-items:center;justify-content:center;flex-shrink:0;">' +
+          '<svg width="' + Math.round(size * 0.45) + '" height="' + Math.round(size * 0.45) + '" viewBox="0 0 24 24" fill="#8fbc8f"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>' +
+          '</div>';
+      }
+
+      function renderOrgChartOverlay() {
+        var d = orgChartData.director;
+        // Director card
+        var dirHtml = '<div class="orgchart-director-inner">';
+        dirHtml += '<div class="orgchart-director-photo">';
+        dirHtml += renderPersonAvatar(d, 120);
+        dirHtml += '</div>';
+        dirHtml += '<div class="orgchart-director-info">';
+        dirHtml += '<div class="orgchart-director-label">' + d.title + '</div>';
+        dirHtml += '<h3 class="orgchart-director-name">' + d.name + '</h3>';
+        dirHtml += '<p class="orgchart-director-desc">' + d.desc + '</p>';
+        if (d.contact) dirHtml += '<div class="orgchart-director-contact">📞 ' + d.contact + '</div>';
+        if (d.email) dirHtml += '<div class="orgchart-director-contact">✉️ ' + d.email + '</div>';
+        dirHtml += '</div></div>';
+        orgchartDirectorCard.innerHTML = dirHtml;
+
+        // Department heads grid (3 TBP cards)
+        var gridHtml = '';
+        orgChartData.departments.forEach(function (dept, i) {
+          // Build team badges string
+          var teamBadges = '';
+          if (dept.unitGroups) {
+            dept.unitGroups.forEach(function (group) {
+              group.teams.forEach(function (t) {
+                teamBadges += '<span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;letter-spacing:0.5px;background:' + t.color + '14;color:' + t.color + ';margin-right:4px;">' + t.name + '</span>';
+              });
+            });
+          }
+
+          gridHtml += '<div class="orgchart-dept-card" data-dept-id="' + dept.id + '" style="animation-delay:' + (0.1 + i * 0.08) + 's;">';
+          gridHtml += '<div class="orgchart-dept-card-photo">';
+          gridHtml += renderPersonAvatar(dept.head, 64);
+          gridHtml += '</div>';
+          gridHtml += '<div class="orgchart-dept-card-info">';
+          gridHtml += '<div class="orgchart-dept-card-name">' + dept.head.name + '</div>';
+          gridHtml += '<div class="orgchart-dept-card-title">' + dept.head.title + '</div>';
+          gridHtml += '<div class="orgchart-dept-card-badges" style="margin-top: 6px;">' + teamBadges + '</div>';
+          gridHtml += '</div>';
+          gridHtml += '<div class="orgchart-dept-card-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></div>';
+          gridHtml += '</div>';
+        });
+        orgchartDeptGrid.innerHTML = gridHtml;
+
+        // Attach click events
+        var deptCards = orgchartDeptGrid.querySelectorAll('.orgchart-dept-card');
+        deptCards.forEach(function (card) {
+          card.onclick = function () {
+            var deptId = this.getAttribute('data-dept-id');
+            openOrgChartDetail(deptId);
+          };
+        });
+      }
+
+      var activeDeptId = null;
+      var inlineDetailEl = document.getElementById('orgchart-dept-detail-inline');
+
+      function openOrgChartDetail(deptId, noScroll) {
+        // Toggle: click lại card đang mở → đóng
+        if (activeDeptId === deptId) {
+          closeOrgChartDetail();
+          return;
+        }
+
+        // Remove active class from all cards
+        var allCards = orgchartDeptGrid.querySelectorAll('.orgchart-dept-card');
+        allCards.forEach(function (c) { c.classList.remove('active'); });
+
+        // Add active to clicked card
+        var clickedCard = orgchartDeptGrid.querySelector('[data-dept-id="' + deptId + '"]');
+        if (clickedCard) clickedCard.classList.add('active');
+
+        var dept = null;
+        for (var i = 0; i < orgChartData.departments.length; i++) {
+          if (orgChartData.departments[i].id === deptId) { dept = orgChartData.departments[i]; break; }
+        }
+        if (!dept) return;
+
+        var html = '';
+        // Hero section (compact)
+        html += '<div class="orgdetail-inline-hero" style="border-left: 4px solid ' + dept.color + ';">';
+        html += '<div class="orgdetail-inline-hero-photo">' + renderPersonAvatar(dept.head, 64) + '</div>';
+        html += '<div class="orgdetail-inline-hero-info">';
+        html += '<h3 class="orgdetail-inline-hero-name">' + dept.head.name + '</h3>';
+        html += '<div class="orgdetail-inline-hero-title">' + dept.head.title + '</div>';
+        html += '<p class="orgdetail-inline-hero-desc">' + dept.desc + '</p>';
+        html += '</div></div>';
+
+        // Grouped Units & Teams
+        if (dept.unitGroups) {
+          dept.unitGroups.forEach(function (group) {
+
+            // Unit Heads block
+            if (group.unitHeads && group.unitHeads.length > 0) {
+              html += '<div class="orgdetail-inline-role-label" style="color:#009f52; margin-top:24px; font-size:15px; font-weight:700;"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-3px;margin-right:6px;"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>Khối Unit</div>';
+              html += '<div class="orgdetail-inline-people-grid" style="margin-bottom:16px;">';
+              group.unitHeads.forEach(function (uh) {
+                html += '<div class="orgdetail-inline-person-card" style="border-left:3px solid #009f52; background:#f0fdf4;">';
+                html += '<div class="orgdetail-inline-person-photo">' + renderPersonAvatar(uh, 48) + '</div>';
+                html += '<div class="orgdetail-inline-person-info">';
+                html += '<div class="orgdetail-inline-person-name" style="font-size:15px;">' + uh.name + '</div>';
+                html += '<div class="orgdetail-inline-person-title" style="color:#009f52;">' + uh.title + '</div>';
+                html += '</div></div>';
+              });
+              html += '</div>';
+            }
+
+            // Visual branch line container for Teams
+            html += '<div style="margin-left: 20px; border-left: 2px solid #e5e7eb; padding-left: 24px; margin-bottom: 32px;">';
+
+            // Teams
+            if (group.teams) {
+              group.teams.forEach(function (team) {
+                html += '<div class="orgdetail-inline-team" style="position:relative; margin-top: 16px;">';
+                // Connecting line
+                html += '<div style="position:absolute; left:-26px; top:28px; width:24px; height:2px; background:#e5e7eb;"></div>';
+
+                html += '<div class="orgdetail-inline-team-header">';
+                html += '<span class="orgdetail-inline-team-dot" style="background:' + team.color + ';"></span>';
+                html += '<span class="orgdetail-inline-team-name">' + team.name + '</span>';
+                html += '</div>';
+                html += '<p class="orgdetail-inline-team-desc">' + team.desc + '</p>';
+
+                // Leaders
+                if (team.leaders && team.leaders.length > 0) {
+                  html += '<div class="orgdetail-inline-role-label" style="color:#888;">Leaders</div>';
+                  html += '<div class="orgdetail-inline-people-grid">';
+                  team.leaders.forEach(function (leader) {
+                    html += '<div class="orgdetail-inline-person-card">';
+                    html += '<div class="orgdetail-inline-person-photo">' + renderPersonAvatar(leader, 40) + '</div>';
+                    html += '<div class="orgdetail-inline-person-info">';
+                    html += '<div class="orgdetail-inline-person-name">' + leader.name + '</div>';
+                    html += '<div class="orgdetail-inline-person-title">' + leader.title + '</div>';
+                    html += '</div></div>';
+                  });
+                  html += '</div>';
+                }
+
+                html += '</div>'; // close team
+              });
+            }
+            html += '</div>'; // close branch line
+          });
+        }
+
+        inlineDetailEl.innerHTML = html;
+        inlineDetailEl.style.display = 'block';
+        activeDeptId = deptId;
+
+        if (!noScroll) {
+          // Scroll to inline detail
+          setTimeout(function () {
+            inlineDetailEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 100);
+        }
+      }
+
+      function closeOrgChartDetail() {
+        inlineDetailEl.style.display = 'none';
+        inlineDetailEl.innerHTML = '';
+        activeDeptId = null;
+        var allCards = orgchartDeptGrid.querySelectorAll('.orgchart-dept-card');
+        allCards.forEach(function (c) { c.classList.remove('active'); });
+      }
+
+      // Keep overlay listeners but no longer used
+      if (orgchartDetailCloseBtn) orgchartDetailCloseBtn.onclick = function () { document.getElementById('orgchart-detail-overlay').style.display = 'none'; };
+      if (orgchartDetailOverlay) orgchartDetailOverlay.onclick = function (e) { if (e.target === orgchartDetailOverlay) orgchartDetailOverlay.style.display = 'none'; };
+
+      function renderOnboarding() {
+        if (activeFilter !== 'Hướng dẫn hội nhập') {
+          onboardingSection.style.display = 'none';
+          return;
+        }
+        onboardingSection.style.display = 'block';
+
+        // 1. Render Department Grid (Các phòng ban của Trung tâm DVKH)
+        if (onboardingGrid) {
+          onboardingGrid.innerHTML = '';
+
+          // Tiêu đề phụ cho grid
+          var heading = document.createElement('div');
+          heading.style.cssText = 'grid-column: 1 / -1; text-align: center; margin-bottom: 8px;';
+          heading.innerHTML = '<h3 style="font-size:18px;font-weight:700;color:#374151;margin:0 0 4px;">Các phòng ban của Trung tâm dịch vụ khách hàng</h3>' +
+            '<p style="font-size:13px;color:#9ca3af;margin:0;">Nhấn vào từng phòng ban để xem chi tiết nội dung hội nhập</p>';
+          onboardingGrid.appendChild(heading);
+
+          onboardingDepts.forEach(function (dept, index) {
+            var card = document.createElement('div');
+            card.className = 'onboarding-card';
+            card.style.animationDelay = (0.05 + index * 0.07) + 's';
+            card.innerHTML = '<div class="onboarding-card-icon"><div class="onboarding-card-icon-circle" style="background: ' + dept.color + ';">' + dept.icon + '</div></div>' +
+              '<div class="onboarding-card-body">' +
+              '<h3 class="onboarding-card-name">' + dept.name + '</h3>' +
+              '<p class="onboarding-card-desc">' + dept.desc + '</p>' +
+              '<span class="onboarding-card-action">Xem hướng dẫn <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/></svg></span>' +
+              '</div>';
+            card.onclick = (function (d) { return function () { openOnboardingModal(d); }; })(dept);
+            onboardingGrid.appendChild(card);
+          });
+        }
+
+        // 2. Show org chart inline within the onboarding section
+        renderOrgChartOverlay();
+        // Mặc định mở card Nguyễn Thị Thục Anh, không auto-scroll
+        openOrgChartDetail('tbp3', true);
+      }
+
+      function renderPosts(isAppend) {
+        // Handle onboarding section visibility
+        renderOnboarding();
+        if (activeFilter === 'Hướng dẫn hội nhập') {
+          postsGrid.style.display = 'none';
+          return;
+        }
+
+        if (activeFilter === 'Quy trình') {
+          postsGrid.className = 'posts-grid';
+          postsGrid.style.display = 'flex';
+        } else {
+          postsGrid.className = 'posts-grid fec-news-grid';
+          postsGrid.style.display = 'grid'; // Layout 3 cột
+        }
+
+        // Nếu KHÔNG phải chế độ append (Tức là đang filter, search, đổi tab...), thì dọn sạch Grid
+        if (isAppend !== true) {
+          postsGrid.innerHTML = '';
+        }
+
+        var filtered = posts.filter(function (p) { return p.category === activeFilter; });
+
+        // Sub-category filter
+        if (activeFilter === 'Quy trình' && activeSubFilter !== 'Tất cả' && activeSubFilter !== 'ALL') {
+          filtered = filtered.filter(function (p) { return p.subCategory === activeSubFilter || p.subCategory === 'All Group'; });
+        }
+
+        // Change Log search filter (supports diacritics-free Vietnamese) - KHÔNG GIỚI HẠN RIÊNG TAB NỮA
+        if (changelogSearchQuery) {
+          var queryNorm = removeDiacritics(changelogSearchQuery);
+          filtered = filtered.filter(function (p) {
+            var title = (p.title || '').toLowerCase();
+            var content = (p.content || '').replace(/<[^>]*>/g, '').toLowerCase();
+            var sub = (p.subCategory || '').toLowerCase();
+            var status = (p.status || '').toLowerCase();
+            var classification = (p.classification || '').toLowerCase();
+
+            var titleNorm = removeDiacritics(title);
+            var contentNorm = removeDiacritics(content);
+            var subNorm = removeDiacritics(sub);
+            var statusNorm = removeDiacritics(status);
+            var classificationNorm = removeDiacritics(classification);
+
+            return title.indexOf(changelogSearchQuery) !== -1 ||
+              content.indexOf(changelogSearchQuery) !== -1 ||
+              sub.indexOf(changelogSearchQuery) !== -1 ||
+              status.indexOf(changelogSearchQuery) !== -1 ||
+              classification.indexOf(changelogSearchQuery) !== -1 ||
+              titleNorm.indexOf(queryNorm) !== -1 ||
+              contentNorm.indexOf(queryNorm) !== -1 ||
+              subNorm.indexOf(queryNorm) !== -1 ||
+              statusNorm.indexOf(queryNorm) !== -1 ||
+              classificationNorm.indexOf(queryNorm) !== -1;
+          });
+        }
+
+        // Date range filter
+        if (dateFrom) {
+          filtered = filtered.filter(function (p) {
+            var postDate = p.updateDate || p.date || '';
+            return postDate >= dateFrom;
+          });
+        }
+        if (dateTo) {
+          filtered = filtered.filter(function (p) {
+            var postDate = p.updateDate || p.date || '';
+            return postDate <= dateTo;
+          });
+        }
+
+        var sorted = sortPosts(filtered);
+
+        if (sorted.length === 0) {
+          postsGrid.innerHTML = '<div class="posts-empty"><div class="posts-empty-icon">' + svgI.mail + '</div><div class="posts-empty-text">Chưa có bài viết nào</div></div>';
+          return;
+        }
+
+        // Tối ưu Pagination: Lấy ra các phần tử CỦA TRANG HIỆN TẠI để render
+        var startIndex = isAppend ? (currentPage - 1) * POSTS_PER_PAGE : 0;
+        var endIndex = currentPage * POSTS_PER_PAGE;
+        var paginatedPosts = sorted.slice(startIndex, endIndex);
+
+        // Chuẩn bị Document Fragment để đẩy vào DOM 1 lần
+        var fragment = document.createDocumentFragment();
+
+        paginatedPosts.forEach(function (post, index) {
+          var card = document.createElement('div');
+
+          if (activeFilter === 'Quy trình') {
+            // ==========================================
+            // LOGIC CŨ CHO CHANGE LOG (QUY TRÌNH)
+            // ==========================================
+            card.className = 'post-card' + (post.pinned ? ' pinned' : '');
+            // Hiệu ứng delay nhẹ nhàng nối tiếp nhau cho list card
+            card.style.animationDelay = (0.05 + index * 0.05) + 's';
+
+            var html = '';
+
+            // Ảnh (nếu có)
+            if (post.image) {
+              html += '<img class="post-card-image" src="' + post.image + '" alt="" />';
+            }
+
+            // Body
+            html += '<div class="post-card-body">';
+            // Meta (Bao gồm Tag & Author góc phải)
+            html += '<div class="post-card-meta" style="flex-wrap: wrap; gap: 6px; row-gap: 8px;">';
+            if (post.pinned) {
+              html += '<span class="pinned-badge">' + svgI.pin + ' Ghim</span>';
+            }
+            html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + getDisplayName(post.category || 'Khác') + '</span>';
+            if (post.subCategory) {
+              html += '<span class="post-sub-tag">' + post.subCategory + '</span>';
+            }
+            if (post.status) html += '<span class="post-sub-tag" style="background:#eef2ff;color:#4f46e5;border:1px solid #c7d2fe;">' + post.status + '</span>';
+            if (post.classification) html += '<span class="post-sub-tag" style="background:#fff7ed;color:#ea580c;border:1px solid #ffedd5;">' + post.classification + '</span>';
+
+            if (post.category !== 'Quy trình') {
+              html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
+            }
+            if (post.updateDate) {
+              html += '<span class="post-date post-date-update">' + svgI.refresh + ' Cập nhật: ' + formatDate(post.updateDate) + '</span>';
+            }
+            if (post.effectiveDate) {
+              html += '<span class="post-date post-date-effective">' + svgI.check + ' Áp dụng: ' + formatDate(post.effectiveDate) + '</span>';
+            }
+
+            // ĐƯA AUTHOR LÊN ĐÂY (NẰM Ở CUỐI HÀNG META)
+            html += '<div class="post-author" style="margin-left: auto;"><span class="post-author-avatar">' + getInitials(post.author) + '</span>' + (post.author || '') + '</div>';
+
+            html += '</div>';
+            // Title và Nút Xem thêm
+            html += '<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">';
+
+            // Title
+            if (post.link) {
+              html += '<div class="post-card-title" style="flex: 1;"><a href="' + post.link + '" target="_blank" style="color: inherit; text-decoration: none;">' + (post.title || '') + '</a></div>';
+            } else {
+              html += '<div class="post-card-title" style="flex: 1;">' + (post.title || '') + '</div>';
+            }
+            html += '</div>';
+
+            // === DIFF VIEW: Chỉ cho Quy trình có oldContent ===
+            if (post.category === 'Quy trình' && post.oldContent) {
+              html += '<div class="post-diff-view">';
+              html += '<div class="post-diff-col post-diff-old">';
+              html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg> Nội dung cũ</div>';
+              html += '<div class="post-diff-content">' + post.oldContent + '</div>';
+              html += '</div>';
+              html += '<div class="post-diff-col post-diff-new">';
+              html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg> Nội dung mới</div>';
+              html += '<div class="post-diff-content">' + post.content + '</div>';
+              // --- NÚT XEM THÊM NẰM TRONG BOX NỘI DUNG MỚI GÓC PHẢI DƯỚI CÙNG ---
+              html += '<div style="display:flex; justify-content:flex-end; margin-top: 10px;">';
+              html += '<button class="post-read-more" data-id="' + post.id + '">Xem thêm →</button>';
+              html += '</div>';
+              html += '</div>';
+              html += '</div>';
+            } else {
+              // Layout bình thường
+              html += '<div class="post-card-content">' + (post.content || '') + '</div>';
+              html += '<div style="display:flex; justify-content:flex-end; margin-top: 10px;">';
+              html += '<button class="post-read-more" data-id="' + post.id + '">Xem thêm →</button>';
+              html += '</div>';
+            }
+            // (Đã xóa nút xem thêm ở đáy)
+            html += '</div>'; // End body
+
+            card.innerHTML = html;
+
+          } else {
+            // ==========================================
+            // LAYOUT TRÌNH BÀY THẺ TIN TỨC / SỰ KIỆN FEC
+            // ==========================================
+            card.className = 'fec-news-card';
+            card.style.animationDelay = (0.05 + index * 0.05) + 's';
+
+            // Xử lý click event vô toàn bộ tag Card thay vì chỉ nút:
+            card.onclick = function (e) {
+              // Ignore if clicked on specific buttons (though we have read-more)
+              openPostModal(post.id);
+            };
+
+            var html = '';
+            // CSS setup for bg image handling
+            var bgStyle = '';
+            if (post.image) {
+              // Bổ sung: Nếu image là logo thì chỉ hiển thị vừa phải không làm background lấp kín.
+              bgStyle = 'background-color:#f1f5f9; background-image: url(\'' + post.image + '\'); background-size: contain; background-repeat: no-repeat; background-position: center;';
+            } else {
+              // Sử dụng Logo CS làm mặc định cho các bài chưa có hình ảnh
+              bgStyle = 'background-color:#f1f5f9; background-image: url(\'./Asset/logo/LOGO_CS.png\'); background-size: contain; background-repeat: no-repeat; background-position: center;';
+            }
+
+            html += '<div class="fec-news-image" style="' + bgStyle + '"></div>';
+            html += '<div class="fec-news-body">';
+            html += '  <div class="fec-news-meta">';
+            html += '    <span class="fec-news-tag">' + getDisplayName(post.category) + '</span>';
+            html += '    <span class="fec-news-time">' + timeAgo(post.date) + '</span>';
+            html += '  </div>';
+            html += '  <h3 class="fec-news-title">' + (post.title || '') + '</h3>';
+            html += '</div>';
+            html += '<div class="fec-news-footer">';
+            html += '  <span class="fec-news-read-more" data-id="' + post.id + '">Xem chi tiết</span>';
+            html += '</div>';
+
+            card.innerHTML = html;
+          }
+
+          fragment.appendChild(card);
+        });
+
+        // Xoá nút Xem thêm cũ đang nằm ở cuối trang nếu có
+        var oldLoadMore = postsGrid.querySelector('.load-more-wrapper');
+        if (oldLoadMore) {
+          oldLoadMore.remove();
+        }
+
+        // Chèn các bài viết mới vào lưới Grid
+        postsGrid.appendChild(fragment);
+
+        // Gắn sự kiện xem chi tiết (chỉ bắt các tag mới được nối thêm vào)
+        var newCards = Array.from(postsGrid.children).slice(startIndex);
+        newCards.forEach(function (child) {
+          var readBtn = child.querySelector('.post-read-more');
+          if (readBtn) {
+            readBtn.onclick = function () {
+              var id = parseInt(this.getAttribute('data-id'));
+              openPostModal(id);
+            };
+          }
+        });
+
+        // Add Load More Button if remaining items
+        if (sorted.length > currentPage * POSTS_PER_PAGE) {
+          var loadMoreWrapper = document.createElement('div');
+          loadMoreWrapper.className = 'load-more-wrapper';
+          loadMoreWrapper.style.cssText = 'grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 24px; width: 100%;';
+
+          var loadMoreBtn = document.createElement('button');
+          loadMoreBtn.className = 'load-more-btn';
+          loadMoreBtn.innerHTML = 'Xem Thêm (' + (sorted.length - currentPage * POSTS_PER_PAGE) + ' bài nữa) <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-3px; margin-left:4px;"><path d="M7 10l5 5 5-5z"/></svg>';
+
+          loadMoreBtn.onclick = function () {
+            currentPage++;
+            renderPosts(true); // GỌI RENDER Ở CHẾ ĐỘ APPEND
+          };
+
+          loadMoreWrapper.appendChild(loadMoreBtn);
+          postsGrid.appendChild(loadMoreWrapper);
+        }
+      }
+
+      // --- Modal xem chi tiết ---
+      var modalOverlay = document.getElementById('post-modal-overlay');
+      var modalBody = document.getElementById('post-modal-body');
+      var modalCloseBtn = document.getElementById('post-modal-close');
+
+      function openPostModal(postId) {
+        var post = null;
+        for (var i = 0; i < posts.length; i++) {
+          if (posts[i].id === postId) { post = posts[i]; break; }
+        }
+        if (!post) return;
+
+        var html = '';
+        if (post.link) {
+          html += '<h2 class="post-modal-title"><a href="' + post.link + '" target="_blank" style="color: inherit; text-decoration: underline; text-underline-offset: 4px;">' + (post.title || '') + '</a></h2>';
+        } else {
+          html += '<h2 class="post-modal-title">' + (post.title || '') + '</h2>';
+        }
+        html += '<div class="post-modal-meta" style="flex-wrap: wrap; gap: 6px; row-gap: 8px;">';
+        if (post.pinned) html += '<span class="pinned-badge">' + svgI.pin + ' Ghim</span>';
+        html += '<span class="post-category-tag ' + getCategoryClass(post.category) + '">' + getDisplayName(post.category || 'Khác') + '</span>';
+        if (post.subCategory) html += '<span class="post-sub-tag">' + post.subCategory + '</span>';
+        if (post.issue) html += '<span class="post-sub-tag" style="background:#fefce8;color:#a16207;border:1px solid #fef08a;">' + post.issue + '</span>';
+        if (post.status) html += '<span class="post-sub-tag" style="background:#eef2ff;color:#4f46e5;border:1px solid #c7d2fe;">' + post.status + '</span>';
+        if (post.classification) html += '<span class="post-sub-tag" style="background:#fff7ed;color:#ea580c;border:1px solid #ffedd5;">' + post.classification + '</span>';
+
+        if (post.category !== 'Quy trình') {
+          html += '<span class="post-date">' + svgI.calendar + ' ' + formatDate(post.date) + '</span>';
+        }
+        if (post.updateDate) {
+          html += '<span class="post-date post-date-update">' + svgI.refresh + ' Cập nhật: ' + formatDate(post.updateDate) + '</span>';
+        }
+        if (post.effectiveDate) {
+          html += '<span class="post-date post-date-effective">' + svgI.check + ' Áp dụng: ' + formatDate(post.effectiveDate) + '</span>';
+        }
+        html += '<div class="post-author"><span class="post-author-avatar">' + getInitials(post.author) + '</span>' + (post.author || '') + '</div>';
+        html += '</div>';
+        if (post.image) {
+          html += '<div style="text-align: center; margin-bottom: 20px;">';
+          html += '<img style="max-height:100px; max-width:100%; object-fit: contain; border-radius:8px;" src="' + post.image + '" alt="" />';
+          html += '</div>';
+        }
+
+        // Modal cũng hiển thị diff view nếu có oldContent
+        if (post.category === 'Quy trình' && post.oldContent) {
+          html += '<div class="post-diff-view">';
+          html += '<div class="post-diff-col post-diff-old">';
+          html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11H7v-2h10v2z"/></svg> Nội dung cũ</div>';
+          html += '<div class="post-diff-content">' + post.oldContent + '</div>';
+          html += '</div>';
+          html += '<div class="post-diff-col post-diff-new">';
+          html += '<div class="post-diff-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg> Nội dung mới</div>';
+          html += '<div class="post-diff-content">' + post.content + '</div>';
+          html += '</div>';
+          html += '</div>';
+        } else {
+          html += '<div class="post-modal-content">' + (post.content || '') + '</div>';
+        }
+
+        modalBody.innerHTML = html;
+        modalOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closePostModal() {
+        modalOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+
+      modalCloseBtn.onclick = closePostModal;
+      modalOverlay.onclick = function (e) {
+        if (e.target === modalOverlay) closePostModal();
+      };
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { closePostModal(); closeOnboardingModal(); closeOrgChartDetail(); }
+      });
+
+      // --- Init ---
+      renderFilterButtons();
+      renderSubFilterBar();
+      updateSectionTitle();
+      renderPosts();
+    })();
+  </script>
+
+  <!-- FOOTER - FECredit Style -->
+  <footer class="fec-footer">
+    <!-- Top section: Contact hotlines -->
+    <div class="fec-footer-top">
+      <div class="fec-footer-container">
+        <div class="fec-footer-top-inner">
+          <div class="fec-footer-slogan">
+            <img src="./Asset/logo/fec-logo.svg" alt="FECredit" class="fec-footer-logo" />
+            <h2 class="fec-footer-slogan-text">Hiện thực hóa<br><span>hàng triệu ước mơ</span></h2>
+          </div>
+          <div class="fec-hotline-wrapper">
+            <div class="fec-hotline-section">
+              <div class="fec-hotline-label">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                Dành cho khách hàng mới
+              </div>
+              <a href="tel:02839111555" class="fec-hotline-pill fec-hotline-pill-filled">
+                <div class="fec-hotline-pill-desc">HỖ TRỢ VAY NHANH</div>
+                <div class="fec-hotline-pill-number">028 39 111555</div>
+              </a>
+            </div>
+            <div class="fec-hotline-divider"></div>
+            <div class="fec-hotline-section fec-hotline-section-wide">
+              <div class="fec-hotline-label">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                  <path
+                    d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+                </svg>
+                Dành cho khách hàng hiện hữu
+              </div>
+              <div class="fec-hotline-pill-group">
+                <a href="tel:19006535" class="fec-hotline-pill fec-hotline-pill-outlined">
+                  <div class="fec-hotline-pill-desc">KHÁCH HÀNG VAY</div>
+                  <div class="fec-hotline-pill-number">1900 6535</div>
+                </a>
+                <div class="fec-hotline-pill-split"></div>
+                <a href="tel:19006939" class="fec-hotline-pill fec-hotline-pill-outlined">
+                  <div class="fec-hotline-pill-desc">KHÁCH HÀNG THẺ TÍN DỤNG</div>
+                  <div class="fec-hotline-pill-number">1900 6939</div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Middle section: Connect + Address + App -->
+    <div class="fec-footer-mid">
+      <div class="fec-footer-container">
+        <h3 class="fec-footer-mid-title">Kết nối với FE CREDIT nhiều hơn</h3>
+        <div class="fec-footer-mid-grid">
+          <div class="fec-footer-address-card">
+            <div class="fec-footer-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z" />
+              </svg>
+            </div>
+            <div class="fec-footer-card-label">Địa chỉ</div>
+            <div class="fec-footer-card-title">Phòng Dịch Vụ Khách Hàng</div>
+            <div class="fec-footer-card-desc">144 Cộng Hòa, Phường Bảy Hiền, Thành phố Hồ Chí Minh.</div>
+          </div>
+          <div class="fec-footer-app-card">
+            <div class="fec-footer-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z" />
+              </svg>
+            </div>
+            <div class="fec-footer-card-label">Ứng dụng</div>
+            <div class="fec-footer-card-title">FE ONLINE 2.0</div>
+            <div class="fec-footer-card-desc">Quản lý tài chính dễ dàng, mọi lúc mọi nơi.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="fec-footer-bottom">
+      <div class="fec-footer-container">
+        <div class="fec-footer-bottom-inner">
+          <div class="fec-footer-copyright">
+            © 2026 QC Team x Trung Tâm Dịch Vụ Khách Hàng.
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

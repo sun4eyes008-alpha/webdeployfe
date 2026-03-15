@@ -13,57 +13,7 @@
   <link rel="stylesheet" href="./Asset/theme-thu.css" />
   <link rel="stylesheet" href="./Asset/theme-dong.css" /> -->
 
-  <style>
-    /* Bỏ gạch chân cho các link trong header */
-    a.tab-btn:not(.dropdown-item),
-    a.pdf-link-btn:not(.dropdown-item) {
-      text-decoration: none;
-      color: inherit;
-    }
 
-    .dropdown-menu a.dropdown-item {
-      text-decoration: none;
-      /* removed color: inherit so it correctly falls back to #4d4d4d defined in style2.css */
-    }
-
-    .home-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      padding: 0;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      color: white;
-      border-radius: 6px;
-      transition: background-color 0.2s ease;
-      text-decoration: none;
-      margin-right: 5px;
-      line-height: 0;
-      align-self: center;
-    }
-
-    .home-btn:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .sidebar-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      padding: 0;
-      border-radius: 6px;
-      transition: background-color 0.2s ease;
-    }
-
-    .sidebar-toggle:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-  </style>
 </head>
 
 <body>
@@ -1235,6 +1185,8 @@
         },
       };
 
+      window.dataSources = dataSources;
+
       // === PAGE_CONFIG ===
       // Cấu hình riêng cho từng trang (LOAN, CARD, OUTBOUND, UBANK)
       // Khi copy sang file khác, chỉ cần sửa phần này
@@ -1952,6 +1904,12 @@
         if (path.length > 0) {
           saveStateToURL(path);
 
+          // Enable copy-link buttons when a valid node is selected (even if no PDF yet)
+          const btnSetBase = document.getElementById('btn-set-base');
+          const btnCopyTarget = document.getElementById('btn-copy-target');
+          if (btnSetBase) btnSetBase.disabled = false;
+          if (btnCopyTarget) btnCopyTarget.disabled = false;
+
           const hasContentToDisplay = selectedNode.pdf || selectedNode.htmlUrl || selectedNode.htmlContent;
 
           if (!hasContentToDisplay && childKeys.length > 0) {
@@ -2096,6 +2054,11 @@
           this.headerPdf = snapshot.headerPdf ? { ...snapshot.headerPdf } : { pdfName: null };
         }
       };
+
+      // Expose to window for ppt-copy logic
+      window.state = state;
+      window.appState = appState;
+      window.dataSources = dataSources;
 
       /**
        * Unified Navigation API - Điểm duy nhất để navigate
@@ -2261,6 +2224,17 @@
         if (window.initXmttResize) {
 
           setTimeout(() => window.initXmttResize(true), 10);
+        }
+
+        // Enable copy-link buttons for header presets
+        const btnSetBase = document.getElementById('btn-set-base');
+        const btnCopyTarget = document.getElementById('btn-copy-target');
+        if (btnSetBase) {
+          btnSetBase.disabled = false;
+          btnSetBase.title = "Lưu điểm gốc từ: " + pdfState.pdfName;
+        }
+        if (btnCopyTarget) {
+          btnCopyTarget.disabled = false;
         }
       }
 
@@ -3229,7 +3203,134 @@
         }
       });
     });
+    // --- COPY LINK LOGIC ---
+    function showCopyFeedback(message, isError = false) {
+      const feedback = document.getElementById('copy-feedback');
+      if (!feedback) return;
+      feedback.textContent = message;
+      feedback.classList.toggle('error', isError);
+      feedback.classList.add('show');
+      setTimeout(() => feedback.classList.remove('show'), 2000);
+    }
+
+    function updateBaseInfoDisplay() {
+      const baseInfo = document.getElementById('base-path-info');
+      const baseValue = document.getElementById('base-path-value');
+      const savedBase = localStorage.getItem('ppt_base_path_data');
+      if (savedBase && baseInfo && baseValue) {
+        try {
+          const data = JSON.parse(savedBase);
+          baseValue.textContent = data.displayName || 'Đã lưu';
+          baseInfo.style.display = 'block';
+        } catch (e) {
+          baseInfo.style.display = 'none';
+        }
+      } else if (baseInfo) {
+        baseInfo.style.display = 'none';
+      }
+    }
+
+    function setBasePath() {
+      let pdfPath = "";
+      let displayName = "";
+
+      if (window.appState.type === 'header-pdf') {
+        pdfPath = window.appState.headerPdf.pdfName;
+        displayName = window.appState.headerPdf.displayName || pdfPath;
+      } else if (window.appState.type === 'sidebar') {
+        const path = window.appState.sidebar.path;
+        let current = window.dataSources[window.appState.sidebar.source];
+        for (const key of path) {
+          if (current[key]) current = current[key];
+        }
+        pdfPath = current.pdf || "";
+        displayName = current.displayName || path[path.length - 1] || "Sidebar Item";
+      }
+
+      if (!pdfPath) {
+        showCopyFeedback("Không tìm thấy PDF để lấy gốc!", true);
+        return;
+      }
+
+      const cleanPath = pdfPath.replace(/^\.\//, "");
+      const depth = (cleanPath.match(/\//g) || []).length;
+      const prefix = "../".repeat(depth);
+
+      localStorage.setItem('ppt_base_path_data', JSON.stringify({
+        prefix: prefix,
+        displayName: displayName,
+        timestamp: Date.now()
+      }));
+
+      updateBaseInfoDisplay();
+      showCopyFeedback("Đã lưu điểm gốc!");
+    }
+
+    function copyTargetLink() {
+      const savedBase = localStorage.getItem('ppt_base_path_data');
+      if (!savedBase) {
+        showCopyFeedback("Hãy chọn 'Lấy Gốc' ở trang file PPT trước!", true);
+        return;
+      }
+
+      const baseData = JSON.parse(savedBase);
+      const prefix = baseData.prefix || "";
+      let finalUrl = "";
+
+      const currentPage = window.location.pathname.split('/').pop() || "index.html";
+
+      if (window.appState.type === 'header-pdf') {
+        const pdfName = window.appState.headerPdf.pdfName;
+        finalUrl = `${prefix}${currentPage}#pdf=${encodeURIComponent(pdfName)}`;
+      } else if (window.appState.type === 'sidebar') {
+        const source = window.appState.sidebar.source;
+        const path = window.appState.sidebar.path;
+        const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(path));
+        finalUrl = `${prefix}${currentPage}#source=${source}&s=${compressed}`;
+      }
+
+      if (finalUrl) {
+        navigator.clipboard.writeText(finalUrl).then(() => {
+          showCopyFeedback("Đã copy link thành công!");
+        }).catch(() => {
+          const textArea = document.createElement("textarea");
+          textArea.value = finalUrl;
+          document.body.appendChild(textArea);
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            showCopyFeedback("Đã copy link thành công!");
+          } catch (err) {
+            showCopyFeedback("Lỗi khi copy!", true);
+          }
+          document.body.removeChild(textArea);
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateBaseInfoDisplay();
+    });
   </script>
+
+  <!-- Copy Link UI -->
+  <div class="copy-link-container">
+    <div id="copy-feedback" class="copy-link-feedback"></div>
+    <div id="base-path-info" class="copy-link-base-info" style="display: none;">
+      Gốc: <span id="base-path-value" class="base-path-value"></span>
+    </div>
+    <div class="copy-link-buttons">
+      <button id="btn-set-base" class="copy-link-btn btn-set-base" onclick="setBasePath()" disabled title="Lấy gốc tọa độ tại PDF hiện tại">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Lấy Gốc
+      </button>
+      <button id="btn-copy-target" class="copy-link-btn btn-copy-target" onclick="copyTargetLink()" disabled title="Copy link tương đối đến đây">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        Copy Link
+      </button>
+    </div>
+  </div>
+
 </body>
 
 </html>
