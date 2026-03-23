@@ -2310,17 +2310,62 @@ body.resizing * {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* --- PPT COPY LINK STYLES --- */
+/* --- PPT COPY LINK STYLES (Collapsible Slide) --- */
 
 .copy-link-container {
   position: fixed;
   bottom: 16px;
-  left: 16px;
+  left: 0;
   z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.copy-link-inner {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
+  padding: 8px 10px;
+  max-width: 300px;
+  overflow: hidden;
+  transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s ease;
+}
+
+.copy-link-container.collapsed .copy-link-inner {
+  max-width: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.copy-link-toggle {
+  width: 28px;
+  min-width: 28px;
+  height: 44px;
+  border: none;
+  background: rgba(55, 65, 81, 0.75);
+  color: #fff;
+  cursor: pointer;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.copy-link-toggle:hover {
+  opacity: 1;
+  background: rgba(55, 65, 81, 0.9);
 }
 
 .copy-link-buttons {
@@ -2369,6 +2414,11 @@ body.resizing * {
 .copy-link-btn.btn-copy-target:hover:not(:disabled) {
   background: rgba(37, 99, 235, 0.9);
   box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+.copy-link-btn.btn-file-link:hover:not(:disabled) {
+  background: rgba(139, 92, 246, 0.9);
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
 }
 
 .copy-link-btn:active:not(:disabled) {
@@ -2422,3 +2472,106 @@ body.resizing * {
 .copy-link-feedback.error {
   background: rgba(220, 38, 38, 0.92);
 }
+
+/* --- File Link Popup --- */
+.file-link-popup {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  width: 300px;
+  display: none;
+  z-index: 1001;
+  border: 1px solid #e0e0e0;
+}
+
+.file-link-popup.show { display: block; }
+
+.file-link-popup-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.file-link-dropzone {
+  border: 2px dashed #c4b5fd;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  font-size: 12px;
+  color: #7c3aed;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #f5f3ff;
+  margin-bottom: 10px;
+}
+
+.file-link-dropzone:hover,
+.file-link-dropzone.dragover {
+  background: #ede9fe;
+  border-color: #8b5cf6;
+}
+
+.file-link-dropzone svg {
+  display: block;
+  margin: 0 auto 6px;
+}
+
+.file-link-input-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.file-link-input {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.file-link-input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.15);
+}
+
+.file-link-copy-btn {
+  padding: 6px 12px;
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.file-link-copy-btn:hover {
+  background: #6d28d9;
+}
+
+.file-link-result {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #059669;
+  word-break: break-all;
+  display: none;
+  padding: 6px 8px;
+  background: #ecfdf5;
+  border-radius: 6px;
+  border: 1px solid #a7f3d0;
+}
+
+.file-link-result.show { display: block; }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -1362,37 +1362,68 @@
               content.trim().startsWith('\x3c!DOCTYPE') || content.trim().startsWith('\x3chtml');
 
             if (isHtml) {
-              // Regex with escaped angle brackets
-              const scriptRegex = new RegExp('\x3cscript\\b[^\x3e]*\x3e([\\s\\S]*?)\x3c/script\x3e', 'gi');
-              let match;
               let foundScriptContent = null;
-              let scriptStartIndex = -1;
-              let scriptEndIndex = -1;
 
-              while ((match = scriptRegex.exec(content)) !== null) {
-                const scriptContent = match[1];
-                if (scriptContent.includes('flowchartData') &&
-                  (scriptContent.includes('window.flowchartData') ||
-                    scriptContent.match(/(?:const|let|var)\s+flowchartData/))) {
-                  foundScriptContent = scriptContent;
-                  scriptStartIndex = match.index;
-                  scriptEndIndex = match.index + match[0].length;
-                  break;
+              // === FIX 1: Ưu tiên markers FLOWCHART_DATA_START/END ===
+              const markerStart = '\x3c!-- FLOWCHART_DATA_START --\x3e';
+              const markerEnd = '\x3c!-- FLOWCHART_DATA_END --\x3e';
+              const startIdx = content.indexOf(markerStart);
+              const endIdx = content.indexOf(markerEnd);
+
+              if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+                // Tìm nội dung giữa 2 markers
+                const markerRegion = content.substring(
+                  startIdx + markerStart.length,
+                  endIdx
+                );
+                // Tách nội dung script trong vùng markers
+                const innerScriptMatch = markerRegion.match(
+                  new RegExp('\x3cscript[^\x3e]*\x3e([\\s\\S]*?)\x3c/script\x3e', 'i')
+                );
+                if (innerScriptMatch) {
+                  foundScriptContent = innerScriptMatch[1];
+                  setIsHtmlFile(true);
+                  // htmlBefore = content trước marker START + marker + \x3cscript\x3e
+                  setHtmlBefore(content.substring(0, startIdx) + markerStart + '\n  \x3cscript\x3e\n');
+                  // htmlAfter = \x3c/script\x3e + marker END + content sau marker END
+                  setHtmlAfter('\n  \x3c/script\x3e\n  ' + markerEnd + content.substring(endIdx + markerEnd.length));
+                  content = foundScriptContent;
+                  console.log("📄 HTML file detected via markers. Extracted script content.");
                 }
               }
 
-              if (foundScriptContent) {
-                setIsHtmlFile(true);
-                setHtmlBefore(content.substring(0, scriptStartIndex) + '\x3cscript\x3e\n');
-                setHtmlAfter('\n  \x3c/script\x3e' + content.substring(scriptEndIndex));
-                content = foundScriptContent;
-                console.log("📄 HTML file detected. Extracted script content.");
-              } else {
-                setErrorInfo({
-                  title: "❌ Không Tìm Thấy Dữ Liệu",
-                  message: "File HTML không chứa flowchartData."
-                });
-                return;
+              // Fallback: dùng regex script tag cho file không có markers
+              if (!foundScriptContent) {
+                const scriptRegex = new RegExp('\x3cscript\\b[^\x3e]*\x3e([\\s\\S]*?)\x3c/script\x3e', 'gi');
+                let match;
+                let scriptStartIndex = -1;
+                let scriptEndIndex = -1;
+
+                while ((match = scriptRegex.exec(content)) !== null) {
+                  const scriptContent = match[1];
+                  if (scriptContent.includes('flowchartData') &&
+                    (scriptContent.includes('window.flowchartData') ||
+                      scriptContent.match(/(?:const|let|var)\s+flowchartData/))) {
+                    foundScriptContent = scriptContent;
+                    scriptStartIndex = match.index;
+                    scriptEndIndex = match.index + match[0].length;
+                    break;
+                  }
+                }
+
+                if (foundScriptContent) {
+                  setIsHtmlFile(true);
+                  setHtmlBefore(content.substring(0, scriptStartIndex) + '\x3cscript\x3e\n');
+                  setHtmlAfter('\n  \x3c/script\x3e' + content.substring(scriptEndIndex));
+                  content = foundScriptContent;
+                  console.log("📄 HTML file detected via script tag fallback.");
+                } else {
+                  setErrorInfo({
+                    title: "❌ Không Tìm Thấy Dữ Liệu",
+                    message: "File HTML không chứa flowchartData."
+                  });
+                  return;
+                }
               }
             }
 
@@ -1552,27 +1583,60 @@
             console.log("✅ Flat Constants (for replacement):", flatConstants);
 
             // 2. Find ALL data objects
-            const dataRegex = /((?:const|let|var|window\.)\s*(\w+)\s*=\s*)(\{[\s\S]+?\});/g;
+            // === FIX 2: Balanced brace matching thay vì lazy regex ===
+            const findBalancedObjects = (text) => {
+              const results = [];
+              const declRegex = /((?:const|let|var|window\.)\s*(\w+)\s*=\s*)\{/g;
+              let declMatch;
+              while ((declMatch = declRegex.exec(text)) !== null) {
+                const declaration = declMatch[1];
+                const name = declMatch[2];
+                const startBrace = declMatch.index + declaration.length;
+                let depth = 1, i = startBrace + 1;
+                // Bỏ qua nội dung trong strings để tránh đếm sai { } trong chuỗi
+                while (i < text.length && depth > 0) {
+                  const ch = text[i];
+                  if (ch === '\\') { i += 2; continue; }
+                  if (ch === '"' || ch === "'" || ch === '`') {
+                    const quote = ch;
+                    i++;
+                    while (i < text.length && text[i] !== quote) {
+                      if (text[i] === '\\') i++;
+                      i++;
+                    }
+                  } else if (ch === '{') { depth++; }
+                    else if (ch === '}') { depth--; }
+                  i++;
+                }
+                if (depth === 0) {
+                  const objStr = text.substring(startBrace, i);
+                  // Kiểm tra kết thúc bằng ;
+                  const afterObj = text.substring(i).trimStart();
+                  if (afterObj.startsWith(';')) {
+                    results.push({ declaration, name, objectString: objStr });
+                  }
+                }
+              }
+              return results;
+            };
+
             const newAllDataObjectInfo = {};
             const newDataSources = {};
             const newNodeQuoteTypes = {}; // Track variable references in node fields
             let firstDataKey = null;
 
-            for (const match of content.matchAll(dataRegex)) {
-              const declaration = match[1];
-              const name = match[2];
-              const dataObjectString = match[3];
-
-              newAllDataObjectInfo[name] = {
-                name,
-                declaration,
+            const foundObjects = findBalancedObjects(content);
+            for (const obj of foundObjects) {
+              newAllDataObjectInfo[obj.name] = {
+                name: obj.name,
+                declaration: obj.declaration,
               };
 
-              const parsedData = safeEvalFlowchartData(dataObjectString, flatConstants, newVarQuoteTypes, newNodeQuoteTypes);
-              newDataSources[name] = parsedData;
+              const parsedData = safeEvalFlowchartData(obj.objectString, flatConstants, newVarQuoteTypes, newNodeQuoteTypes);
+              newDataSources[obj.name] = parsedData;
 
               if (!firstDataKey) {
-                firstDataKey = name;
+                firstDataKey = obj.name;
               }
             }
 
@@ -1582,16 +1646,28 @@
             }
 
             // 3. Parse HEADER_PRESETS nếu có
+            // === FIX 6: Hỗ trợ cả window.HEADER_PRESETS ===
             let foundHeaderPresets = {};
             let foundHasPresets = false;
-            const presetsRegex = /(?:const|let|var)\s+HEADER_PRESETS\s*=\s*(\{[\s\S]+?\});/;
-            const presetsMatch = content.match(presetsRegex);
-            if (presetsMatch) {
-              try {
-                foundHeaderPresets = safeEvalFlowchartData(presetsMatch[1], flatConstants, newVarQuoteTypes, {});
-                foundHasPresets = true;
-                console.log("📦 HEADER_PRESETS:", Object.keys(foundHeaderPresets).length, "presets");
-              } catch (e) { console.warn("⚠️ Could not parse HEADER_PRESETS"); }
+            // Tìm trong dataSources đã parse (ưu tiên balanced brace result)
+            if (newDataSources['HEADER_PRESETS']) {
+              foundHeaderPresets = newDataSources['HEADER_PRESETS'];
+              foundHasPresets = true;
+              // User muốn edit HEADER_PRESETS như một flowchart bình thường
+              // Do đó KHÔNG xóa nó khỏi newDataSources. Nó sẽ vừa nằm trong dropdown,
+              // vừa có thể (nếu tool hỗ trợ) dùng cho logic Header Presets.
+              console.log("📦 HEADER_PRESETS:", Object.keys(foundHeaderPresets).length, "presets (from balanced parser)");
+            } else {
+              // Fallback: regex riêng
+              const presetsRegex = /(?:const|let|var|window\.)\s*HEADER_PRESETS\s*=\s*(\{[\s\S]+?\});/;
+              const presetsMatch = content.match(presetsRegex);
+              if (presetsMatch) {
+                try {
+                  foundHeaderPresets = safeEvalFlowchartData(presetsMatch[1], flatConstants, newVarQuoteTypes, {});
+                  foundHasPresets = true;
+                  console.log("📦 HEADER_PRESETS:", Object.keys(foundHeaderPresets).length, "presets (from regex)");
+                } catch (e) { console.warn("⚠️ Could not parse HEADER_PRESETS"); }
+              }
             }
             setHeaderPresets(foundHeaderPresets);
             setHasHeaderPresets(foundHasPresets);
@@ -1610,6 +1686,33 @@
             }
             setPageConfig(foundPageConfig);
             setHasPageConfig(foundHasConfig);
+
+            // === FIX 4: Strip folderName prefix khỏi pdf khi import ===
+            const contentFieldsForImport = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'folderName'];
+            const stripFolderPrefixFromPdf = (obj, folderSegments = []) => {
+              if (!obj || typeof obj !== 'object') return;
+              Object.keys(obj).forEach(key => {
+                const val = obj[key];
+                if (typeof val !== 'object' || val === null) return;
+                if (contentFieldsForImport.includes(key)) return;
+                // Thu thập folderName
+                const newSegments = [...folderSegments];
+                if (val.folderName) newSegments.push(val.folderName);
+                // Strip prefix khỏi pdf
+                if (val.pdf && newSegments.length > 0) {
+                  const prefix = newSegments.join('/') + '/';
+                  if (val.pdf.startsWith(prefix)) {
+                    val.pdf = val.pdf.substring(prefix.length);
+                  }
+                }
+                // Đệ quy
+                stripFolderPrefixFromPdf(val, newSegments);
+              });
+            };
+            // Áp dụng cho mỗi data source sau khi parse
+            Object.values(newDataSources).forEach(data => {
+              stripFolderPrefixFromPdf(data);
+            });
 
             // 5. Update all states
             setAllDataObjectInfo(newAllDataObjectInfo);
@@ -1761,7 +1864,8 @@
           const sortedConsts = Object.entries(flatConstants).sort((a, b) => (b[1] || '').length - (a[1] || '').length);
 
           // Content fields that are NOT child nodes
-          const contentFieldsForExport = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'folderName'];
+          // === FIX 5: Thêm xmttecom vào contentFieldsForExport ===
+          const contentFieldsForExport = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'folderName'];
 
           Object.entries(dataSources).forEach(([name, data]) => {
             const info = allDataObjectInfo[name];
@@ -2206,8 +2310,14 @@ ${dataObjectsContent}
                     {node.displayName && <div>🏷️ {node.displayName}</div>}
                     {node.pdf && <div>📄 {node.pdf}</div>}
                     {node.contentType && <div>📝 Content: {node.contentType}</div>}
-                    {node.htmlUrl && <div>🔗 URL: {node.htmlUrl}</div>}
                   </div>
+                  {node.folderName && (
+                    <div className="mt-1 mb-1">
+                      <span className="badge" style={{ fontSize: '10.5px', backgroundColor: '#fef3c7', color: '#92400e', border: '1px solid #fcd34d' }}>
+                        📁 Thư mục xuất: {node.folderName}
+                      </span>
+                    </div>
+                  )}
                   {node.note && (
                     <div className="mt-2">
                       <label className="small fw-bold text-muted">NOTE</label>

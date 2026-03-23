@@ -1820,13 +1820,13 @@
         isTabActive: false,         // Tab có đang active không
       };
 
-      // Expose state and appState for link generation logic
-      window.dataSources = dataSources;
-
       const dataSources = {
         truyvan: window.flowchartData,       // Dữ liệu truy vấn chính
         feedback: window.flowchartDataFeedback,  // Dữ liệu góp ý
       };
+
+      // Expose state and appState for link generation logic
+      window.dataSources = dataSources;
 
       const isObject = (value) => typeof value === "object" && value !== null;
 

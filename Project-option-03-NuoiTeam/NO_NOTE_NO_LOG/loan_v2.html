@@ -266,30 +266,209 @@
     <button id="scroll-to-bottom" class="scroll-btn">▼</button>
   </div>
 
-  <!-- Copy Link for PPT - Fixed bottom-left (2-button) -->
-  <div id="copy-link-container" class="copy-link-container">
-    <div id="copy-link-feedback" class="copy-link-feedback"></div>
-    <div id="copy-link-base-info" class="copy-link-base-info" style="display:none;"></div>
-    <div class="copy-link-buttons">
-      <button id="btn-set-base" class="copy-link-btn btn-set-base" disabled title="Chọn 1 mục rồi bấm để lưu điểm gốc">
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="17 8 12 3 7 8" />
-          <line x1="12" y1="3" x2="12" y2="15" />
-        </svg>
-      </button>
-      <button id="btn-copy-target" class="copy-link-btn btn-copy-target" disabled
-        title="Chọn mục đích rồi bấm để copy link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
-          <path
-            d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
-          <path
-            d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
-        </svg>
-      </button>
+  <!-- Copy Link for PPT - Collapsible Slide (3-button) -->
+  <div id="copy-link-container" class="copy-link-container collapsed">
+    <!-- Inner panel (slides in/out) -->
+    <div class="copy-link-inner">
+      <div id="copy-link-feedback" class="copy-link-feedback"></div>
+      <div id="copy-link-base-info" class="copy-link-base-info" style="display:none;"></div>
+
+      <!-- File Link Popup -->
+      <div id="file-link-popup" class="file-link-popup">
+        <div class="file-link-popup-title">📎 Tạo link file DOCUMENTS</div>
+        <div id="file-link-dropzone" class="file-link-dropzone">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Kéo thả file vào đây
+        </div>
+        <div class="file-link-input-row">
+          <input type="text" id="file-link-input" class="file-link-input" placeholder="hoặc nhập tên file..." />
+          <button id="file-link-copy-btn" class="file-link-copy-btn">Copy</button>
+        </div>
+        <div id="file-link-result" class="file-link-result"></div>
+      </div>
+
+      <div class="copy-link-buttons">
+        <button id="btn-set-base" class="copy-link-btn btn-set-base" disabled title="Chọn 1 mục rồi bấm để lưu điểm gốc">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </button>
+        <button id="btn-copy-target" class="copy-link-btn btn-copy-target" disabled
+          title="Chọn mục đích rồi bấm để copy link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+            <path
+              d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+            <path
+              d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+          </svg>
+        </button>
+        <button id="btn-file-link" class="copy-link-btn btn-file-link" disabled
+          title="Tạo link đến file trong DOCUMENTS">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+          </svg>
+        </button>
+      </div>
     </div>
+    <!-- Toggle tab -->
+    <button class="copy-link-toggle" id="copy-link-toggle" title="Công cụ link">◀</button>
   </div>
+
+  <script>
+    // === FILE LINK GENERATOR ===
+    (function() {
+      const DOCS_PATH = 'pdfile-loan/DOCUMENTS/';
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById('copy-link-toggle');
+        const container = document.getElementById('copy-link-container');
+        const btnFileLink = document.getElementById('btn-file-link');
+        const popup = document.getElementById('file-link-popup');
+        const dropzone = document.getElementById('file-link-dropzone');
+        const fileInput = document.getElementById('file-link-input');
+        const copyBtn = document.getElementById('file-link-copy-btn');
+        const resultEl = document.getElementById('file-link-result');
+
+        // Toggle slide
+        if (toggleBtn && container) {
+          toggleBtn.addEventListener('click', function() {
+            container.classList.toggle('collapsed');
+            toggleBtn.textContent = container.classList.contains('collapsed') ? '◀' : '▶';
+          });
+        }
+
+        // Toggle popup
+        if (btnFileLink) {
+          btnFileLink.addEventListener('click', function() {
+            popup.classList.toggle('show');
+            if (popup.classList.contains('show')) {
+              fileInput.focus();
+            }
+          });
+        }
+
+        // Close popup on click outside
+        document.addEventListener('click', function(e) {
+          if (popup && popup.classList.contains('show') &&
+              !popup.contains(e.target) && e.target !== btnFileLink && !btnFileLink.contains(e.target)) {
+            popup.classList.remove('show');
+          }
+        });
+
+        // Get current PDF prefix
+        function getCurrentPrefix() {
+          const selects = document.querySelectorAll('.filter-select');
+          const path = Array.from(selects).map(s => s.value).filter(Boolean);
+
+          let pdfPath = '';
+          if (path.length > 0) {
+            const sourceName = (window.state && window.state.activeSourceName) || 'truyvan';
+            const sourceData = (window.dataSources && window.dataSources[sourceName]) || window.flowchartData;
+            let node = sourceData;
+            for (const key of path) {
+              if (node && node[key]) node = node[key];
+              else return null;
+            }
+            pdfPath = node.pdf || '';
+          } else if (window.appState && window.appState.type === 'header-pdf') {
+            pdfPath = window.appState.headerPdf.pdfName || '';
+          }
+
+          if (!pdfPath) return null;
+
+          let cleanPath = pdfPath;
+          let baseFolderDepth = 1;
+          if (cleanPath.startsWith('./')) {
+            cleanPath = cleanPath.substring(2);
+            baseFolderDepth = 0;
+          }
+          const slashCount = (cleanPath.match(/\//g) || []).length;
+          const depth = baseFolderDepth + slashCount;
+          return '../'.repeat(depth);
+        }
+
+        // Generate and copy file link
+        function generateFileLink(filename) {
+          if (!filename) return;
+          filename = filename.trim();
+          if (!filename) return;
+
+          const prefix = getCurrentPrefix();
+          if (!prefix) {
+            resultEl.textContent = '⚠️ Chưa chọn mục PDF nào!';
+            resultEl.classList.add('show');
+            resultEl.style.color = '#dc2626';
+            resultEl.style.background = '#fef2f2';
+            resultEl.style.borderColor = '#fecaca';
+            return;
+          }
+
+          const link = prefix + DOCS_PATH + filename;
+          navigator.clipboard.writeText(link).then(function() {
+            resultEl.textContent = '✅ Đã copy: ' + link;
+            resultEl.style.color = '#059669';
+            resultEl.style.background = '#ecfdf5';
+            resultEl.style.borderColor = '#a7f3d0';
+            resultEl.classList.add('show');
+          }).catch(function() {
+            const ta = document.createElement('textarea');
+            ta.value = link;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            resultEl.textContent = '✅ Đã copy: ' + link;
+            resultEl.classList.add('show');
+          });
+        }
+
+        // Copy button
+        if (copyBtn) {
+          copyBtn.addEventListener('click', function() {
+            generateFileLink(fileInput.value);
+          });
+        }
+
+        // Enter key
+        if (fileInput) {
+          fileInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              generateFileLink(fileInput.value);
+            }
+          });
+        }
+
+        // Drag and drop
+        if (dropzone) {
+          dropzone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+          });
+          dropzone.addEventListener('dragleave', function() {
+            dropzone.classList.remove('dragover');
+          });
+          dropzone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+              const fname = e.dataTransfer.files[0].name;
+              fileInput.value = fname;
+              generateFileLink(fname);
+            }
+          });
+        }
+      });
+    })();
+  </script>
 
   <!-- FLOWCHART_DATA_START -->
   <script>
@@ -461,10 +640,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Thông tin công ty & thương hiệu",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       },
       "Các Kênh CSKH": {
         "pdf": "THONG_TIN_CHUNG/1_THONG_TIN_CONG_TY/Cac_kenh_CSKH.pdf",
@@ -472,10 +651,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Các kênh CSKH",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       },
       "Công Văn & Thư Tín": {
         "pdf": "THONG_TIN_CHUNG/1_THONG_TIN_CONG_TY/Cong_van_thu_tin.pdf",
@@ -483,10 +662,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Công Văn / Thư Tín",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       },
       "Quy Trình Gửi ZNS": {
         "pdf": "THONG_TIN_CHUNG/1_THONG_TIN_CONG_TY/Quy_trinh_gui_ZNS.pdf",
@@ -494,10 +673,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Quy trình gửi ZNS",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       }
     },
     "Hợp Tác Kinh Doanh": {
@@ -506,10 +685,10 @@ window.flowchartData = {
       "htmlContent": "",
       "htmlUrl": "",
       "xmttib": "",
+      "xmttecom": "",
       "note": "",
       "displayName": "Hợp Tác Kinh Doanh",
-      "dieukien": "<p><strong>Điều kiện ghi nhận hợp t&aacute;c:</strong><br>+ Mặt h&agrave;ng KH đang kinh doanh thuộc danh mục được hỗ trợ <a href=\"pdfile-loan\\1_THONG_TIN_CHUNG\\2_HOP_TAC_KINH_DOANH\\Danh_sach_mat_hang_hop_tac_kinh_doanh.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a><br>+ Ng&agrave;y cấp giấy ph&eacute;p kinh doanh &ge; 2 năm</p>",
-      "xmttecom": ""
+      "dieukien": "<p><strong>Điều kiện ghi nhận hợp t&aacute;c:</strong><br>+ Mặt h&agrave;ng KH đang kinh doanh thuộc danh mục được hỗ trợ <a href=\"pdfile-loan\\1_THONG_TIN_CHUNG\\2_HOP_TAC_KINH_DOANH\\Danh_sach_mat_hang_hop_tac_kinh_doanh.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a><br>+ Ng&agrave;y cấp giấy ph&eacute;p kinh doanh &ge; 2 năm</p>"
     },
     "Xóa Dữ Liệu Cá Nhân": {
       "pdf": "THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Xoa_du_lieu_ca_nhan.pdf",
@@ -517,10 +696,10 @@ window.flowchartData = {
       "htmlContent": "",
       "htmlUrl": "",
       "xmttib": "",
+      "xmttecom": "",
       "note": "",
       "displayName": "Xóa Dữ Liệu Cá Nhân",
-      "dieukien": "<p>1. Phiếu y&ecirc;u cầu xử l&yacute; dữ liệu c&aacute; nh&acirc;n: <a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Phieu_yeu_cau_xu_ly_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\">tại đ&acirc;y</a><br>2. Tham khảo nghị định về bảo vệ dữ liệu c&aacute; nh&acirc;n:<a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Tham_khao_nghi_dinh_ve_bao_ve_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\"> tại đ&acirc;y</a></p>",
-      "xmttecom": ""
+      "dieukien": "<p>1. Phiếu y&ecirc;u cầu xử l&yacute; dữ liệu c&aacute; nh&acirc;n: <a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Phieu_yeu_cau_xu_ly_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\">tại đ&acirc;y</a><br>2. Tham khảo nghị định về bảo vệ dữ liệu c&aacute; nh&acirc;n:<a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Tham_khao_nghi_dinh_ve_bao_ve_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\"> tại đ&acirc;y</a></p>"
     },
     "Mở Chặn Cuộc Gọi": {
       "folderName": "4_MO_CHAN_CUOC_GOI",
@@ -530,10 +709,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Cuộc Gọi Từ Sale/ UW",
-        "dieukien": "<p>Kiểm tra ticket RL24/RC24, x&aacute;c định đơn vị đ&atilde; xử l&yacute; y&ecirc;u cầu ngưng mời vay trước đ&oacute;</p>",
-        "xmttecom": ""
+        "dieukien": "<p>Kiểm tra ticket RL24/RC24, x&aacute;c định đơn vị đ&atilde; xử l&yacute; y&ecirc;u cầu ngưng mời vay trước đ&oacute;</p>"
       },
       "Cuộc Gọi Từ Collx": {
         "pdf": "THONG_TIN_CHUNG/4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Collx.pdf",
@@ -541,10 +720,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Cuộc Gọi Từ Collx",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       }
     },
     "Ngưng Mời Vay & Quảng Cáo": {
@@ -555,10 +734,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "KH Chưa Có HĐ/ Thẻ",
-        "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
-        "xmttecom": ""
+        "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>"
       },
       "KH Đã Có HĐ/ Thẻ": {
         "pdf": "THONG_TIN_CHUNG/5_NGUNG_MOI_VAY/Ngung_moi_vay_da_co_HD.pdf",
@@ -566,10 +745,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "KH Đã Có HĐ/ Thẻ",
-        "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
-        "xmttecom": ""
+        "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>"
       }
     },
     "Khuyến Mãi": {
@@ -581,10 +760,10 @@ window.flowchartData = {
           "htmlContent": "",
           "htmlUrl": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Ưu Đãi Thanh Toán Loan",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         }
       },
       "Card": {
@@ -594,10 +773,10 @@ window.flowchartData = {
           "htmlContent": "",
           "htmlUrl": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Ưu Đãi Thanh Toán Card",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         },
         "Ưu Đãi Mua Sắm": {
           "pdf": "THONG_TIN_CHUNG/6_KHUYEN_MAI/Uu_dai_mua_sam.pdf",
@@ -605,10 +784,10 @@ window.flowchartData = {
           "htmlContent": "",
           "htmlUrl": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Ưu Đãi Mua Sắm Card",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         },
         "Hoàn Tiền": {
           "pdf": "THONG_TIN_CHUNG/6_KHUYEN_MAI/Hoan_tien.pdf",
@@ -616,10 +795,10 @@ window.flowchartData = {
           "htmlContent": "",
           "htmlUrl": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Ưu Đãi Hoàn Tiền Card",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         },
         "Dành riêng cho NV FEC": {
           "pdf": "THONG_TIN_CHUNG/6_KHUYEN_MAI/Khuyen_mai_staff",
@@ -627,10 +806,10 @@ window.flowchartData = {
           "htmlContent": "",
           "htmlUrl": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Ưu Đãi Dành Riêng Cho NV FEC",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         }
       }
     },
@@ -640,10 +819,10 @@ window.flowchartData = {
       "htmlContent": "",
       "htmlUrl": "",
       "xmttib": "",
+      "xmttecom": "",
       "note": "",
       "displayName": "Nhầm Line/ Rớt Cuộc/ Mất Tín Hiệu",
-      "dieukien": "",
-      "xmttecom": ""
+      "dieukien": ""
     },
     "Yêu cầu khác": {
       "pdf": "THONG_TIN_CHUNG/8_YEU_CAU_KHAC/Yeu_cau_khac.pdf",
@@ -651,10 +830,10 @@ window.flowchartData = {
       "htmlContent": "",
       "htmlUrl": "",
       "xmttib": "",
+      "xmttecom": "",
       "note": "",
       "displayName": "Yêu Cầu Khác",
-      "dieukien": "",
-      "xmttecom": ""
+      "dieukien": ""
     }
   },
   "2. SẢN PHẨM": {
@@ -798,361 +977,585 @@ window.flowchartData = {
   "5. THANH TOÁN/ NHẮC NỢ": {
     "THANH TOÁN": {
       "Lịch Trả Nợ": {
-        "HĐ FEC|| HĐ Bán Nợ FC|| HĐ Bán Nợ Một Phần Galaxy": {
-          "pdf": "LICH_TRA_NO_FEC.pdf",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": "",
-          "xmttib": LTNSlide4,
-          "xmttemail": ECLTNSlide4,
-          "note": LUUYLTNSlide4,
-          "displayName": "Lịch Trả Nợ HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy"
+        "-HĐ FEC||-HĐ FEC\n-HĐ Bán Nợ Một Phần\n": {
+          "Base ACEO": {
+            "pdf": "VAN_DE_THANH_TOAN_BASE_ACEO.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>1A</p>",
+            "xmttemail": "<p>Không XMTT</p>",
+            "xmttchat": "<p>Không XMTT</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "Base ACEO",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. Kiểm tra NFU code:<br>- Có thông tin \"CS_NFU_COMPLAINT…\"/ \"CS_NFU_FRAUD\" và có ticket code F/C note \"Hold case\" từ Care: <br>+ XMTT tương ứng với vấn đề KH phản ánh trước đó<br>+ Cung cấp kết quả của ticket code F/ C. Nếu KH không đồng ý ghi nhận code F tương ứng để hỗ trợ thêm cho KH<br>- Trường hợp còn lại: Hỗ trợ theo quy trình bên dưới</p>"
+          },
+          "PAY EMI": {
+            "pdf": "VAN_DE_THANH_TOAN_EMI.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Đúng SĐT + 1A</p>",
+            "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "PAY EMI",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. HĐ thuộc cả \"PAY EMI\" và \" Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\": xử lý theo quy trình \"Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\"</p>"
+          },
+          "HĐ Bình Thường": {
+            "pdf": "LICH_THANH_TOAN_FEC.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>- Đúng SĐT: 1A ( nếu sai 1A chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán)<br>- Sai SĐT:<br>+ Không còn HĐ nào active: 2A<br>+ Còn HĐ active: 1A : Chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán + Hỗ trợ cập nhật SĐT</p>",
+            "xmttemail": "<p>xem tại đây</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Chat Pre-login: xem tại đây</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Bình Thường",
+            "dieukien": ""
+          }
         },
-        "HĐ Bán Nợ Toàn Phần Galaxy": {
-          "pdf": "VĐTT_BAN_NO_TOAN_PHAN_GALAXY.pdf",
+        "HĐ Bán Nợ Toàn Phần": {
+          "pdf": "VAN_DE_THANH_TOAN_HD_BAN_NO_TOAN_PHAN.pdf",
           "contentType": "",
           "htmlContent": "",
           "htmlUrl": "",
-          "xmttib": LTNSlide4,
-          "xmttemail": ECLTNSlide11,
-          "note": LUUYLTNSlide11,
-          "displayName": "Lịch Trả Nợ HĐ Bán Nợ Toàn Phần Galaxy"
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
+          "note": "",
+          "displayName": "HĐ Bán Nợ Toàn Phần",
+          "dieukien": "<p>- CHỈ CUNG CẤP KHI KH CHỦ ĐỘNG HỎI:<br>+ Số hợp đồng<br>+ Về việc đã bán nợ</p>"
         },
-        "HĐ Bán Nợ FC Sold_Azura": {
-          "pdf": "VĐTT_BAN_NO_FC_SOLD_AZURA.pdf",
+        "HĐ CF||HĐ FC Sold CF||HĐ B2": {
+          "pdf": "VAN_DE_THANH_TOAN_CF_FC_SOLD_CF_B2.pdf",
           "contentType": "",
           "htmlContent": "",
           "htmlUrl": "",
-          "xmttib": LUUYLTNSlide11,
-          "xmttemail": ECLTNSlide11,
-          "note": LTNSlide4,
-          "displayName": "Lịch Trả Nợ HĐ bán nợ FC Sold_Azura"
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
+          "note": "",
+          "displayName": "HĐ CF||HĐ FC Sold CF||HĐ B2",
+          "dieukien": ""
         },
-        "HĐ Bán Nợ Welcome Vina": {
-          "pdf": "VĐTT_BAN_NO_WELCOMEVINA.pdf",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": "",
-          "xmttib": LTNSlide11,
-          "xmttemail": ECLTNSlide11,
-          "note": LUUYLTNSlide11,
-          "displayName": "Lịch Trả Nợ HĐ Bán Nợ Welcome Vina"
-        },
-        "HĐ CF/ HĐ FC Sold CF\t": {
-          "pdf": "VĐTT_CF_FC_SOLD_CF.pdf",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": "",
-          "xmttib": LTNSlide11,
-          "xmttemail": ECLTNSlide11,
-          "note": LUUYLTNSlide11,
-          "displayName": "Lịch Trả Nợ HĐ bán nợ CF/ HĐ FC Sold CF",
-          "tieudeflow": ""
-        },
-        "HĐ B2": {
-          "pdf": "VĐTT_B2.pdf",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": "",
-          "xmttib": "CMND/CCCD/SHĐ",
-          "note": " •HĐ được ký trước năm 2014 thuộc phạm vi quản lý chung của VPBank và FE\n •Không hiển thị tkhi search ại mục “sau giải ngân” trên Pega hoặc có hiển thị tại mục B2 Contracts\n •Danh sách hợp đồng <u><strong><a href=\"file://deltavn.vn/DeltaShare/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/DS%20HĐ%20B2.xlsx\">xem tại đây</a></strong></u> ",
-          "displayName": "Lịch Trả HĐ B2"
-        },
-        "HĐ Cash 24": {
-          "pdf": "VĐTT_CASH24.pdf",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": "",
-          "xmttib": "CMND/CCCD/SHĐ",
-          "note": " •<strong>Định nghĩa: </strong>Là hợp đồng được cấp bởi đối tác Ideal Tech (CASH24) thông qua nền tảng số\n •<strong>Dấu hiệu nhận biết: </strong>Không thể kiểm tra được trên Pega. Số HĐ gồm 8 số (ví dụ: 00-00-09-27). \n •<strong>KH muốn biết số HĐ: </strong>CS khai thác CMND/CCCD và cung cấp theo <u><span style=\"color:#0070c0\">danh sách</span></u> ",
-          "displayName": "Lịch Trả Nợ HĐ Cash 24"
-        },
-        "HĐ Kim An": {
-          "pdf": "LTN_LSTT_KIM_AN.pdf",
-          "contentType": "",
-          "htmlContent": "",
-          "htmlUrl": "",
-          "xmttib": "CMND/CCCD/SHĐ",
-          "note": " •Là hợp đồng được cấp bởi công ty đối tác Kim An\n •Dấu hiệu nhận biết: <strong>FC ROBO KIM AN</strong>\n •Đặc điểm: HĐ thu tiền theo ngày/ tuần và có nv tự liên hệ KH thu tiền ",
-          "displayName": "Lịch Trả Nợ Bán Nợ Welcome Vina"
+        "HĐ Đối Tác Liên Kết": {
+          "HĐ Cash 24": {
+            "pdf": "VAN_DE_THANH_TOAN_CASH24.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Cash 24",
+            "dieukien": ""
+          },
+          "HĐ Kim An": {
+            "pdf": "VAN_DE_THANH_TOAN_KIM_AN.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Kim An",
+            "dieukien": ""
+          }
         }
       },
       "Lịch Sử Thanh Toán": {
-        "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
-          "pdf": "IB Dung SDT.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Lịch Sử TT HĐ FEC"
+        "-HĐ FEC||-HĐ FEC\n-HĐ Bán Nợ Một Phần": {
+          "Base ACEO": {
+            "pdf": "VAN_DE_THANH_TOAN_BASE_ACEO.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>1A</p>",
+            "xmttemail": "<p>Không XMTT</p>",
+            "xmttchat": "<p>Không XMTT</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "Base ACEO",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. Kiểm tra NFU code:<br>- Có thông tin \"CS_NFU_COMPLAINT…\"/ \"CS_NFU_FRAUD\" và có ticket code F/C note \"Hold case\" từ Care: <br>+ XMTT tương ứng với vấn đề KH phản ánh trước đó<br>+ Cung cấp kết quả của ticket code F/ C. Nếu KH không đồng ý ghi nhận code F tương ứng để hỗ trợ thêm cho KH<br>- Trường hợp còn lại: Hỗ trợ theo quy trình bên dưới</p>"
+          },
+          "PAY EMI": {
+            "pdf": "VAN_DE_THANH_TOAN_EMI.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Đúng SĐT + 1A</p>",
+            "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "PAY EMI",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. HĐ thuộc cả \"PAY EMI\" và \" Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\": xử lý theo quy trình \"Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\"</p>"
+          },
+          "HĐ Bình Thường": {
+            "pdf": "LICH_THANH_TOAN_FEC.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>- Đúng SĐT: 1A ( nếu sai 1A chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán)<br>- Sai SĐT:<br>+ Không còn HĐ nào active: 2A<br>+ Còn HĐ active: 1A : Chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán + Hỗ trợ cập nhật SĐT</p>",
+            "xmttemail": "<p>xem tại đây</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Chat Pre-login: xem tại đây</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Bình Thường",
+            "dieukien": ""
+          }
         },
-        "HĐ Bán Nợ Toàn Phần Galaxy": {
-          "pdf": "PDF_LICH_SU_THANH_TOAN_FEC.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Lịch Sử Thanh Toán HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy"
-        },
-        "HĐ Bán Nợ FC Sold_Azura": {
-          "pdf": "HĐ Kim An.pdf",
-          "xmtt": XMTT_2,
-          "note": "Lưu ý cho hợp đồng Kim An.",
-          "displayName": "Lịch Sử TT Kim An"
-        },
-        "HĐ Bán Nợ Welcome Vina": {
-          "pdf": "HĐ Bán Nợ Một Phần.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Lịch Sử TT Bán Nợ Một Phần"
-        },
-        "HĐ CF/ HĐ FC Sold CF": {
-          "pdf": "HĐ Bán Nợ Galaxy.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Lịch Sử TT Bán Nợ Galaxy"
-        },
-        "HĐ B2": {
-          "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Lịch Sử Thanh Toán HĐ B2"
-        },
-        "HĐ Cash 24": {
-          "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Lịch Sử Thanh Toán Bán Nợ Welcome Vina"
-        },
-        "HĐ Kim An": {
-          "pdf": "",
-          "xmttib": "",
-          "xmttemail": "",
+        "HĐ Bán Nợ Toàn Phần": {
+          "pdf": "VAN_DE_THANH_TOAN_HD_BAN_NO_TOAN_PHAN.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
           "note": "",
-          "displayName": "Lịch Sử Thanh Toán HĐ Kim An"
+          "displayName": "HĐ Bán Nợ Toàn Phần",
+          "dieukien": "<p>- CHỈ CUNG CẤP KHI KH CHỦ ĐỘNG HỎI:<br>+ Số hợp đồng<br>+ Về việc đã bán nợ</p>"
+        },
+        "HĐ CF||HĐ FC Sold CF||HĐ B2": {
+          "pdf": "VAN_DE_THANH_TOAN_CF_FC_SOLD_CF_B2.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
+          "note": "",
+          "displayName": "HĐ CF||HĐ FC Sold CF||HĐ B2",
+          "dieukien": ""
+        },
+        "HĐ Đối Tác Liên Kết": {
+          "HĐ Cash 24": {
+            "pdf": "VAN_DE_THANH_TOAN_CASH24.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Cash 24",
+            "dieukien": ""
+          },
+          "HĐ Kim An": {
+            "pdf": "VAN_DE_THANH_TOAN_KIM_AN.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Kim An",
+            "dieukien": ""
+          }
+        }
+      },
+      "Nợ quá hạn": {
+        "-HĐ FEC||-HĐ FEC\n-HĐ Bán Nợ Một Phần": {
+          "Base ACEO": {
+            "pdf": "VAN_DE_THANH_TOAN_BASE_ACEO.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>1A</p>",
+            "xmttemail": "<p>Không XMTT</p>",
+            "xmttchat": "<p>Không XMTT</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "Base ACEO",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. Kiểm tra NFU code:<br>- Có thông tin \"CS_NFU_COMPLAINT…\"/ \"CS_NFU_FRAUD\" và có ticket code F/C note \"Hold case\" từ Care: <br>+ XMTT tương ứng với vấn đề KH phản ánh trước đó<br>+ Cung cấp kết quả của ticket code F/ C. Nếu KH không đồng ý ghi nhận code F tương ứng để hỗ trợ thêm cho KH<br>- Trường hợp còn lại: Hỗ trợ theo quy trình bên dưới</p>"
+          },
+          "PAY EMI": {
+            "pdf": "VAN_DE_THANH_TOAN_EMI.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Đúng SĐT + 1A</p>",
+            "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "PAY EMI",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. HĐ thuộc cả \"PAY EMI\" và \" Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\": xử lý theo quy trình \"Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\"</p>"
+          },
+          "HĐ Bình Thường": {
+            "pdf": "LICH_THANH_TOAN_FEC.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>- Đúng SĐT: 1A ( nếu sai 1A chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán)<br>- Sai SĐT:<br>+ Không còn HĐ nào active: 2A<br>+ Còn HĐ active: 1A : Chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán + Hỗ trợ cập nhật SĐT</p>",
+            "xmttemail": "<p>xem tại đây</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Chat Pre-login: xem tại đây</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Bình Thường",
+            "dieukien": ""
+          }
+        },
+        "HĐ Bán Nợ Toàn Phần": {
+          "pdf": "VAN_DE_THANH_TOAN_HD_BAN_NO_TOAN_PHAN.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
+          "note": "",
+          "displayName": "HĐ Bán Nợ Toàn Phần",
+          "dieukien": "<p>- CHỈ CUNG CẤP KHI KH CHỦ ĐỘNG HỎI:<br>+ Số hợp đồng<br>+ Về việc đã bán nợ</p>"
+        },
+        "HĐ CF||HĐ FC Sold CF||HĐ B2": {
+          "pdf": "VAN_DE_THANH_TOAN_CF_FC_SOLD_CF_B2.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
+          "note": "",
+          "displayName": "HĐ CF||HĐ FC Sold CF||HĐ B2",
+          "dieukien": ""
+        },
+        "HĐ Đối Tác Liên Kết": {
+          "HĐ Cash 24": {
+            "pdf": "VAN_DE_THANH_TOAN_CASH24.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Cash 24",
+            "dieukien": ""
+          },
+          "HĐ Kim An": {
+            "pdf": "VAN_DE_THANH_TOAN_KIM_AN.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Kim An",
+            "dieukien": ""
+          }
         }
       },
       "Thanh lý Hợp Đồng": {
-        "HĐ FEC/ HĐ Bán Nợ FC/ HĐ Bán Nợ Một Phần Galaxy": {
-          "pdf": "PDF_TLHD_FEC.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Thanh Lý HĐ FEC"
+        "-HĐ FEC||-HĐ FEC\n-HĐ Bán Nợ Một Phần": {
+          "Base ACEO": {
+            "pdf": "VAN_DE_THANH_TOAN_BASE_ACEO.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>1A</p>",
+            "xmttemail": "<p>Không XMTT</p>",
+            "xmttchat": "<p>Không XMTT</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "Base ACEO",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. Kiểm tra NFU code:<br>- Có thông tin \"CS_NFU_COMPLAINT…\"/ \"CS_NFU_FRAUD\" và có ticket code F/C note \"Hold case\" từ Care: <br>+ XMTT tương ứng với vấn đề KH phản ánh trước đó<br>+ Cung cấp kết quả của ticket code F/ C. Nếu KH không đồng ý ghi nhận code F tương ứng để hỗ trợ thêm cho KH<br>- Trường hợp còn lại: Hỗ trợ theo quy trình bên dưới</p>"
+          },
+          "PAY EMI": {
+            "pdf": "VAN_DE_THANH_TOAN_EMI.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Đúng SĐT + 1A</p>",
+            "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "PAY EMI",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. HĐ thuộc cả \"PAY EMI\" và \" Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\": xử lý theo quy trình \"Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\"</p>"
+          },
+          "HĐ Bình Thường": {
+            "pdf": "LICH_THANH_TOAN_FEC.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>- Đúng SĐT: 1A ( nếu sai 1A chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán)<br>- Sai SĐT:<br>+ Không còn HĐ nào active: 2A<br>+ Còn HĐ active: 1A : Chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán + Hỗ trợ cập nhật SĐT</p>",
+            "xmttemail": "<p>xem tại đây</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Chat Pre-login: xem tại đây</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Bình Thường",
+            "dieukien": ""
+          }
         },
-        "HĐ Bán Nợ Toàn Phần Galaxy": {
-          "pdf": "PDF_BAN_NO_TOAN_PHAN_GALAXY.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Thanh Lý HĐ HĐ Bán Nợ Toàn Phần Galaxy"
-        },
-        "HĐ Bán Nợ FC Sold_Azura": {
-          "pdf": "PDF_BAN_NO_FC_SOLD_AZURA.pdf",
-          "xmtt": XMTT_2,
-          "note": "Lưu ý cho hợp đồng Kim An.",
-          "displayName": "Thanh Lý HĐ HĐ Bán Nợ FC Sold_Azura"
-        },
-        "HĐ Bán Nợ Welcome Vina": {
-          "pdf": "PDF_BAN_NO_WELCOMEVINA.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Thanh Lý HĐ Bán Nợ HĐ Bán Nợ Welcome Vina"
-        },
-        "HĐ CF/ HĐ FC Sold CF": {
-          "pdf": "PDF_CF_FC _SOLD_CF.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Thanh Lý HĐ HĐ CF/ HĐ FC Sold CF"
-        },
-        "HĐ B2": {
-          "pdf": "PDF_B2.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Thanh Lý HĐ HĐ B2"
-        },
-        "HĐ Cash 24": {
-          "pdf": "PDF_CASH24.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Thanh Lý HĐ HĐ Cash 24"
-        },
-        "HĐ Kim An": {
-          "pdf": "PDF_KIM_AN",
-          "xmttib": "",
-          "xmttemail": "",
+        "HĐ Bán Nợ Toàn Phần": {
+          "pdf": "VAN_DE_THANH_TOAN_HD_BAN_NO_TOAN_PHAN.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
           "note": "",
-          "displayName": "Thanh lý Hợp Đồng HĐ Kim An"
+          "displayName": "HĐ Bán Nợ Toàn Phần",
+          "dieukien": "<p>- CHỈ CUNG CẤP KHI KH CHỦ ĐỘNG HỎI:<br>+ Số hợp đồng<br>+ Về việc đã bán nợ</p>"
+        },
+        "HĐ CF||HĐ FC Sold CF||HĐ B2": {
+          "pdf": "VAN_DE_THANH_TOAN_CF_FC_SOLD_CF_B2.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
+          "note": "",
+          "displayName": "HĐ CF||HĐ FC Sold CF||HĐ B2",
+          "dieukien": ""
+        },
+        "HĐ Đối Tác Liên Kết": {
+          "HĐ Cash 24": {
+            "pdf": "VAN_DE_THANH_TOAN_CASH24.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Cash 24",
+            "dieukien": ""
+          },
+          "HĐ Kim An": {
+            "pdf": "VAN_DE_THANH_TOAN_KIM_AN.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Kim An",
+            "dieukien": ""
+          }
         }
       },
       "Thỏa Thuận Khoản Vay": {
-        "HĐ FEC": {
-          "pdf": "IB Dung SDT.pdf",
-          "xmttib": XMTT_8,
-          "note": "N/A",
-          "displayName": "Thỏa Thuận KV HĐ FEC"
+        "-HĐ FEC||-HĐ FEC\n-HĐ Bán Nợ Một Phần": {
+          "Base ACEO": {
+            "pdf": "VAN_DE_THANH_TOAN_BASE_ACEO.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>1A</p>",
+            "xmttemail": "<p>Không XMTT</p>",
+            "xmttchat": "<p>Không XMTT</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "Base ACEO",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. Kiểm tra NFU code:<br>- Có thông tin \"CS_NFU_COMPLAINT…\"/ \"CS_NFU_FRAUD\" và có ticket code F/C note \"Hold case\" từ Care: <br>+ XMTT tương ứng với vấn đề KH phản ánh trước đó<br>+ Cung cấp kết quả của ticket code F/ C. Nếu KH không đồng ý ghi nhận code F tương ứng để hỗ trợ thêm cho KH<br>- Trường hợp còn lại: Hỗ trợ theo quy trình bên dưới</p>"
+          },
+          "PAY EMI": {
+            "pdf": "VAN_DE_THANH_TOAN_EMI.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Đúng SĐT + 1A</p>",
+            "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "PAY EMI",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. HĐ thuộc cả \"PAY EMI\" và \" Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\": xử lý theo quy trình \"Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\"</p>"
+          },
+          "HĐ Bình Thường": {
+            "pdf": "LICH_THANH_TOAN_FEC.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>- Đúng SĐT: 1A ( nếu sai 1A chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán)<br>- Sai SĐT:<br>+ Không còn HĐ nào active: 2A<br>+ Còn HĐ active: 1A : Chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán + Hỗ trợ cập nhật SĐT</p>",
+            "xmttemail": "<p>xem tại đây</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Chat Pre-login: xem tại đây</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Bình Thường",
+            "dieukien": ""
+          }
         },
-        "Cash 24": {
-          "pdf": "HD Cash 24.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Thỏa Thuận KV Cash 24"
+        "HĐ Bán Nợ Toàn Phần": {
+          "pdf": "VAN_DE_THANH_TOAN_HD_BAN_NO_TOAN_PHAN.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
+          "note": "",
+          "displayName": "HĐ Bán Nợ Toàn Phần",
+          "dieukien": "<p>- CHỈ CUNG CẤP KHI KH CHỦ ĐỘNG HỎI:<br>+ Số hợp đồng<br>+ Về việc đã bán nợ</p>"
         },
-        "Kim An": {
-          "pdf": "HĐ Kim An.pdf",
-          "xmtt": XMTT_2,
-          "note": "Lưu ý cho hợp đồng Kim An.",
-          "displayName": "Thỏa Thuận KV Kim An"
+        "HĐ CF||HĐ FC Sold CF||HĐ B2": {
+          "pdf": "VAN_DE_THANH_TOAN_CF_FC_SOLD_CF_B2.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
+          "note": "",
+          "displayName": "HĐ CF||HĐ FC Sold CF||HĐ B2",
+          "dieukien": ""
         },
-        "Bán Nợ Một Phần": {
-          "pdf": "HĐ Bán Nợ Một Phần.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Thỏa Thuận KV Bán Nợ Một Phần"
-        },
-        "Bán Nợ Galaxy": {
-          "pdf": "HĐ Bán Nợ Galaxy.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Thỏa Thuận KV Bán Nợ Galaxy"
-        },
-        "Bán Nợ Fc Sold_Azura": {
-          "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Thỏa Thuận KV Bán Nợ Fc Sold_Azura"
-        },
-        "Bán Nợ Welcome Vina": {
-          "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Thỏa Thuận KV Bán Nợ Welcome Vina"
+        "HĐ Đối Tác Liên Kết": {
+          "HĐ Cash 24": {
+            "pdf": "VAN_DE_THANH_TOAN_CASH24.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Cash 24",
+            "dieukien": ""
+          },
+          "HĐ Kim An": {
+            "pdf": "VAN_DE_THANH_TOAN_KIM_AN.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Kim An",
+            "dieukien": ""
+          }
         }
       },
       "Tình Trạng Hợp Đồng": {
-        "HĐ FEC": {
-          "pdf": "IB Dung SDT.pdf",
-          "xmttib": XMTT_8,
-          "note": "N/A",
-          "displayName": "Tình Trạng HĐ FEC"
+        "-HĐ FEC||-HĐ FEC\n-HĐ Bán Nợ Một Phần": {
+          "Base ACEO": {
+            "pdf": "VAN_DE_THANH_TOAN_BASE_ACEO.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>1A</p>",
+            "xmttemail": "<p>Không XMTT</p>",
+            "xmttchat": "<p>Không XMTT</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "Base ACEO",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. Kiểm tra NFU code:<br>- Có thông tin \"CS_NFU_COMPLAINT…\"/ \"CS_NFU_FRAUD\" và có ticket code F/C note \"Hold case\" từ Care: <br>+ XMTT tương ứng với vấn đề KH phản ánh trước đó<br>+ Cung cấp kết quả của ticket code F/ C. Nếu KH không đồng ý ghi nhận code F tương ứng để hỗ trợ thêm cho KH<br>- Trường hợp còn lại: Hỗ trợ theo quy trình bên dưới</p>"
+          },
+          "PAY EMI": {
+            "pdf": "VAN_DE_THANH_TOAN_EMI.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>Đúng SĐT + 1A</p>",
+            "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "PAY EMI",
+            "dieukien": "<p>1. HĐ closed có thông tin thẻ KM1/KM2 =&gt; chuyển hướng xử lý theo thẻ KM1/KM2<br>2. HĐ thuộc cả \"PAY EMI\" và \" Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\": xử lý theo quy trình \"Base ACEO/ Lỗi thanh toán_dd/mm/yyyy\"</p>"
+          },
+          "HĐ Bình Thường": {
+            "pdf": "LICH_THANH_TOAN_FEC.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>- Đúng SĐT: 1A ( nếu sai 1A chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán)<br>- Sai SĐT:<br>+ Không còn HĐ nào active: 2A<br>+ Còn HĐ active: 1A : Chỉ cung cấp số HĐ/ số tiền đến hạn thanh toán + Hỗ trợ cập nhật SĐT</p>",
+            "xmttemail": "<p>xem tại đây</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Chat Pre-login: xem tại đây</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Bình Thường",
+            "dieukien": ""
+          },
+          "HĐ CF||HĐ FC Sold CF||HĐ B2": {
+            "pdf": "VAN_DE_THANH_TOAN_CF_FC_SOLD_CF_B2.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>1A</p>",
+            "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+            "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ CF||HĐ FC Sold CF||HĐ B2",
+            "dieukien": ""
+          }
         },
-        "Cash 24": {
-          "pdf": "HD Cash 24.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Tình Trạng HĐ Cash 24"
+        "HĐ Bán Nợ Toàn Phần - Copy": {
+          "pdf": "VAN_DE_THANH_TOAN_HD_BAN_NO_TOAN_PHAN.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>1A</p>",
+          "xmttemail": "<p>Hướng dẫn KH Chat post login hoặc liên hệ tổng đài 19006535</p>",
+          "xmttchat": "<p>- Post Login: hỗ trợ theo quy trình<br>- Pre-login: Hướng dẫn KH liên hệ tổng đài 19006535</p>",
+          "xmttecom": "",
+          "note": "",
+          "displayName": "HĐ Bán Nợ Toàn Phần",
+          "dieukien": "<p>- CHỈ CUNG CẤP KHI KH CHỦ ĐỘNG HỎI:<br>+ Số hợp đồng<br>+ Về việc đã bán nợ</p>"
         },
-        "Kim An": {
-          "pdf": "HĐ Kim An.pdf",
-          "xmtt": XMTT_2,
-          "note": "Lưu ý cho hợp đồng Kim An.",
-          "displayName": "Tình Trạng HĐ Kim An"
-        },
-        "Bán Nợ Một Phần": {
-          "pdf": "HĐ Bán Nợ Một Phần.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Tình Trạng HĐ Bán Nợ Một Phần"
-        },
-        "Bán Nợ Galaxy": {
-          "pdf": "HĐ Bán Nợ Galaxy.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Tình Trạng HĐ Bán Nợ Galaxy"
-        },
-        "Bán Nợ Fc Sold_Azura": {
-          "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Tình Trạng HĐ Bán Nợ Fc Sold_Azura"
-        },
-        "Bán Nợ Welcome Vina": {
-          "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Tình Trạng HĐ Bán Nợ Welcome Vina"
-        }
-      },
-      "Đóng Hợp Đồng": {
-        "HĐ FEC": {
-          "pdf": "IB Dung SDT.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Đóng HĐ FEC"
-        },
-        "Cash 24": {
-          "pdf": "HD Cash 24.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "Đóng HĐ Cash 24"
-        },
-        "Kim An": {
-          "pdf": "HĐ Kim An.pdf",
-          "xmtt": XMTT_2,
-          "note": "Lưu ý cho hợp đồng Kim An.",
-          "displayName": "Đóng HĐ Kim An"
-        },
-        "Bán Nợ Một Phần": {
-          "pdf": "HĐ Bán Nợ Một Phần.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Đóng HĐ Bán Nợ Một Phần"
-        },
-        "Bán Nợ Galaxy": {
-          "pdf": "HĐ Bán Nợ Galaxy.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Đóng HĐ Bán Nợ Galaxy"
-        },
-        "Bán Nợ Fc Sold_Azura": {
-          "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Đóng HĐ Bán Nợ Fc Sold_Azura"
-        },
-        "Bán Nợ Welcome Vina": {
-          "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "Đóng HĐ Bán Nợ Welcome Vina"
-        }
-      },
-      "Lãi/Phí Phát Sinh Sai": {
-        "HĐ FEC": {
-          "pdf": "IB Dung SDT.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "CIC HĐ FEC"
-        },
-        "Cash 24": {
-          "pdf": "HD Cash 24.pdf",
-          "xmttib": XMTT_1,
-          "note": "N/A",
-          "displayName": "CIC Cash 24"
-        },
-        "Kim An": {
-          "pdf": "HĐ Kim An.pdf",
-          "xmtt": XMTT_2,
-          "note": "Lưu ý cho hợp đồng Kim An.",
-          "displayName": "CIC Kim An"
-        },
-        "Bán Nợ Một Phần": {
-          "pdf": "HĐ Bán Nợ Một Phần.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "CIC Bán Nợ Một Phần"
-        },
-        "Bán Nợ Galaxy": {
-          "pdf": "HĐ Bán Nợ Galaxy.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "CIC Bán Nợ Galaxy"
-        },
-        "Bán Nợ Fc Sold_Azura": {
-          "pdf": "HĐ Bán Nợ Fc Sold_Azura.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "CIC Bán Nợ Fc Sold_Azura"
-        },
-        "Bán Nợ Welcome Vina": {
-          "pdf": "HĐ Bán Nợ Welcome Vina.pdf",
-          "xmttib": XMTT_4,
-          "note": "N/A",
-          "displayName": "CIC Bán Nợ Welcome Vina"
+        "HĐ Đối Tác Liên Kết": {
+          "HĐ Cash 24": {
+            "pdf": "VAN_DE_THANH_TOAN_CASH24.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Cash 24",
+            "dieukien": ""
+          },
+          "HĐ Kim An": {
+            "pdf": "VAN_DE_THANH_TOAN_KIM_AN.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttemail": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttchat": "<p>CMND/CCCD/SHĐ</p>",
+            "xmttecom": "",
+            "note": "",
+            "displayName": "HĐ Kim An",
+            "dieukien": ""
+          }
         }
       }
     },
@@ -1176,10 +1579,10 @@ window.flowchartData = {
         "xmttib": "- Đúng SĐT + CCCD + 1A <br>\n- XM không thành công: CCCD/SHĐ/ Điện thoại đăng ký và ghi nhận khiếu nại không cung cấp chi tiết hợp đồng",
         "xmttemail": "N/A",
         "xmttchat": "N/A",
+        "xmttecom": "",
         "note": "",
         "displayName": "Nhắc Nợ Nhiều Lần/ Quá 7h-21h/ Nhá Máy",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       },
       "Yêu Cầu Ngưng Nhắc Nợ": {
         "Số Chính Chủ Đăng Ký HĐ FE CREDIT": {
@@ -1190,10 +1593,10 @@ window.flowchartData = {
           "xmttib": "N/A",
           "xmttemail": "N/A",
           "xmttchat": "N/A",
+          "xmttecom": "",
           "note": "",
           "displayName": "Nhắc Nợ Số Chính Chủ Đăng Ký HĐ FE CREDIT",
-          "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
-          "xmttecom": ""
+          "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>"
         },
         "Số Tham Chiếu/ Không Có Thông Tin HĐ": {
           "pdf": "NGUNG_NHAC_NO_THAM_CHIEU.pdf",
@@ -1203,10 +1606,10 @@ window.flowchartData = {
           "xmttib": "N/A",
           "xmttemail": "N/A",
           "xmttchat": "N/A",
+          "xmttecom": "",
           "note": "",
           "displayName": "Nhắc Nợ Số Tham Chiếu/ Không Có Thông Tin HĐ",
-          "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>",
-          "xmttecom": ""
+          "dieukien": "<tr>\n\t\t\t<td style=\"white-space:normal\"><strong><u>Lưu ý nhập liệu:</u></strong><br />\n\t\t\t- Ở Trường \"Số điện thoại đang bị nhắc nợ\": chỉ điền 1 số điện thoại. Nếu KH cần hỗ trợ thêm 1 số khác thì tạo ticket mới<br />\n\t\t\t- Service Case ID: nhập số ticket của lần phản ánh gần nhất<br />\n\t\t\t- Không có dữ liệu: nhập số 0<br />\n\t\t\t<strong>Nhập code:</strong><br />\n\t\t\t- Nhập khiếu nại trên SHĐ bị nhắc nợ.<br />\n\t\t\t=> Trường hợp người bị nhắc nợ không biết:<br />\n\t\t\t+ Nếu người bị nhắc nợ có HĐ tại FE: nhập trên HĐ của người bị nhắc nợ => Ghi rõ: chủ thuê bao có hđ số xxx/ số cmnd xxx tại Fe, bị nhắc nợ ở HĐ khác<br />\n\t\t\t+ Nếu người bị nhắc nợ không có HĐ tại FE: nhập trên SĐT gọi lên</td>\n\t\t</tr>"
         },
         "Khách Hàng Đã Thanh Toán": {
           "pdf": "NGUNG_NHAC_NO_DA_THANH_TOAN.pdf",
@@ -1216,10 +1619,10 @@ window.flowchartData = {
           "xmttib": "Đúng SĐT + CMND/ CCCD + 1A",
           "xmttemail": "N/A",
           "xmttchat": "N/A",
+          "xmttecom": "",
           "note": "",
           "displayName": "Khách Hàng Đã Thanh Toán Vẫn Bị Nhắc Nợ",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         },
         "Đang Trong Quá Trình Xử Lý": {
           "pdf": "NGUNG_NHAC_NO_DANG_XU_LY.pdf",
@@ -1229,10 +1632,10 @@ window.flowchartData = {
           "xmttib": "Đúng chủ HĐ + CCCD/ SHĐ + 1A",
           "xmttemail": "N/A",
           "xmttchat": "N/A",
+          "xmttecom": "",
           "note": "",
           "displayName": "Đang Trong Quá Trình Xử Lý Nhắc Nợ",
-          "dieukien": "<p>Kiểm tra ticket đ&atilde; ghi nhận trước đ&oacute;, bao gồm c&aacute;c code sau: <a href=\"pdfile-loan/7_NHAC_NO/Code_Can_Kiem_Tra.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>",
-          "xmttecom": ""
+          "dieukien": "<p>Kiểm tra ticket đ&atilde; ghi nhận trước đ&oacute;, bao gồm c&aacute;c code sau: <a href=\"pdfile-loan/7_NHAC_NO/Code_Can_Kiem_Tra.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>"
         }
       }
     }
@@ -1507,10 +1910,10 @@ window.flowchartData = {
             "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Chưa Có Tài Khoản",
-            "dieukien": "<p><strong>Lưu &yacute;:&nbsp;</strong><br>- Nếu c&oacute; cả Loan v&agrave; Card th&igrave; hỗ trợ theo Card<br>- Kh&ocirc;ng hỗ trợ cập nhật th&ocirc;ng tin cho HĐ b&aacute;n nợ to&agrave;n phần&nbsp;</p>",
-            "xmttecom": ""
+            "dieukien": "<p><strong>Lưu &yacute;:&nbsp;</strong><br>- Nếu c&oacute; cả Loan v&agrave; Card th&igrave; hỗ trợ theo Card<br>- Kh&ocirc;ng hỗ trợ cập nhật th&ocirc;ng tin cho HĐ b&aacute;n nợ to&agrave;n phần&nbsp;</p>"
           },
           "Đã Có Tài Khoản": {
             "pdf": "CAP_NHAT_SDT/DA_CO_TAI_KHOAN_FEOL_2.0.pdf",
@@ -1518,10 +1921,10 @@ window.flowchartData = {
             "htmlContent": "",
             "htmlUrl": "",
             "xmttib": "<p>Hướng dẫn thao t&aacute;c qua FE Online 2.0: Kh&ocirc;ng XMTT<br>C&aacute;c TH c&ograve;n lại: CCCD + 2A + 1B</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Cập Nhật SDT Đã Có Tài Khoản FEO 2.0",
-            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ:</strong> KH cần d&ugrave;ng đ&uacute;ng SĐT cần cập nhật li&ecirc;n hệ tổng đ&agrave;i để XMTT. &nbsp;Nếu HĐ closed: KH cần cung cấp th&ecirc;m th&ocirc;ng tin v&agrave; h&igrave;nh ảnh<br><strong>Lưu &yacute;:</strong><br>- Nếu c&oacute; cả Loan v&agrave; Card th&igrave; hỗ trợ theo Card<br>- Kh&ocirc;ng hỗ trợ cập nhật th&ocirc;ng tin cho HĐ b&aacute;n nợ to&agrave;n phần&nbsp;<br>- Inbound: Nếu qu&aacute; 5 ng&agrave;y l&agrave;m việc kể từ thời điểm nhận ticket XMTT th&agrave;nh c&ocirc;ng gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu&nbsp;<br>- Ecom: kiểm tra ticket XMTT th&agrave;nh c&ocirc;ng của IB trong v&ograve;ng 4 tuần.</p>",
-            "xmttecom": ""
+            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ:</strong> KH cần d&ugrave;ng đ&uacute;ng SĐT cần cập nhật li&ecirc;n hệ tổng đ&agrave;i để XMTT. &nbsp;Nếu HĐ closed: KH cần cung cấp th&ecirc;m th&ocirc;ng tin v&agrave; h&igrave;nh ảnh<br><strong>Lưu &yacute;:</strong><br>- Nếu c&oacute; cả Loan v&agrave; Card th&igrave; hỗ trợ theo Card<br>- Kh&ocirc;ng hỗ trợ cập nhật th&ocirc;ng tin cho HĐ b&aacute;n nợ to&agrave;n phần&nbsp;<br>- Inbound: Nếu qu&aacute; 5 ng&agrave;y l&agrave;m việc kể từ thời điểm nhận ticket XMTT th&agrave;nh c&ocirc;ng gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu&nbsp;<br>- Ecom: kiểm tra ticket XMTT th&agrave;nh c&ocirc;ng của IB trong v&ograve;ng 4 tuần.</p>"
           }
         },
         "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Thành Công": {
@@ -1533,10 +1936,10 @@ window.flowchartData = {
             "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Thẻ Tín Dụng Chưa Được Kích Hoạt",
-            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
-            "xmttecom": ""
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong
           },
           "Thẻ Tín Dụng Đang Còn Dư Nợ": {
             "pdf": "CAP_NHAT_SDT/THE_TIN_DUNG_DANG_CON_DU_NO.pdf",
@@ -1546,10 +1949,10 @@ window.flowchartData = {
             "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Thẻ Tín Dụng Đang Còn Dư Nợ",
-            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
-            "xmttecom": ""
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong
           },
           "Thẻ Tín Dụng Đang Bị Khóa": {
             "pdf": "CAP_NHAT_SDT/THE_TIN_DUNG_DANG_BI_KHOA.pdf",
@@ -1559,10 +1962,10 @@ window.flowchartData = {
             "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Thẻ Tín Dụng Đang Bị Khóa",
-            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
-            "xmttecom": ""
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong
           },
           "Chức Năng Cập Nhật SĐT Không Khả Dụng": {
             "pdf": "CAP_NHAT_SDT/CHUC_NANG_CAP_NHAT_SDT_KHONG_KHA_DUNG.pdf",
@@ -1572,10 +1975,10 @@ window.flowchartData = {
             "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Chức Năng Cập Nhật SĐT Không Khả Dụng",
-            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
-            "xmttecom": ""
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong
           },
           "Rất Tiếc Đã Xảy Ra Lỗi": {
             "pdf": "CAP_NHAT_SDT/RAT_TIEC_DA_XAY_RA_LOI.pdf",
@@ -1585,10 +1988,10 @@ window.flowchartData = {
             "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Rất Tiếc Đã Xảy Ra Lỗi",
-            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
-            "xmttecom": ""
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong
           },
           "Tính Năng Này Đã Tạm Thời Bị Khóa": {
             "pdf": "CAP_NHAT_SDT/TINH_NANG_TAM_THOI_BI_KHOA.pdf",
@@ -1598,10 +2001,10 @@ window.flowchartData = {
             "xmttib": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttemail": "<p>Kh&ocirc;ng XMTT</p>",
             "xmttchat": "<p>Kh&ocirc;ng XMTT</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Tính Năng Này Đã Tạm Thời Bị Khóa",
-            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong,
-            "xmttecom": ""
+            "dieukien": Cap_nhat_sdt_feo_khong_thanh_cong
           },
           "Yêu Cầu Của Bạn Không Được Tiếp Tục": {
             "pdf": "CAP_NHAT_SDT/YEU_CAU_CUA_BAN_KHONG_DUOC_TIEP_TUC.pdf",
@@ -1609,10 +2012,10 @@ window.flowchartData = {
             "htmlContent": "",
             "htmlUrl": "",
             "xmttib": "<p>CCCD + 2A + 1B&nbsp;</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Yêu Cầu Của Bạn Không Được Tiếp Tục",
-            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ:</strong> KH d&ugrave;ng đ&uacute;ng SĐT tr&ecirc;n Pega hoặc SĐT muốn cập nhật gọi l&ecirc;n tổng đ&agrave;i để XMTT. &nbsp;Nếu HĐ closed: KH cần cung cấp th&ecirc;m h&igrave;nh ảnh/ chứng từ<br><strong>Lưu &yacute;:</strong><br>- Inbound: Nếu qu&aacute; 5 ng&agrave;y l&agrave;m việc kể từ thời điểm nhận ticket XMTT th&agrave;nh c&ocirc;ng gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu.&nbsp;<br>- Ecom: Kiểm tra ticket XMTT th&agrave;nh c&ocirc;ng của IB trong v&ograve;ng 4 tuần.</p>",
-            "xmttecom": ""
+            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ:</strong> KH d&ugrave;ng đ&uacute;ng SĐT tr&ecirc;n Pega hoặc SĐT muốn cập nhật gọi l&ecirc;n tổng đ&agrave;i để XMTT. &nbsp;Nếu HĐ closed: KH cần cung cấp th&ecirc;m h&igrave;nh ảnh/ chứng từ<br><strong>Lưu &yacute;:</strong><br>- Inbound: Nếu qu&aacute; 5 ng&agrave;y l&agrave;m việc kể từ thời điểm nhận ticket XMTT th&agrave;nh c&ocirc;ng gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu.&nbsp;<br>- Ecom: Kiểm tra ticket XMTT th&agrave;nh c&ocirc;ng của IB trong v&ograve;ng 4 tuần.</p>"
           },
           "Không Thuộc Các Lỗi Trên": {
             "pdf": "CAP_NHAT_SDT/KHONG_THUOC_CAC_LOI_TREN.pdf",
@@ -1620,10 +2023,10 @@ window.flowchartData = {
             "htmlContent": "",
             "htmlUrl": "",
             "xmttib": "<p>CMND/CCCD + 2A + 1B</p>",
+            "xmttecom": "",
             "note": "",
             "displayName": "Không Thuộc Các Lỗi Trên",
-            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ: </strong>KH cần d&ugrave;ng đ&uacute;ng SĐT cần cập nhật li&ecirc;n hệ tổng đ&agrave;i để XMTT. &nbsp;<br><strong>Lưu &yacute;:</strong><br>- Inbound: Nếu qu&aacute; 5 ng&agrave;y l&agrave;m việc kể từ thời điểm nhận ticket XMTT th&agrave;nh c&ocirc;ng gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu.&nbsp;<br>- Ecom: kiểm tra ticket XMTT th&agrave;nh c&ocirc;ng của IB trong v&ograve;ng 4 tuần.</p>",
-            "xmttecom": ""
+            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ: </strong>KH cần d&ugrave;ng đ&uacute;ng SĐT cần cập nhật li&ecirc;n hệ tổng đ&agrave;i để XMTT. &nbsp;<br><strong>Lưu &yacute;:</strong><br>- Inbound: Nếu qu&aacute; 5 ng&agrave;y l&agrave;m việc kể từ thời điểm nhận ticket XMTT th&agrave;nh c&ocirc;ng gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu.&nbsp;<br>- Ecom: kiểm tra ticket XMTT th&agrave;nh c&ocirc;ng của IB trong v&ograve;ng 4 tuần.</p>"
           }
         },
         "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Đồng Bộ": {
@@ -1632,10 +2035,10 @@ window.flowchartData = {
           "htmlContent": "",
           "htmlUrl": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Đồng Bộ",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         }
       },
       "Chưa Có Hợp Đồng Vay": {
@@ -1644,123 +2047,123 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "<p><strong>TH từ App về Pega:</strong> CCCD + 2A + 1B&nbsp;<br><strong>TH từ Pega về App:</strong> SĐT đ&uacute;ng tr&ecirc;n PEGA</p>",
+        "xmttecom": "",
         "note": "",
         "displayName": "Chưa Có Hợp Đồng Vay",
-        "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ:&nbsp;</strong><br>- TH từ App về Pega: KH cần d&ugrave;ng đ&uacute;ng SĐT cần cập nhật li&ecirc;n hệ tổng đ&agrave;i để XMTT<br>- TH từ Pega về App: KH cần d&ugrave;ng đ&uacute;ng SĐT tr&ecirc;n Pega li&ecirc;n hệ tổng đ&agrave;i để y&ecirc;u cầu hỗ trợ.</p>",
-        "xmttecom": ""
+        "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ:&nbsp;</strong><br>- TH từ App về Pega: KH cần d&ugrave;ng đ&uacute;ng SĐT cần cập nhật li&ecirc;n hệ tổng đ&agrave;i để XMTT<br>- TH từ Pega về App: KH cần d&ugrave;ng đ&uacute;ng SĐT tr&ecirc;n Pega li&ecirc;n hệ tổng đ&agrave;i để y&ecirc;u cầu hỗ trợ.</p>"
       }
     },
     "Cập Nhật Email": {
       "Chưa Cập Nhật Trên FEOL 2.0": {
         "pdf": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Chưa Cập Nhật Trên FEOL 2.0",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       },
       "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Thành Công": {
         "Lỗi “Email này trùng với email hiện tại”": {
           "Ký HĐ trước ngày 21/07/2025": {
             "pdf": "",
             "xmttib": "",
+            "xmttecom": "",
             "note": "",
             "displayName": "Ký HĐ trước ngày 21/07/2025",
-            "dieukien": "",
-            "xmttecom": ""
+            "dieukien": ""
           },
           "Ký HĐ từ ngày 21/07/2025 về sau": {
             "pdf": "",
             "xmttib": "",
+            "xmttecom": "",
             "note": "",
             "displayName": "Ký HĐ từ ngày 21/07/2025 về sau",
-            "dieukien": "",
-            "xmttecom": ""
+            "dieukien": ""
           }
         },
         "Các Lỗi Khác": {
           "pdf": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Các Lỗi Khác",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         }
       },
       "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Đồng Bộ": {
         "pdf": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Đồng Bộ",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       }
     },
     "Cập Nhật Địa Chỉ": {
       "pdf": "",
       "xmttib": "",
+      "xmttecom": "",
       "note": "",
       "displayName": "Cập Nhật Địa Chỉ",
-      "dieukien": "",
-      "xmttecom": ""
+      "dieukien": ""
     },
     "Cập Nhật CMND/ CCCD": {
       "Chưa Cập Nhật Trên FEOL 2.0": {
         "pdf": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Chưa Cập Nhật Trên FEOL 2.0",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       },
       "Đã Cập Nhật Trên FEOL 2.0 Nhưng Không Thành Công": {
         "Lỗi Xác Minh Thất Bại": {
           "pdf": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Lỗi Xác Minh Thất Bại",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         },
         "Lỗi Chưa Đủ Tuổi Mở Tài Khoản": {
           "pdf": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Lỗi Chưa Đủ Tuổi Mở Tài Khoản",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         },
         "Lỗi Chụp Ảnh Chưa Đạt Yêu Cầu": {
           "pdf": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Lỗi Chụp Ảnh Chưa Đạt Yêu Cầu",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         },
         "Lỗi CCCD Hết Hạn": {
           "pdf": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Lỗi CCCD Hết Hạn",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         },
         "Lỗi Quá Số Lần Thử Lại": {
           "pdf": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Lỗi Quá Số Lần Thử Lại",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         },
         "Lỗi Khác": {
           "pdf": "",
           "xmttib": "",
+          "xmttecom": "",
           "note": "",
           "displayName": "Lỗi Khác",
-          "dieukien": "",
-          "xmttecom": ""
+          "dieukien": ""
         }
       }
     }
@@ -2316,10 +2719,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Zalo: Tính Năng Chung",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       },
       "Quản Lý Khoản Vay": {
         "pdf": "ZALO_CHATBOT/quanlykhoanvay.pdf",
@@ -2327,10 +2730,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Zalo: Quản Lý Khoản Vay",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       },
       "Quản Lý Thẻ Tín Dụng": {
         "pdf": "ZALO_CHATBOT/quanlythe.pdf",
@@ -2338,10 +2741,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "Zalo: Quản Lý Thẻ Tín Dụng",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       }
     },
     "Website": {
@@ -2356,10 +2759,10 @@ window.flowchartData = {
         "htmlContent": "",
         "htmlUrl": "",
         "xmttib": "",
+        "xmttecom": "",
         "note": "",
         "displayName": "SMS: Tra Cứu Thẻ Tín Dụng",
-        "dieukien": "",
-        "xmttecom": ""
+        "dieukien": ""
       }
     }
   }
@@ -3218,6 +3621,7 @@ window.flowchartDataFeedback = {
           // Enable 2 nút Copy Link ngay khi có dropdown được chọn
           const btnSetBase = document.getElementById('btn-set-base');
           const btnCopyTarget = document.getElementById('btn-copy-target');
+          const btnFileLink = document.getElementById('btn-file-link');
           if (btnSetBase) {
             // LẤY GỐC: chỉ bật khi node hiện tại có PDF
             btnSetBase.disabled = !(selectedNode && selectedNode.pdf);
@@ -3225,6 +3629,10 @@ window.flowchartDataFeedback = {
           if (btnCopyTarget) {
             // COPY ĐÍCH: luôn bật khi có path
             btnCopyTarget.disabled = false;
+          }
+          if (btnFileLink) {
+            // FILE LINK: bật khi node có PDF
+            btnFileLink.disabled = !(selectedNode && selectedNode.pdf);
           }
 
           const hasContentToDisplay = selectedNode.pdf || selectedNode.htmlUrl || selectedNode.htmlContent;
@@ -3542,6 +3950,7 @@ window.flowchartDataFeedback = {
         // Enable 2 nút Copy Link for PPT
         const btnSetBase = document.getElementById('btn-set-base');
         const btnCopyTarget = document.getElementById('btn-copy-target');
+        const btnFileLink = document.getElementById('btn-file-link');
         if (btnSetBase) {
           btnSetBase.disabled = false;
           btnSetBase.title = 'Bấm để lưu điểm gốc (tính ../)';
@@ -3549,6 +3958,10 @@ window.flowchartDataFeedback = {
         if (btnCopyTarget) {
           btnCopyTarget.disabled = false;
           btnCopyTarget.title = 'Bấm để copy link đích với prefix đã lưu';
+        }
+        if (btnFileLink) {
+          btnFileLink.disabled = false;
+          btnFileLink.title = 'Tạo link đến file trong DOCUMENTS';
         }
       }
 
@@ -3965,6 +4378,7 @@ window.flowchartDataFeedback = {
         // Enable 2 nút Copy Link for PPT khi có kết quả
         const btnSetBase = document.getElementById('btn-set-base');
         const btnCopyTarget = document.getElementById('btn-copy-target');
+        const btnFileLink = document.getElementById('btn-file-link');
         if (btnSetBase) {
           btnSetBase.disabled = !resultObject.pdf;
           btnSetBase.title = resultObject.pdf ? 'Bấm để lưu điểm gốc (tính ../)' : 'Node này không có PDF';
@@ -3972,6 +4386,10 @@ window.flowchartDataFeedback = {
         if (btnCopyTarget) {
           btnCopyTarget.disabled = false;
           btnCopyTarget.title = 'Bấm để copy link đích với prefix đã lưu';
+        }
+        if (btnFileLink) {
+          btnFileLink.disabled = !resultObject.pdf;
+          btnFileLink.title = resultObject.pdf ? 'Tạo link đến file trong DOCUMENTS' : 'Node này không có PDF';
         }
       }
 
@@ -3994,6 +4412,7 @@ window.flowchartDataFeedback = {
         // Disable 2 nút Copy Link for PPT
         const btnSetBase = document.getElementById('btn-set-base');
         const btnCopyTarget = document.getElementById('btn-copy-target');
+        const btnFileLink = document.getElementById('btn-file-link');
         if (btnSetBase) {
           btnSetBase.disabled = true;
           btnSetBase.title = 'Chọn 1 mục trong sidebar trước';
@@ -4001,6 +4420,10 @@ window.flowchartDataFeedback = {
         if (btnCopyTarget) {
           btnCopyTarget.disabled = true;
           btnCopyTarget.title = 'Chọn mục đích rồi bấm để copy link';
+        }
+        if (btnFileLink) {
+          btnFileLink.disabled = true;
+          btnFileLink.title = 'Chọn 1 mục PDF trước';
         }
         const copyFeedback = document.getElementById('copy-link-feedback');
         if (copyFeedback) copyFeedback.textContent = '';
