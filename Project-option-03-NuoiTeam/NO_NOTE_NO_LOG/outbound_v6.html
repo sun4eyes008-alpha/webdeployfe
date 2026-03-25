@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PLTT OUTBOUND</title>
   <link rel="icon" type="image/x-icon" href="./Asset/img-video/fec_logo-1.png">
-  <link rel="stylesheet" href="./Asset/style2.css" />
-  <link rel="stylesheet" href="./Asset/theme-default.css" />
+  <link rel="stylesheet" href="./Asset/CSS/style2.css" />
+  <link rel="stylesheet" href="./Asset/CSS/theme-default.css" />
   <!-- <link rel="stylesheet" href="./Asset/theme-tet.css" />
   <link rel="stylesheet" href="./Asset/theme-he.css" /> 
   <link rel="stylesheet" href="./Asset/theme-thu.css" />
@@ -3830,14 +3830,12 @@
       }
 
       function setBasePath() {
-        // Path from sidebar select
         const path = Array.from(document.querySelectorAll('.filter-select'))
           .map(s => s.value).filter(Boolean);
 
         let pdfPath = '';
 
         if (path.length === 0) {
-          // If no sidebar path, check header-pdf from appState
           if (window.appState && window.appState.type === 'header-pdf' && window.appState.headerPdf.pdfName) {
             pdfPath = window.appState.headerPdf.pdfName;
           } else {
@@ -3845,7 +3843,6 @@
             return;
           }
         } else {
-          // Get source from window.state or window.appState
           const sourceName = (window.state && window.state.activeSourceName) || (window.appState && window.appState.sidebar && window.appState.sidebar.source) || 'truyvan';
           const sourceData = (window.dataSources && window.dataSources[sourceName]) || window.flowchartData;
 
@@ -3866,7 +3863,6 @@
           return;
         }
 
-        // Calculate "../" depth
         let cleanPath = pdfPath;
         let baseFolderDepth = 1;
 
@@ -3948,30 +3944,204 @@
     });
   </script>
 
-  <!-- Copy Link for PPT - Fixed bottom-left (2-button) -->
-  <div id="copy-link-container" class="copy-link-container">
-    <div id="copy-link-feedback" class="copy-link-feedback"></div>
-    <div id="copy-link-base-info" class="copy-link-base-info" style="display:none;"></div>
-    <div class="copy-link-buttons">
-      <button id="btn-set-base" class="copy-link-btn btn-set-base" disabled title="Chọn 1 mục rồi bấm để lưu điểm gốc">
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="17 8 12 3 7 8" />
-          <line x1="12" y1="3" x2="12" y2="15" />
-        </svg>
-      </button>
-      <button id="btn-copy-target" class="copy-link-btn btn-copy-target" disabled
-        title="Chọn mục đích rồi bấm để copy link">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
-          <path
-            d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
-          <path
-            d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
-        </svg>
-      </button>
+  <!-- Copy Link for PPT - Collapsible Slide (3-button) -->
+  <div id="copy-link-container" class="copy-link-container collapsed">
+    <!-- Inner panel (slides in/out) -->
+    <div class="copy-link-inner">
+      <div id="copy-link-feedback" class="copy-link-feedback"></div>
+      <div id="copy-link-base-info" class="copy-link-base-info" style="display:none;"></div>
+
+      <!-- File Link Popup -->
+      <div id="file-link-popup" class="file-link-popup">
+        <div class="file-link-popup-title">📎 Tạo link file DOCUMENTS</div>
+        <div id="file-link-dropzone" class="file-link-dropzone">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Kéo thả file vào đây
+        </div>
+        <div class="file-link-input-row">
+          <input type="text" id="file-link-input" class="file-link-input" placeholder="hoặc nhập tên file..." />
+          <button id="file-link-copy-btn" class="file-link-copy-btn">Copy</button>
+        </div>
+        <div id="file-link-result" class="file-link-result"></div>
+      </div>
+
+      <div class="copy-link-buttons">
+        <button id="btn-set-base" class="copy-link-btn btn-set-base" disabled
+          title="Chọn 1 mục rồi bấm để lưu điểm gốc">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </button>
+        <button id="btn-copy-target" class="copy-link-btn btn-copy-target" disabled
+          title="Chọn mục đích rồi bấm để copy link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+            <path
+              d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+            <path
+              d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+          </svg>
+        </button>
+        <button id="btn-file-link" class="copy-link-btn btn-file-link" disabled
+          title="Tạo link đến file trong DOCUMENTS">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+          </svg>
+        </button>
+      </div>
     </div>
+    <!-- Toggle tab -->
+    <button class="copy-link-toggle" id="copy-link-toggle" title="Công cụ link">◀</button>
   </div>
+
+  <script>
+    // === FILE LINK GENERATOR ===
+    (function () {
+      const DOCS_PATH = 'Asset/DOCUMENTS/';
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('copy-link-toggle');
+        const container = document.getElementById('copy-link-container');
+        const btnFileLink = document.getElementById('btn-file-link');
+        const popup = document.getElementById('file-link-popup');
+        const dropzone = document.getElementById('file-link-dropzone');
+        const fileInput = document.getElementById('file-link-input');
+        const copyBtn = document.getElementById('file-link-copy-btn');
+        const resultEl = document.getElementById('file-link-result');
+
+        if (toggleBtn && container) {
+          toggleBtn.addEventListener('click', function () {
+            container.classList.toggle('collapsed');
+            toggleBtn.textContent = container.classList.contains('collapsed') ? '◀' : '▶';
+          });
+        }
+
+        if (btnFileLink) {
+          btnFileLink.addEventListener('click', function () {
+            popup.classList.toggle('show');
+            if (popup.classList.contains('show')) {
+              fileInput.focus();
+            }
+          });
+        }
+
+        document.addEventListener('click', function (e) {
+          if (popup && popup.classList.contains('show') &&
+            !popup.contains(e.target) && e.target !== btnFileLink && !btnFileLink.contains(e.target)) {
+            popup.classList.remove('show');
+          }
+        });
+
+        function getCurrentPrefix() {
+          const selects = document.querySelectorAll('.filter-select');
+          const path = Array.from(selects).map(s => s.value).filter(Boolean);
+
+          let pdfPath = '';
+          if (path.length > 0) {
+            const sourceName = (window.state && window.state.activeSourceName) || (window.appState && window.appState.sidebar && window.appState.sidebar.source) || 'truyvan';
+            const sourceData = (window.dataSources && window.dataSources[sourceName]) || window.flowchartData;
+            let node = sourceData;
+            for (const key of path) {
+              if (node && node[key]) node = node[key];
+              else return null;
+            }
+            pdfPath = node.pdf || '';
+          } else if (window.appState && window.appState.type === 'header-pdf') {
+            pdfPath = window.appState.headerPdf.pdfName || '';
+          }
+
+          if (!pdfPath) return null;
+
+          let cleanPath = pdfPath;
+          let baseFolderDepth = 1;
+          if (cleanPath.startsWith('./')) {
+            cleanPath = cleanPath.substring(2);
+            baseFolderDepth = 0;
+          }
+          const slashCount = (cleanPath.match(/\//g) || []).length;
+          const depth = baseFolderDepth + slashCount;
+          return '../'.repeat(depth);
+        }
+
+        function generateFileLink(filename) {
+          if (!filename) return;
+          filename = filename.trim();
+          if (!filename) return;
+
+          const prefix = getCurrentPrefix();
+          if (!prefix) {
+            resultEl.textContent = '⚠️ Chưa chọn mục PDF nào!';
+            resultEl.classList.add('show');
+            resultEl.style.color = '#dc2626';
+            resultEl.style.background = '#fef2f2';
+            resultEl.style.borderColor = '#fecaca';
+            return;
+          }
+
+          const link = prefix + DOCS_PATH + filename;
+          navigator.clipboard.writeText(link).then(function () {
+            resultEl.textContent = '✅ Đã copy: ' + link;
+            resultEl.style.color = '#059669';
+            resultEl.style.background = '#ecfdf5';
+            resultEl.style.borderColor = '#a7f3d0';
+            resultEl.classList.add('show');
+          }).catch(function () {
+            const ta = document.createElement('textarea');
+            ta.value = link;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            resultEl.textContent = '✅ Đã copy: ' + link;
+            resultEl.classList.add('show');
+          });
+        }
+
+        if (copyBtn) {
+          copyBtn.addEventListener('click', function () {
+            generateFileLink(fileInput.value);
+          });
+        }
+
+        if (fileInput) {
+          fileInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              generateFileLink(fileInput.value);
+            }
+          });
+        }
+
+        if (dropzone) {
+          dropzone.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+          });
+          dropzone.addEventListener('dragleave', function () {
+            dropzone.classList.remove('dragover');
+          });
+          dropzone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+              const fname = e.dataTransfer.files[0].name;
+              fileInput.value = fname;
+              generateFileLink(fname);
+            }
+          });
+        }
+      });
+    })();
+  </script>
 
 </body>
 

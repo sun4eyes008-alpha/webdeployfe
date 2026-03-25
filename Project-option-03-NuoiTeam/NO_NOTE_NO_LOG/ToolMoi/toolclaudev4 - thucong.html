@@ -1688,7 +1688,7 @@
             setHasPageConfig(foundHasConfig);
 
             // === FIX 4: Strip folderName prefix khỏi pdf khi import ===
-            const contentFieldsForImport = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'folderName'];
+            const contentFieldsForImport = ['folderName', 'displayName', 'tieudeflow', 'dieukien', 'pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert'];
             const stripFolderPrefixFromPdf = (obj, folderSegments = []) => {
               if (!obj || typeof obj !== 'object') return;
               Object.keys(obj).forEach(key => {
@@ -1864,8 +1864,8 @@
           const sortedConsts = Object.entries(flatConstants).sort((a, b) => (b[1] || '').length - (a[1] || '').length);
 
           // Content fields that are NOT child nodes
-          // === FIX 5: Thêm xmttecom vào contentFieldsForExport ===
-          const contentFieldsForExport = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'folderName'];
+          // === FIX 5: Thêm xmttecom vào contentFieldsForExport và đưa folderName lên đầu ===
+          const contentFieldsForExport = ['folderName', 'displayName', 'tieudeflow', 'dieukien', 'pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert'];
 
           Object.entries(dataSources).forEach(([name, data]) => {
             const info = allDataObjectInfo[name];
@@ -2268,7 +2268,7 @@ ${dataObjectsContent}
       // Helper to check if a node has any child nodes (non-content fields)
       const hasChildren = (node) => {
         if (!node || typeof node !== "object") return false;
-        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow'];
+        const contentFields = ['folderName', 'displayName', 'tieudeflow', 'dieukien', 'pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert'];
         const keys = Object.keys(node);
         // Check if there are any keys that are NOT content fields
         return keys.some(key => !contentFields.includes(key) && typeof node[key] === 'object');
@@ -2282,6 +2282,9 @@ ${dataObjectsContent}
         // Empty object {} = intermediate/placeholder node, NOT a leaf
         const keys = Object.keys(node);
         if (keys.length === 0) return false;
+
+        // CHFIX: Nếu có folderName hoặc tieudeflow thì chắc chắn là nhánh (tránh việc nhánh bị biến thành leaf khi thêm popup content)
+        if (node.folderName !== undefined || node.tieudeflow !== undefined) return false;
 
         return !hasChildren(node); // Leaf = no children
       };
@@ -2401,8 +2404,24 @@ ${dataObjectsContent}
                       setEditingNode({ path, node });
                     }}
                     className="btn btn-sm btn-link text-primary p-1"
+                    title="Thêm/Sửa Nội Dung"
                   >
                     <BtnIcon name="Edit2" size={14} />
+                  </button>
+                  {/* CHFIX: Cho phép thêm con trực tiếp từ Leaf để linh hoạt */}
+                  <button
+                    onClick={() => addNode(path, true)}
+                    className="btn btn-sm btn-success p-1 d-flex align-items-center gap-1 ms-1"
+                    title="Thêm Kết quả PDF (Biến thành nhánh)"
+                  >
+                    <BtnIcon name="Plus" size={14} /> PDF
+                  </button>
+                  <button
+                    onClick={() => addNode(path, false)}
+                    className="btn btn-sm btn-primary p-1 d-flex align-items-center gap-1 ms-1 me-1"
+                    title="Thêm Nhánh (Biến thành nhánh)"
+                  >
+                    <BtnIcon name="Plus" size={14} /> Child
                   </button>
                   <button
                     onClick={(e) => {
@@ -2421,7 +2440,7 @@ ${dataObjectsContent}
         }
 
         // Filter keys to get only CHILD NODES (not content fields)
-        const contentFields = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert', 'displayName', 'dieukien', 'tieudeflow', 'folderName'];
+        const contentFields = ['folderName', 'displayName', 'tieudeflow', 'dieukien', 'pdf', 'contentType', 'htmlContent', 'htmlUrl', 'xmtt', 'xmttib', 'xmttemail', 'xmttchat', 'xmttecom', 'note', 'alert'];
         const allKeys = Object.keys(node || {});
         const keys = allKeys.filter(key => !contentFields.includes(key));
 
