@@ -804,7 +804,7 @@ window.flowchartData = {
           "dieukien": ""
         },
         "Dành riêng cho NV FEC": {
-          "pdf": "THONG_TIN_CHUNG/6_KHUYEN_MAI/Khuyen_mai_staff",
+          "pdf": "THONG_TIN_CHUNG/6_KHUYEN_MAI/Khuyen_mai_staff.pdf",
           "contentType": "",
           "htmlContent": "",
           "htmlUrl": "",
@@ -3494,7 +3494,7 @@ window.flowchartDataFeedback = {
             return;
           }
           const level = index + 1;
-          const options = Object.keys(currentDataNode);
+          const options = Object.keys(currentDataNode).filter(k => typeof currentDataNode[k] === 'object' && currentDataNode[k] !== null);
           createDropdown(options, level, currentDataNode);
 
           const select = dynamicFiltersContainer.querySelector(

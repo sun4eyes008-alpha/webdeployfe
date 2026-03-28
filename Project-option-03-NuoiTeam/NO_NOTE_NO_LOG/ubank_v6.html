@@ -2265,7 +2265,7 @@
             return;
           }
           const level = index + 1;
-          const options = Object.keys(currentDataNode);
+          const options = Object.keys(currentDataNode).filter(k => typeof currentDataNode[k] === 'object' && currentDataNode[k] !== null);
           createDropdown(options, level, currentDataNode);
 
           const select = dynamicFiltersContainer.querySelector(
