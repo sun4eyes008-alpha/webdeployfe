@@ -2,7 +2,8 @@
 const K = {
   sourceTab: 'unote.sourceSpeechMinerTabId',
   sourceLocked: 'unote.sourceSpeechMinerLocked',
-  pluginEnabled: 'unote.pluginEnabled'
+  pluginEnabled: 'unote.pluginEnabled',
+  pendingExternalId: 'unote.pendingExternalId'
 };
 const SPEECH_HOST = 'ge-smweb.deltavn.vn';
 const SPEECH_PATH = '/speechminer/';
@@ -34,6 +35,24 @@ async function listSpeechMinerTabs(){ const tabs=await chrome.tabs.query({}); re
 async function getSourceDetails(){ const st=await getSourceState(); let source=null; if(st.tabId){ try{ const tab=await chrome.tabs.get(st.tabId); if(isSpeechMinerUrl(tab.url)) source={ id:tab.id, title:tab.title||'(không tên)', url:tab.url||'', active:!!tab.active }; else await setSourceTabId(null); }catch{ await setSourceTabId(null); } } return { ...st, source, tabs: await listSpeechMinerTabs() }; }
 async function registerSourceFromSender(sender){ const st=await getSourceState(); const tabId=sender.tab?.id; const url=sender.tab?.url||''; if(!tabId||!isSpeechMinerUrl(url)) return { success:false, error:'Sender không phải tab SpeechMiner.' }; if(st.locked && st.tabId && st.tabId!==tabId) return { success:true, ignored:true, tabId:st.tabId }; await setSourceTabId(tabId); return { success:true, tabId }; }
 async function setSourceManual(tabId){ try{ const tab=await chrome.tabs.get(tabId); if(!isSpeechMinerUrl(tab.url)) return { success:false, error:'Tab được chọn không phải SpeechMiner.' }; await setSourceTabId(tabId); return { success:true, tabId }; }catch{ return { success:false, error:'Không tìm thấy tab nguồn.' }; } }
+async function pushExternalId(payload){
+  const externalId=String(payload?.externalId||payload?.interactionId||'').trim();
+  const interactionId=String(payload?.interactionId||'').trim();
+  if(!externalId && !interactionId) return { success:false, error:'Thiếu externalId/interactionId.' };
+  const entry={ externalId: externalId||interactionId, interactionId, from: payload?.from||'page', rowPreview: payload?.rowPreview||null, at: Date.now() };
+  await setStore({ [K.pendingExternalId]: entry });
+  const st=await getSourceState();
+  if(st.tabId){
+    const resp=await sendToTab(st.tabId, { type:'UNOTE_APPLY_EXTERNAL_ID', payload: entry }, { frameId:0 });
+    return { success:true, forwarded:true, response:resp||null };
+  }
+  return { success:true, forwarded:false };
+}
+async function getNoteByExternalId(externalId){
+  const key=`unote.note:externalId:${externalId}`;
+  const data=await getStore([key]);
+  return { success:true, contextKey:key, note:data[key]||'' };
+}
 async function captureFromSource(mode){
   const st=await getSourceState();
   if(!st.pluginEnabled) return { success:false, error:'Plugin đang tắt.' };
@@ -92,6 +111,8 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
       }
       case 'UNOTE_INLINE_QUICKNOTE_NEXT_RANGE': sendResponse(await captureFromSource('range')); break;
       case 'UNOTE_APPEND_NOTE': sendResponse(await appendNoteToStorage(message.context||null, message.payload||null, message.text||'')); break;
+      case 'UNOTE_PUSH_EXTERNAL_ID': sendResponse(await pushExternalId(message)); break;
+      case 'UNOTE_GET_NOTE_BY_EXTERNAL_ID': sendResponse(await getNoteByExternalId(String(message.externalId||'').trim())); break;
       default: sendResponse({ success:false, error:'Unknown message type.' });
     }
   })().catch(err=>{ console.error(err); sendResponse({ success:false, error: err?.message||'Unexpected error.' }); });

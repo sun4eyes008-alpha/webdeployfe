@@ -4,7 +4,15 @@
   window.__unote_full_253_loaded = true;
   const IS_TOP = (window.top === window);
   const K = {
-    settings:'unote.settings', panelVisible:'unote.panelVisible', pendingRange:'unote.pendingRange', pluginEnabled:'unote.pluginEnabled', scopeMode:'unote.scopeMode', showMarkerLabels:'unote.showMarkerLabels'
+    settings:'unote.settings',
+    panelVisible:'unote.panelVisible',
+    pendingRange:'unote.pendingRange',
+    pluginEnabled:'unote.pluginEnabled',
+    scopeMode:'unote.scopeMode',
+    showMarkerLabels:'unote.showMarkerLabels',
+    pendingExternalId:'unote.pendingExternalId',
+    lastAppliedExternalId:'unote.lastAppliedExternalId',
+    lastAppliedExternalIdAt:'unote.lastAppliedExternalIdAt'
   };
   const NOTE_PREFIX='unote.note:';
   const MARKER_COLOR_PREFIX='unote.markerColors:';
@@ -21,11 +29,93 @@
   let quickState={ payload:null, context:null, mode:'free' };
   let renderTimer=null,lastRenderSignature='';
   let syncObservers=[];
+  const EXTERNAL_ID_INPUT_SELECTORS=[
+    'input[name*="external" i]',
+    'input[placeholder*="external" i]',
+    'input[aria-label*="external" i]',
+    'input[name*="interaction" i]',
+    'input[placeholder*="interaction" i]',
+    'input[aria-label*="interaction" i]',
+    '#externalId',
+    '#interactionId',
+    '.search-input input[type="text"]',
+    '.ant-input-affix-wrapper input',
+    '.ant-input-search input',
+    '.toolbar input[type="search"]',
+    '.toolbar input[type="text"]'
+  ];
 
   function isSpeechMinerPage(){ try{return location.hostname===SPEECH_HOST&&location.pathname.includes(SPEECH_PATH)}catch{return false} }
   function normalizeTime(text){ if(!text) return null; const v=String(text).replace(/\u00A0/g,' ').trim(); return /^\d{1,2}:\d{2}(:\d{2})?$/.test(v)?v:null; }
-  function validExternalId(text){ return /_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}$/.test(text||''); }
+  function validExternalId(text){
+    const t=(text||'').trim();
+    return /_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}$/.test(t) ||
+      /^[A-Z0-9]{25,}$/.test(t) ||
+      /^I-\d{6,}$/.test(t);
+  }
+  function normalizeExternalIdValue(raw){ return String(raw||'').trim(); }
   function getExternalId(){ if(!isSpeechMinerPage()) return ''; const candidates=document.querySelectorAll('.player-label.wrap-overflow, .player-label, [tooltip]'); for(const el of candidates){ const txt=(el.textContent||'').trim(); const tip=(el.getAttribute&&el.getAttribute('tooltip'))||''; if(validExternalId(txt)) return txt; if(validExternalId(tip)) return tip.trim(); } return ''; }
+  function findExternalIdInput(){ for(const sel of EXTERNAL_ID_INPUT_SELECTORS){ const el=document.querySelector(sel); if(el) return el; } return null; }
+  function showExternalToast(externalId, autoFilled, source){
+    if(!IS_TOP) return;
+    let toast=document.getElementById('unote-external-toast');
+    if(!toast){
+      const style=document.createElement('style'); style.id='unote-external-toast-style';
+      style.textContent=`#unote-external-toast{position:fixed;right:16px;bottom:16px;z-index:2147483647;background:#0f172a;color:#e2e8f0;padding:12px 14px;border-radius:12px;box-shadow:0 14px 40px rgba(15,23,42,.35);display:flex;gap:10px;align-items:center;max-width:420px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;}#unote-external-toast .id{font-weight:700;color:#a5f3fc;word-break:break-all;}#unote-external-toast button{border:none;background:#22c55e;color:#0b1220;font-weight:700;padding:6px 10px;border-radius:8px;cursor:pointer;}#unote-external-toast .secondary{background:#e2e8f0;color:#0f172a;}@media(max-width:560px){#unote-external-toast{left:12px;right:12px;flex-direction:column;align-items:flex-start;}}`;
+      document.documentElement.appendChild(style);
+      toast=document.createElement('div'); toast.id='unote-external-toast';
+      toast.innerHTML=`<div class="msg"></div><div class="actions"><button type="button" class="copy-btn">Copy</button><button type="button" class="close-btn secondary">Đóng</button></div>`;
+      document.documentElement.appendChild(toast);
+      toast.querySelector('.close-btn').addEventListener('click',()=>toast.remove());
+      toast.querySelector('.copy-btn').addEventListener('click',async()=>{ try{ await navigator.clipboard.writeText(toast.dataset.value||''); toast.querySelector('.msg').innerHTML='<b>Đã copy externalId</b>'; }catch(e){ toast.querySelector('.msg').textContent='Không copy được, hãy chọn thủ công.'; } });
+    }
+    toast.dataset.value=externalId;
+    const fromLabel=source ? `(${source})` : '';
+    toast.querySelector('.msg').innerHTML = `${autoFilled?'✅ Đã tự điền':'⚠️ Không tìm thấy ô nhập'} ${fromLabel}<br><span class="id">${externalId}</span>`;
+    toast.style.display='flex';
+    setTimeout(()=>{ if(document.getElementById('unote-external-toast')) document.getElementById('unote-external-toast').style.display='flex'; },10);
+    setTimeout(()=>{ try{toast.remove();}catch{} },8000);
+  }
+  async function applyExternalIdOnSpeechMiner(payload){
+    if(!isSpeechMinerPage()) return { success:false, error:'Không phải trang SpeechMiner.' };
+    const externalId=normalizeExternalIdValue(payload?.externalId||payload?.interactionId||payload);
+    if(!externalId) return { success:false, error:'Thiếu externalId để áp dụng.' };
+    const input=findExternalIdInput();
+    let filled=false;
+    if(input){
+      input.focus();
+      input.value=externalId;
+      input.dispatchEvent(new Event('input',{bubbles:true}));
+      input.dispatchEvent(new Event('change',{bubbles:true}));
+      filled=true;
+    }
+    const searchBtn=document.querySelector('button[type="submit"].search-button, button[aria-label*="search" i], .search-button button[type="button"], .ant-input-search-button, .ant-btn-primary[type="button"]');
+    if(searchBtn && filled) searchBtn.click();
+    showExternalToast(externalId, filled, payload?.from||'page');
+    await set({ [K.lastAppliedExternalId]: externalId, [K.lastAppliedExternalIdAt]: Date.now() });
+    return { success:true, applied:filled };
+  }
+  async function maybeApplyPendingExternalId(force=false){
+    if(!isSpeechMinerPage()) return;
+    const d=await get([K.pendingExternalId,K.lastAppliedExternalId,K.lastAppliedExternalIdAt]);
+    const pending=d[K.pendingExternalId];
+    if(!pending||!pending.externalId) return;
+    const lastId=d[K.lastAppliedExternalId]||'';
+    const lastAt=d[K.lastAppliedExternalIdAt]||0;
+    if(!force && pending.externalId===lastId && pending.at && pending.at<=lastAt+500) return;
+    await applyExternalIdOnSpeechMiner(pending);
+  }
+  function forwardExternalIdToBackground(data){
+    const payload={
+      externalId: normalizeExternalIdValue(data.externalId||data.interactionId||''),
+      interactionId: normalizeExternalIdValue(data.interactionId||''),
+      from: data.from||'page',
+      rowPreview: data.rowPreview||null,
+      at: Date.now()
+    };
+    if(!payload.externalId && !payload.interactionId) return;
+    runtimeSend({ type:'UNOTE_PUSH_EXTERNAL_ID', ...payload }).catch(console.error);
+  }
   async function getScopeMode(){ const d=await get([K.scopeMode]); return d[K.scopeMode]||'global'; }
   function buildContext(scopeMode){ const speechMiner=isSpeechMinerPage(); const externalId=getExternalId(); const pageKey=`${location.origin}${location.pathname}`; if(scopeMode==='global') return { key:`${NOTE_PREFIX}global`, sourceType:'global', scopeMode, speechMiner, externalId:'' }; if(scopeMode==='externalId'){ if(speechMiner&&externalId) return { key:`${NOTE_PREFIX}externalId:${externalId}`, sourceType:'externalId', scopeMode, speechMiner, externalId }; return { key:`${NOTE_PREFIX}page:${pageKey}`, sourceType:'page-fallback', scopeMode, speechMiner, externalId:'' }; } return { key:`${NOTE_PREFIX}page:${pageKey}`, sourceType:'page', scopeMode:'page', speechMiner, externalId }; }
   async function getContextInfo(){ return buildContext(await getScopeMode()); }
@@ -62,6 +152,8 @@
   function quickNoteOpen(){ return IS_TOP && !!modal && modal.box.style.display==='block'; }
   async function commitQuickNote(){ if(!IS_TOP || !quickState.payload) return; if(quickState.payload.mode==='rangePending'){ hintEl.textContent='Bạn cần bấm lại hotkey range để lấy mốc cuối.'; return; } const ctx=quickState.context||await getContextInfo(); const r=await runtimeSend({ type:'UNOTE_APPEND_NOTE', context: ctx, payload: quickState.payload, text: textEl.value||'' }); if(!r?.success){ hintEl.textContent=r?.error||'Không lưu được note.'; return; } hideQuickNote(); }
   async function handleModalHotkeys(e){ if(!quickNoteOpen()) return false; const settings=await getSettings(); if(matchHotkey(e,settings.singleHotkey) && quickState.payload?.mode==='single'){ e.preventDefault(); e.stopPropagation(); await commitQuickNote(); return true; } if(matchHotkey(e,settings.rangeHotkey) && (quickState.payload?.mode==='rangePending' || quickState.payload?.mode==='rangeReady')){ e.preventDefault(); e.stopPropagation(); if(quickState.payload.mode==='rangePending'){ const r=await runtimeSend({ type:'UNOTE_INLINE_QUICKNOTE_NEXT_RANGE' }); if(!r?.success){ hintEl.textContent=r?.error||'Không lấy được mốc cuối.'; return true; } quickState.payload=r.payload; badgeEl.textContent=prefixOf(quickState.payload); hintEl.textContent='Đã có đủ đầu-cuối. Bấm lại hotkey range hoặc Enter để lưu.'; return true; } if(quickState.payload.mode==='rangeReady'){ await commitQuickNote(); return true; } } if((e.key==='Enter' && !e.shiftKey) || (e.key==='Enter' && (e.ctrlKey||e.metaKey))){ e.preventDefault(); await commitQuickNote(); return true; } if(e.key==='Escape'){ e.preventDefault(); hideQuickNote(); return true; } return false; }
+  window.addEventListener('message',event=>{ if(event.source!==window) return; const data=event.data||{}; if(data.type==='UNOTE_PUSH_EXTERNAL_ID') forwardExternalIdToBackground(data); },false);
+  window.addEventListener('message',event=>{ if(event.source!==window) return; const data=event.data||{}; if(data.type==='UNOTE_FETCH_NOTE_FOR_EXTERNAL_ID'){ const externalId=normalizeExternalIdValue(data.externalId||''); if(!externalId) return; runtimeSend({ type:'UNOTE_GET_NOTE_BY_EXTERNAL_ID', externalId }).then(resp=>{ window.postMessage({ type:'UNOTE_NOTE_FOR_EXTERNAL_ID', externalId, note: resp?.note||'' }, '*'); }).catch(console.error); }},false);
 
   function ensureWaveStyle(){
     if(document.getElementById('unote-wave-style')) return;
@@ -112,7 +204,6 @@
     if(track) addMutationObserver(track,{attributes:true,attributeFilter:['style','class']},sync);
     if(handle){
       addMutationObserver(handle,{attributes:true,attributeFilter:['style','class']},sync);
-      let dragging=False
     }
     if(handle){
       const startDrag=()=>{ if(document.__unoteDragRAF) return; document.__unoteDragRAF=true; const loop=()=>{ sync(); if(document.__unoteDragRAF) requestAnimationFrame(loop); }; loop(); };
@@ -194,9 +285,9 @@
   function queueRender(force=false){ if(!IS_TOP) return; clearTimeout(renderTimer); renderTimer=setTimeout(()=>renderWaveMarkers(force).catch(console.error), force?30:120); }
   function initWaveWatchers(){ if(!IS_TOP) return; const root=findStableWaveRoot(); if(!root) return; bindScrollSync(); queueRender(true); }
   async function registerSourceIfNeeded(){ if(!isSpeechMinerPage()) return; await runtimeSend({ type:'UNOTE_REGISTER_SOURCE_TAB' }); }
-  chrome.runtime.onMessage.addListener((message,_sender,sendResponse)=>{ if(message?.type==='UNOTE_SHOW_INLINE_QUICKNOTE'){ if(IS_TOP) showQuickNote(message.payload||{mode:'free'}, message.context||null); sendResponse({ success:true }); return; } (async()=>{ switch(message?.type){ case 'UNOTE_GET_CONTEXT': sendResponse({ success:true, context: await getContextInfo() }); break; case 'UNOTE_GET_TIME_ONLY': { if(!isSpeechMinerPage()) { sendResponse({ success:false, error:'Không phải trang SpeechMiner.' }); break; } const selectors=['.track-time-label.left-label[tooltip="Current Time"]','.time-container .left-label[tooltip="Current Time"]','.track-time-label.left-label','.time-container .left-label']; let time=null; for(const s of selectors){ time=normalizeTime(document.querySelector(s)?.textContent); if(time) break; } if(!time) sendResponse({ success:false, error:'Không tìm thấy Current Time trên trang SpeechMiner.' }); else sendResponse({ success:true, time }); break; } case 'UNOTE_RANGE_ONLY': { if(!isSpeechMinerPage()) { sendResponse({ success:false, error:'Không phải trang SpeechMiner.' }); break; } const selectors=['.track-time-label.left-label[tooltip="Current Time"]','.time-container .left-label[tooltip="Current Time"]','.track-time-label.left-label','.time-container .left-label']; let time=null; for(const s of selectors){ time=normalizeTime(document.querySelector(s)?.textContent); if(time) break; } if(!time){ sendResponse({ success:false, error:'Không tìm thấy Current Time trên trang SpeechMiner.' }); break; } const d=await get([K.pendingRange]); const pending=d[K.pendingRange]||null; if(!pending){ await set({ [K.pendingRange]: { start: time } }); sendResponse({ success:true, mode:'start', time }); } else { await set({ [K.pendingRange]: null }); sendResponse({ success:true, mode:'end', start: pending.start, end: time }); } break; } default: sendResponse({ success:false, error:'Unknown message type.' }); } })().catch(err=>{ console.error(err); sendResponse({ success:false, error: err?.message||'Unexpected error.' }); }); return true; });
+  chrome.runtime.onMessage.addListener((message,_sender,sendResponse)=>{ if(message?.type==='UNOTE_SHOW_INLINE_QUICKNOTE'){ if(IS_TOP) showQuickNote(message.payload||{mode:'free'}, message.context||null); sendResponse({ success:true }); return; } (async()=>{ switch(message?.type){ case 'UNOTE_GET_CONTEXT': sendResponse({ success:true, context: await getContextInfo() }); break; case 'UNOTE_GET_TIME_ONLY': { if(!isSpeechMinerPage()) { sendResponse({ success:false, error:'Không phải trang SpeechMiner.' }); break; } const selectors=['.track-time-label.left-label[tooltip="Current Time"]','.time-container .left-label[tooltip="Current Time"]','.track-time-label.left-label','.time-container .left-label']; let time=null; for(const s of selectors){ time=normalizeTime(document.querySelector(s)?.textContent); if(time) break; } if(!time) sendResponse({ success:false, error:'Không tìm thấy Current Time trên trang SpeechMiner.' }); else sendResponse({ success:true, time }); break; } case 'UNOTE_RANGE_ONLY': { if(!isSpeechMinerPage()) { sendResponse({ success:false, error:'Không phải trang SpeechMiner.' }); break; } const selectors=['.track-time-label.left-label[tooltip="Current Time"]','.time-container .left-label[tooltip="Current Time"]','.track-time-label.left-label','.time-container .left-label']; let time=null; for(const s of selectors){ time=normalizeTime(document.querySelector(s)?.textContent); if(time) break; } if(!time){ sendResponse({ success:false, error:'Không tìm thấy Current Time trên trang SpeechMiner.' }); break; } const d=await get([K.pendingRange]); const pending=d[K.pendingRange]||null; if(!pending){ await set({ [K.pendingRange]: { start: time } }); sendResponse({ success:true, mode:'start', time }); } else { await set({ [K.pendingRange]: null }); sendResponse({ success:true, mode:'end', start: pending.start, end: time }); } break; } case 'UNOTE_APPLY_EXTERNAL_ID': { if(!isSpeechMinerPage()) { sendResponse({ success:false, error:'Không phải trang SpeechMiner.' }); break; } const resp=await applyExternalIdOnSpeechMiner(message.payload||message); sendResponse(resp); break; } default: sendResponse({ success:false, error:'Unknown message type.' }); } })().catch(err=>{ console.error(err); sendResponse({ success:false, error: err?.message||'Unexpected error.' }); }); return true; });
   async function handlePageHotkey(event){ if(IS_TOP && await handleModalHotkeys(event)) return; const d=await get([K.panelVisible,K.pluginEnabled]); if(!d[K.panelVisible]||d[K.pluginEnabled]===false) return; if(isEditable(document.activeElement)) return; const settings=await getSettings(); if(matchHotkey(event,settings.singleHotkey)){ event.preventDefault(); event.stopImmediatePropagation?.(); event.stopPropagation(); await runtimeSend({ type:'UNOTE_OPEN_INLINE_QUICKNOTE', mode:'single' }); return; } if(matchHotkey(event,settings.rangeHotkey)){ event.preventDefault(); event.stopImmediatePropagation?.(); event.stopPropagation(); await runtimeSend({ type:'UNOTE_OPEN_INLINE_QUICKNOTE', mode:'range' }); } }
   document.addEventListener('keydown',e=>{ handlePageHotkey(e).catch(console.error); },true); window.addEventListener('keydown',e=>{ handlePageHotkey(e).catch(console.error); },true);
-  chrome.storage.onChanged.addListener((changes,area)=>{ if(area!=='local'||!IS_TOP||!isSpeechMinerPage()) return; const keys=Object.keys(changes); if(keys.some(k=>k.startsWith(NOTE_PREFIX)||k.startsWith(MARKER_COLOR_PREFIX)||k===K.showMarkerLabels||k===K.scopeMode)) queueRender(false); });
-  registerSourceIfNeeded(); if(IS_TOP){ const boot=()=>{ initWaveWatchers(); }; if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot, { once:true }); else boot(); } window.addEventListener('focus',()=>{ registerSourceIfNeeded(); if(IS_TOP){ bindScrollSync(); queueRender(true); } }); document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ registerSourceIfNeeded(); if(IS_TOP){ bindScrollSync(); queueRender(true); } } });
+  chrome.storage.onChanged.addListener((changes,area)=>{ if(area!=='local'||!IS_TOP||!isSpeechMinerPage()) return; const keys=Object.keys(changes); if(keys.some(k=>k.startsWith(NOTE_PREFIX)||k.startsWith(MARKER_COLOR_PREFIX)||k===K.showMarkerLabels||k===K.scopeMode)) queueRender(false); if(changes[K.pendingExternalId]) maybeApplyPendingExternalId(true).catch(console.error); });
+  registerSourceIfNeeded(); if(IS_TOP){ const boot=()=>{ initWaveWatchers(); maybeApplyPendingExternalId(false).catch(console.error); }; if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot, { once:true }); else boot(); } window.addEventListener('focus',()=>{ registerSourceIfNeeded(); if(IS_TOP){ bindScrollSync(); queueRender(true); maybeApplyPendingExternalId(false).catch(console.error); } }); document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ registerSourceIfNeeded(); if(IS_TOP){ bindScrollSync(); queueRender(true); maybeApplyPendingExternalId(false).catch(console.error); } } });
 })();
