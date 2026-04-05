@@ -1,0 +1,3808 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PLTT CARD</title>
+  <link rel="icon" type="image/x-icon" href="./Asset/img-video/fec_logo-1.png">
+  <link rel="stylesheet" href="./Asset/CSS/style2.css" />
+  <link rel="stylesheet" href="./Asset/CSS/theme-default.css" />
+  <!-- <link rel="stylesheet" href="./Asset/theme-tet.css" />
+  <link rel="stylesheet" href="./Asset/theme-he.css" /> 
+  <link rel="stylesheet" href="./Asset/theme-thu.css" />
+  <link rel="stylesheet" href="./Asset/theme-dong.css" /> -->
+
+
+</head>
+
+<body>
+  <!-- Header -->
+  <header id="main-header">
+    <div class="header-container">
+      <a href="index.html" class="home-btn" title="Trang chủ">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </a>
+      <button class="sidebar-toggle" id="sidebar-toggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <div class="logo-container">
+        <a href="index.html">
+          <img src="./Asset/logo/logo-fecredit.gif" alt="FECredit" class="logo" style="border-radius: 5px;" />
+        </a>
+      </div>
+
+      <!-- NEW SEARCH BAR -->
+      <div class="search-container">
+        <input type="search" id="header-search" placeholder="Tìm kiếm thông tin..." />
+        <div id="search-results-container" class="search-results"></div>
+      </div>
+
+      <div class="header-tabs">
+        <div class="dropdown">
+          <button class="tab-btn dropdown-toggle">PLTT</button>
+          <div class="dropdown-menu">
+            <a href="loan_v2.html" class="dropdown-item" id="loan-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M3.5 0A1.5 1.5 0 0 0 2 1.5v13A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5V4.5L10 0H3.5ZM9 1.5V4.5H12.5L9 1.5ZM7.5 13V11.751C6.446 11.536 5.86 10.957 5.766 10.198A.5.5 0 0 1 6.758 10C6.83 10.518 7.373 10.74 8 10.783V8.892C6.892 8.529 6 8.01 6 6.848C6 5.842 6.812 5.253 7.5 5.088V4H8.5V5.074C9.522 5.275 10.104 5.922 10.198 6.643A.5.5 0 1 1 9.204 6.75C9.135 6.257 8.674 5.992 8 5.952V7.794C9.176 8.136 10 8.7 10 9.883C10 10.871 9.226 11.518 8.5 11.721V13H7.5Z" />
+              </svg>
+              Loan
+            </a>
+            <a href="card_v6.html" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M0 4A2 2 0 0 1 2 2H14A2 2 0 0 1 16 4V12A2 2 0 0 1 14 14H2A2 2 0 0 1 0 12V4ZM0 6H16V8H0V6ZM11 11H13V10H11V11ZM8 11H10V10H8V11Z" />
+              </svg>
+              Card
+            </a>
+            <a href="outbound_v6.html" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5.5V3h2.5a.5.5 0 0 1 0 1h-2.5v2.5a.5.5 0 0 1-1 0V4h-2.5a.5.5 0 0 1 0-1H10V.5a.5.5 0 0 1 .5-.5z" />
+              </svg>
+              Outbound
+            </a>
+            <a href="ubank_v6.html" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="5.5" cy="3.5" r="1.5" />
+                <circle cx="10.5" cy="3.5" r="1.5" />
+                <path d="M3 6.5v4c0 2.76 2.24 5 5 5s5-2.24 5-5v-4h-3v4c0 1.1-.9 2-2 2s-2-.9-2-2v-4H3z" />
+              </svg>
+              Ubank
+            </a>
+          </div>
+        </div>
+        <a href="#preset=TIN_TUC" class="tab-btn pdf-link-btn" data-preset="TIN_TUC">TIN TỨC</a>
+        <div class="dropdown">
+          <button class="tab-btn dropdown-toggle">QUY ĐỊNH CHUNG</button>
+          <div class="dropdown-menu">
+            <!-- Xác Minh Thông Tin với submenu -->
+            <div class="dropdown-item has-submenu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+              </svg>
+              Xác Minh Thông Tin
+              <div class="dropdown-submenu">
+                <a href="#preset=QD_CHUNG" class="dropdown-item pdf-link-btn" data-preset="QD_CHUNG">Quy định chung</a>
+                <a href="#preset=PHAN_LOAI_RUI_RO" class="dropdown-item pdf-link-btn"
+                  data-preset="PHAN_LOAI_RUI_RO">Phân loại rủi ro</a>
+                <div class="dropdown-item has-submenu">
+                  Câu hỏi xác minh
+                  <div class="dropdown-submenu">
+                    <a href="#preset=XMTT_LEVEL_A" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_A">Level A
+                      - Thông tin KH</a>
+                    <a href="#preset=XMTT_LEVEL_B" class="dropdown-item pdf-link-btn" data-preset="XMTT_LEVEL_B">Level B
+                      - Thông tin HĐ</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a href="#preset=TIEP_NHAN_CUOC_GOI" class="dropdown-item pdf-link-btn" data-preset="TIEP_NHAN_CUOC_GOI">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+              </svg>
+              Tiếp Nhận Cuộc Gọi
+            </a>
+            <a href="#preset=XU_LY_EMAIL_CHAT" class="dropdown-item pdf-link-btn" data-preset="XU_LY_EMAIL_CHAT">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
+              </svg>
+              Xử lý Email/Chat
+            </a>
+            <a href="#preset=HUONG_DAN_NHAP_LIEU" class="dropdown-item pdf-link-btn" data-preset="HUONG_DAN_NHAP_LIEU">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z" />
+              </svg>
+              Hướng Dẫn Nhập Liệu
+            </a>
+            <!-- Quy định hỗ trợ người thứ 3 với submenu -->
+            <div class="dropdown-item has-submenu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                <path
+                  d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+              </svg>
+              Quy định hỗ trợ người thứ 3
+              <div class="dropdown-submenu">
+                <a href="#preset=DU_NO_THOA_THUAN" class="dropdown-item pdf-link-btn" data-preset="DU_NO_THOA_THUAN">Dư
+                  nợ/Thỏa thuận khoản
+                  vay</a>
+                <a href="#preset=BOI_THUONG_BAO_HIEM" class="dropdown-item pdf-link-btn"
+                  data-preset="BOI_THUONG_BAO_HIEM">Bồi thường bảo hiểm</a>
+                <a href="#preset=NGUNG_NHAC_NO_DAN_SU" class="dropdown-item pdf-link-btn"
+                  data-preset="NGUNG_NHAC_NO_DAN_SU">Ngưng nhắc nợ dân
+                  sự</a>
+                <a href="#preset=HOAN_TIEN" class="dropdown-item pdf-link-btn" data-preset="HOAN_TIEN">Hoàn tiền</a>
+                <a href="#preset=CAC_YEU_CAU_KHAC" class="dropdown-item pdf-link-btn" data-preset="CAC_YEU_CAU_KHAC">Các
+                  yêu cầu khác</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="#preset=TAI_LIEU_THAM_KHAO" class="tab-btn pdf-link-btn" data-preset="TAI_LIEU_THAM_KHAO">TÀI LIỆU THAM
+          KHẢO</a>
+        <a href="#preset=HUONG_DAN_HE_THONG" class="tab-btn pdf-link-btn" data-preset="HUONG_DAN_HE_THONG">HƯỚNG DẪN HỆ
+          THỐNG</a>
+        <a href="#preset=CHANGE_LOG" class="tab-btn pdf-link-btn" data-preset="CHANGE_LOG" data-tab="change-log"
+          id="change-log-btn">
+          CHANGE LOG
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-page-title">
+        <svg class="sidebar-title-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 20 20" fill="currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M0 4A2 2 0 0 1 2 2H14A2 2 0 0 1 16 4V12A2 2 0 0 1 14 14H2A2 2 0 0 1 0 12V4ZM0 6H16V8H0V6ZM11 11H13V10H11V11ZM8 11H10V10H8V11Z" />
+        </svg>
+        <span>CARD</span>
+      </div>
+      <div class="sidebar-tabs-container" id="sidebar-tabs">
+        <button class="sidebar-tab-btn active" data-source="truyvan">TRUY VẤN</button>
+        <button class="sidebar-tab-btn" data-source="feedback">PHẢN ÁNH</button>
+      </div>
+    </div>
+    <div class="sidebar-content">
+      <div id="dynamic-filters-container"></div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Condition Panel (above XMTT) -->
+    <div id="dieukien-panel" class="dieukien-panel hidden">
+      <div class="dieukien-box" id="dieukien-box">
+        <button class="expand-btn" data-target="dieukien-box">⤢</button>
+        <div id="dieukien-result" class="box-content">
+          <p>Điều kiện sẽ hiển thị ở đây khi chọn</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub Header -->
+    <div id="sub-header" class="resizable">
+      <!-- Row chứa 3 box XMTT có thể resize -->
+      <div class="xmtt-row" id="xmtt-row">
+        <!-- XMTT IB Box -->
+        <div class="sub-header-box xmtt-ib-box" id="xmtt-ib-box">
+          <button class="expand-btn" data-target="xmtt-ib-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN INBOUND</h5>
+          </div>
+          <div id="xmtt-ib-content" class="box-content">
+            <p>...</p>
+          </div>
+        </div>
+        <!-- Resize Handle 1 -->
+        <div class="resize-handle" data-resize="1"></div>
+        <!-- XMTT CHAT Box -->
+        <div class="sub-header-box xmtt-chat-box" id="xmtt-chat-box">
+          <button class="expand-btn" data-target="xmtt-chat-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN CHAT</h5>
+          </div>
+          <div id="xmtt-chat-content" class="box-content">
+            <p>...</p>
+          </div>
+        </div>
+        <!-- Resize Handle 2 -->
+        <div class="resize-handle" data-resize="2"></div>
+        <!-- XMTT EMAIL Box -->
+        <div class="sub-header-box xmtt-email-box" id="xmtt-email-box">
+          <button class="expand-btn" data-target="xmtt-email-box">⤢</button>
+          <div class="column-header">
+            <h5>XÁC MINH THÔNG TIN EMAIL</h5>
+          </div>
+          <div id="xmtt-email-content" class="box-content">
+            <p>...</p>
+          </div>
+        </div>
+      </div>
+      <!-- Notes Box -->
+      <div class="sub-header-box" id="notes-box">
+        <button class="expand-btn" data-target="notes-box">⤢</button>
+        <div id="notes-result" class="box-content">
+          <p>Thông báo và lưu ý sẽ hiển thị ở đây</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body Content (Content Viewer - supports both PDF and HTML) -->
+    <div id="body-proper">
+      <iframe id="pdf-viewer" src="" style="width: 100%; height: 100%; border: none"></iframe>
+      <div id="html-viewer"
+        style="width: 100%; height: 100%; overflow: auto; display: none; padding: 20px; background: white;"></div>
+    </div>
+  </main>
+
+  <div id="custom-popup" class="popup-container hidden">
+    <button id="popup-close-btn">✖</button>
+    <div id="popup-content"></div>
+  </div>
+
+  <div id="overlay"></div>
+  <div id="toast-container"></div>
+
+  <div class="scroll-buttons">
+    <button id="scroll-to-top" class="scroll-btn">▲</button>
+    <button id="scroll-to-bottom" class="scroll-btn">▼</button>
+  </div>
+
+  <!-- FLOWCHART_DATA_START -->
+  <script>
+/**
+ * GENERATED BY FLOWCHART EDITOR
+ */
+
+// --- GROUP: Chưa phân loại ---
+const XMTT_1 = `1. Không cần XMTT`;
+const XMTT_2 = `2. CMND/CCCD`;
+const XMTT_3 = `3. CCCD/CMND/SHD`;
+const XMTT_4 = `4. Đúng SĐT + CMND/CCCD + 1A`;
+const XMTT_5 = `5. Đúng SĐT + CMND + Sai 1A`;
+const XMTT_6 = `6. Đúng SĐT + CMND + 1A + 1B`;
+const XMTT_7 = `7. Đúng SĐT update + CMND + 2A + 1B`;
+const XMTT_8 = `8. Sai SĐT
+  a. còn dùng SDT cũ: dùng đúng SDT gọi lại
+  b. Không còn dùng SDT:
+   - HĐ Closed hết: CMND/CCCD + 1A
+   - HĐ còn mở: CMND/CCCD + 2A  đồng thời hướng dẫn cập nhật SDT.`;
+const XMTT_9 = `9. Sai SĐT + CMND + 1A`;
+const XMTTIB_10 = `<td style="background-color:white; line-height:1.4;">
+  - <strong>Đúng SĐT:</strong> <strong style="color:red">1A</strong> 
+  (nếu <strong>sai</strong> <strong style="color:red">1A</strong>, chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
+
+  - <strong>Sai SĐT:</strong>
+
+    + Không còn HĐ nào active: <strong style="color:red">2A</strong>
+
+    + Còn HĐ active: <strong style="color:red">1A</strong> 
+  (chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
+</td>`;
+const LTNSlide4 = `<td style="background-color:white; line-height:1.4;">
+  - <strong>Đúng SĐT:</strong> <strong style="color:red">1A</strong> 
+  (nếu <strong>sai</strong> <strong style="color:red">1A</strong>, chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
+<br/>
+  - <strong>Sai SĐT:</strong>
+<br>
+    + Không còn HĐ nào active: <strong style="color:red">2A</strong>
+<br>
+    + Còn HĐ active: <strong style="color:red">1A</strong> 
+  (chỉ cung cấp số HĐ/số tiền đến hạn thanh toán)
+</td>`;
+const LTNSlide11 = `<td style="background-color:white; vertical-align:middle">
+  <strong style="color:red">Đúng / Sai SĐT:</strong> <strong>1A</strong>
+</td>`;
+const ECLTNSlide4 = `<td style="background-color:white; line-height:1.4;">
+  - Chat: <strong>Post Login</strong>
+<br/>
+  - Email/Chat không post login: 
+  <a href="file://deltavn.vn/Deltashare/DeptData/_CallCenter/CSPORTAL/Website/uat/UATWEBQC/pdfile/THANH_TOAN_CIC/PDF_HUONG_DAN_TRA_CUU.pdf" style="color:#0070c0; text-decoration:underline;">xem tại đây</a>
+</td>
+`;
+const ECLTNSlide11 = `<td style="background-color:white; vertical-align:middle; line-height:1.4;">
+  <strong style="color:red">Chat:</strong> <strong>Post login FEOL 2.0</strong>
+<br>
+  <strong style="color:red">Email/Chat không post login:</strong> <strong>Không cần XMTT</strong>
+</td>`;
+const LUUYLTNSlide4 = `<td style="background-color:white; line-height:1.4; vertical-align:middle;">
+  <strong style="color:red">Fail XMTT nhưng KH gay gắt</strong> yêu cầu cung cấp thông tin chi tiết: 
+  CS khai thác <strong>SĐT liên hệ</strong> và <strong>gửi email</strong> đến anh 
+  <a href="mailto:tu.tran@fecredit.com.vn" style="color:#0070c0; text-decoration:underline;">
+    tu.tran@fecredit.com.vn
+  </a> để xem xét hỗ trợ
+</td>
+`;
+const LUUYLTNSlide11 = `<td style="background-color:white; line-height:1.4; vertical-align:top;">
+  • <strong style="color:red">HĐ bán nợ TOÀN PHẦN, CHỈ CUNG CẤP:</strong> số hợp đồng, thông tin chung công ty, kiểm tra tiền vào hệ thống 
+  (ngoại trừ thông tin giao dịch bán nợ – 
+  <a href="#" style="color:#0070c0; text-decoration:underline;">xem tại đây</a>)
+<br>
+  • <strong style="color:red">KHÔNG CHỦ ĐỘNG</strong> cung cấp việc HĐ đã bán nợ; chỉ cung cấp nếu khách hàng hỏi.
+<br>
+  • Sau thời điểm bán nợ, FE ngừng báo cáo tín dụng; lịch sử tín dụng cập nhật nhóm nợ cao nhất theo lịch sử thanh toán của KH.
+</td> `;
+
+// --- GROUP: DIEUKIEN TEMPLATES ---
+const DIEUKIEN_NGUOI_THU_3 = `<p><strong><span style='color:#ff0000'>Lưu ý:</span> Nếu người thứ 3 báo chủ thẻ đang đi tù/ thẻ bị mất/ nuốt thẻ</strong><br />
+- Thông báo khóa thẻ để tránh rủi ro phát sinh GD (trừ những thẻ Dcard chỉ dùng như kênh giải ngân cho khoản vay.)<br />
+- Hướng dẫn chủ thẻ liên hệ tổng đài để được hỗ trợ mở khóa/ đóng thẻ/ thay thế thẻ mới khi cần<br />
+- Nhập code: Chọn: Card Block / Unblock / PIN Reset => Block A. Nếu thẻ khóa Q trước đó thì chuyển khóa L.</p>`;
+
+
+window.HEADER_PRESETS = {
+  "TIN_TUC": {
+    "pdf": "khuyenmai.pdf",
+    "xmttib": XMTT_1,
+    "note": "<strong>Khuyến mãi mới nhất:</strong><br>- Giảm 10% lãi suất cho vay mua xe máy trong tháng 1/2026<br>- Tặng voucher 500k cho khách hàng mới đăng ký qua app"
+  },
+  "QD_CHUNG": {
+    "pdf": "./QUY_DINH_CHUNG/CARD/quydinhchung.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "PHAN_LOAI_RUI_RO": {
+    "pdf": "./QUY_DINH_CHUNG/CARD/phanloairuirolcard.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "XMTT_LEVEL_A": {
+    "pdf": "./QUY_DINH_CHUNG/CARD/cauhoilevelacard.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "XMTT_LEVEL_B": {
+    "pdf": "./QUY_DINH_CHUNG/CARD/cauhoilevelbcard.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "TIEP_NHAN_CUOC_GOI": {
+    "pdf": "./QUY_DINH_CHUNG/CARD/quydinhtiepnhancuogoi.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "XU_LY_EMAIL_CHAT": {
+    "pdf": "./QUY_DINH_CHUNG/CARD/quydinhxulyemail_chat.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "HUONG_DAN_NHAP_LIEU": {
+    "pdf": "./QUY_DINH_CHUNG/CARD/quydinhnhaplieu.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "DU_NO_THOA_THUAN": {
+    "dieukien": DIEUKIEN_NGUOI_THU_3,
+    "pdf": "./QUY_DINH_CHUNG/CARD/dunothuathuoanthanhtoan_card.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "BOI_THUONG_BAO_HIEM": {
+    "dieukien": DIEUKIEN_NGUOI_THU_3,
+    "pdf": "./QUY_DINH_CHUNG/CARD/boithuongbaohiem_card.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "NGUNG_NHAC_NO_DAN_SU": {
+    "dieukien": DIEUKIEN_NGUOI_THU_3,
+    "pdf": "./QUY_DINH_CHUNG/CARD/ngungnhacnodansu.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "HOAN_TIEN": {
+    "dieukien": DIEUKIEN_NGUOI_THU_3,
+    "pdf": "./QUY_DINH_CHUNG/CARD/hoantien_card.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "CAC_YEU_CAU_KHAC": {
+    "dieukien": DIEUKIEN_NGUOI_THU_3,
+    "pdf": "./QUY_DINH_CHUNG/CARD/cacyeucaukhac_card.pdf",
+    "contentType": "",
+    "htmlContent": "",
+    "htmlUrl": ""
+  },
+  "TAI_LIEU_THAM_KHAO": {
+    "pdf": "TAI LIEU THAM KHAO.pdf",
+    "xmttib": XMTT_1,
+    "xmttemail": "Không cần XMTT cho Email",
+    "xmttchat": "Post Login FEOL 2.0",
+    "note": "Tài liệu tham khảo các quy định, chính sách và hướng dẫn nghiệp vụ"
+  },
+  "HUONG_DAN_HE_THONG": {
+    "pdf": "HUONG DAN HE THONG.pdf"
+  },
+  "CHANGE_LOG": {
+    "pdf": "CHANGE LOG.pdf"
+  }
+};
+
+window.flowchartData = {
+  "1. THÔNG TIN CHUNG": {
+    "Thông Tin Công Ty": {
+      "Thông Tin Công Ty & Thương Hiệu": {
+        "displayName": "Thông tin công ty & thương hiệu",
+        "dieukien": "",
+        "pdf": "1_THONG_TIN_CONG_TY/Thong_tin_cong_ty_thuong_hieu.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      },
+      "Các Kênh CSKH": {
+        "displayName": "Các kênh CSKH",
+        "dieukien": "",
+        "pdf": "1_THONG_TIN_CONG_TY/Cac_kenh_CSKH.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      },
+      "Công Văn & Thư Tín": {
+        "displayName": "Công Văn / Thư Tín",
+        "dieukien": "",
+        "pdf": "Cong_van_thu_tin.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      },
+      "Quy Trình Gửi ZNS": {
+        "displayName": "Quy trình gửi ZNS",
+        "dieukien": "",
+        "pdf": "1_THONG_TIN_CONG_TY/Quy_trinh_gui_ZNS.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      }
+    },
+    "Hợp Tác Kinh Doanh": {
+      "displayName": "Hợp Tác Kinh Doanh",
+      "dieukien": "<p><strong>Điều kiện ghi nhận hợp t&aacute;c:</strong><br>+ Mặt h&agrave;ng KH đang kinh doanh thuộc danh mục được hỗ trợ <a href=\"pdfile-loan\\1_THONG_TIN_CHUNG\\2_HOP_TAC_KINH_DOANH\\Danh_sach_mat_hang_hop_tac_kinh_doanh.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a><br>+ Ng&agrave;y cấp giấy ph&eacute;p kinh doanh &ge; 2 năm</p>",
+      "pdf": "2_HOP_TAC_KINH_DOANH/Hop_tac_kinh_doanh.pdf",
+      "contentType": "",
+      "htmlContent": "",
+      "htmlUrl": "",
+      "xmttib": "",
+      "xmttecom": "",
+      "note": ""
+    },
+    "Xóa Dữ Liệu Cá Nhân": {
+      "displayName": "Xóa Dữ Liệu Cá Nhân",
+      "dieukien": "<p>1. Phiếu y&ecirc;u cầu xử l&yacute; dữ liệu c&aacute; nh&acirc;n: <a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Phieu_yeu_cau_xu_ly_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\">tại đ&acirc;y</a><br>2. Tham khảo nghị định về bảo vệ dữ liệu c&aacute; nh&acirc;n:<a href=\"pdfile-loan/1_THONG_TIN_CHUNG/3_XOA_DU_LIEU_CA_NHAN/Tham_khao_nghi_dinh_ve_bao_ve_du_lieu_ca_nhan.pdf\" target=\"_blank\" rel=\"noopener\"> tại đ&acirc;y</a></p>",
+      "pdf": "3_XOA_DU_LIEU_CA_NHAN/Xoa_du_lieu_ca_nhan.pdf",
+      "contentType": "",
+      "htmlContent": "",
+      "htmlUrl": "",
+      "xmttib": "",
+      "xmttecom": "",
+      "note": ""
+    },
+    "Mở Chặn Cuộc Gọi": {
+      "Cuộc Gọi Từ Sale/ UW": {
+        "displayName": "Cuộc Gọi Từ Sale/ UW",
+        "dieukien": "<p>Kiểm tra ticket RL24/RC24, x&aacute;c định đơn vị đ&atilde; xử l&yacute; y&ecirc;u cầu ngưng mời vay trước đ&oacute;</p>",
+        "pdf": "4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Sale_UW.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      },
+      "Cuộc Gọi Từ Collx": {
+        "displayName": "Cuộc Gọi Từ Collx",
+        "dieukien": "",
+        "pdf": "4_MO_CHAN_CUOC_GOI/Mo_chan_cuoc_goi_Collx.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      }
+    },
+    "Ngưng Mời Vay & Quảng Cáo": {
+      "KH Chưa Có HĐ/ Thẻ": {
+        "displayName": "KH Chưa Có HĐ/ Thẻ",
+        "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
+        "pdf": "5_NGUNG_MOI_VAY/Ngung_moi_vay_chua_co_HD.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      },
+      "KH Đã Có HĐ/ Thẻ": {
+        "displayName": "KH Đã Có HĐ/ Thẻ",
+        "dieukien": "<p><strong>Điều kiện:&nbsp;</strong><br>Chỉ hỗ trợ ngưng t&aacute;c động tr&ecirc;n <span style=\"color: #e03e2d;\">SĐT đăng k&yacute;/ SĐT đang li&ecirc;n hệ/ email KH li&ecirc;n hệ/ email KH y&ecirc;u cầu</span></p>\n<p><strong>*Lưu &yacute;:</strong><br>- Hướng dẫn kiểm tra kết quả DNB <a href=\"file:///T:/DeptData/_CallCenter/CSPORTAL/Website/main/view/plttc_ww06_21-27/documents/H%C6%B0%E1%BB%9Bng%20d%E1%BA%ABn%20Ki%E1%BB%83m%20tra%20danh%20s%C3%A1ch%20DNB.pdf\" target=\"_blank\" rel=\"noopener\">xem tại đ&acirc;y</a></p>\n<p>- SĐT/Email được add sẽ c&oacute; thời hạn \"vĩnh viễn\" v&agrave; chưa c&oacute; t&iacute;nh năng hủy.<br>- CS phải thao t&aacute;c add SĐT ngay trong cuộc gọi. Nếu add thất bại do lỗi dịch vụ, CS hỗ trợ theo trường hợp \"Kh&ocirc;ng thỏa điều kiện DNB\"</p>",
+        "pdf": "5_NGUNG_MOI_VAY/Ngung_moi_vay_da_co_HD.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      }
+    },
+    "Khuyến Mãi": {
+      "Loan": {
+        "Ưu Đãi Thanh Toán": {
+          "displayName": "Ưu Đãi Thanh Toán Loan",
+          "dieukien": "",
+          "pdf": "6_KHUYEN_MAI/Uu_dai_thanh_toan.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        }
+      },
+      "Card": {
+        "Ưu Đãi Thanh Toán": {
+          "displayName": "Ưu Đãi Thanh Toán Card",
+          "dieukien": "",
+          "pdf": "6_KHUYEN_MAI/Uu_dai_thanh_toan.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        },
+        "Ưu Đãi Mua Sắm": {
+          "displayName": "Ưu Đãi Mua Sắm Card",
+          "dieukien": "",
+          "pdf": "6_KHUYEN_MAI/Uu_dai_mua_sam.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        },
+        "Hoàn Tiền": {
+          "displayName": "Ưu Đãi Hoàn Tiền Card",
+          "dieukien": "",
+          "pdf": "6_KHUYEN_MAI/Hoan_tien.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        },
+        "Dành riêng cho NV FEC": {
+          "displayName": "Ưu Đãi Dành Riêng Cho NV FEC",
+          "dieukien": "",
+          "pdf": "6_KHUYEN_MAI/Khuyen_mai_staff",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        }
+      }
+    },
+    "Nhầm line/ Rớt cuộc/ Mất tín hiệu": {
+      "displayName": "Nhầm Line/ Rớt Cuộc/ Mất Tín Hiệu",
+      "dieukien": "",
+      "pdf": "7_NHAM_LINE_ROT_CUOC/Nham_line_rot_cuoc.pdf",
+      "contentType": "",
+      "htmlContent": "",
+      "htmlUrl": "",
+      "xmttib": "",
+      "xmttecom": "",
+      "note": ""
+    },
+    "Yêu cầu khác": {
+      "displayName": "Yêu Cầu Khác",
+      "dieukien": "",
+      "pdf": "8_YEU_CAU_KHAC/Yeu_cau_khac.pdf",
+      "contentType": "",
+      "htmlContent": "",
+      "htmlUrl": "",
+      "xmttib": "",
+      "xmttecom": "",
+      "note": ""
+    }
+  },
+  "2. SẢN PHẨM": {},
+  "3. KÊNH GIẢI NGÂN/ THANH TOÁN": {
+    "folderName": "KENH_GIAI_NGAN_THANH_TOAN",
+    "dieukien": "<p class=\"MsoNormal\"><strong><span style=\"font-size: 11.0pt; line-height: 115%; mso-ascii-font-family: Calibri; mso-fareast-font-family: 'Times New Roman'; mso-hansi-font-family: Calibri; mso-bidi-font-family: Calibri; color: black; mso-font-kerning: 0pt; mso-ligatures: none;\">Quy định chung:<br></span></strong><span style=\"font-size: 11.0pt; line-height: 115%; mso-ascii-font-family: Calibri; mso-fareast-font-family: 'Times New Roman'; mso-hansi-font-family: Calibri; mso-bidi-font-family: Calibri; color: black; mso-font-kerning: 0pt; mso-ligatures: none;\">1. Tư vấn kênh thanh toán theo nhu cầu của KH. Nếu KH không yêu cầu cụ thể, CS tư vấn theo thứ tự ưu tiên:<strong> </strong>App FE Online 2.0 &gt; Các ví điện tử &gt; Thanh toán tiền mặt.<br>2. <strong>Hướng dẫn KH:</strong> giữ lại biên lai sau khi thanh toán. Thời gian công ty nhận tiền là 2 ngày làm việc. Chủ động kiểm tra giao dịch đã thanh toán trên ứng dụng FEOL 2.0<br>3. HĐ <strong>bán nợ toàn phần Galaxy</strong>, CS hướng dẫn liên hệ </span><u><span style=\"font-size: 11.0pt; line-height: 115%; mso-ascii-font-family: Calibri; mso-fareast-font-family: 'Times New Roman'; mso-hansi-font-family: Calibri; mso-bidi-font-family: Calibri; color: #0070c0; mso-font-kerning: 0pt; mso-ligatures: none;\">Galaxy</span></u><span style=\"font-size: 11.0pt; line-height: 115%; mso-ascii-font-family: Calibri; mso-fareast-font-family: 'Times New Roman'; mso-hansi-font-family: Calibri; mso-bidi-font-family: Calibri; color: black; mso-font-kerning: 0pt; mso-ligatures: none;\"><br>4. HĐ<strong> </strong></span><strong><span style=\"font-size: 11.0pt; line-height: 115%; mso-ascii-font-family: Calibri; mso-fareast-font-family: 'Times New Roman'; mso-hansi-font-family: Calibri; mso-bidi-font-family: Calibri; color: red; mso-font-kerning: 0pt; mso-ligatures: none;\">B2</span></strong><span style=\"font-size: 11.0pt; line-height: 115%; mso-ascii-font-family: Calibri; mso-fareast-font-family: 'Times New Roman'; mso-hansi-font-family: Calibri; mso-bidi-font-family: Calibri; color: black; mso-font-kerning: 0pt; mso-ligatures: none;\"> <strong>hoặc</strong> các trường hợp </span><strong><span style=\"font-size: 11.0pt; line-height: 115%; mso-ascii-font-family: Calibri; mso-fareast-font-family: 'Times New Roman'; mso-hansi-font-family: Calibri; mso-bidi-font-family: Calibri; color: red; mso-font-kerning: 0pt; mso-ligatures: none;\">kênh thu hộ thông báo \"không có thông tin thanh toán\"</span></strong><span style=\"font-size: 11.0pt; line-height: 115%; mso-ascii-font-family: Calibri; mso-fareast-font-family: 'Times New Roman'; mso-hansi-font-family: Calibri; mso-bidi-font-family: Calibri; color: black; mso-font-kerning: 0pt; mso-ligatures: none;\">, CS hướng dẫn KH chuyển khoản vào tài khoản công ty.</span></p>",
+    "Kênh Thanh Toán": {
+      "folderName": "KENH_THANH_TOAN",
+      "Thanh toán trực tuyến": {
+        "Fe Online 2.0": {
+          "Thanh toán bằng Quét mã QR": {
+            "displayName": "Thanh toán bằng Quét mã QR",
+            "dieukien": "<p><strong>Lưu ý:</strong><br><span style=\"color: #e03e2d;\">KHÔNG</span> hướng dẫn KH thanh toán qua kênh thu hộ S<strong>acombank, BIDV, Smartpay </strong>và tính năng <strong>thanh toán hóa đơn của các ngân hàng/ app </strong>trong danh sách </p>",
+            "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_bang_quet_ma_QR.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttecom": "",
+            "note": ""
+          },
+          "Thanh toán bằng TK Ubank": {
+            "displayName": "Thanh toán bằng TK Ubank",
+            "dieukien": "",
+            "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_bang_TK_Ubank.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttecom": "",
+            "note": ""
+          }
+        },
+        "Ví điện tử": {
+          "MoMo, AirPay, Payoo, ViettelPay……": {
+            "displayName": "MoMo, AirPay, Payoo, ViettelPay……",
+            "dieukien": "",
+            "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/MoMo_AirPay_Payoo_ViettelPay.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttecom": "",
+            "note": ""
+          },
+          "Zalo": {
+            "Trên ứng dụng Zalo": {
+              "displayName": "Trên ứng dụng Zalo",
+              "dieukien": "",
+              "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_bang_zalochat.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "xmttecom": "",
+              "note": ""
+            },
+            "Trên ứng dụng Zalo Pay": {
+              "displayName": "Trên ứng dụng Zalo Pay",
+              "dieukien": "",
+              "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_bang_zalopay.pdf",
+              "contentType": "",
+              "htmlContent": "",
+              "htmlUrl": "",
+              "xmttib": "",
+              "xmttecom": "",
+              "note": ""
+            }
+          },
+          "Shopee": {
+            "displayName": "Shopee",
+            "dieukien": "",
+            "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_bang_shopee.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttecom": "",
+            "note": ""
+          }
+        },
+        "Chuyển khoản/ Internet banking": {
+          "Tin nhắn ZNS sao kê": {
+            "displayName": "Tin nhắn ZNS sao kê",
+            "dieukien": "",
+            "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_qua_zns_sao ke.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttecom": "",
+            "note": ""
+          },
+          "Internet banking": {
+            "displayName": "Internet banking",
+            "dieukien": "",
+            "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_bang_Internet_banking.pdf",
+            "contentType": "",
+            "htmlContent": "",
+            "htmlUrl": "",
+            "xmttib": "",
+            "xmttecom": "",
+            "note": ""
+          }
+        },
+        "VPBank NEO": {
+          "displayName": "VPBank NEO",
+          "dieukien": "",
+          "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_bang_VPBank_NEO.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        }
+      },
+      "Thanh toán tiền mặt": {
+        "displayName": "Thanh toán tiền mặt",
+        "dieukien": "",
+        "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_bang_tien_mat.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      },
+      "Thanh toán qua ATM/ CDM": {
+        "displayName": "Thanh toán qua ATM/ CDM",
+        "dieukien": "",
+        "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_qua_ATM_CDM.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      },
+      "Trích nợ tự động": {
+        "displayName": "Trích nợ tự động",
+        "dieukien": "",
+        "pdf": "KENH_GIAI_NGAN_THANH_TOAN/KENH_THANH_TOAN/Thanh_toan_trich_no_tu_dong.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "",
+        "xmttecom": "",
+        "note": ""
+      }
+    }
+  },
+  "4. CIC": {},
+  "5. THANH TOÁN/ NHẮC NỢ": {
+    "folderName": "THANH_TOAN_NHAC_NO",
+    "Vấn đề thanh toán": {
+      "folderName": "VAN_DE_THANH_TOAN",
+      "Dư Nợ/ Sao Kê": {
+        "THẺ FEC": {
+          "displayName": "THẺ FEC",
+          "dieukien": "<p>1. Kiểm tra  Additional data: Có DS NV thu hồi nợ phụ trách trong tháng hoặc Allocation History: Có Legalcallpool/ Legalvisitpool/ Recoveryih/ Lowpospool/ Fieldvisitpool/ Litigationpool trong tháng.<br>--&gt; Hỗ trợ theo quy trình thỏa thuận thanh toán <br>2. Trường hợp thẻ không đủ điều kiện thỏa thuận thanh toán nhưng KH muốn thỏa thuận do gặp khó khăn/bão lũ --&gt; Hỗ trợ theo quy trình KH gặp khó khăn/bão lũ</p>\n<p>Lưu ý:  <br>1. Các loại phí/ lãi được hoàn lại không được hiểu là GD thanh toán nên sẽ không cấn trừ vào Minpay<br>2. Giao dịch không hiển thị trên CMS/ PEGA, CS gửi mail cho TL<br>3. Thẻ chưa đăng ký email: Hướng dẫn KH cập nhật email trên FEOL 2.0</p>",
+          "pdf": "THANH_TOAN_NHAC_NO/VAN_DE_THANH_TOAN/DU_NO_SAO_KE_THE_FEC.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>Đúng SĐT + 1A + 1B<br>Đúng SĐT + 1A + (sai B) hoặc Sai SĐT: chỉ cung cấp dư nợ trong sao kê gần nhất</p>",
+          "xmttecom": "",
+          "note": ""
+        },
+        "Thẻ RS": {
+          "displayName": "Thẻ RS",
+          "dieukien": "<p>1. Kiểm tra  Additional data: Có DS NV thu hồi nợ phụ trách trong tháng hoặc Allocation History: Có Legalcallpool/ Legalvisitpool/ Recoveryih/ Lowpospool/ Fieldvisitpool/ Litigationpool trong tháng.<br>--&gt; Hỗ trợ theo quy trình thỏa thuận thanh toán <br>2. Trường hợp thẻ không đủ điều kiện thỏa thuận thanh toán nhưng KH muốn thỏa thuận do gặp khó khăn/bão lũ --&gt; Hỗ trợ theo quy trình KH gặp khó khăn/bão lũ</p>",
+          "pdf": "THANH_TOAN_NHAC_NO/VAN_DE_THANH_TOAN/DU_NO_SAO_KE_THE_FEC.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p> 1A</p>",
+          "xmttecom": "",
+          "note": ""
+        },
+        "THẺ KM1/KM2/ACEO/ HĐ lỗi thanh toán_dd/mm/yyyy": {
+          "displayName": "THẺ KM1/KM2/ACEO/ HĐ lỗi thanh toán_dd/mm/yyyy",
+          "dieukien": "",
+          "pdf": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        },
+        "THẺ BÁN NỢ TOÀN PHẦN GALAXY": {
+          "displayName": "THẺ BÁN NỢ TOÀN PHẦN GALAXY",
+          "dieukien": "",
+          "pdf": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        },
+        "THẺ PAYEMI": {
+          "displayName": "THẺ PAYEMI",
+          "dieukien": "",
+          "pdf": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        }
+      },
+      "Hạn Mức Khả Dụng": {
+        "pdf": "THANH_TOAN_NHAC_NO/VAN_DE_THANH_TOAN/OTB_THE_FEC.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "<p>Đúng SĐT + 1A + 1B</p>"
+      },
+      "Lịch Sử Giao Dịch": {
+        "Kiểm Tra Giao Dịch Thanh Toán": {
+          "displayName": "Kiểm Tra Giao Dịch Thanh Toán",
+          "dieukien": "",
+          "pdf": "THANH_TOAN_NHAC_NO/VAN_DE_THANH_TOAN/KIEM_TRA_TIEN_VAO.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>Đúng SĐT + 1A + 1B</p>",
+          "xmttecom": "",
+          "note": ""
+        },
+        "Tình Trạng Giao Dịch Chi Tiêu": {
+          "displayName": "Tình Trạng Giao Dịch Chi Tiêu",
+          "dieukien": "",
+          "pdf": "THANH_TOAN_NHAC_NO/VAN_DE_THANH_TOAN/TINH_TRANG_GIAO_DICH.pdf",
+          "contentType": "",
+          "htmlContent": "",
+          "htmlUrl": "",
+          "xmttib": "<p>Đúng SĐT + 1A + 1B</p>",
+          "xmttecom": "",
+          "note": ""
+        }
+      },
+      "Thỏa thuận thanh toán": {
+        "dieukien": "<p>1. Hợp đồng thuộc COLLECTION quản lý:<br> - Additional Data có thông tin Legal trong tháng (Hình ảnh) <br>- Allocation History có thông tin Legal/FieldVisitpool/Legal Call Pool/Legal Visitpool/ Recoveryih/ LowPospool/ LitiGationpool trong tháng (Hình ảnh)</p>",
+        "pdf": "THANH_TOAN_NHAC_NO/VAN_DE_THANH_TOAN/THOA_THUAN_THANH_TOAN.pdf",
+        "contentType": "",
+        "htmlContent": "",
+        "htmlUrl": "",
+        "xmttib": "<p>1A</p>",
+        "xmttemail": "<p>Chỉ ghi nhận chuyển thỏa thuận, không cung cấp bất kỳ thông tin nào khác</p>",
+        "xmttchat": "<p>- Chat: Post Login<br>- Chat Pre-login: Chỉ ghi nhận chuyển thỏa thuận, không cung cấp bất kỳ thông tin nào khác</p>"
+      },
+      "Tra Soát": {
+        "GD đã vào hệ thống": {
+          "displayName": "GD đã vào hệ thống",
+          "dieukien": "",
+          "pdf": "",
+          "xmttib": "<p>Đúng SĐT + 1A + 1B<br>Chủ thẻ xác minh sai/ gọi sai SĐT: CS hướng dẫn KH đăng nhập FEOL 2.0 để chat với nhân viên. Trường hợp KH không biết cách này, CS hướng dẫn KH gửi chứng từ qua Zalo và gọi lại tổng đài để XMTT.</p>",
+          "xmttchat": "<p>XMTT hợp lệ<br>1. Chat post login hoặc<br>2. Có cuộc gọi XMTT thành công tại IB<br>Nếu XMTT không hợp lệ<br>CS vẫn hỗ trợ khai thác thông tin, chứng từ theo quy trình tương ứng, đồng thời hướng dẫn KH chat post login/ liên hệ tổng đài 19006939 (bấm phím 3) để thực hiện XMTT</p>",
+          "xmttecom": "",
+          "note": ""
+        },
+        "GD Chưa vào hệ thống": {
+          "displayName": "GD Chưa vào hệ thống",
+          "dieukien": "",
+          "pdf": "",
+          "xmttib": "",
+          "xmttecom": "",
+          "note": ""
+        }
+      },
+      "Tất toán": {
+        "Thẻ thường": {
+          "Không có IPP": {
+            "displayName": "Không có IPP",
+            "dieukien": "",
+            "pdf": "",
+            "xmttib": "<p>Đúng SĐT + 1A + 1B<br>Đúng/Sai SĐT + 1A: CS có thể cung cấp (Không cung cấp chi tiết):<br>- Memo bal<br>- Tổng dư nợ tạm tính không có IPP</p>",
+            "xmttemail": "<p>- Hướng Dẫn KH liên hệ tổng đài</p>",
+            "xmttchat": "<p>- Hướng Dẫn KH liên hệ tổng đài</p>",
+            "xmttecom": "",
+            "note": ""
+          },
+          "Có IPP": {
+            "displayName": "Có IPP",
+            "dieukien": "<p>Kiểm tra các TH cần cộng thêm phí, lãi: Xem tại đây</p>",
+            "pdf": "",
+            "xmttib": "<p>Đúng SĐT + 1A + 1B<br>Đúng/Sai SĐT + 1A: CS có thể cung cấp (Không cung cấp chi tiết):<br>- Memo bal<br>- Tổng dư nợ tạm tính không có IPP</p>",
+            "xmttemail": "<p>- Hướng Dẫn KH liên hệ tổng đài</p>",
+            "xmttchat": "<p>- Hướng Dẫn KH liên hệ tổng đài</p>",
+            "xmttecom": "",
+            "note": ""
+          }
+        },
+        "Thẻ RS": {
+          "Có Alop": {
+            "displayName": "Có Alop",
+            "dieukien": "",
+            "pdf": "",
+            "xmttib": "<p>Đúng SĐT + 1A + 1B<br>Đúng/Sai SĐT + 1A: CS có thể cung cấp (Không cung cấp chi tiết):<br>- Memo bal<br>- Tổng dư nợ tạm tính không có IPP</p>",
+            "xmttemail": "<p>- Hướng Dẫn KH liên hệ tổng đài</p>",
+            "xmttchat": "<p>- Hướng Dẫn KH liên hệ tổng đài</p>",
+            "xmttecom": "",
+            "note": ""
+          },
+          "Không có Alop": {
+            "displayName": "Không có Alop",
+            "dieukien": "",
+            "pdf": "",
+            "xmttib": "<p>Đúng SĐT + 1A + 1B<br>Đúng/Sai SĐT + 1A: CS có thể cung cấp (Không cung cấp chi tiết):<br>- Memo bal<br>- Tổng dư nợ tạm tính không có IPP</p>",
+            "xmttemail": "<p>- Hướng Dẫn KH liên hệ tổng đài</p>",
+            "xmttchat": "<p>- Hướng Dẫn KH liên hệ tổng đài</p>",
+            "xmttecom": "",
+            "note": ""
+          }
+        }
+      }
+    },
+    "Nhắc nợ": {
+      "folderName": "NHAC_NO",
+      "Nhắc Nợ Trước Hạn": {
+        "displayName": "Nhắc Nợ Trước Hạn",
+        "dieukien": "",
+        "pdf": "",
+        "xmttib": "<p>CCCD</p>",
+        "xmttemail": "<p>CCCD</p>",
+        "xmttchat": "<p>CCCD</p>",
+        "xmttecom": "",
+        "note": ""
+      },
+      "Nhắc Nợ Nhiều Lần/ Quá 7h-21h": {
+        "displayName": "Nhắc Nợ Nhiều Lần/ Quá 7h-21h",
+        "dieukien": "<p>Nếu không phải chủ thẻ hoặc không thỏa điều kiện XMTT, CS chỉ khai thác CMND/STK/SĐT đăng ký và ghi nhận khiếu nại cho KH. Lưu ý không cung cấp thông tin liên quan đến thẻ</p>",
+        "pdf": "",
+        "xmttib": "<p>* CCCD + 1A + 1B<br>* KH chưa nhận được thẻ: CCCD + 2A<br>* Thẻ RS: CCCD + 1A</p>",
+        "xmttemail": "<p>CCCD</p>",
+        "xmttchat": "<p>CCCD</p>",
+        "xmttecom": "",
+        "note": ""
+      },
+      "Nhận Nhiều Cuộc Gọi Nhá Máy": {
+        "displayName": "Nhận Nhiều Cuộc Gọi Nhá Máy",
+        "dieukien": "<p>Nếu không phải chủ thẻ hoặc không thỏa điều kiện XMTT, CS chỉ khai thác CMND/STK/SĐT đăng ký và ghi nhận khiếu nại cho KH. Lưu ý không cung cấp thông tin liên quan đến thẻ</p>",
+        "pdf": "",
+        "xmttib": "<p>* CCCD + 1A + 1B<br>* KH chưa nhận được thẻ: CCCD + 2A<br>* Thẻ RS: CCCD + 1A</p>",
+        "xmttemail": "<p>CCCD</p>",
+        "xmttchat": "<p>CCCD</p>",
+        "xmttecom": "",
+        "note": ""
+      },
+      "Yêu Cầu Ngưng Nhắc Nợ": {
+        "Số Chính Chủ Đăng Ký HĐ FE CREDIT": {
+          "displayName": "Số Chính Chủ Đăng Ký HĐ FE CREDIT",
+          "dieukien": "<p><span style=\"text-decoration: underline;\"><strong>Dựa vào số bị nhắc nợ:</strong></span></p>\n<p>1. Có thông tin HĐ + số điện thoại là main phone =&gt; nhập trên HĐ này<br>2. Không có thông tin HĐ: nhập trên số điện thoại KH liên hệ<br>3. KH yêu cầu ngưng nhắc nợ từ 02 số điện thoại trở lên thì CS nhập từng số cho từng ticket</p>",
+          "pdf": "",
+          "xmttib": "<p>CCCD</p>",
+          "xmttemail": "<p>CCCD</p>",
+          "xmttchat": "<p>CCCD</p>",
+          "xmttecom": "",
+          "note": ""
+        },
+        "Số Tham Chiếu/ Không Có Thông Tin HĐ": {
+          "displayName": "Số Tham Chiếu/ Không Có Thông Tin HĐ",
+          "dieukien": "<p><span style=\"text-decoration: underline;\"><strong>Dựa vào số bị nhắc nợ:</strong></span></p>\n<p>1. Có thông tin HĐ + số điện thoại là main phone =&gt; nhập trên HĐ này<br>2. Không có thông tin HĐ: nhập trên số điện thoại KH liên hệ<br>3. KH yêu cầu ngưng nhắc nợ từ 02 số điện thoại trở lên thì CS nhập từng số cho từng ticket</p>",
+          "pdf": "",
+          "xmttib": "<p>CCCD</p>",
+          "xmttemail": "<p>CCCD</p>",
+          "xmttchat": "<p>CCCD</p>",
+          "xmttecom": "",
+          "note": ""
+        },
+        "KH Đã Thanh Toán": {
+          "displayName": "KH Đã Thanh Toán",
+          "dieukien": "<p>Chủ HĐ tại FEC và không có nợ quá hạn</p>",
+          "pdf": "",
+          "xmttib": "<p>CCCD</p>",
+          "xmttemail": "<p>CCCD</p>",
+          "xmttchat": "<p>CCCD</p>",
+          "xmttecom": "",
+          "note": ""
+        },
+        "Đang Trong Quá Trình Xử Lý": {
+          "displayName": "Đang Trong Quá Trình Xử Lý",
+          "dieukien": "<p>Kiểm tra ticket đã ghi nhận trước đó, bao gồm các code sau:<span style=\"color: #3598db;\"> xem tại đây</span></p>",
+          "pdf": "",
+          "xmttib": "<p>CCCD + 1A + 1B<br>Thẻ RS: Đúng/Sai SĐT + CCCD + 1A</p>",
+          "xmttemail": "<p>CCCD</p>",
+          "xmttchat": "<p>CCCD</p>",
+          "xmttecom": "",
+          "note": ""
+        }
+      }
+    }
+  },
+  "6. NGHIỆP VỤ THẺ": {},
+  "7. YÊU CẦU GIẤY TỜ": {},
+  "8. CẬP NHẬT THÔNG TIN": {
+    "Số Điện Thoại": {
+      "Thẻ vật lý": {
+        "Chưa cập nhật trên FEOL 2.0": {
+          "Chưa có tài khoản": {
+            "displayName": "Chưa có tài khoản",
+            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ</strong><br><strong>1. KH dùng đúng SĐT trên CMS hoặc SĐT muốn cập nhật gọi lên tổng đài để XMTT</strong><br>- <strong>Inbound: </strong>Nếu quá 5 ngày làm việc kể từ thời điểm nhận ticket XMTT thành công gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu <br>-<strong> Ecom:</strong> kiểm tra ticket XMTT thành công của IB trong vòng 4 tuần.<br><strong>2. KH cần cung cấp đủ thông tin và hình ảnh</strong></p>",
+            "pdf": "",
+            "xmttib": "<p><strong>1. CMND + 2A + 1B </strong>đối với:<br>- Thẻ VL1/LZ1<br>- Thẻ RS/KM1/KM2<br>- Thẻ DC2 (khóa Y trên ARQB)<br>- Thẻ DC3/Thẻ DP3 (chưa phát hành thẻ vật lý)<br>- Thẻ DC5/ DC6/ DC7/ DC8 có hạn mức 1 VNĐ<br><strong>2. CMND + 2A + 3B</strong> đối với các loại thẻ khác<br><strong>3. Lưu ý:</strong><br>- Câu hỏi bắt buộc ở level B: \"4 số cuối thẻ\". Chỉ bỏ qua nếu: Thẻ mất/ đã khóa C trước đó/ chưa từng nhận thẻ và thẻ chưa kích hoạt / thẻ MT1 chưa phát hành thẻ vật lý / thẻ DCard không được phát hành thẻ vật lý<br>- KH có thẻ VL1 + Thẻ thường (thỏa điều kiện cập nhật): CS nhập liệu và xác minh theo thẻ thường, remark note thêm \"có thẻ VL1\"</p>",
+            "xmttecom": "",
+            "note": ""
+          },
+          "Đã có tài khoản & còn đăng nhập được": {
+            "displayName": "Đã có tài khoản & còn đăng nhập được",
+            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ</strong><br><strong>1. KH dùng đúng SĐT trên CMS hoặc SĐT muốn cập nhật gọi lên tổng đài để XMTT</strong><br>- <strong>Inbound: </strong>Nếu quá 5 ngày làm việc kể từ thời điểm nhận ticket XMTT thành công gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu <br>-<strong> Ecom:</strong> kiểm tra ticket XMTT thành công của IB trong vòng 4 tuần.<br><strong>2. KH cần cung cấp đủ thông tin và hình ảnh</strong></p>",
+            "pdf": "",
+            "xmttib": "<p><strong>1. CMND + 2A + 1B </strong>đối với:<br>- Thẻ VL1/LZ1<br>- Thẻ RS/KM1/KM2<br>- Thẻ DC2 (khóa Y trên ARQB)<br>- Thẻ DC3/Thẻ DP3 (chưa phát hành thẻ vật lý)<br>- Thẻ DC5/ DC6/ DC7/ DC8 có hạn mức 1 VNĐ<br><strong>2. CMND + 2A + 3B</strong> đối với các loại thẻ khác<br><strong>3. Lưu ý:</strong><br>- Câu hỏi bắt buộc ở level B: \"4 số cuối thẻ\". Chỉ bỏ qua nếu: Thẻ mất/ đã khóa C trước đó/ chưa từng nhận thẻ và thẻ chưa kích hoạt / thẻ MT1 chưa phát hành thẻ vật lý / thẻ DCard không được phát hành thẻ vật lý<br>- KH có thẻ VL1 + Thẻ thường (thỏa điều kiện cập nhật): CS nhập liệu và xác minh theo thẻ thường, remark note thêm \"có thẻ VL1\"</p>",
+            "xmttecom": "",
+            "note": ""
+          },
+          "Đã có tài khoản& không thể đăng nhập": {
+            "displayName": "Đã có tài khoản& không thể đăng nhập",
+            "dieukien": "<p><strong>ĐIỀU KIỆN HỖ TRỢ</strong><br><strong>1. KH dùng đúng SĐT trên CMS hoặc SĐT muốn cập nhật gọi lên tổng đài để XMTT</strong><br>- <strong>Inbound: </strong>Nếu quá 5 ngày làm việc kể từ thời điểm nhận ticket XMTT thành công gần nhất nhưng KH chưa gửi chứng từ, KH cần thực hiện XMTT lại từ đầu <br>-<strong> Ecom:</strong> kiểm tra ticket XMTT thành công của IB trong vòng 4 tuần.<br><strong>2. KH cần cung cấp đủ thông tin và hình ảnh</strong></p>",
+            "pdf": "",
+            "xmttib": "<p><strong>1. CMND + 2A + 1B </strong>đối với:<br>- Thẻ VL1/LZ1<br>- Thẻ RS/KM1/KM2<br>- Thẻ DC2 (khóa Y trên ARQB)<br>- Thẻ DC3/Thẻ DP3 (chưa phát hành thẻ vật lý)<br>- Thẻ DC5/ DC6/ DC7/ DC8 có hạn mức 1 VNĐ<br><strong>2. CMND + 2A + 3B</strong> đối với các loại thẻ khác<br><strong>3. Lưu ý:</strong><br>- Câu hỏi bắt buộc ở level B: \"4 số cuối thẻ\". Chỉ bỏ qua nếu: Thẻ mất/ đã khóa C trước đó/ chưa từng nhận thẻ và thẻ chưa kích hoạt / thẻ MT1 chưa phát hành thẻ vật lý / thẻ DCard không được phát hành thẻ vật lý<br>- KH có thẻ VL1 + Thẻ thường (thỏa điều kiện cập nhật): CS nhập liệu và xác minh theo thẻ thường, remark note thêm \"có thẻ VL1\"</p>",
+            "xmttecom": "",
+            "note": ""
+          }
+        }
+      }
+    }
+  },
+  "9. ĐIỀU CHỈNH THANH TOÁN/ HOÀN TIỀN": {},
+  "10. TRA CỨU TỰ ĐỘNG": {
+    "FE Online 2.0": {
+      "displayName": "dieu kien display name",
+      "dieukien": "KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>\n                       KH cần đăng nhập vào app FE Online 2.0 để sử dụng các tính năng tự động. Đảm bảo KH đã cài đặt phiên bản mới nhất của ứng dụng.<br>",
+      "pdf": "PDF_BAN_NO_FC_SOLD_AZURA.pdf",
+      "xmttib": "Đúng SĐT: <strong>Post Login FEOL 2.0</strong>",
+      "xmttemail": "Chat: <strong>Post Login FEOL 2.0</strong>",
+      "note": "Lưu ý: App FE Online 2.0 hỗ trợ cả iOS và Android. KH cần cập nhật thường xuyên để có trải nghiệm tốt nhất.",
+      "Tính Năng Chung": {
+        "Đăng Ký - Đăng Nhập": {
+          "displayName": "Tra Cứu Đăng Ký - Đăng Nhập",
+          "pdf": "dangkytaikhoanFEOL2.0.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Xác Thực NFC": {
+          "displayName": "Tra Cứu Xác Thực NFC",
+          "pdf": "xacthucNFC.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Đăng Ký Vay": {
+          "Đăng Ký Mở Thẻ Tín Dụng": {
+            "displayName": "Tra Cứu Đăng Ký Mở Thẻ Tín Dụng",
+            "pdf": "dangkymothetindung.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Đăng Ký Vay Thêm (Topup)": {
+            "displayName": "Tra Cứu Đăng Ký Vay Thêm (Topup)",
+            "pdf": "dangkyvaythem.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Đăng Ký Tiền Mặt Linh Hoạt": {
+            "displayName": "Tra Cứu Đăng Ký Tiền Mặt Linh Hoạt",
+            "pdf": "dangkytienmatlinhhoat.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Đăng Ký FE Paylater": {
+            "displayName": "Tra Cứu Đăng Ký FE Paylater",
+            "pdf": "dangkyFEPaylater.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          }
+        },
+        "Thanh Toán Qua Ubank": {
+          "displayName": "Tra Cứu Thanh Toán Qua Ubank",
+          "pdf": "thanhtoanquaUbank.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Quét Mã QR Thanh Toán Cho HĐ": {
+          "displayName": "Tra Cứu Quét Mã QR Thanh Toán Cho HĐ",
+          "pdf": "quetmaQRthanhtoanchoHD.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Kiểm Tra Giao Dịch KH Vừa Thanh Toán": {
+          "displayName": "Tra Cứu Kiểm Tra Giao Dịch KH Vừa Thanh Toán",
+          "pdf": "kiemtragiaodichvuathanhtoan.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Cập Nhật Email": {
+          "displayName": "Tra Cứu Cập Nhật Email",
+          "pdf": "capnhatemail.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Cập Nhật CCCD": {
+          "displayName": "Tra Cứu Cập Nhật CCCD",
+          "pdf": "capnhatCCCD.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Cập Nhật SĐT": {
+          "displayName": "Tra Cứu Cập Nhật SĐT",
+          "pdf": "capnhatSDT.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Trung Tâm Hỗ Trợ": {
+          "displayName": "Tra Cứu Trung Tâm Hỗ Trợ",
+          "pdf": "trungtamhotro.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Tra Cứu Kết Quả Xử Lý": {
+          "displayName": "Tra Cứu Tra Cứu Kết Quả Xử Lý",
+          "pdf": "tracuuketquaxuly.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        }
+      },
+      "Quản Lý Khoản Vay": {
+        "displayName": "Tra Cứu Quản Lý Khoản Vay",
+        "pdf": "quanlykhoanvay.pdf",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": ""
+      },
+      "Quản Lý Thẻ Tín Dụng": {
+        "Thông Tin Thẻ": {
+          "displayName": "Tra Cứu Thông Tin Thẻ",
+          "pdf": "thongtinthe.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Trạng Thái Thẻ - Tình Trạng Giao Phát Thẻ": {
+          "displayName": "Tra Cứu Trạng Thái Thẻ - Tình Trạng Giao Phát Thẻ",
+          "pdf": "quanlythetindung.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Bản Scan HĐ": {
+          "displayName": "Tra Cứu Bản Scan HĐ",
+          "pdf": "quanlythetindung.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Thông Tin IPP": {
+          "displayName": "Tra Cứu Thông Tin IPP",
+          "pdf": "quanlythetindung.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lịch Sử Giao Dịch/Thanh Toán": {
+          "displayName": "Tra Cứu Lịch Sử Giao Dịch/Thanh Toán",
+          "pdf": "quanlythetindung.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Dư Nợ, Sao Kê": {
+          "displayName": "Tra Cứu Dư Nợ, Sao Kê",
+          "pdf": "quanlythetindung.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Nghiệp Vụ Thẻ": {
+          "Kích Hoạt Thẻ": {
+            "displayName": "Tra Cứu Kích Hoạt Thẻ",
+            "pdf": "kichhoatthe.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Thay Đổi Mã Pin Thẻ ATM": {
+            "displayName": "Tra Cứu Thay Đổi Mã Pin Thẻ ATM",
+            "pdf": "quanlythetindung.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Chuyển Đổi Trả Góp (Retail)": {
+            "displayName": "Tra Cứu Chuyển Đổi Trả Góp (Retail)",
+            "pdf": "chuyendoitragop.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Tra Cứu/Đổi Điểm Thưởng": {
+            "displayName": "Tra Cứu Tra Cứu/Đổi Điểm Thưởng",
+            "pdf": "diemthuong.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Rút Tiền Mặt Từ Thẻ Tín Dụng": {
+            "displayName": "Tra Cứu Rút Tiền Mặt Từ Thẻ Tín Dụng",
+            "pdf": "ruttienmattuthe.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Thanh Toán Trực Tuyến/Thanh Toán Nước Ngoài/Cài Đặt Hạn Mức": {
+            "displayName": "Tra Cứu Thanh Toán Trực Tuyến/Thanh Toán Nước Ngoài/Cài Đặt Hạn Mức",
+            "pdf": "tinhnangthanhtoantructuyen.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "FLEXI BUY - Thanh Toán Linh Hoạt": {
+            "displayName": "Tra Cứu FLEXI BUY - Thanh Toán Linh Hoạt",
+            "pdf": "flexibuy.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Gia Hạn Thẻ": {
+            "displayName": "Tra Cứu Gia Hạn Thẻ",
+            "pdf": "giahanthe.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          },
+          "Đóng/Mở Khóa A": {
+            "displayName": "Tra Cứu Đóng/Mở Khóa A",
+            "pdf": "quanlythetindung.pdf",
+            "xmttib": "",
+            "xmttemail": "",
+            "note": ""
+          }
+        }
+      },
+      "Quản Lý  Sản Phẩm Tiền Mặt Linh Hoạt (FlexiMoney)": {
+        "Thông Tin IPP": {
+          "displayName": "Tra Cứu Thông Tin IPP",
+          "pdf": "quanlyfleximoney.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Xem Chi Tiết Hợp Đồng": {
+          "displayName": "Tra Cứu Xem Chi Tiết Hợp Đồng",
+          "pdf": "quanlyfleximoney.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lịch Sử Giao Dịch/Thanh Toán": {
+          "displayName": "Tra Cứu Lịch Sử Giao Dịch/Thanh Toán",
+          "pdf": "quanlyfleximoney.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Tải Bản Sao Kê": {
+          "displayName": "Tra Cứu Tải Bản Sao Kê",
+          "pdf": "taibansaoke.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Gia Hạn Thẻ": {
+          "displayName": "Tra Cứu Gia Hạn Thẻ",
+          "pdf": "giahanthefleximoney.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        }
+      },
+      "Quản Lý Tài Khoản Ubank": {
+        "displayName": "Tra Cứu Quản Lý Tài Khoản Ubank",
+        "pdf": "quanlytaikhoanUbank.pdf",
+        "xmttib": "",
+        "xmttemail": "",
+        "note": ""
+      },
+      "Quản Lý FE Paylater": {
+        "Đăng Ký Tài Khoản": {
+          "displayName": "Paylater: Đăng Ký Tài Khoản",
+          "pdf": "quanlyFEPaylater.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Thanh Toán Hóa Đơn Nước Tại Payoo": {
+          "displayName": "Paylater: Thanh Toán Hóa Đơn Nước Tại Payoo",
+          "pdf": "thanhtoanhoadon.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Thanh Toán Dư Nợ": {
+          "displayName": "Paylater: Thanh Toán Dư Nợ",
+          "pdf": "thanhtoanduno.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Kiểm Tra Sao Kê": {
+          "displayName": "Paylater: Kiểm Tra Sao Kê",
+          "pdf": "saokeFEPaylater.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": "\n"
+        },
+        "Lịch Sử Giao Dịch": {
+          "displayName": "Paylater: Lịch Sử Giao Dịch",
+          "pdf": "lichsugiaodichFEPaylater.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Thông Tin IPP": {
+          "displayName": "Thông Tin IPP",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Tính Năng Thanh Toán Linh Hoạt (Flexibuy)": {
+          "displayName": "Paylater: Tính Năng Thanh Toán Linh Hoạt (Flexibuy)",
+          "pdf": "tinhnangFlexibuy.pdf",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        }
+      },
+      "Lỗi Ứng Dụng": {
+        "Lỗi Đăng Ký Tài Khoản": {
+          "displayName": "Lỗi Đăng Ký Tài Khoản",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lỗi Đăng Nhập/Không Liên Kết Tài Khoản Thanh Toán": {
+          "displayName": "Lỗi Đăng Nhập/Không Liên Kết Tài Khoản Thanh Toán",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lỗi EKYC/Chụp Hình": {
+          "displayName": "Lỗi EKYC/Chụp Hình",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lỗi xác thực NFC": {
+          "displayName": "Lỗi xác thực NFC",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lỗi Không Hiển Thị Khoản Vay/Thẻ": {
+          "displayName": "Lỗi Không Hiển Thị Khoản Vay/Thẻ",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lỗi Tính Năng Cập Nhật Thông Tin": {
+          "displayName": "Lỗi Tính Năng Cập Nhật Thông Tin",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lỗi Bật/Tắt Tính Năng Thanh Toán Trực Tuyến": {
+          "displayName": "Lỗi Bật/Tắt Tính Năng Thanh Toán Trực Tuyến",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lỗi Tính Năng TMN": {
+          "displayName": "Lỗi Tính Năng TMN",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Yêu Cầu Mở Khóa Thiết Bị": {
+          "displayName": "Yêu Cầu Mở Khóa Thiết Bị",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Lỗi Màn Hình Trắng/Văng Khỏi Ứng Dụng/Không Ổn Định": {
+          "displayName": "Lỗi Màn Hình Trắng/Văng Khỏi Ứng Dụng/Không Ổn Định",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        },
+        "Các Lỗi Khác": {
+          "displayName": "Các Lỗi Khác",
+          "pdf": "",
+          "xmttib": "",
+          "xmttemail": "",
+          "note": ""
+        }
+      }
+    },
+    "Zalo (Chatbot)": {
+      "Quản Lý Khoản Vay": {},
+      "Quản Lý Thẻ Tín Dụng": {}
+    },
+    "Website": {
+      "Quản Lý Khoản Vay": {},
+      "Quản Lý Thẻ Tín Dụng": {},
+      "Lỗi Website": {}
+    },
+    "SMS": {
+      "Tra Cứu Thẻ Tín Dụng": {}
+    }
+  }
+};
+
+window.flowchartDataFeedback = {
+  "1. THÁI ĐỘ NHÂN VIÊN": {
+    "Thái Độ Nhân Viên Qua Cuộc Gọi": {
+      "displayName": "Thái Độ Nhân Viên Qua Cuộc Gọi",
+      "pdf": "",
+      "xmttib": XMTT_1,
+      "note": "Ghi nhận góp ý tích cực về Dịch vụ khách hàng của sản phẩm thẻ."
+    },
+    "Thái Độ Nhân Viên SMS/Zalo": {
+      "displayName": "Thái Độ Nhân Viên SMS/Zalo",
+      "pdf": "",
+      "xmttib": XMTT_1,
+      "note": "Ghi nhận góp ý tích cực về tính năng sản phẩm thẻ."
+    }
+  },
+  "2. NGHIỆP VỤ": {
+    "Nghiệp Vụ Nhân Viên Sale": {
+      "displayName": "Nghiệp Vụ Nhân Viên Sale",
+      "pdf": "",
+      "xmttib": XMTT_1,
+      "note": "Ghi nhận góp ý tiêu cực về Dịch vụ khách hàng của sản phẩm thẻ."
+    },
+    "Nghiệp Vụ Nhân Viên DVKH": {
+      "displayName": "Nghiệp Vụ Nhân Viên DVKH",
+      "pdf": "",
+      "xmttib": XMTT_1,
+      "note": "Ghi nhận góp ý tiêu cực về tính năng sản phẩm thẻ."
+    }
+  }
+};
+
+
+  </script>
+  <!-- FLOWCHART_DATA_END -->
+
+  <script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+      if (
+        typeof window.flowchartData === "undefined" ||
+        typeof window.flowchartDataFeedback === "undefined"
+      ) {
+        alert(
+          "Lỗi: Không thể tải dữ liệu điều kiện. Vui lòng kiểm tra các file .js và thử lại."
+        );
+
+        return;
+      }
+
+      const dynamicFiltersContainer = document.getElementById(
+        "dynamic-filters-container"
+      );
+      const notesResult = document.getElementById("notes-result");
+      const pdfViewer = document.getElementById("pdf-viewer");
+      const htmlViewer = document.getElementById("html-viewer");
+      const sidebarToggle = document.getElementById("sidebar-toggle");
+      const mainHeader = document.getElementById("main-header");
+      const body = document.body;
+      const headerSearch = document.getElementById("header-search");
+      const searchResultsContainer = document.getElementById(
+        "search-results-container"
+      );
+      const subHeader = document.getElementById("sub-header");
+      const toastContainer = document.getElementById("toast-container");
+      const popup = document.getElementById("custom-popup");
+      const popupContent = document.getElementById("popup-content");
+      const popupCloseBtn = document.getElementById("popup-close-btn");
+      const sidebar = document.getElementById("sidebar");
+
+      const LEVEL_LABELS = {
+        truyvan: {
+          1: "CHỌN VẤN ĐỀ:",
+          2: "CHỌN CHI TIẾT VẤN ĐỀ:",
+          3: "CHỌN ĐIỀU KIỆN 1:",
+          4: "CHỌN ĐIỀU KIỆN 2:",
+          5: "CHỌN ĐIỀU KIỆN 3:",
+        },
+        feedback: {
+          1: "Chọn loại góp ý:",
+          2: "Chọn chi tiết:",
+        },
+      };
+
+      // === PAGE_CONFIG ===
+      // Cấu hình riêng cho từng trang (LOAN, CARD, OUTBOUND, UBANK)
+      // Khi copy sang file khác, chỉ cần sửa phần này
+      const PAGE_CONFIG = {
+        productName: 'CARD',                    // Tên sản phẩm: LOAN, CARD, OUTBOUND, UBANK
+        defaultPdf: './pdfile-card/default.pdf', // PDF mặc định khi load trang
+        pageTitle: 'PLTT CARD v6',               // Tiêu đề trang
+        sessionPrefix: 'card',                   // Prefix cho sessionStorage keys
+
+        // Icon SVG cho sidebar header (copy từ dropdown menu)
+        sidebarIcon: `<path d="M1.5 3a.5.5 0 0 1 .5-.5h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-12a.5.5 0 0 1-.5-.5v-2z"></path>
+          <path d="M1 6.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1z"></path>
+          <path d="M1 9.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1zm13.5 2.5a.5.5 0 0 0-.5-.5h-13a.5.5 0 0 0 0 1h13a.5.5 0 0 0 .5-.5z"></path>`,
+
+
+        // Labels cho các level dropdown
+        levelLabels: LEVEL_LABELS
+      };
+
+      // === FLAT_DATA_CACHE ===
+      // Cache dữ liệu đã flatten cho search, tránh chạy lại flattenFlowchart mỗi lần chuyển tab
+      const FLAT_DATA_CACHE = {
+        truyvan: null,
+        feedback: null
+      };
+
+      const DEFAULT_CONTENT = {
+        type: 'pdf',
+        pdf: PAGE_CONFIG.defaultPdf,  // Sử dụng config thay vì hardcode
+      };
+
+      const state = {
+        activeData: null,           // Dữ liệu flowchart đang hoạt động
+        searchSelectedIndex: -1,    // Index của kết quả tìm kiếm đang chọn
+        flattenedData: [],          // Dữ liệu đã làm phẳng cho tìm kiếm
+        activeSourceName: null,     // Tên nguồn dữ liệu đang chọn (truyvan/feedback)
+        isTabActive: false,         // Tab có đang active không
+      };
+
+      const dataSources = {
+        truyvan: window.flowchartData,       // Dữ liệu truy vấn chính
+        feedback: window.flowchartDataFeedback,  // Dữ liệu góp ý
+      };
+
+      window.dataSources = dataSources;
+
+      const isObject = (value) => typeof value === "object" && value !== null;
+
+      const isLeaf = (node) => isObject(node) && (node.pdf !== undefined || node.contentType !== undefined || node.htmlContent !== undefined || node.htmlUrl !== undefined);
+
+      const removeAccents = (str) => {
+        if (!str) return "";
+        return str
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/đ/g, "d")
+          .replace(/Đ/g, "D");
+      };
+
+      // Hàm chuyển đổi ký hiệu || thành xuống dòng khi hiển thị
+      // Dùng cho dropdown items và search results
+      const formatDisplayText = (text) => {
+        if (!text) return "";
+        return text.replace(/\|\|/g, '<br>');
+      };
+
+      // Hàm flatten flowchart data cho search
+      // Trả về array thay vì gán trực tiếp vào state (cho phép cache)
+      // Hỗ trợ node vừa có content (pdf, displayName) vừa có children (group có sub-items)
+      function flattenFlowchart(node, path = [], breadcrumb = [], result = []) {
+        // Danh sách các key thuộc tính content (không phải children)
+        const CONTENT_KEYS = ['displayName', 'pdf', 'note', 'xmttib', 'xmttemail', 'xmttchat',
+          'dieukien', 'contentType', 'htmlContent', 'htmlUrl', 'alert', 'tieudeflow', 'xmtt'];
+
+        Object.keys(node).forEach((key) => {
+          const newPath = [...path, key];
+          const newBreadcrumb = [...breadcrumb, key.replace(/^\d+\.\s*/, "")];
+          const childNode = node[key];
+
+          if (!isObject(childNode)) return; // Bỏ qua giá trị không phải object
+
+          // Kiểm tra node có content không (pdf, htmlContent, htmlUrl, contentType)
+          const hasContent = childNode.pdf !== undefined ||
+            childNode.contentType !== undefined ||
+            childNode.htmlContent !== undefined ||
+            childNode.htmlUrl !== undefined;
+
+          // Nếu có content → thêm vào search results (dù có children hay không)
+          if (hasContent) {
+            const displayText = childNode.displayName || newBreadcrumb.join(" > ");
+            result.push({
+              path: newPath,
+              pdfName: childNode.pdf || "",
+              displayText: displayText,
+              normalizedDisplayText: removeAccents(displayText.toLowerCase()),
+              normalizedPdfName: removeAccents((childNode.pdf || "").toLowerCase()),
+            });
+          }
+
+          // Tìm và duyệt children (các key không phải thuộc tính content)
+          Object.keys(childNode).forEach((subKey) => {
+            if (!CONTENT_KEYS.includes(subKey) && isObject(childNode[subKey])) {
+              // Đây là children → duyệt tiếp
+              flattenFlowchart(
+                { [subKey]: childNode[subKey] },
+                newPath,
+                newBreadcrumb,
+                result
+              );
+            }
+          });
+        });
+        return result;
+      }
+
+      // Hàm lấy flattened data với cache
+      // Nếu đã cache thì dùng lại, không cần chạy lại flattenFlowchart
+      function getFlattenedData(sourceName) {
+        if (!FLAT_DATA_CACHE[sourceName]) {
+          console.log(`[Cache] Building cache for: ${sourceName}`);
+          // Flatten flowchart data
+          const flowchartFlattened = flattenFlowchart(dataSources[sourceName]);
+          // Flatten header presets
+          const headerFlattened = (function () {
+            const result = [];
+            Object.keys(HEADER_PRESETS).forEach((presetKey) => {
+              const preset = HEADER_PRESETS[presetKey];
+              if (preset.displayName) {
+                result.push({
+                  path: ['__HEADER_PRESET__', presetKey],
+                  pdfName: preset.pdf || "",
+                  displayText: preset.displayName,
+                  normalizedDisplayText: removeAccents(preset.displayName.toLowerCase()),
+                  normalizedPdfName: removeAccents((preset.pdf || "").toLowerCase()),
+                  isHeaderPreset: true,
+                  presetKey: presetKey
+                });
+              }
+            });
+            return result;
+          })();
+          // Merge cả 2 nguồn
+          FLAT_DATA_CACHE[sourceName] = [...flowchartFlattened, ...headerFlattened];
+        } else {
+          console.log(`[Cache] Using cached data for: ${sourceName}`);
+        }
+        return FLAT_DATA_CACHE[sourceName];
+      }
+
+      // Xóa cache khi cần (ví dụ khi data thay đổi)
+      function clearFlatDataCache(sourceName = null) {
+        if (sourceName) {
+          FLAT_DATA_CACHE[sourceName] = null;
+        } else {
+          FLAT_DATA_CACHE.truyvan = null;
+          FLAT_DATA_CACHE.feedback = null;
+        }
+      }
+
+      function switchDataSource(sourceName, shouldActivate = true) {
+        if (!dataSources[sourceName]) {
+
+          return;
+        }
+
+        state.activeSourceName = sourceName;
+        state.activeData = dataSources[sourceName];
+        state.isTabActive = shouldActivate;
+
+        document.querySelectorAll(".sidebar-tab-btn").forEach((btn) => {
+          const isCurrentSource = btn.dataset.source === sourceName;
+          btn.classList.toggle("active", isCurrentSource);
+
+          if (!shouldActivate) {
+            btn.classList.add("inactive");
+            if (isCurrentSource) {
+              btn.classList.add("active");
+            }
+          } else {
+            btn.classList.remove("inactive");
+          }
+        });
+
+        // Sử dụng cache thay vì chạy lại flattenFlowchart mỗi lần
+        state.flattenedData = getFlattenedData(sourceName);
+
+        createFirstLevelDropdown();
+
+        resetResults(true);
+
+        updateLoanLinkWithState();
+      }
+
+      function initialize() {
+        setupEventListeners();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const sourceParam = urlParams.get('source');
+        const initialSource = (sourceParam && dataSources[sourceParam]) ? sourceParam : 'truyvan';
+        const compressed = urlParams.get('s');
+
+        if (!sourceParam && !compressed) {
+          sessionStorage.removeItem('loanFlowchartState');
+          sessionStorage.removeItem('loanSource');
+        }
+
+        switchDataSource(initialSource, true);
+
+        if (!restoreStateFromURL()) {
+
+          if (compressed) {
+            restoreStateFromSession();
+          }
+        }
+
+        const hasDropdown = dynamicFiltersContainer.querySelector('select[data-level="1"]');
+        if (!hasDropdown) {
+
+          createFirstLevelDropdown();
+        }
+
+        updateLoanLinkWithState();
+      }
+
+      function updateLoanLinkWithState() {
+
+        const loanLink = document.getElementById('loan-btn');
+        if (loanLink) {
+          const urlParams = new URLSearchParams(window.location.search);
+          const compressed = urlParams.get('s');
+
+          if (compressed) {
+            loanLink.href = `loan_v2.html#s=${compressed}`;
+          } else {
+            loanLink.href = `loan_v2.html`;
+          }
+        }
+      }
+
+      function saveStateToURL(path) {
+        const jsonPath = JSON.stringify(path);
+
+        appState.type = 'sidebar';
+        appState.sidebar = { source: state.activeSourceName, path: path };
+
+        const compressed = LZString.compressToEncodedURIComponent(jsonPath);
+        const url = `${window.location.pathname}#source=${state.activeSourceName}&s=${compressed}`;
+        history.pushState(appState.snapshot(), "", url);
+
+        sessionStorage.setItem('loanFlowchartState', jsonPath);
+        sessionStorage.setItem('loanSource', state.activeSourceName);
+
+        updateLoanLinkWithState();
+      }
+
+      function restoreStateFromURL() {
+
+
+
+
+
+        let urlParams;
+        let isFromHash = false;
+
+        if (window.location.hash && window.location.hash.includes('=')) {
+
+          urlParams = new URLSearchParams(window.location.hash.substring(1));
+          isFromHash = true;
+
+        } else {
+
+          urlParams = new URLSearchParams(window.location.search);
+
+        }
+
+        const compressed = urlParams.get('s');      // Dữ liệu đường dẫn đã nén
+        const sourceParam = urlParams.get('source'); // Nguồn dữ liệu
+        let headerPdf = urlParams.get('pdf');      // PDF từ header
+        const presetParam = urlParams.get('preset'); // Preset từ header (hỗ trợ open new tab)
+
+        // Xử lý preset param - cho phép open new tab từ header links
+        if (presetParam && window.HEADER_PRESETS && window.HEADER_PRESETS[presetParam]) {
+          const preset = window.HEADER_PRESETS[presetParam];
+          if (preset.pdf) {
+            navigateTo('header-pdf', {
+              pdfName: preset.pdf,
+              dieukien: preset.dieukien || '',
+              note: preset.note || '',
+              xmttib: preset.xmttib || '',
+              xmttchat: preset.xmttchat || '',
+              xmttemail: preset.xmttemail || '',
+              displayName: preset.displayName || ''
+            }, false);
+            return true;
+          }
+        }
+
+        if (headerPdf) {
+
+
+          if (sourceParam && dataSources[sourceParam]) {
+            switchDataSource(sourceParam, true);
+          }
+
+          removeDropdowns(1);
+          createFirstLevelDropdown();
+
+          if (history.state && history.state.isHeaderPdf) {
+
+
+            displayConditionInfo(history.state.dieukien || '');
+
+            const notesResult = document.getElementById("notes-result");
+            const xmttIbContent = document.getElementById("xmtt-ib-content");
+            const xmttEmailContent = document.getElementById("xmtt-email-content");
+            const xmttChatContent = document.getElementById("xmtt-chat-content");
+
+            if (history.state.note && notesResult) {
+              notesResult.innerHTML = `<p>${history.state.note}</p>`;
+              const notesBox = document.getElementById("notes-box");
+              if (notesBox) notesBox.style.display = '';
+            }
+            if (history.state.xmttib && xmttIbContent) {
+              xmttIbContent.innerHTML = `<p>${history.state.xmttib}</p>`;
+              const xmttIbBox = document.getElementById("xmtt-ib-box");
+              if (xmttIbBox) xmttIbBox.style.display = '';
+            }
+            if (history.state.xmttchat && xmttChatContent) {
+              xmttChatContent.innerHTML = `<p>${history.state.xmttchat}</p>`;
+              const xmttChatBox = document.getElementById("xmtt-chat-box");
+              if (xmttChatBox) xmttChatBox.style.display = '';
+            }
+            if (history.state.xmttemail && xmttEmailContent) {
+              xmttEmailContent.innerHTML = `<p>${history.state.xmttemail}</p>`;
+              const xmttEmailBox = document.getElementById("xmtt-email-box");
+              if (xmttEmailBox) xmttEmailBox.style.display = '';
+            }
+          } else {
+
+            resetResults();
+          }
+
+          pdfViewer.src = `./pdfile-card/${decodeURIComponent(headerPdf)}`;
+          pdfViewer.style.display = 'block';
+          return true;
+        }
+
+        if (compressed) {
+
+          try {
+
+            if (sourceParam && dataSources[sourceParam]) {
+              switchDataSource(sourceParam, true);
+            }
+
+            const jsonPath = LZString.decompressFromEncodedURIComponent(compressed);
+            const path = JSON.parse(jsonPath);
+
+            if (Array.isArray(path)) {
+              applySearchResult(path, false);
+
+              sessionStorage.setItem('loanFlowchartState', jsonPath);
+
+              sessionStorage.setItem('loanSource', state.activeSourceName);
+              updateLoanLinkWithState();
+              return true; // Indicate success
+            }
+          } catch (e) {
+
+            return false; // Thất bại
+          }
+        }
+
+
+        return false; // Không tìm thấy state
+      }
+
+      function restoreStateFromSession() {
+        const jsonPath = sessionStorage.getItem('loanFlowchartState');
+        if (jsonPath) {
+          try {
+            const path = JSON.parse(jsonPath);
+
+            if (Array.isArray(path) && path.length > 0) {
+
+              applySearchResult(path, true);
+            } else if (Array.isArray(path) && path.length === 0) {
+
+            }
+          } catch (e) {
+
+
+            sessionStorage.removeItem('loanFlowchartState');
+            sessionStorage.removeItem('loanSource');
+          }
+        }
+      }
+
+      function searchFlowchartData(query) {
+        if (!query) return [];
+
+        const queryWords = removeAccents(query.toLowerCase())
+          .split(/\s+/)
+          .filter(word => word.length > 0);
+
+        if (queryWords.length === 0) return [];
+
+        return state.flattenedData.filter((item) => {
+          const searchText = item.normalizedDisplayText + ' ' + item.normalizedPdfName;
+          return queryWords.every(word => searchText.includes(word));
+        });
+      }
+
+      function displaySearchResults(results) {
+        searchResultsContainer.innerHTML = "";
+        state.searchSelectedIndex = -1; // Reset selected index
+        if (results.length === 0) {
+          searchResultsContainer.classList.remove("show");
+          return;
+        }
+        results.slice(0, 10).forEach((result, index) => {
+          const resultItem = document.createElement("div");
+          resultItem.className = "search-result-item";
+          resultItem.innerHTML = formatDisplayText(result.displayText);
+          resultItem.dataset.path = JSON.stringify(result.path);
+          resultItem.dataset.index = index; // Store index for keyboard navigation
+          searchResultsContainer.appendChild(resultItem);
+        });
+        searchResultsContainer.classList.add("show");
+      }
+
+      function updateSearchHighlight() {
+        const items = searchResultsContainer.querySelectorAll('.search-result-item');
+        items.forEach((item, index) => {
+          if (index === state.searchSelectedIndex) {
+            item.classList.add('selected');
+
+            item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+          } else {
+            item.classList.remove('selected');
+          }
+        });
+      }
+
+      function selectCurrentSearchResult() {
+        const items = searchResultsContainer.querySelectorAll('.search-result-item');
+        if (state.searchSelectedIndex >= 0 && state.searchSelectedIndex < items.length) {
+          const selectedItem = items[state.searchSelectedIndex];
+          if (selectedItem?.dataset.path) {
+            applySearchResult(JSON.parse(selectedItem.dataset.path));
+          }
+        }
+      }
+
+      function applySearchResult(path, shouldSaveState = true) {
+
+        if (!path || path.length === 0) {
+
+          return;
+        }
+
+        // Xử lý đặc biệt cho HEADER_PRESETS
+        if (path[0] === '__HEADER_PRESET__') {
+          const presetKey = path[1];
+          if (HEADER_PRESETS[presetKey]) {
+            const presetBtn = document.querySelector(`[data-preset="${presetKey}"]`);
+            if (presetBtn) {
+              presetBtn.click();
+            }
+          }
+          searchResultsContainer.classList.remove('show');
+          headerSearch.value = '';
+          return;
+        }
+
+        removeDropdowns(1);
+        let currentDataNode = state.activeData;
+        path.forEach((key, index) => {
+          if (!currentDataNode || !currentDataNode[key]) {
+
+            return;
+          }
+          const level = index + 1;
+          const options = Object.keys(currentDataNode).filter(k => typeof currentDataNode[k] === 'object' && currentDataNode[k] !== null);
+          createDropdown(options, level, currentDataNode);
+
+          const select = dynamicFiltersContainer.querySelector(
+            `select[data-level="${level}"]`
+          );
+          if (select) {
+            select.value = key;
+          }
+
+          const customDropdown = dynamicFiltersContainer.querySelector(
+            `.custom-dropdown[data-level="${level}"]`
+          );
+          if (customDropdown) {
+
+            const dropdownText = customDropdown.querySelector('.dropdown-text');
+            if (dropdownText) {
+              dropdownText.textContent = key;
+            }
+
+            const items = customDropdown.querySelectorAll('.dropdown-item');
+            items.forEach(item => {
+              item.classList.remove('selected');
+              if (item.dataset.value === key) {
+                item.classList.add('selected');
+              }
+            });
+          }
+
+          currentDataNode = currentDataNode[key];
+        });
+
+        // Hỗ trợ hiển thị dropdown trống cấp tiếp theo nếu node cuối cùng không phải là leaf
+        if (currentDataNode && !isLeaf(currentDataNode)) {
+          const contentKeys = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'note', 'xmttib', 'xmttemail', 'xmttchat', 'xmtt', 'dieukien', 'displayName', 'alert', 'tieudeflow'];
+          const childKeys = Object.keys(currentDataNode).filter(k =>
+            !contentKeys.includes(k) && isObject(currentDataNode[k])
+          );
+          if (childKeys.length > 0) {
+            createDropdown(childKeys, path.length + 1, currentDataNode, currentDataNode);
+          }
+        }
+
+        if (isLeaf(currentDataNode)) {
+          displayResult(currentDataNode);
+          if (shouldSaveState) saveStateToURL(path);
+        }
+        searchResultsContainer.classList.remove("show");
+        headerSearch.value = "";
+        headerSearch.blur();
+      }
+
+      function createFirstLevelDropdown() {
+        dynamicFiltersContainer.innerHTML = "";
+        createDropdown(Object.keys(state.activeData), 1, state.activeData);
+      }
+
+      function createDropdown(options, level, dataNode, parentNode = null) {
+        const filterGroup = document.createElement("div");
+        filterGroup.className = "filter-group";
+        const label = document.createElement("label");
+        label.className = "filter-label";
+
+        let labelText = LEVEL_LABELS[state.activeSourceName][level] || `Cấp ${level}:`;
+        if (parentNode && parentNode.tieudeflow) {
+          labelText = parentNode.tieudeflow;
+        }
+
+
+
+        label.textContent = labelText;
+        filterGroup.appendChild(label);
+
+        const customDropdown = document.createElement("div");
+        customDropdown.className = "custom-dropdown";
+        customDropdown.dataset.level = level;
+
+        const hiddenSelect = document.createElement("select");
+        hiddenSelect.className = "filter-select";
+        hiddenSelect.dataset.level = level;
+        hiddenSelect.style.display = "none";
+        hiddenSelect.innerHTML = '<option value="">-- Chọn --</option>';
+        options.forEach((text) => {
+          const option = document.createElement("option");
+          option.value = text;
+          option.textContent = text;
+          hiddenSelect.appendChild(option);
+        });
+
+        const dropdownHeader = document.createElement("div");
+        dropdownHeader.className = "dropdown-header";
+        dropdownHeader.innerHTML = '<span class="dropdown-text">-- Chọn --</span><span class="dropdown-arrow">▼</span>';
+
+        const dropdownList = document.createElement("ul");
+        dropdownList.className = "dropdown-list";
+
+        const defaultLi = document.createElement("li");
+        defaultLi.className = "dropdown-item";
+        defaultLi.dataset.value = "";
+        defaultLi.textContent = "-- Chọn --";
+        dropdownList.appendChild(defaultLi);
+
+        options.forEach((text) => {
+          const li = document.createElement("li");
+          li.className = "dropdown-item";
+          li.dataset.value = text;
+          li.innerHTML = formatDisplayText(text);
+          dropdownList.appendChild(li);
+        });
+
+        customDropdown.appendChild(hiddenSelect);
+        customDropdown.appendChild(dropdownHeader);
+        customDropdown.appendChild(dropdownList);
+
+        const handleAutoScroll = () => {
+          setTimeout(() => {
+            const rect = dropdownList.getBoundingClientRect();
+            if (rect.height === 0) return;
+
+            const spaceBelow = window.innerHeight - rect.bottom;
+            if (spaceBelow < 0) {
+              const sidebarObj = document.getElementById("sidebar");
+              if (sidebarObj) {
+                sidebarObj.scrollTo({
+                  top: sidebarObj.scrollTop + Math.abs(spaceBelow) + 40,
+                  behavior: "smooth"
+                });
+              }
+            }
+          }, 100);
+        };
+
+        customDropdown.addEventListener("mouseenter", handleAutoScroll);
+
+        dropdownHeader.addEventListener("click", (e) => {
+          e.stopPropagation();
+
+          document.querySelectorAll('.custom-dropdown.open').forEach(dd => {
+            if (dd !== customDropdown) dd.classList.remove('open');
+          });
+          customDropdown.classList.toggle("open");
+
+          if (customDropdown.classList.contains("open")) {
+            handleAutoScroll();
+          }
+        });
+
+        dropdownList.addEventListener("click", (e) => {
+          if (e.target.classList.contains("dropdown-item")) {
+            const value = e.target.dataset.value;
+            const text = e.target.textContent;
+
+            dropdownHeader.querySelector('.dropdown-text').innerHTML = formatDisplayText(text);
+            customDropdown.classList.remove("open");
+
+            customDropdown.classList.add("just-selected");
+            setTimeout(() => {
+              customDropdown.classList.remove("just-selected");
+            }, 300);
+
+            dropdownList.querySelectorAll('.dropdown-item').forEach(item => {
+              item.classList.remove('selected');
+            });
+            e.target.classList.add('selected');
+
+            hiddenSelect.value = value;
+
+            const changeEvent = new Event("change", { bubbles: true });
+            hiddenSelect.dispatchEvent(changeEvent);
+          }
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!customDropdown.contains(e.target)) {
+            customDropdown.classList.remove("open");
+          }
+        });
+
+        hiddenSelect.addEventListener("change", (e) =>
+          handleSelection(e, level, dataNode)
+        );
+
+        filterGroup.appendChild(customDropdown);
+        dynamicFiltersContainer.appendChild(filterGroup);
+      }
+
+      function handleSelection(event, level, parentDataNode) {
+        const selectedKey = event.target.value;
+
+        removeDropdowns(level + 1);
+        resetResults();
+
+        if (!selectedKey) {
+
+          appState.type = 'sidebar';
+          appState.sidebar = { source: state.activeSourceName, path: [] };
+          const url = `${window.location.pathname}#source=${state.activeSourceName}`;
+          history.pushState(appState.snapshot(), "", url);
+          return;
+        }
+        const selectedNode = parentDataNode[selectedKey];
+
+        const hasContent = isObject(selectedNode) && (
+          selectedNode.pdf !== undefined ||
+          selectedNode.contentType !== undefined ||
+          selectedNode.htmlContent !== undefined ||
+          selectedNode.htmlUrl !== undefined ||
+          selectedNode.note !== undefined ||
+          selectedNode.xmttib !== undefined ||
+          selectedNode.xmttemail !== undefined ||
+          selectedNode.xmttchat !== undefined ||
+          selectedNode.xmtt !== undefined ||
+          selectedNode.dieukien !== undefined
+        );
+
+        if (hasContent && typeof selectedNode.dieukien === 'string') {
+          displayConditionInfo(selectedNode.dieukien);
+        }
+
+        const contentKeys = ['pdf', 'contentType', 'htmlContent', 'htmlUrl', 'note', 'xmttib', 'xmttemail', 'xmttchat', 'xmtt', 'dieukien', 'displayName', 'alert', 'tieudeflow'];
+
+        const childKeys = Object.keys(selectedNode).filter(key =>
+          !contentKeys.includes(key) && isObject(selectedNode[key])
+        );
+
+        if (childKeys.length > 0) {
+          createDropdown(childKeys, level + 1, selectedNode, selectedNode);
+        }
+
+        const path = Array.from(document.querySelectorAll(".filter-select"))
+          .map((s) => s.value)
+          .filter(Boolean);
+
+        if (path.length > 0) {
+          saveStateToURL(path);
+
+          // Enable copy-link buttons when a valid node is selected (even if no PDF yet)
+          const btnSetBase = document.getElementById('btn-set-base');
+          const btnCopyTarget = document.getElementById('btn-copy-target');
+          if (btnSetBase) btnSetBase.disabled = false;
+          if (btnCopyTarget) btnCopyTarget.disabled = false;
+
+          const hasContentToDisplay = selectedNode.pdf || selectedNode.htmlUrl || selectedNode.htmlContent;
+
+          if (!hasContentToDisplay && childKeys.length > 0) {
+
+          } else if (typeof displayResult === 'function') {
+
+            displayResult(selectedNode, path);
+          }
+        }
+
+      }
+
+      function displayConditionInfo(conditionText) {
+        const dieukienPanel = document.getElementById("dieukien-panel");
+        const dieukienResult = document.getElementById("dieukien-result");
+
+        if (conditionText) {
+
+          if (dieukienPanel) dieukienPanel.classList.remove("hidden");
+          if (dieukienResult) dieukienResult.innerHTML = `\u003cp\u003e${conditionText}\u003c/p\u003e`;
+        } else {
+
+          if (dieukienPanel) dieukienPanel.classList.add("hidden");
+          if (dieukienResult) dieukienResult.innerHTML = "\u003cp\u003eĐiều kiện sẽ hiển thị ở đây khi chọn\u003c/p\u003e";
+        }
+
+        updatePopupIfOpen();
+      }
+
+      function repositionPopup() {
+        if (popup.classList.contains("hidden")) {
+          return;
+        }
+        const subHeaderRect = subHeader.getBoundingClientRect();
+        const mainHeaderHeight = mainHeader.offsetHeight;
+        const sidebarWidth = sidebar.offsetWidth;
+        const leftOffset = 5;
+        const rightOffset = 20;
+        const totalHorizontalMargin = leftOffset + rightOffset;
+        popup.style.top = mainHeaderHeight + "px";
+        popup.style.left = sidebarWidth + leftOffset + "px";
+        popup.style.width = `calc(100vw - ${sidebarWidth}px - ${totalHorizontalMargin}px)`;
+
+      }
+
+      function openPopup(targetBoxId) {
+        const sourceBox = document.getElementById(targetBoxId);
+        const sourceContent = sourceBox.querySelector(".box-content");
+        if (!sourceBox || !sourceContent) {
+
+          return;
+        }
+        popupContent.innerHTML = "";
+        const clonedContent = sourceContent.cloneNode(true);
+        popupContent.appendChild(clonedContent);
+        popup.classList.remove("hidden");
+        repositionPopup();
+      }
+
+      function closePopup() {
+        popup.classList.add("hidden");
+        setTimeout(() => {
+          popupContent.innerHTML = "";
+        }, 300);
+      }
+
+      function updatePopupIfOpen() {
+
+        if (!popup.classList.contains("hidden")) {
+
+          const xmttIbBox = document.getElementById("xmtt-ib-box");
+          const xmttEmailBox = document.getElementById("xmtt-email-box");
+          const xmttChatBox = document.getElementById("xmtt-chat-box");
+          const notesBox = document.getElementById("notes-box");
+          const dieukienBox = document.getElementById("dieukien-box");
+
+          const popupHasXmttIb = popupContent.querySelector("#xmtt-ib-content");
+          const popupHasXmttEmail = popupContent.querySelector("#xmtt-email-content");
+          const popupHasXmttChat = popupContent.querySelector("#xmtt-chat-content");
+          const popupHasNotes = popupContent.querySelector("#notes-result");
+          const popupHasDieukien = popupContent.querySelector("#dieukien-result");
+
+          let sourceBox = null;
+          if (popupHasXmttIb) {
+            sourceBox = xmttIbBox;
+          } else if (popupHasXmttEmail) {
+            sourceBox = xmttEmailBox;
+          } else if (popupHasXmttChat) {
+            sourceBox = xmttChatBox;
+          } else if (popupHasNotes) {
+            sourceBox = notesBox;
+          } else if (popupHasDieukien) {
+            sourceBox = dieukienBox;
+          }
+
+          if (sourceBox) {
+            const sourceContent = sourceBox.querySelector(".box-content");
+            if (sourceContent) {
+
+              popupContent.innerHTML = "";
+              const clonedContent = sourceContent.cloneNode(true);
+              popupContent.appendChild(clonedContent);
+            }
+          }
+        }
+      }
+
+      /**
+       * Centralized application state - Single Source of Truth
+       * Tất cả navigation state được quản lý tại đây
+       */
+      const appState = {
+        type: null,        // 'sidebar' | 'header-pdf'
+
+        sidebar: {
+          source: null,
+          path: []         // Array of selections
+        },
+
+        headerPdf: {
+          pdfName: null,
+          dieukien: '',
+          note: '',
+          xmttib: '',
+          xmttchat: '',
+          xmttemail: '',
+          displayName: '' // Tên hiển thị trên title
+        },
+
+        snapshot() {
+          return {
+            type: this.type,
+            sidebar: { ...this.sidebar, path: [...this.sidebar.path] },
+            headerPdf: { ...this.headerPdf }
+          };
+        },
+
+        restore(snapshot) {
+          if (!snapshot) return;
+          this.type = snapshot.type;
+          this.sidebar = snapshot.sidebar ? { ...snapshot.sidebar, path: [...(snapshot.sidebar.path || [])] } : { source: null, path: [] };
+          this.headerPdf = snapshot.headerPdf ? { ...snapshot.headerPdf } : { pdfName: null };
+        }
+      };
+
+      // Expose to window for ppt-copy logic
+      window.state = state;
+      window.appState = appState;
+      window.dataSources = dataSources;
+
+      /**
+       * Unified Navigation API - Điểm duy nhất để navigate
+       * @param {string} type - 'sidebar' | 'header-pdf'
+       * @param {Object} data - Navigation data
+       * @param {boolean} createHistory - Có tạo history entry không
+       */
+      function navigateTo(type, data, createHistory = true) {
+
+
+        appState.type = type;
+
+        if (type === 'sidebar') {
+          appState.sidebar = data;
+          appState.headerPdf = { pdfName: null }; // Clear header state
+        } else if (type === 'header-pdf') {
+          appState.headerPdf = data;
+
+        }
+
+        renderState(appState);
+
+        if (createHistory) {
+          const url = buildUrlFromState(appState);
+          const state = appState.snapshot();
+
+          history.pushState(state, "", url);
+
+        }
+      }
+
+      /**
+       * Restore state và render UI
+       * @param {Object} state - State snapshot từ history
+       */
+      function restoreState(state) {
+        if (!state) {
+
+          return;
+        }
+
+
+
+        if (state.type) {
+
+
+          appState.restore(state);
+          renderState(appState);
+        } else if (state.isHeaderPdf || state.pdf) {
+
+
+          renderHeaderPdfState({
+            pdfName: state.pdf,
+            dieukien: state.dieukien || '',
+            note: state.note || '',
+            xmttib: state.xmttib || '',
+            xmttchat: state.xmttchat || '',
+            xmttemail: state.xmttemail || ''
+          });
+        } else if (state.path && Array.isArray(state.path)) {
+
+
+          if (state.source && dataSources[state.source]) {
+            switchDataSource(state.source, true);
+          }
+          applySearchResult(state.path, false);
+        } else if (state.source) {
+
+
+          if (dataSources[state.source]) {
+            switchDataSource(state.source, true);
+          }
+        } else {
+
+
+          restoreStateFromURL();
+        }
+      }
+
+      /**
+       * Render UI based on current app state
+       * @param {Object} state - Current app state
+       */
+      function renderState(state) {
+        if (state.type === 'sidebar') {
+          renderSidebarState(state.sidebar);
+        } else if (state.type === 'header-pdf') {
+          renderHeaderPdfState(state.headerPdf);
+        }
+      }
+
+      /**
+       * Render header PDF state
+       */
+      function renderHeaderPdfState(pdfState) {
+        // Cập nhật title theo displayName
+        if (pdfState.displayName) {
+          document.title = 'C-' + PAGE_CONFIG.productName + ' - ' + pdfState.displayName;
+        } else {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName;
+        }
+
+        removeDropdowns(1);
+        createFirstLevelDropdown();
+
+        pdfViewer.src = `./pdfile-card/${pdfState.pdfName}`;
+        pdfViewer.style.display = 'block';
+        htmlViewer.style.display = 'none';
+
+        displayConditionInfo(pdfState.dieukien || '');
+
+        const subHeader = document.getElementById("sub-header");
+        const notesBox = document.getElementById("notes-box");
+        const notesResult = document.getElementById("notes-result");
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttIbContent = document.getElementById("xmtt-ib-content");
+        const xmttEmailBox = document.getElementById("xmtt-email-box");
+        const xmttEmailContent = document.getElementById("xmtt-email-content");
+        const xmttChatBox = document.getElementById("xmtt-chat-box");
+        const xmttChatContent = document.getElementById("xmtt-chat-content");
+
+        const hasContent = pdfState.note || pdfState.xmttib || pdfState.xmttchat || pdfState.xmttemail;
+
+        if (hasContent) {
+          if (subHeader) subHeader.style.display = '';
+
+          if (pdfState.note && notesResult) {
+            notesResult.innerHTML = `<p>${pdfState.note}</p>`;
+            if (notesBox) notesBox.style.display = '';
+          } else {
+            if (notesBox) notesBox.style.display = 'none';
+          }
+
+          if (pdfState.xmttib && xmttIbContent) {
+            xmttIbContent.innerHTML = `<p>${pdfState.xmttib}</p>`;
+            if (xmttIbBox) xmttIbBox.style.display = '';
+          } else {
+            if (xmttIbBox) xmttIbBox.style.display = 'none';
+          }
+
+          if (pdfState.xmttchat && xmttChatContent) {
+            xmttChatContent.innerHTML = `<p>${pdfState.xmttchat}</p>`;
+            if (xmttChatBox) xmttChatBox.style.display = '';
+          } else {
+            if (xmttChatBox) xmttChatBox.style.display = 'none';
+          }
+
+          if (pdfState.xmttemail && xmttEmailContent) {
+            xmttEmailContent.innerHTML = `<p>${pdfState.xmttemail}</p>`;
+            if (xmttEmailBox) xmttEmailBox.style.display = '';
+          } else {
+            if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+          }
+        } else {
+
+          if (subHeader) subHeader.style.display = 'none';
+          if (notesBox) notesBox.style.display = 'none';
+          if (xmttIbBox) xmttIbBox.style.display = 'none';
+          if (xmttChatBox) xmttChatBox.style.display = 'none';
+          if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+        }
+
+        if (window.initXmttResize) {
+
+          setTimeout(() => window.initXmttResize(true), 10);
+        }
+
+        // Enable copy-link buttons for header presets
+        const btnSetBase = document.getElementById('btn-set-base');
+        const btnCopyTarget = document.getElementById('btn-copy-target');
+        if (btnSetBase) {
+          btnSetBase.disabled = false;
+          btnSetBase.title = "Lưu điểm gốc từ: " + pdfState.pdfName;
+        }
+        if (btnCopyTarget) {
+          btnCopyTarget.disabled = false;
+        }
+      }
+
+      /**
+       * Render sidebar state
+       */
+      function renderSidebarState(sidebarState) {
+        if (!sidebarState.path || sidebarState.path.length === 0) {
+
+          if (sidebarState.source && dataSources[sidebarState.source]) {
+            switchDataSource(sidebarState.source, true);
+          }
+          return;
+        }
+
+        if (sidebarState.source && dataSources[sidebarState.source]) {
+          switchDataSource(sidebarState.source, true);
+        }
+        applySearchResult(sidebarState.path, false);
+      }
+
+      /**
+       * Build URL từ app state
+       */
+      function buildUrlFromState(state) {
+        if (state.type === 'header-pdf') {
+          return `${window.location.pathname}#pdf=${encodeURIComponent(state.headerPdf.pdfName)}`;
+        } else if (state.type === 'sidebar') {
+          const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(state.sidebar.path));
+          return `${window.location.pathname}#source=${state.sidebar.source}&s=${compressed}`;
+        }
+        return window.location.pathname;
+      }
+
+      function setupEventListeners() {
+
+        document.getElementById('sidebar-tabs').addEventListener('click', (e) => {
+          const source = e.target.dataset.source;
+
+          if (e.target.matches('.sidebar-tab-btn')) {
+
+            if (source !== state.activeSourceName || !state.isTabActive) {
+
+              appState.type = 'sidebar';
+              appState.sidebar = { source: source, path: [] };
+              const url = `${window.location.pathname}#source=${source}`;
+              history.pushState(appState.snapshot(), "", url);
+
+              sessionStorage.removeItem('loanFlowchartState');
+
+              switchDataSource(source, true);
+            }
+
+            else if (source === state.activeSourceName && state.isTabActive) {
+
+              removeDropdowns(1);
+              createFirstLevelDropdown();
+              resetResults(true);
+
+              appState.type = 'sidebar';
+              appState.sidebar = { source: source, path: [] };
+              const url = `${window.location.pathname}#source=${source}`;
+              history.pushState(appState.snapshot(), "", url);
+
+              sessionStorage.removeItem('loanFlowchartState');
+            }
+          }
+        });
+
+        sidebarToggle.addEventListener("click", () => {
+          body.classList.toggle("sidebar-collapsed");
+          setTimeout(repositionPopup, 300);
+        });
+
+        headerSearch.addEventListener("input", (e) =>
+          displaySearchResults(searchFlowchartData(e.target.value))
+        );
+        headerSearch.addEventListener("focus", (e) => {
+          if (e.target.value)
+            displaySearchResults(searchFlowchartData(e.target.value));
+        });
+
+        headerSearch.addEventListener("keydown", (e) => {
+          const items = searchResultsContainer.querySelectorAll('.search-result-item');
+          const isSearchOpen = searchResultsContainer.classList.contains('show');
+
+          if (!isSearchOpen || items.length === 0) return;
+
+          if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            state.searchSelectedIndex = Math.min(state.searchSelectedIndex + 1, items.length - 1);
+            updateSearchHighlight();
+          } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            state.searchSelectedIndex = Math.max(state.searchSelectedIndex - 1, -1);
+            updateSearchHighlight();
+          } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (state.searchSelectedIndex >= 0) {
+              selectCurrentSearchResult();
+            } else if (items.length > 0) {
+
+              state.searchSelectedIndex = 0;
+              selectCurrentSearchResult();
+            }
+          } else if (e.key === 'Escape') {
+            searchResultsContainer.classList.remove('show');
+            state.searchSelectedIndex = -1;
+          }
+        });
+
+        searchResultsContainer.addEventListener("mousedown", (e) => {
+          const item = e.target.closest(".search-result-item");
+          if (item?.dataset.path)
+            applySearchResult(JSON.parse(item.dataset.path));
+        });
+
+        searchResultsContainer.addEventListener("mousemove", (e) => {
+          const item = e.target.closest(".search-result-item");
+          if (item && item.dataset.index !== undefined) {
+            state.searchSelectedIndex = parseInt(item.dataset.index);
+            updateSearchHighlight();
+          }
+        });
+
+        document.addEventListener("click", (e) => {
+          if (
+            !headerSearch.contains(e.target) &&
+            !searchResultsContainer.contains(e.target)
+          ) {
+            searchResultsContainer.classList.remove("show");
+            state.searchSelectedIndex = -1;
+          }
+        });
+
+        window.addEventListener("popstate", (e) => {
+
+
+
+
+
+          restoreState(e.state || history.state);
+        });
+
+        window.addEventListener("hashchange", () => {
+
+          if (!history.state || !history.state.type) {
+
+            restoreStateFromURL(); // Fallback cho external links
+          } else {
+
+          }
+        });
+
+        window.lastProcessedUrl = window.location.href;
+        let urlCheckInterval = null;
+
+        function isPdfVisible() {
+          const pdfViewer = document.getElementById('pdf-viewer');
+          if (!pdfViewer) return false;
+          const style = window.getComputedStyle(pdfViewer);
+          return style.display !== 'none' && pdfViewer.src && pdfViewer.src !== '';
+        }
+
+        function checkUrlChange() {
+
+          if (history.state && history.state.type) {
+
+            return;
+          }
+
+          if (!isPdfVisible()) {
+
+            return;
+          }
+
+          const currentUrl = window.location.href;
+          if (currentUrl !== window.lastProcessedUrl) {
+
+            window.lastProcessedUrl = currentUrl;
+            restoreStateFromURL();
+          }
+        }
+
+        function startUrlPolling() {
+
+          if (urlCheckInterval) return;
+
+
+
+          urlCheckInterval = setInterval(checkUrlChange, 300);
+        }
+
+        function stopUrlPolling() {
+          if (urlCheckInterval) {
+
+            clearInterval(urlCheckInterval);
+            urlCheckInterval = null;
+          }
+        }
+
+        let pollTimeout = null;
+        document.addEventListener('mousemove', () => {
+          startUrlPolling();
+
+          checkUrlChange();
+
+          clearTimeout(pollTimeout);
+          pollTimeout = setTimeout(stopUrlPolling, 5000);
+        });
+
+        window.addEventListener('focus', () => {
+          checkUrlChange();
+          startUrlPolling();
+        });
+
+        window.addEventListener('blur', stopUrlPolling);
+
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) {
+            checkUrlChange();
+            startUrlPolling();
+          } else {
+            stopUrlPolling();
+          }
+        });
+
+        window.addEventListener('pageshow', () => {
+          checkUrlChange();
+          startUrlPolling();
+        });
+
+        document.addEventListener('click', (e) => {
+
+
+          checkUrlChange();
+          startUrlPolling();
+        }, true);
+
+
+        startUrlPolling();
+
+        document.querySelectorAll(".expand-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            openPopup(btn.dataset.target);
+          });
+        });
+
+        popupCloseBtn.addEventListener("click", closePopup);
+
+        window.addEventListener("resize", repositionPopup);
+
+        document.querySelector('.header-tabs').addEventListener('click', (e) => {
+          if (e.target.classList.contains('pdf-link-btn')) {
+            const pdfName = e.target.getAttribute('data-pdf');
+
+            if (pdfName) {
+
+              const firstSelect = dynamicFiltersContainer.querySelector('select[data-level="1"]');
+              if (firstSelect) {
+                firstSelect.value = ""; // Reset về "-- Chọn --"
+              }
+              removeDropdowns(2); // Xóa cấp 2 trở lên
+
+              document.getElementById("xmtt-ib-content").innerHTML = "<p>...</p>";
+              const emailContent = document.getElementById("xmtt-email-content");
+              if (emailContent) emailContent.innerHTML = "<p>...</p>";
+              const chatContent = document.getElementById("xmtt-chat-content");
+              if (chatContent) chatContent.innerHTML = "<p>...</p>";
+              notesResult.innerHTML = "<p>Thông báo và lưu ý sẽ hiển thị ở đây</p>";
+              const dieukienPanel = document.getElementById("dieukien-panel");
+              if (dieukienPanel) dieukienPanel.classList.add("hidden");
+
+              pdfViewer.src = `./pdfile-card/${pdfName}`;
+              pdfViewer.style.display = 'block';
+              htmlViewer.style.display = 'none';
+
+              history.pushState({ source: state.activeSourceName, headerPdf: pdfName }, "", `${window.location.pathname}?source=${state.activeSourceName}&pdf=${encodeURIComponent(pdfName)}`);
+            }
+          }
+        });
+
+        const scrollToTopBtn = document.getElementById('scroll-to-top');
+        const scrollToBottomBtn = document.getElementById('scroll-to-bottom');
+
+        if (scrollToTopBtn && scrollToBottomBtn) {
+          scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+
+          scrollToBottomBtn.addEventListener('click', () => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          });
+        }
+
+      }
+
+      function displayResult(resultObject) {
+        // Cập nhật title theo displayName của kết quả được chọn
+        if (resultObject.displayName) {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName + ' - ' + resultObject.displayName;
+        } else {
+          document.title = 'PLTT ' + PAGE_CONFIG.productName;
+        }
+
+        const subHeader = document.getElementById("sub-header");
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttEmailBox = document.getElementById("xmtt-email-box");
+        const xmttChatBox = document.getElementById("xmtt-chat-box");
+        const notesBox = document.getElementById("notes-box");
+        const xmttIbContent = document.getElementById("xmtt-ib-content");
+        const xmttEmailContent = document.getElementById("xmtt-email-content");
+        const xmttChatContent = document.getElementById("xmtt-chat-content");
+
+
+        if (resultObject.hideSubHeader === true) {
+
+          if (subHeader) subHeader.style.display = 'none';
+        } else {
+
+          const hasAnyContent = resultObject.xmttib || resultObject.xmttemail ||
+            resultObject.xmttchat || resultObject.note || resultObject.xmtt;
+
+          if (hasAnyContent) {
+            if (subHeader) subHeader.style.display = '';
+          } else {
+            if (subHeader) subHeader.style.display = 'none';
+          }
+
+          if (resultObject.hideXmttIb === true || !resultObject.xmttib) {
+            if (xmttIbBox) xmttIbBox.style.display = 'none';
+          } else {
+            if (xmttIbBox) xmttIbBox.style.display = '';
+            xmttIbContent.innerHTML = `<p>${resultObject.xmttib}</p>`;
+          }
+
+          if (resultObject.hideXmttEmail === true || !resultObject.xmttemail) {
+            if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+          } else {
+            if (xmttEmailBox) xmttEmailBox.style.display = '';
+            if (xmttEmailContent)
+              xmttEmailContent.innerHTML = `<p>${resultObject.xmttemail}</p>`;
+          }
+
+          if (resultObject.hideXmttChat === true || !resultObject.xmttchat) {
+            if (xmttChatBox) xmttChatBox.style.display = 'none';
+          } else {
+            if (xmttChatBox) xmttChatBox.style.display = '';
+            if (xmttChatContent)
+              xmttChatContent.innerHTML = `<p>${resultObject.xmttchat}</p>`;
+          }
+
+          if (resultObject.hideNotes === true || !resultObject.note) {
+            if (notesBox) notesBox.style.display = 'none';
+          } else {
+            if (notesBox) notesBox.style.display = '';
+            notesResult.innerHTML = `<p>${resultObject.note}</p>`;
+          }
+
+          if (resultObject.xmtt) {
+
+            if (xmttIbBox) xmttIbBox.style.display = '';
+            if (xmttEmailBox) xmttEmailBox.style.display = '';
+            if (xmttChatBox) xmttChatBox.style.display = '';
+            xmttIbContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+            if (xmttEmailContent)
+              xmttEmailContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+            if (xmttChatContent)
+              xmttChatContent.innerHTML = `<p>${resultObject.xmtt}</p>`;
+            if (subHeader) subHeader.style.display = '';
+          }
+        }
+
+        displayConditionInfo(resultObject.dieukien);
+
+        updatePopupIfOpen();
+
+        const contentType = resultObject.contentType || (resultObject.pdf ? 'pdf' : null);
+
+        pdfViewer.style.display = 'none';
+        htmlViewer.style.display = 'none';
+        pdfViewer.src = '';
+        htmlViewer.innerHTML = '';
+
+        if (contentType === 'html' && resultObject.htmlContent) {
+
+          htmlViewer.innerHTML = resultObject.htmlContent;
+          htmlViewer.style.display = 'block';
+        } else if (contentType === 'htmlUrl' && resultObject.htmlUrl) {
+
+          pdfViewer.src = resultObject.htmlUrl;
+          pdfViewer.style.display = 'block';
+        } else if (resultObject.pdf) {
+
+          const baseFolder =
+            state.activeSourceName === "feedback"
+              ? "pdfile-card-fb"
+              : "pdfile-card";
+
+          pdfViewer.src = `./${baseFolder}/${resultObject.pdf}`;
+          pdfViewer.style.display = 'block';
+        }
+
+        if (resultObject.alert) {
+          (Array.isArray(resultObject.alert)
+            ? resultObject.alert
+            : [resultObject.alert]
+          ).forEach((msg) => showNotification(msg));
+        }
+
+        if (typeof window.updateXmttHandleVisibility === 'function') {
+          window.updateXmttHandleVisibility();
+        }
+      }
+
+      function showNotification(message) {
+        if (!toastContainer) return;
+        const toast = document.createElement("div");
+        toast.className = "notification-toast show";
+        toast.innerHTML = `<p>${message}</p><button class="toast-close">✕</button>`;
+        toast.querySelector(".toast-close").onclick = () => {
+          toast.classList.remove("show");
+          setTimeout(() => toast.remove(), 400);
+        };
+        toastContainer.appendChild(toast);
+      }
+
+      function resetResults(showDefault = false) {
+        // Reset title về mặc định khi không có kết quả
+        document.title = 'PLTT ' + PAGE_CONFIG.productName;
+
+
+        const xmttIbBox = document.getElementById("xmtt-ib-box");
+        const xmttEmailBox = document.getElementById("xmtt-email-box");
+        const xmttChatBox = document.getElementById("xmtt-chat-box");
+        const notesBox = document.getElementById("notes-box");
+        const subHeader = document.getElementById("sub-header");
+
+        if (xmttIbBox) xmttIbBox.style.display = 'none';
+        if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+        if (xmttChatBox) xmttChatBox.style.display = 'none';
+        if (notesBox) notesBox.style.display = 'none';
+
+        if (subHeader) subHeader.style.display = 'none';
+
+        document.getElementById("xmtt-ib-content").innerHTML = "";
+        const emailContent = document.getElementById("xmtt-email-content");
+        if (emailContent) emailContent.innerHTML = "";
+        const chatContent = document.getElementById("xmtt-chat-content");
+        if (chatContent) chatContent.innerHTML = "";
+        notesResult.innerHTML = "";
+
+        const dieukienPanel = document.getElementById("dieukien-panel");
+        if (dieukienPanel) dieukienPanel.classList.add("hidden");
+
+        if (showDefault) {
+          showDefaultContent();
+        } else {
+
+          pdfViewer.src = "";
+          pdfViewer.style.display = 'none';
+          htmlViewer.innerHTML = "";
+          htmlViewer.style.display = 'none';
+        }
+      }
+
+      function showDefaultContent() {
+        if (!DEFAULT_CONTENT) return;
+
+        if (DEFAULT_CONTENT.type === 'pdf' && DEFAULT_CONTENT.pdf) {
+          pdfViewer.src = DEFAULT_CONTENT.pdf;
+          pdfViewer.style.display = 'block';
+          htmlViewer.style.display = 'none';
+        } else if (DEFAULT_CONTENT.type === 'html' && DEFAULT_CONTENT.htmlUrl) {
+          pdfViewer.src = DEFAULT_CONTENT.htmlUrl;
+          pdfViewer.style.display = 'block';
+          htmlViewer.style.display = 'none';
+        } else if (DEFAULT_CONTENT.type === 'html' && DEFAULT_CONTENT.htmlContent) {
+          htmlViewer.innerHTML = DEFAULT_CONTENT.htmlContent;
+          htmlViewer.style.display = 'block';
+          pdfViewer.style.display = 'none';
+        } else {
+          pdfViewer.src = "";
+          pdfViewer.style.display = 'none';
+          htmlViewer.innerHTML = "";
+          htmlViewer.style.display = 'none';
+        }
+      }
+
+      /**
+       * Hiển thị thông tin từ header PDF link vào các box XMTT, Notes, Điều kiện
+       * Hàm này được sử dụng khi click vào các link PDF trong header (có class .pdf-link-btn)
+       * @param {Object} data - Object chứa dieukien, note, xmttib, xmttchat, xmttemail
+       */
+      function showHeaderInfo(data) {
+        const subHeader = document.getElementById('sub-header');
+        const dieukienPanel = document.getElementById('dieukien-panel');
+
+        const xmttIbBox = document.getElementById('xmtt-ib-box');
+        const xmttChatBox = document.getElementById('xmtt-chat-box');
+        const xmttEmailBox = document.getElementById('xmtt-email-box');
+        const notesBox = document.getElementById('notes-box');
+
+        const xmttIbContent = document.getElementById('xmtt-ib-content');
+        const xmttChatContent = document.getElementById('xmtt-chat-content');
+        const xmttEmailContent = document.getElementById('xmtt-email-content');
+        const notesResult = document.getElementById('notes-result');
+        const dieukienResult = document.getElementById('dieukien-result');
+
+        if (xmttIbBox) xmttIbBox.style.display = 'none';
+        if (xmttChatBox) xmttChatBox.style.display = 'none';
+        if (xmttEmailBox) xmttEmailBox.style.display = 'none';
+        if (notesBox) notesBox.style.display = 'none';
+        if (dieukienPanel) dieukienPanel.classList.add('hidden');
+
+        let hasAnyBox = false;
+
+        if (data.xmttib) {
+          if (xmttIbBox) xmttIbBox.style.display = '';
+          xmttIbContent.innerHTML = `<p>${data.xmttib}</p>`;
+          hasAnyBox = true;
+        }
+
+        if (data.xmttchat) {
+          if (xmttChatBox) xmttChatBox.style.display = '';
+          xmttChatContent.innerHTML = `<p>${data.xmttchat}</p>`;
+          hasAnyBox = true;
+        }
+
+        if (data.xmttemail) {
+          if (xmttEmailBox) xmttEmailBox.style.display = '';
+          xmttEmailContent.innerHTML = `<p>${data.xmttemail}</p>`;
+          hasAnyBox = true;
+        }
+
+        if (data.note) {
+          if (notesBox) notesBox.style.display = '';
+          notesResult.innerHTML = `<p>${data.note}</p>`;
+          hasAnyBox = true;
+        }
+
+        if (subHeader && hasAnyBox) {
+          subHeader.style.display = '';
+        } else if (subHeader) {
+          subHeader.style.display = 'none';
+        }
+
+        if (data.dieukien) {
+          if (dieukienPanel) dieukienPanel.classList.remove('hidden');
+          dieukienResult.innerHTML = `<p>${data.dieukien}</p>`;
+        }
+
+        if (typeof window.updateXmttHandleVisibility === 'function') {
+          window.updateXmttHandleVisibility();
+        }
+      }
+
+      /**
+       * Xử lý sự kiện click vào PDF link trong header
+       * Đọc data attributes và hiển thị thông tin vào các box tương ứng
+       */
+      document.addEventListener('click', function (e) {
+
+        const btn = e.target.closest('.pdf-link-btn');
+        if (!btn) return;
+
+        const isInHeader = btn.closest('#main-header');
+        if (!isInHeader) return;
+
+        e.preventDefault();
+
+        const pdfName = btn.dataset.pdf;
+        const dieukien = btn.dataset.dieukien || '';
+        const note = btn.dataset.note || '';
+        const xmttib = btn.dataset.xmttib || '';
+        const xmttchat = btn.dataset.xmttchat || '';
+        const xmttemail = btn.dataset.xmttemail || '';
+
+        if (!pdfName) return; // Không có PDF name thì không làm gì
+
+        navigateTo('header-pdf', {
+          pdfName: pdfName,
+          dieukien: dieukien,
+          note: note,
+          xmttib: xmttib,
+          xmttchat: xmttchat,
+          xmttemail: xmttemail
+        });
+
+        if (typeof window.lastProcessedUrl !== 'undefined') {
+          window.lastProcessedUrl = window.location.href;
+        }
+      });
+
+      /**
+       * APPROACH 3 & 4: Session Storage Sync & Auto-Restore
+       * Liên tục backup state vào sessionStorage và auto-restore khi cần
+       */
+
+      function syncStateToSessionStorage() {
+        try {
+          const state = {
+            url: window.location.href,
+            search: window.location.search,
+            hash: window.location.hash,
+            timestamp: Date.now()
+          };
+          sessionStorage.setItem('appLastState', JSON.stringify(state));
+        } catch (e) {
+
+        }
+      }
+
+      window.addEventListener('beforeunload', () => {
+        syncStateToSessionStorage();
+      });
+
+      window.addEventListener('popstate', () => {
+        syncStateToSessionStorage();
+      });
+
+      (function autoRestoreState() {
+        try {
+          const urlParams = new URLSearchParams(window.location.search);
+          const hasParams = urlParams.toString().length > 0;
+
+          if (!hasParams) {
+            const savedStateStr = sessionStorage.getItem('appLastState');
+            if (savedStateStr) {
+              const savedState = JSON.parse(savedStateStr);
+              const timeDiff = Date.now() - savedState.timestamp;
+
+              if (timeDiff < 5000 && savedState.search) {
+
+
+                window.location.replace(window.location.pathname + savedState.search);
+                return; // Stop execution, page will reload
+              }
+            }
+          }
+
+          if (hasParams) {
+            syncStateToSessionStorage();
+          }
+        } catch (e) {
+
+        }
+      })();
+
+      /**
+       * APPROACH 2: Hash-Based State Management
+       * ✨ DISABLED: Conflicts with new navigateTo() system
+       * syncStateToHash() tạo format #state=... cũ, không tương thích với format mới #pdf=... và #source=...&s=...
+       */
+      function syncStateToHash() {
+
+
+      }
+
+      function restoreStateFromHash() {
+
+
+        return false;
+      }
+
+      if (!restoreStateFromHash()) {
+
+      }
+
+      function removeDropdowns(startLevel) {
+        dynamicFiltersContainer
+          .querySelectorAll(".filter-group")
+          .forEach((group) => {
+            const select = group.querySelector("select");
+            if (parseInt(select.dataset.level) >= startLevel) group.remove();
+          });
+      }
+
+      initialize();
+    });
+  </script>
+
+  <!-- Initialize OverlayScrollbars for custom scrollbar -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      try {
+        if (typeof OverlayScrollbarsGlobal !== 'undefined') {
+          const { OverlayScrollbars } = OverlayScrollbarsGlobal;
+          OverlayScrollbars(document.body, {
+            scrollbars: { theme: 'os-theme-dark', autoHide: 'never', visibility: 'visible' }
+          });
+          document.querySelectorAll('.box-content, #dieukien-result').forEach(function (el) {
+            OverlayScrollbars(el, {
+              scrollbars: { theme: 'os-theme-dark', autoHide: 'never', visibility: 'visible' }
+            });
+          });
+        }
+      } catch (e) {
+
+      }
+    });
+  </script>
+
+  <script>
+
+    var LZString = function () { var r = String.fromCharCode, o = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", n = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$", e = {}; function t(r, o) { if (!e[r]) { e[r] = {}; for (var n = 0; n < r.length; n++)e[r][r.charAt(n)] = n } return e[r][o] } var i = { compressToBase64: function (r) { if (null == r) return ""; var n = i._compress(r, 6, function (r) { return o.charAt(r) }); switch (n.length % 4) { default: case 0: return n; case 1: return n + "==="; case 2: return n + "=="; case 3: return n + "=" } }, decompressFromBase64: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 32, function (n) { return t(o, r.charAt(n)) }) }, compressToUTF16: function (o) { return null == o ? "" : i._compress(o, 15, function (o) { return r(o + 32) }) + " " }, decompressFromUTF16: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 16384, function (o) { return r.charCodeAt(o) - 32 }) }, compressToUint8Array: function (r) { for (var o = i.compress(r), n = new Uint8Array(2 * o.length), e = 0, t = o.length; e < t; e++) { var s = o.charCodeAt(e); n[2 * e] = s >>> 8, n[2 * e + 1] = s % 256 } return n }, decompressFromUint8Array: function (o) { if (null == o) return i.decompress(o); for (var n = new Array(o.length / 2), e = 0, t = n.length; e < t; e++)n[e] = 256 * o[2 * e] + o[2 * e + 1]; var s = []; return n.forEach(function (o) { s.push(r(o)) }), i.decompress(s.join("")) }, compressToEncodedURIComponent: function (r) { return null == r ? "" : i._compress(r, 6, function (r) { return n.charAt(r) }) }, decompressFromEncodedURIComponent: function (r) { return null == r ? "" : "" == r ? null : (r = r.replace(/ /g, "+"), i._decompress(r.length, 32, function (o) { return t(n, r.charAt(o)) })) }, compress: function (o) { return i._compress(o, 16, function (o) { return r(o) }) }, _compress: function (r, o, n) { if (null == r) return ""; var e, t, i, s = {}, u = {}, a = "", p = "", c = "", l = 2, f = 3, h = 2, d = [], m = 0, v = 0; for (i = 0; i < r.length; i += 1)if (a = r.charAt(i), Object.prototype.hasOwnProperty.call(s, a) || (s[a] = f++, u[a] = !0), p = c + a, Object.prototype.hasOwnProperty.call(s, p)) c = p; else { if (Object.prototype.hasOwnProperty.call(u, c)) { if (c.charCodeAt(0) < 256) { for (e = 0; e < h; e++)m <<= 1, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++; for (t = c.charCodeAt(0), e = 0; e < 8; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } else { for (t = 1, e = 0; e < h; e++)m = m << 1 | t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t = 0; for (t = c.charCodeAt(0), e = 0; e < 16; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } 0 == --l && (l = Math.pow(2, h), h++), delete u[c] } else for (t = s[c], e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; 0 == --l && (l = Math.pow(2, h), h++), s[p] = f++, c = String(a) } if ("" !== c) { if (Object.prototype.hasOwnProperty.call(u, c)) { if (c.charCodeAt(0) < 256) { for (e = 0; e < h; e++)m <<= 1, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++; for (t = c.charCodeAt(0), e = 0; e < 8; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } else { for (t = 1, e = 0; e < h; e++)m = m << 1 | t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t = 0; for (t = c.charCodeAt(0), e = 0; e < 16; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1 } 0 == --l && (l = Math.pow(2, h), h++), delete u[c] } else for (t = s[c], e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; 0 == --l && (l = Math.pow(2, h), h++) } for (t = 2, e = 0; e < h; e++)m = m << 1 | 1 & t, v == o - 1 ? (v = 0, d.push(n(m)), m = 0) : v++, t >>= 1; for (; ;) { if (m <<= 1, v == o - 1) { d.push(n(m)); break } v++ } return d.join("") }, decompress: function (r) { return null == r ? "" : "" == r ? null : i._decompress(r.length, 32768, function (o) { return r.charCodeAt(o) }) }, _decompress: function (o, n, e) { var t, i, s, u, a, p, c, l = [], f = 4, h = 4, d = 3, m = "", v = [], g = { val: e(0), position: n, index: 1 }; for (t = 0; t < 3; t += 1)l[t] = t; for (s = 0, a = Math.pow(2, 2), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; switch (s) { case 0: for (s = 0, a = Math.pow(2, 8), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; c = r(s); break; case 1: for (s = 0, a = Math.pow(2, 16), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; c = r(s); break; case 2: return "" }for (l[3] = c, i = c, v.push(c); ;) { if (g.index > o) return ""; for (s = 0, a = Math.pow(2, d), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; switch (c = s) { case 0: for (s = 0, a = Math.pow(2, 8), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; l[h++] = r(s), c = h - 1, f--; break; case 1: for (s = 0, a = Math.pow(2, 16), p = 1; p != a;)u = g.val & g.position, g.position >>= 1, 0 == g.position && (g.position = n, g.val = e(g.index++)), s |= (u > 0 ? 1 : 0) * p, p <<= 1; l[h++] = r(s), c = h - 1, f--; break; case 2: return v.join("") }if (0 == f && (f = Math.pow(2, d), d++), l[c]) m = l[c]; else { if (c !== h) return null; m = i + i.charAt(0) } v.push(m), l[h++] = i + m.charAt(0), i = m, 0 == --f && (f = Math.pow(2, d), d++) } } }; return i }();
+  </script>
+
+  <!-- Resizable XMTT Boxes Script -->
+  <!-- Resizable XMTT Boxes Script -->
+  <script>
+
+    window.initXmttResize = function (forceReset = false) {
+
+      if (typeof window._internalInitXmttResize === 'function') {
+        window._internalInitXmttResize(forceReset);
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const xmttRow = document.getElementById('xmtt-row');
+      if (!xmttRow) return;
+
+      const boxes = xmttRow.querySelectorAll('.sub-header-box');
+      const handles = xmttRow.querySelectorAll('.resize-handle');
+
+      if (boxes.length !== 3 || handles.length !== 2) return;
+
+      let isResizing = false;
+      let currentHandle = null;
+      let startX = 0;
+      let startFlexValues = [];
+      let visibleBoxes = [];
+      let visibleHandles = [];
+      const minFlex = 0.15; // Minimum flex ratio (15%)
+      const handleWidth = 8; // Width of resize handle
+
+      function getVisibleBoxes() {
+        return Array.from(boxes).filter(box => {
+
+          return box.style.display !== 'none';
+        });
+      }
+
+      function getVisibleHandles() {
+        const visible = [];
+        handles.forEach((handle, index) => {
+
+          if (handle.style.display !== 'none') {
+            visible.push({ handle, index });
+          }
+        });
+        return visible;
+      }
+
+      window._internalInitXmttResize = function (forceReset) {
+
+        visibleBoxes = getVisibleBoxes();
+
+        updateHandleVisibility(forceReset);
+      };
+
+      function setFlexValues(values) {
+        const total = values.reduce((a, b) => a + b, 0);
+        visibleBoxes.forEach((box, i) => {
+          const normalizedFlex = values[i] / total;
+          box.style.flex = `${normalizedFlex} 1 0`;
+        });
+      }
+
+      function updateHandleVisibility(forceReset) {
+        visibleBoxes = getVisibleBoxes();
+        const currentVisibleCount = visibleBoxes.length;
+
+        if (currentVisibleCount <= 1) {
+          xmttRow.classList.add('single-box');
+        } else {
+          xmttRow.classList.remove('single-box');
+        }
+
+        if (forceReset || currentVisibleCount > 0) {
+          const hasFlexSet = visibleBoxes.every(b => b.style.flexGrow);
+          if (forceReset || !hasFlexSet) {
+            const equalFlex = 1 / Math.max(1, currentVisibleCount);
+            visibleBoxes.forEach(box => {
+              box.style.flex = `${equalFlex} 1 0`;
+            });
+          }
+        }
+
+        handles.forEach(h => h.style.display = 'none');
+
+        if (currentVisibleCount < 2) return;
+
+        const visibleIndices = [];
+        boxes.forEach((box, idx) => {
+          if (box.style.display !== 'none') visibleIndices.push(idx);
+        });
+
+        for (let i = 0; i < visibleIndices.length - 1; i++) {
+          const leftIdx = visibleIndices[i];
+          const rightIdx = visibleIndices[i + 1];
+
+          if (leftIdx === 0) handles[0].style.display = '';
+          else if (leftIdx === 1) handles[1].style.display = '';
+        }
+      }
+
+      handles.forEach((handle, handleIndex) => {
+        handle.addEventListener('mousedown', function (e) {
+          visibleBoxes = getVisibleBoxes();
+          visibleHandles = getVisibleHandles();
+
+          if (visibleBoxes.length < 2) return;
+
+          let visibleSplitIndex = -1;
+
+          const currentVisibleHandleObj = visibleHandles.find(vh => vh.handle === handle);
+          if (!currentVisibleHandleObj) return;
+
+          const gapIndex = visibleHandles.indexOf(currentVisibleHandleObj);
+
+          isResizing = true;
+          currentHandle = gapIndex; // 0 means gap between visibleBox[0] and visibleBox[1]
+          startX = e.clientX;
+
+          const totalWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
+          startFlexValues = visibleBoxes.map(box => box.offsetWidth / totalWidth);
+
+          document.body.classList.add('resizing');
+          xmttRow.classList.add('resizing');
+          e.preventDefault();
+        });
+      });
+
+      window.addEventListener('mousemove', function (e) {
+        if (!isResizing || currentHandle === null) return;
+
+        const totalWidth = xmttRow.offsetWidth - (visibleHandles.length * handleWidth);
+        const deltaX = e.clientX - startX;
+        const deltaPercent = deltaX / totalWidth;
+
+        const leftBoxIndex = currentHandle;
+        const rightBoxIndex = currentHandle + 1;
+
+        if (!visibleBoxes[leftBoxIndex] || !visibleBoxes[rightBoxIndex]) return;
+
+        const newLeftFlex = startFlexValues[leftBoxIndex] + deltaPercent;
+        const newRightFlex = startFlexValues[rightBoxIndex] - deltaPercent;
+
+        if (newLeftFlex >= minFlex && newRightFlex >= minFlex) {
+
+          const newFlexValues = [...startFlexValues];
+          newFlexValues[leftBoxIndex] = newLeftFlex;
+          newFlexValues[rightBoxIndex] = newRightFlex;
+
+          setFlexValues(newFlexValues);
+        }
+      });
+
+      window.addEventListener('mouseup', function () {
+        if (isResizing) {
+          isResizing = false;
+          currentHandle = null;
+          document.body.classList.remove('resizing');
+          xmttRow.classList.remove('resizing');
+        }
+      });
+
+      const resizeObserver = new ResizeObserver(() => {
+        if (!isResizing) window._internalInitXmttResize();
+      });
+      resizeObserver.observe(xmttRow);
+
+      window._internalInitXmttResize(true);
+    });
+
+    window.addEventListener('load', () => {
+      if (window.initXmttResize) window.initXmttResize(true);
+    });
+
+    // === APPLY PRESETS ===
+    // Tự động apply preset vào data attributes khi DOM ready
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('[data-preset]').forEach(el => {
+        const preset = HEADER_PRESETS[el.dataset.preset];
+        if (!preset) return;
+
+        // Apply tất cả properties từ preset vào data-* attributes
+        if (preset.pdf) el.dataset.pdf = preset.pdf;
+        if (preset.contentType) el.dataset.contentType = preset.contentType;
+        if (preset.htmlContent) el.dataset.htmlContent = preset.htmlContent;
+        if (preset.htmlUrl) el.dataset.htmlUrl = preset.htmlUrl;
+        if (preset.dieukien) el.dataset.dieukien = preset.dieukien;
+        if (preset.note) el.dataset.note = preset.note;
+        if (preset.alert) el.dataset.alert = preset.alert;
+        if (preset.xmttib) el.dataset.xmttib = preset.xmttib;
+        if (preset.xmttchat) el.dataset.xmttchat = preset.xmttchat;
+        if (preset.xmttemail) el.dataset.xmttemail = preset.xmttemail;
+        if (preset.xmtt) el.dataset.xmtt = preset.xmtt;
+        if (preset.displayName) el.dataset.displayName = preset.displayName;
+        if (preset.tieudeflow) el.dataset.tieudeflow = preset.tieudeflow;
+      });
+    });
+  </script>
+
+
+  <!-- AUTO-INJECTED CUSTOM POPUP LOGIC -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // 1. Create Modal Markup if not exists
+      if (!document.getElementById('custom-popup-modal')) {
+        const modalHtml = `
+                <div id="custom-popup-modal" class="custom-modal-overlay">
+                    <div class="custom-modal-content">
+                        <div class="custom-modal-header">
+                            <h3>Chi tiết</h3>
+                            <span class="custom-modal-close" style="font-size: 28px; cursor: pointer;">&times;</span>
+                        </div>
+                        <div class="custom-modal-body" id="custom-popup-body">
+                            <!-- Content -->
+                        </div>
+                    </div>
+                </div>
+            `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+        // Close event
+        const closeBtn = document.querySelector('.custom-modal-close');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', function () {
+            document.getElementById('custom-popup-modal').classList.remove('show');
+          });
+        }
+
+        // Click outside to close
+        const modal = document.getElementById('custom-popup-modal');
+        if (modal) {
+          modal.addEventListener('click', function (e) {
+            if (e.target === this) {
+              this.classList.remove('show');
+            }
+          });
+        }
+      }
+
+      // 2. Delegate click event for popups
+      document.body.addEventListener('click', function (e) {
+        const target = e.target.closest('.custom-popup');
+        if (target) {
+          let content = target.getAttribute('data-popup-content');
+          if (content) {
+            try {
+              content = decodeURIComponent(content);
+            } catch (e) {
+              // console.warn('Content not encoded:', e);
+            }
+
+            const body = document.getElementById('custom-popup-body');
+            const modal = document.getElementById('custom-popup-modal');
+            if (body && modal) {
+              body.innerHTML = content;
+              modal.classList.add('show');
+            }
+          }
+        }
+      });
+    });
+    // === COPY LINK FOR HTML (1-BUTTON: COPY TARGET) ===
+    document.addEventListener('DOMContentLoaded', function () {
+      const btnCopyTarget = document.getElementById('btn-copy-target');
+      const copyFeedback = document.getElementById('copy-link-feedback');
+
+      if (btnCopyTarget) {
+        btnCopyTarget.addEventListener('click', function () {
+          copyTargetLink();
+        });
+      }
+
+      function copyTargetLink() {
+        const path = Array.from(document.querySelectorAll('.filter-select'))
+          .map(s => s.value).filter(Boolean);
+
+        let linkHref = '';
+        if (path.length === 0) {
+          if (window.appState && window.appState.type === 'header-pdf' && window.appState.headerPdf.pdfName) {
+            linkHref = 'card_v6.html#pdf=' + encodeURIComponent(window.appState.headerPdf.pdfName);
+          } else {
+            showCopyFeedback('⚠️ Chưa chọn mục đích!', true);
+            return;
+          }
+        } else {
+          const sourceName = (window.state && window.state.activeSourceName) || (window.appState && window.appState.sidebar && window.appState.sidebar.source) || 'truyvan';
+          const jsonPath = JSON.stringify(path);
+          const compressed = LZString.compressToEncodedURIComponent(jsonPath);
+          linkHref = 'card_v6.html#source=' + sourceName + '&s=' + compressed;
+        }
+
+        const link = `./${linkHref}`;
+
+        navigator.clipboard.writeText(link).then(function () {
+          showCopyFeedback('✅ Đã copy Link: ' + link);
+        }).catch(function () {
+          var textarea = document.createElement('textarea');
+          textarea.value = link;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textarea);
+          showCopyFeedback('✅ Đã copy Link: ' + link);
+        });
+      }
+
+      function showCopyFeedback(message, isError) {
+        if (copyFeedback) {
+          copyFeedback.textContent = message;
+          copyFeedback.classList.remove('show', 'error');
+          if (isError) copyFeedback.classList.add('error');
+          void copyFeedback.offsetWidth;
+          copyFeedback.classList.add('show');
+          clearTimeout(copyFeedback._timeout);
+          copyFeedback._timeout = setTimeout(function () {
+            copyFeedback.classList.remove('show');
+          }, 3000);
+        }
+      }
+    });
+  </script>
+
+  <!-- Copy Link for PPT - Collapsible Slide (3-button) -->
+  <div id="copy-link-container" class="copy-link-container collapsed">
+    <!-- Inner panel (slides in/out) -->
+    <div class="copy-link-inner">
+      <div id="copy-link-feedback" class="copy-link-feedback"></div>
+      <div id="copy-link-base-info" class="copy-link-base-info" style="display:none;"></div>
+
+      <!-- File Link Popup -->
+      <div id="file-link-popup" class="file-link-popup">
+        <div class="file-link-popup-title">📎 Tạo link file DOCUMENTS</div>
+        <div id="file-link-dropzone" class="file-link-dropzone">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Kéo thả file vào đây
+        </div>
+        <div class="file-link-input-row">
+          <input type="text" id="file-link-input" class="file-link-input" placeholder="hoặc nhập tên file..." />
+          <button id="file-link-copy-btn" class="file-link-copy-btn">Copy</button>
+        </div>
+        <div id="file-link-result" class="file-link-result"></div>
+      </div>
+
+      <div class="copy-link-buttons">
+
+        <button id="btn-copy-target" class="copy-link-btn btn-copy-target" disabled
+          title="Chọn mục đích rồi bấm để copy link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+            <path
+              d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+            <path
+              d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+          </svg>
+        </button>
+        <button id="btn-file-link" class="copy-link-btn btn-file-link"
+          title="Tạo link đến file trong DOCUMENTS">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Toggle tab -->
+    <button class="copy-link-toggle" id="copy-link-toggle" title="Công cụ link">◀</button>
+  </div>
+
+  <script>
+    // === FILE LINK GENERATOR ===
+    (function () {
+      const DOCS_PATH = 'Asset/DOCUMENTS/';
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('copy-link-toggle');
+        const container = document.getElementById('copy-link-container');
+        const btnFileLink = document.getElementById('btn-file-link');
+        const popup = document.getElementById('file-link-popup');
+        const dropzone = document.getElementById('file-link-dropzone');
+        const fileInput = document.getElementById('file-link-input');
+        const copyBtn = document.getElementById('file-link-copy-btn');
+        const resultEl = document.getElementById('file-link-result');
+
+        if (toggleBtn && container) {
+          toggleBtn.addEventListener('click', function () {
+            container.classList.toggle('collapsed');
+            toggleBtn.textContent = container.classList.contains('collapsed') ? '◀' : '▶';
+          });
+        }
+
+        if (btnFileLink) {
+          btnFileLink.addEventListener('click', function () {
+            popup.classList.toggle('show');
+            if (popup.classList.contains('show')) {
+              fileInput.focus();
+            }
+          });
+        }
+
+        document.addEventListener('click', function (e) {
+          if (popup && popup.classList.contains('show') &&
+            !popup.contains(e.target) && e.target !== btnFileLink && !btnFileLink.contains(e.target)) {
+            popup.classList.remove('show');
+          }
+        });
+
+
+        function generateFileLink(filename) {
+          if (!filename) return;
+          filename = filename.trim();
+          if (!filename) return;
+
+          // Chuyển PDF thành HTML tự động
+          if(filename.toLowerCase().endsWith('.pdf')){
+             filename = filename.substring(0, filename.length - 4) + '.html';
+          } else if (filename && !filename.toLowerCase().endsWith('.html') && !filename.toLowerCase().endsWith('.htm')) {
+             filename += '.html';
+          }
+
+          const link = `./${DOCS_PATH}${filename}`;
+          navigator.clipboard.writeText(link).then(function () {
+            resultEl.textContent = '✅ Đã copy: ' + link;
+            resultEl.style.color = '#059669';
+            resultEl.style.background = '#ecfdf5';
+            resultEl.style.borderColor = '#a7f3d0';
+            resultEl.classList.add('show');
+          }).catch(function () {
+            const ta = document.createElement('textarea');
+            ta.value = link;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            resultEl.textContent = '✅ Đã copy: ' + link;
+            resultEl.classList.add('show');
+          });
+        }
+
+        if (copyBtn) {
+          copyBtn.addEventListener('click', function () {
+            generateFileLink(fileInput.value);
+          });
+        }
+
+        if (fileInput) {
+          fileInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              generateFileLink(fileInput.value);
+            }
+          });
+        }
+
+        if (dropzone) {
+          dropzone.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+          });
+          dropzone.addEventListener('dragleave', function () {
+            dropzone.classList.remove('dragover');
+          });
+          dropzone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+              const fname = e.dataTransfer.files[0].name;
+              fileInput.value = fname;
+              generateFileLink(fname);
+            }
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+/* ==============================================
+   THEME MẶC ĐỊNH - XANH LÁ (DEFAULT GREEN)
+   File: theme-default.css
+   
+   Hướng dẫn sử dụng:
+   - Link file này trong HTML để dùng theme mặc định
+   - <link rel="stylesheet" href="Asset/theme-default.css">
+   ============================================== */
+
+:root {
+    /* Tên theme để nhận biết */
+    --theme-name: "default";
+
+    /* Theme mặc định - Không cần override gì 
+     vì style2.css đã có các giá trị mặc định xanh lá */
+}
+
+/* Không cần thêm CSS nào khác cho theme mặc định */
